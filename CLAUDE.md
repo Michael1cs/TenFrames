@@ -9,7 +9,7 @@ A 2x5 grid where children place objects to visualize numbers 0-10.
 - **TypeScript**
 - `react-native-reanimated` v4 + `react-native-worklets` — animations
 - `react-native-linear-gradient` v3 (beta) — theme backgrounds
-- `@react-native-async-storage/async-storage` v2 — persistence
+- `@react-native-async-storage/async-storage` v3 — persistence (uses local Maven repo for KMP artifact)
 - `react-i18next` — bilingual (Romanian + English, RO is fallback)
 
 ## Game Modes
@@ -26,7 +26,24 @@ A 2x5 grid where children place objects to visualize numbers 0-10.
 - **Portrait mode**: vertical stack with ScrollView
 
 ## Themes
-4 visual themes (Space, Forest, Ocean, Farm), each with unique color1/color2 pairs, gradient backgrounds, and floating emoji animations.
+8 visual themes, each with unique color1/color2 pairs, gradient backgrounds, and floating emoji animations:
+- **Space** 🚀 — indigo/purple gradients
+- **Forest** 🌲 — green/emerald gradients
+- **Ocean** 🐳 — blue/cyan gradients
+- **Farm** 🐄 — yellow/orange gradients
+- **Dino** 🦕 — teal/green gradients (dinosaur theme)
+- **Candy** 🍬 — pink/magenta gradients (sweets theme)
+- **Unicorn** 🦄 — purple/pink pastel gradients
+- **Pixel** 👾 — dark/neon retro gaming theme
+
+## Reward System
+Motivational reward system designed for children (no penalties, effort-based praise):
+- **Stars**: 3 stars for first-try correct, 1 star otherwise
+- **Sticker Book**: 36 stickers across 6 categories (Numbers, Animals, Space, Nature, Food, Sports), unlocked at star thresholds
+- **Achievements**: 14 achievements (star milestones, daily streaks, mode completion, perfect runs, sticker collection)
+- **Daily Streak**: tracks consecutive days of practice
+- **Milestones**: celebration animations at 10, 25, 50, 100 stars
+- Data persisted via AsyncStorage (`@tenframes_rewards` key)
 
 ## Build Notes
 - Gradle 8.13 (not 9.0 — incompatible with current plugins)
@@ -40,10 +57,11 @@ src/
 ├── components/
 │   ├── game/         # TenFrame, TenFrameCell, CountingMode, AdditionMode, SubtractionMode, PuzzleMode, NumberDisplay
 │   ├── layout/       # GameShell, ModeSelector, LanguageSwitcher, BackgroundEmojis
-│   ├── feedback/     # CorrectAnimation, WrongAnimation
+│   ├── feedback/     # CorrectAnimation, WrongAnimation, StarsDisplay, MilestoneAnimation, NewStickerPopup, AchievementPopup
+│   ├── rewards/      # StickerBook, AchievementsScreen
 │   └── onboarding/   # PlayerSetup
-├── hooks/            # useGameState, useTheme, useLayout, usePersistence
+├── hooks/            # useGameState, useTheme, useLayout, usePersistence, useRewards
 ├── i18n/locales/     # ro.json, en.json
 ├── types/            # game.ts
-└── utils/            # mathProblems.ts, scoring.ts
+└── utils/            # mathProblems.ts, scoring.ts, rewardData.ts
 ```
