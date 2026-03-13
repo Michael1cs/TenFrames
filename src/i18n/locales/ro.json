@@ -1,0 +1,68 @@
+{
+  "app": {
+    "title": "Matematica cu Zâmbete",
+    "subtitle": "Învață prin metoda Ten Frames"
+  },
+  "modes": {
+    "counting": "Numărare",
+    "addition": "Adunare",
+    "subtraction": "Scădere",
+    "puzzle": "Puzzle"
+  },
+  "game": {
+    "countingTitle": "Numărarea Magică",
+    "countingDesc": "Folosește Ten Frames pentru a învăța să numeri de la 0 la 10!",
+    "additionTitle": "Aventura Adunării",
+    "additionDesc": "Sunt deja {{num1}} bile. Adaugă încă {{num2}}!",
+    "additionHint": "Apasă pe căsuțele goale pentru a adăuga bile!",
+    "subtractionTitle": "Misterul Scăderii",
+    "subtractionDesc": "Sunt {{num1}} bile. Scoate {{num2}} din ele!",
+    "subtractionHint": "Apasă pe bile pentru a le scoate!",
+    "puzzleTitle": "Puzzle-ul Magic",
+    "puzzleDesc": "Sunt {{number}} bile. Câte mai trebuie pentru a face 10?",
+    "puzzleHint": "Completează căsuțele goale!",
+    "complement": "Complement",
+    "youHave": "Ai {{count}} bilețele!",
+    "submit": "Trimite Răspunsul",
+    "reset": "Resetare",
+    "newProblem": "Problemă Nouă",
+    "newPuzzle": "Puzzle Nou",
+    "send": "Trimite"
+  },
+  "feedback": {
+    "correct": "Bravo! Ai răspuns corect!",
+    "wrong": "Nu chiar! Încearcă din nou!",
+    "correctAnswer": "Răspunsul: {{answer}}",
+    "answerWas": "Răspunsul era: {{answer}}",
+    "tryAgain": "Încearcă din nou!",
+    "great": "Bravo!"
+  },
+  "stats": {
+    "score": "Scor",
+    "level": "Nivel",
+    "streak": "Serie"
+  },
+  "setup": {
+    "welcome": "Matematica cu Zâmbete!",
+    "changeTheme": "Schimbă Tema",
+    "nameLabel": "Cum te numești?",
+    "namePlaceholder": "Introdu numele tău...",
+    "themeLabel": "Alege tema preferată:",
+    "languageLabel": "Alege limba:",
+    "saveTheme": "Salvează Tema",
+    "startAdventure": "Începe Aventura!"
+  },
+  "themes": {
+    "space": "Spațiu",
+    "forest": "Pădure",
+    "ocean": "Ocean",
+    "farm": "Fermă"
+  },
+  "info": {
+    "title": "Despre Ten Frames - Metoda Americană!",
+    "what": "Ce sunt Ten Frames?",
+    "whatDesc": "Ten Frames sunt o metodă educațională folosită în școlile americane pentru a ajuta copiii să înțeleagă numerele de la 0 la 10.",
+    "benefits": "Beneficii:",
+    "benefitsDesc": "Recunoașterea rapidă a cantităților, înțelegerea compoziției numerelor, dezvoltarea abilităților de adunare/scădere."
+  }
+}

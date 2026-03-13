@@ -1,0 +1,68 @@
+{
+  "app": {
+    "title": "Math with Smiles",
+    "subtitle": "Learn with the Ten Frames method"
+  },
+  "modes": {
+    "counting": "Counting",
+    "addition": "Addition",
+    "subtraction": "Subtraction",
+    "puzzle": "Puzzle"
+  },
+  "game": {
+    "countingTitle": "Magic Counting",
+    "countingDesc": "Use Ten Frames to learn counting from 0 to 10!",
+    "additionTitle": "Addition Adventure",
+    "additionDesc": "There are already {{num1}} dots. Add {{num2}} more!",
+    "additionHint": "Tap empty cells to add dots!",
+    "subtractionTitle": "Subtraction Mystery",
+    "subtractionDesc": "There are {{num1}} dots. Remove {{num2}} of them!",
+    "subtractionHint": "Tap on dots to remove them!",
+    "puzzleTitle": "Magic Puzzle",
+    "puzzleDesc": "There are {{number}} dots. How many more to make 10?",
+    "puzzleHint": "Fill the empty cells!",
+    "complement": "Complement",
+    "youHave": "You have {{count}} dots!",
+    "submit": "Submit Answer",
+    "reset": "Reset",
+    "newProblem": "New Problem",
+    "newPuzzle": "New Puzzle",
+    "send": "Submit"
+  },
+  "feedback": {
+    "correct": "Great! You got it right!",
+    "wrong": "Not quite! Try again!",
+    "correctAnswer": "Answer: {{answer}}",
+    "answerWas": "The answer was: {{answer}}",
+    "tryAgain": "Try again!",
+    "great": "Great job!"
+  },
+  "stats": {
+    "score": "Score",
+    "level": "Level",
+    "streak": "Streak"
+  },
+  "setup": {
+    "welcome": "Math with Smiles!",
+    "changeTheme": "Change Theme",
+    "nameLabel": "What's your name?",
+    "namePlaceholder": "Enter your name...",
+    "themeLabel": "Choose your favorite theme:",
+    "languageLabel": "Choose language:",
+    "saveTheme": "Save Theme",
+    "startAdventure": "Start Adventure!"
+  },
+  "themes": {
+    "space": "Space",
+    "forest": "Forest",
+    "ocean": "Ocean",
+    "farm": "Farm"
+  },
+  "info": {
+    "title": "About Ten Frames - The American Method!",
+    "what": "What are Ten Frames?",
+    "whatDesc": "Ten Frames are an educational method used in American schools to help children understand numbers from 0 to 10.",
+    "benefits": "Benefits:",
+    "benefitsDesc": "Quick quantity recognition, understanding number composition, developing addition/subtraction skills."
+  }
+}

@@ -1,0 +1,82 @@
+export type GameMode = 'counting' | 'addition' | 'subtraction' | 'puzzle';
+// 'filled' = user placed (counting mode or single-color)
+// 'color1' = first addend / pre-filled for subtraction/puzzle
+// 'color2' = second addend / user-added in addition/puzzle
+export type CellState = 'empty' | 'filled' | 'color1' | 'color2';
+export type Theme = 'space' | 'forest' | 'ocean' | 'farm';
+export type MascotMood = 'happy' | 'excited' | 'thinking' | 'celebrating';
+export type Language = 'ro' | 'en';
+
+export interface Problem {
+  num1: number;
+  num2: number;
+  answer: number;
+}
+
+export interface GameState {
+  gameMode: GameMode;
+  cells: CellState[];
+  score: number;
+  streak: number;
+  level: number;
+  currentProblem: Problem | null;
+  userAnswer: number | null;
+  isCorrect: boolean | null;
+  hasSubmitted: boolean;
+  mascotMood: MascotMood;
+  showConfetti: boolean;
+}
+
+export interface PlayerData {
+  name: string;
+  theme: Theme;
+  language: Language;
+  highScore: number;
+  level: number;
+}
+
+export interface ThemeColors {
+  backgroundFrom: string;
+  backgroundTo: string;
+  backgroundVia: string;
+  text: string;
+  accent: string;
+  cellEmpty: string;
+  cellEmptyBorder: string;
+  cellFilled: string;
+  cellFilledBorder: string;
+  marble: string;
+  // Two-color mode (addition, puzzle)
+  cellColor1: string;
+  cellColor1Border: string;
+  marbleColor1: string;
+  emojiColor1: string;
+  cellColor2: string;
+  cellColor2Border: string;
+  marbleColor2: string;
+  emojiColor2: string;
+  primaryButton: string;
+  primaryButtonEnd: string;
+  accentButton: string;
+  accentButtonEnd: string;
+  numberBg: string;
+  numberBorder: string;
+  numberText: string;
+}
+
+export interface ThemeConfig {
+  id: Theme;
+  nameKey: string;
+  emoji: string;
+  selectorEmoji: string;
+  colors: ThemeColors;
+  backgroundEmojis: BackgroundEmoji[];
+}
+
+export interface BackgroundEmoji {
+  emoji: string;
+  left: number;
+  top: number;
+  size: number;
+  delay: number;
+}
