@@ -35,7 +35,13 @@
     "correctAnswer": "Answer: {{answer}}",
     "answerWas": "The answer was: {{answer}}",
     "tryAgain": "Try again!",
-    "great": "Great job!"
+    "great": "Awesome!",
+    "bravo": "Excellent!",
+    "super": "You're amazing!",
+    "champion": "Champion!",
+    "genius": "You're a genius!",
+    "almostThere": "Almost! Try again!",
+    "keepTrying": "Keep going, you can do it!"
   },
   "stats": {
     "score": "Score",
@@ -64,5 +70,72 @@
     "whatDesc": "Ten Frames are an educational method used in American schools to help children understand numbers from 0 to 10.",
     "benefits": "Benefits:",
     "benefitsDesc": "Quick quantity recognition, understanding number composition, developing addition/subtraction skills."
+  },
+  "rewards": {
+    "totalStars": "Stars",
+    "stickerBook": "Sticker Book",
+    "achievements": "Achievements",
+    "newSticker": "New sticker!",
+    "newAchievement": "New achievement!",
+    "dailyStreak": "Day streak",
+    "stickers": "Stickers",
+    "trophies": "Trophies"
+  },
+  "milestones": {
+    "congratulations": "Congratulations!",
+    "starsReached": "You earned {{count}} stars!",
+    "continue": "Continue!"
+  },
+  "stickerCategories": {
+    "numbers": "Numbers",
+    "animals": "Animals",
+    "space": "Space",
+    "nature": "Nature",
+    "food": "Food",
+    "sports": "Sports"
+  },
+  "stickers": {
+    "num1": "One", "num2": "Two", "num3": "Three", "num4": "Four",
+    "num5": "Five", "num10": "Ten",
+    "cat": "Cat", "dog": "Dog", "rabbit": "Rabbit", "bear": "Bear",
+    "panda": "Panda", "unicorn": "Unicorn",
+    "rocket": "Rocket", "star": "Star", "moon": "Moon", "planet": "Planet",
+    "ufo": "UFO", "alien": "Alien",
+    "flower": "Flower", "tree": "Tree", "rainbow": "Rainbow", "sun": "Sun",
+    "butterfly": "Butterfly", "mushroom": "Mushroom",
+    "apple": "Apple", "cake": "Cake", "icecream": "Ice Cream", "pizza": "Pizza",
+    "candy": "Candy", "donut": "Donut",
+    "soccer": "Soccer", "trophy": "Trophy", "medal": "Medal", "crown": "Crown",
+    "diamond": "Diamond", "hundred": "100"
+  },
+  "achievements": {
+    "firstStar": "First Star",
+    "firstStarDesc": "Earn your first star",
+    "star10": "Star Collector",
+    "star10Desc": "Earn 10 stars",
+    "star25": "Shining Star",
+    "star25Desc": "Earn 25 stars",
+    "star50": "Star Champion",
+    "star50Desc": "Earn 50 stars",
+    "star100": "Super Star",
+    "star100Desc": "Earn 100 stars",
+    "streak3": "3 Days in a Row",
+    "streak3Desc": "Practice 3 consecutive days",
+    "streak7": "Perfect Week",
+    "streak7Desc": "Practice 7 consecutive days",
+    "countingChamp": "Counting Champion",
+    "countingChampDesc": "Solve 10 counting exercises",
+    "additionStar": "Addition Star",
+    "additionStarDesc": "Solve 10 addition exercises",
+    "subtractionHero": "Subtraction Hero",
+    "subtractionHeroDesc": "Solve 10 subtraction exercises",
+    "puzzleMaster": "Puzzle Master",
+    "puzzleMasterDesc": "Solve 10 puzzles",
+    "perfect5": "Perfectionist",
+    "perfect5Desc": "5 correct answers on first try",
+    "collector10": "Collector",
+    "collector10Desc": "Unlock 10 stickers",
+    "collectorAll": "Complete Album",
+    "collectorAllDesc": "Unlock all stickers"
   }
 }

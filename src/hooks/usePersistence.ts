@@ -1,8 +1,9 @@
-import {useEffect, useCallback} from 'react';
+import {useCallback} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {PlayerData, Theme, Language} from '../types/game';
+import {PlayerData, RewardData} from '../types/game';
 
-const STORAGE_KEY = '@tenframes_player';
+const PLAYER_KEY = '@tenframes_player';
+const REWARDS_KEY = '@tenframes_rewards';
 
 const defaultPlayerData: PlayerData = {
   name: '',
@@ -12,10 +13,25 @@ const defaultPlayerData: PlayerData = {
   level: 1,
 };
 
+const defaultRewardData: RewardData = {
+  totalStars: 0,
+  starsAvailable: 0,
+  stickers: [],
+  achievements: [],
+  streak: {current: 0, lastPlayedDate: '', longest: 0},
+  levelStars: {},
+  stats: {
+    totalProblems: 0,
+    correctFirstTry: 0,
+    byMode: {},
+  },
+  milestonesSeen: [],
+};
+
 export function usePersistence() {
   const loadPlayerData = useCallback(async (): Promise<PlayerData> => {
     try {
-      const data = await AsyncStorage.getItem(STORAGE_KEY);
+      const data = await AsyncStorage.getItem(PLAYER_KEY);
       if (data) {
         const parsed = JSON.parse(data);
         return {...defaultPlayerData, ...parsed};
@@ -26,15 +42,39 @@ export function usePersistence() {
     return defaultPlayerData;
   }, []);
 
-  const savePlayerData = useCallback(async (data: Partial<PlayerData>) => {
+  const savePlayerData = useCallback(
+    async (data: Partial<PlayerData>) => {
+      try {
+        const existing = await loadPlayerData();
+        const updated = {...existing, ...data};
+        await AsyncStorage.setItem(PLAYER_KEY, JSON.stringify(updated));
+      } catch {
+        // Silently fail
+      }
+    },
+    [loadPlayerData],
+  );
+
+  const loadRewardData = useCallback(async (): Promise<RewardData> => {
     try {
-      const existing = await loadPlayerData();
-      const updated = {...existing, ...data};
-      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      const data = await AsyncStorage.getItem(REWARDS_KEY);
+      if (data) {
+        const parsed = JSON.parse(data);
+        return {...defaultRewardData, ...parsed};
+      }
+    } catch {
+      // Return defaults on error
+    }
+    return defaultRewardData;
+  }, []);
+
+  const saveRewardData = useCallback(async (data: RewardData) => {
+    try {
+      await AsyncStorage.setItem(REWARDS_KEY, JSON.stringify(data));
     } catch {
       // Silently fail
     }
-  }, [loadPlayerData]);
+  }, []);
 
-  return {loadPlayerData, savePlayerData};
+  return {loadPlayerData, savePlayerData, loadRewardData, saveRewardData};
 }

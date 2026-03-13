@@ -35,7 +35,13 @@
     "correctAnswer": "Răspunsul: {{answer}}",
     "answerWas": "Răspunsul era: {{answer}}",
     "tryAgain": "Încearcă din nou!",
-    "great": "Bravo!"
+    "great": "Super!",
+    "bravo": "Excelent!",
+    "super": "Ești grozav!",
+    "champion": "Campion!",
+    "genius": "Ești un geniu!",
+    "almostThere": "Aproape! Mai încearcă!",
+    "keepTrying": "Continuă, poți!"
   },
   "stats": {
     "score": "Scor",
@@ -64,5 +70,72 @@
     "whatDesc": "Ten Frames sunt o metodă educațională folosită în școlile americane pentru a ajuta copiii să înțeleagă numerele de la 0 la 10.",
     "benefits": "Beneficii:",
     "benefitsDesc": "Recunoașterea rapidă a cantităților, înțelegerea compoziției numerelor, dezvoltarea abilităților de adunare/scădere."
+  },
+  "rewards": {
+    "totalStars": "Stele",
+    "stickerBook": "Album Stickere",
+    "achievements": "Realizări",
+    "newSticker": "Sticker nou!",
+    "newAchievement": "Realizare nouă!",
+    "dailyStreak": "Zile la rând",
+    "stickers": "Stickere",
+    "trophies": "Trofee"
+  },
+  "milestones": {
+    "congratulations": "Felicitări!",
+    "starsReached": "Ai câștigat {{count}} stele!",
+    "continue": "Continuă!"
+  },
+  "stickerCategories": {
+    "numbers": "Numere",
+    "animals": "Animale",
+    "space": "Spațiu",
+    "nature": "Natură",
+    "food": "Mâncare",
+    "sports": "Sport"
+  },
+  "stickers": {
+    "num1": "Unu", "num2": "Doi", "num3": "Trei", "num4": "Patru",
+    "num5": "Cinci", "num10": "Zece",
+    "cat": "Pisică", "dog": "Cățel", "rabbit": "Iepure", "bear": "Urs",
+    "panda": "Panda", "unicorn": "Unicorn",
+    "rocket": "Rachetă", "star": "Stea", "moon": "Lună", "planet": "Planetă",
+    "ufo": "OZN", "alien": "Extraterestru",
+    "flower": "Floare", "tree": "Copac", "rainbow": "Curcubeu", "sun": "Soare",
+    "butterfly": "Fluture", "mushroom": "Ciupercă",
+    "apple": "Măr", "cake": "Tort", "icecream": "Înghețată", "pizza": "Pizza",
+    "candy": "Bomboană", "donut": "Gogoașă",
+    "soccer": "Fotbal", "trophy": "Trofeu", "medal": "Medalie", "crown": "Coroană",
+    "diamond": "Diamant", "hundred": "100"
+  },
+  "achievements": {
+    "firstStar": "Prima Stea",
+    "firstStarDesc": "Câștigă prima ta stea",
+    "star10": "Colecționar de Stele",
+    "star10Desc": "Câștigă 10 stele",
+    "star25": "Stea Strălucitoare",
+    "star25Desc": "Câștigă 25 de stele",
+    "star50": "Campion cu Stele",
+    "star50Desc": "Câștigă 50 de stele",
+    "star100": "Super Star",
+    "star100Desc": "Câștigă 100 de stele",
+    "streak3": "3 Zile la Rând",
+    "streak3Desc": "Exersează 3 zile consecutiv",
+    "streak7": "O Săptămână Perfectă",
+    "streak7Desc": "Exersează 7 zile consecutiv",
+    "countingChamp": "Campion la Numărare",
+    "countingChampDesc": "Rezolvă 10 exerciții de numărare",
+    "additionStar": "Star la Adunare",
+    "additionStarDesc": "Rezolvă 10 exerciții de adunare",
+    "subtractionHero": "Erou la Scădere",
+    "subtractionHeroDesc": "Rezolvă 10 exerciții de scădere",
+    "puzzleMaster": "Maestru la Puzzle",
+    "puzzleMasterDesc": "Rezolvă 10 puzzle-uri",
+    "perfect5": "Perfecționist",
+    "perfect5Desc": "5 răspunsuri corecte din prima",
+    "collector10": "Colecționar",
+    "collector10Desc": "Deblochează 10 stickere",
+    "collectorAll": "Album Complet",
+    "collectorAllDesc": "Deblochează toate stickerele"
   }
 }

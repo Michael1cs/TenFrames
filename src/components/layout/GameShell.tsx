@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback} from 'react';
+import React, {useEffect, useCallback, useState} from 'react';
 import {View, Text, StyleSheet, StatusBar, Pressable, ScrollView} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useTranslation} from 'react-i18next';
@@ -6,6 +6,7 @@ import {useGameState} from '../../hooks/useGameState';
 import {useTheme} from '../../hooks/useTheme';
 import {useLayout} from '../../hooks/useLayout';
 import {usePersistence} from '../../hooks/usePersistence';
+import {useRewards} from '../../hooks/useRewards';
 import {ModeSelector} from './ModeSelector';
 import {BackgroundEmojis} from './BackgroundEmojis';
 import {LanguageSwitcher} from './LanguageSwitcher';
@@ -15,6 +16,12 @@ import {SubtractionMode} from '../game/SubtractionMode';
 import {PuzzleMode} from '../game/PuzzleMode';
 import {CorrectAnimation} from '../feedback/CorrectAnimation';
 import {WrongAnimation} from '../feedback/WrongAnimation';
+import {StarsDisplay} from '../feedback/StarsDisplay';
+import {MilestoneAnimation} from '../feedback/MilestoneAnimation';
+import {NewStickerPopup} from '../feedback/NewStickerPopup';
+import {AchievementPopup} from '../feedback/AchievementPopup';
+import {StickerBook} from '../rewards/StickerBook';
+import {AchievementsScreen} from '../rewards/AchievementsScreen';
 import {PlayerSetup} from '../onboarding/PlayerSetup';
 import {Language} from '../../types/game';
 import i18n from '../../i18n';
@@ -24,8 +31,16 @@ export function GameShell() {
   const game = useGameState();
   const themeConfig = useTheme(game.theme);
   const {colors} = themeConfig;
-  const {loadPlayerData, savePlayerData} = usePersistence();
+  const {loadPlayerData, savePlayerData, loadRewardData, saveRewardData} =
+    usePersistence();
   const {isLandscape, isTablet, fontScale} = useLayout();
+  const rewardSystem = useRewards();
+
+  // UI state for reward screens
+  const [showStickerBook, setShowStickerBook] = useState(false);
+  const [showAchievements, setShowAchievements] = useState(false);
+  const [lastStarsAwarded, setLastStarsAwarded] = useState(0);
+  const [showStarsDisplay, setShowStarsDisplay] = useState(false);
 
   // Load saved data on mount
   useEffect(() => {
@@ -38,8 +53,18 @@ export function GameShell() {
         game.setShowSetup(false);
         i18n.changeLanguage(data.language);
       }
+      const rewards = await loadRewardData();
+      rewardSystem.loadRewards(rewards);
+      rewardSystem.updateDailyStreak();
     })();
   }, []);
+
+  // Save rewards when they change
+  useEffect(() => {
+    if (rewardSystem.rewards.totalStars > 0) {
+      saveRewardData(rewardSystem.rewards);
+    }
+  }, [rewardSystem.rewards, saveRewardData]);
 
   // Save score changes
   useEffect(() => {
@@ -47,6 +72,20 @@ export function GameShell() {
       savePlayerData({highScore: game.score, level: game.level});
     }
   }, [game.score, game.level]);
+
+  // Track correct answers for reward system
+  const prevIsCorrect = React.useRef<boolean | null>(null);
+  useEffect(() => {
+    if (game.isCorrect === true && prevIsCorrect.current !== true) {
+      // Award stars — wasFirstTry if streak > 0 (no wrong before this)
+      const wasFirstTry = game.streak > 0;
+      const stars = rewardSystem.awardStars(game.gameMode, wasFirstTry);
+      setLastStarsAwarded(stars);
+      setShowStarsDisplay(true);
+      setTimeout(() => setShowStarsDisplay(false), 3000);
+    }
+    prevIsCorrect.current = game.isCorrect;
+  }, [game.isCorrect]);
 
   const handleLanguageChange = useCallback(
     (lang: Language) => {
@@ -173,23 +212,66 @@ export function GameShell() {
 
   const renderStats = () => (
     <View style={[styles.statsRow, isLandscape && styles.statsRowLandscape]}>
-      <View style={[styles.badge, {borderColor: '#A78BFA'}]}>
-        <Text style={[styles.badgeText, {color: colors.text, fontSize: 12 * fontScale}]}>
-          {t('stats.score')}: {game.score} 🌟
+      {/* Total Stars */}
+      <View style={[styles.badge, {borderColor: '#F59E0B'}]}>
+        <Text
+          style={[
+            styles.badgeText,
+            {color: colors.text, fontSize: 12 * fontScale},
+          ]}>
+          ⭐ {rewardSystem.rewards.totalStars}
         </Text>
       </View>
+      {/* Level */}
       <View style={[styles.badge, {borderColor: '#60A5FA'}]}>
-        <Text style={[styles.badgeText, {color: colors.text, fontSize: 12 * fontScale}]}>
+        <Text
+          style={[
+            styles.badgeText,
+            {color: colors.text, fontSize: 12 * fontScale},
+          ]}>
           {t('stats.level')}: {game.level} 📈
         </Text>
       </View>
+      {/* Game streak */}
       {game.streak > 0 && (
         <View style={[styles.badge, styles.streakBadge]}>
-          <Text style={[styles.badgeText, {color: colors.text, fontSize: 12 * fontScale}]}>
-            {t('stats.streak')}: {game.streak} 🔥
+          <Text
+            style={[
+              styles.badgeText,
+              {color: colors.text, fontSize: 12 * fontScale},
+            ]}>
+            {game.streak} 🔥
           </Text>
         </View>
       )}
+      {/* Daily streak */}
+      {rewardSystem.rewards.streak.current > 1 && (
+        <View style={[styles.badge, {borderColor: '#F97316'}]}>
+          <Text
+            style={[
+              styles.badgeText,
+              {color: colors.text, fontSize: 12 * fontScale},
+            ]}>
+            {rewardSystem.rewards.streak.current} 📅
+          </Text>
+        </View>
+      )}
+      {/* Reward buttons row */}
+      <Pressable
+        onPress={() => setShowStickerBook(true)}
+        style={[styles.badge, {borderColor: '#A855F7'}]}>
+        <Text style={[styles.badgeText, {fontSize: 12 * fontScale}]}>
+          🎨 {rewardSystem.rewards.stickers.length}
+        </Text>
+      </Pressable>
+      <Pressable
+        onPress={() => setShowAchievements(true)}
+        style={[styles.badge, {borderColor: '#EAB308'}]}>
+        <Text style={[styles.badgeText, {fontSize: 12 * fontScale}]}>
+          🏆 {rewardSystem.rewards.achievements.length}
+        </Text>
+      </Pressable>
+      {/* Theme change button */}
       <Pressable
         onPress={() => {
           game.setIsThemeChange(true);
@@ -233,6 +315,36 @@ export function GameShell() {
         <CorrectAnimation visible={game.showConfetti} />
         <WrongAnimation visible={game.isCorrect === false} />
 
+        {/* Reward popups */}
+        <NewStickerPopup
+          stickerIds={rewardSystem.newStickers}
+          visible={rewardSystem.newStickers.length > 0}
+        />
+        <AchievementPopup
+          achievementId={rewardSystem.newAchievement}
+          visible={rewardSystem.newAchievement !== null}
+        />
+        <MilestoneAnimation
+          visible={rewardSystem.showMilestone !== null}
+          milestoneId={rewardSystem.showMilestone}
+          onDismiss={rewardSystem.dismissMilestone}
+        />
+
+        {/* Reward screens */}
+        <StickerBook
+          visible={showStickerBook}
+          unlockedStickers={rewardSystem.rewards.stickers}
+          totalStars={rewardSystem.rewards.totalStars}
+          colors={colors}
+          onClose={() => setShowStickerBook(false)}
+        />
+        <AchievementsScreen
+          visible={showAchievements}
+          unlockedAchievements={rewardSystem.rewards.achievements}
+          colors={colors}
+          onClose={() => setShowAchievements(false)}
+        />
+
         <PlayerSetup
           visible={game.showSetup}
           playerName={game.playerName}
@@ -259,6 +371,10 @@ export function GameShell() {
               contentContainerStyle={styles.gameAreaLandscapeContent}
               showsVerticalScrollIndicator={false}>
               {renderGameMode()}
+              <StarsDisplay
+                stars={lastStarsAwarded}
+                visible={showStarsDisplay}
+              />
             </ScrollView>
           </View>
         ) : (
@@ -279,6 +395,10 @@ export function GameShell() {
               contentContainerStyle={styles.gameAreaContent}
               showsVerticalScrollIndicator={false}>
               {renderGameMode()}
+              <StarsDisplay
+                stars={lastStarsAwarded}
+                visible={showStarsDisplay}
+              />
             </ScrollView>
           </View>
         )}

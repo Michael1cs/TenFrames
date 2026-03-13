@@ -35,6 +35,59 @@ export interface PlayerData {
   level: number;
 }
 
+// === Reward System Types ===
+
+export interface RewardData {
+  totalStars: number;
+  starsAvailable: number; // stars not yet spent
+  stickers: string[]; // unlocked sticker IDs
+  achievements: string[]; // unlocked achievement IDs
+  streak: StreakData;
+  levelStars: LevelStars; // stars per mode per level
+  stats: GameStats;
+  milestonesSeen: string[]; // milestone IDs already celebrated
+}
+
+export interface StreakData {
+  current: number;
+  lastPlayedDate: string; // 'YYYY-MM-DD'
+  longest: number;
+}
+
+export interface LevelStars {
+  [mode: string]: {[levelId: string]: number}; // mode -> levelId -> stars (1-3)
+}
+
+export interface GameStats {
+  totalProblems: number;
+  correctFirstTry: number;
+  byMode: {
+    [mode: string]: {attempted: number; correct: number};
+  };
+}
+
+export interface Sticker {
+  id: string;
+  emoji: string;
+  nameKey: string;
+  category: 'numbers' | 'animals' | 'space' | 'nature' | 'food' | 'sports';
+  requirement: number; // total stars needed to unlock
+}
+
+export interface Achievement {
+  id: string;
+  emoji: string;
+  nameKey: string;
+  descKey: string;
+  requirement: AchievementRequirement;
+}
+
+export interface AchievementRequirement {
+  type: 'stars' | 'streak' | 'stickers' | 'mode_complete' | 'problems' | 'perfect';
+  value: number;
+  mode?: GameMode;
+}
+
 export interface ThemeColors {
   backgroundFrom: string;
   backgroundTo: string;
