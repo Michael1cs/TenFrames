@@ -44,6 +44,10 @@ export function PlayerSetup({
     forest: ['#22C55E', '#10B981'],
     ocean: ['#3B82F6', '#06B6D4'],
     farm: ['#EAB308', '#F97316'],
+    dino: ['#65A30D', '#4D7C0F'],
+    candy: ['#EC4899', '#D946EF'],
+    unicorn: ['#8B5CF6', '#A855F7'],
+    pixel: ['#0D9488', '#06B6D4'],
   };
 
   return (
@@ -180,19 +184,20 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   themeButton: {
-    width: '47%',
-    padding: 14,
+    width: '23%',
+    padding: 8,
     borderRadius: 12,
     borderWidth: 2,
     alignItems: 'center',
   },
   themeEmoji: {
-    fontSize: 28,
-    marginBottom: 4,
+    fontSize: 24,
+    marginBottom: 2,
   },
   themeName: {
-    fontSize: 13,
+    fontSize: 10,
     fontWeight: '600',
+    textAlign: 'center',
   },
   startButton: {
     backgroundColor: '#8B5CF6',

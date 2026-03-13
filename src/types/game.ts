@@ -3,7 +3,7 @@ export type GameMode = 'counting' | 'addition' | 'subtraction' | 'puzzle';
 // 'color1' = first addend / pre-filled for subtraction/puzzle
 // 'color2' = second addend / user-added in addition/puzzle
 export type CellState = 'empty' | 'filled' | 'color1' | 'color2';
-export type Theme = 'space' | 'forest' | 'ocean' | 'farm';
+export type Theme = 'space' | 'forest' | 'ocean' | 'farm' | 'dino' | 'candy' | 'unicorn' | 'pixel';
 export type MascotMood = 'happy' | 'excited' | 'thinking' | 'celebrating';
 export type Language = 'ro' | 'en';
 

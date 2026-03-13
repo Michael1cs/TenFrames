@@ -62,7 +62,11 @@
     "space": "Space",
     "forest": "Forest",
     "ocean": "Ocean",
-    "farm": "Farm"
+    "farm": "Farm",
+    "dino": "Dino",
+    "candy": "Candy",
+    "unicorn": "Unicorn",
+    "pixel": "Pixel"
   },
   "info": {
     "title": "About Ten Frames - The American Method!",

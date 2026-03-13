@@ -191,6 +191,16 @@ export function GameShell() {
           </Text>
           <Text style={styles.bounceEmoji}>🌟</Text>
         </View>
+        <Pressable
+          onPress={() => {
+            game.setIsThemeChange(true);
+            game.setShowSetup(true);
+          }}
+          style={styles.themeButton}>
+          <Text style={styles.themeButtonText}>
+            {themeConfig.selectorEmoji} ⚙️
+          </Text>
+        </Pressable>
         <LanguageSwitcher
           language={game.language}
           onLanguageChange={handleLanguageChange}
@@ -269,17 +279,6 @@ export function GameShell() {
         style={[styles.badge, {borderColor: '#EAB308'}]}>
         <Text style={[styles.badgeText, {fontSize: 12 * fontScale}]}>
           🏆 {rewardSystem.rewards.achievements.length}
-        </Text>
-      </Pressable>
-      {/* Theme change button */}
-      <Pressable
-        onPress={() => {
-          game.setIsThemeChange(true);
-          game.setShowSetup(true);
-        }}
-        style={[styles.badge, {borderColor: '#4ADE80'}]}>
-        <Text style={[styles.badgeText, {fontSize: 12 * fontScale}]}>
-          {themeConfig.selectorEmoji} 🔄
         </Text>
       </Pressable>
     </View>
@@ -445,6 +444,16 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   bounceEmoji: {
+    fontSize: 16,
+  },
+  themeButton: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+    marginRight: 6,
+  },
+  themeButtonText: {
     fontSize: 16,
   },
   subtitle: {
