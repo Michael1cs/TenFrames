@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, Text, StyleSheet} from 'react-native';
+import {Pressable, Image, Text, StyleSheet, ImageSourcePropType} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -16,6 +16,7 @@ interface TenFrameCellProps {
   colors: ThemeColors;
   emoji: string;
   cellSize: number;
+  tokenImage?: ImageSourcePropType;
 }
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -60,6 +61,7 @@ export function TenFrameCell({
   colors,
   emoji,
   cellSize,
+  tokenImage,
 }: TenFrameCellProps) {
   const scale = useSharedValue(1);
   const isFilled = state !== 'empty';
@@ -90,9 +92,8 @@ export function TenFrameCell({
     opacity: marbleScale.value,
   }));
 
-  const marbleSize = cellSize * 0.7;
+  const tokenSize = cellSize * 0.75;
   const cellColors = getCellColors(state, colors);
-  const displayEmoji = cellColors.emoji || emoji;
 
   return (
     <AnimatedPressable
@@ -114,20 +115,27 @@ export function TenFrameCell({
           style={[
             marbleStyle,
             {
-              width: marbleSize,
-              height: marbleSize,
-              borderRadius: marbleSize / 2,
-              backgroundColor: cellColors.marble,
+              width: tokenSize,
+              height: tokenSize,
               alignItems: 'center',
               justifyContent: 'center',
-              elevation: 2,
             },
           ]}>
-          <Text style={{fontSize: cellSize * 0.4}}>{displayEmoji}</Text>
+          {tokenImage ? (
+            <Image
+              source={tokenImage}
+              style={{width: tokenSize, height: tokenSize}}
+              resizeMode="contain"
+            />
+          ) : (
+            <Text style={{fontSize: cellSize * 0.4}}>
+              {cellColors.emoji || emoji}
+            </Text>
+          )}
         </Animated.View>
       ) : (
         !disabled && (
-          <Text style={{fontSize: cellSize * 0.35, color: 'rgba(255,255,255,0.3)'}}>
+          <Text style={{fontSize: cellSize * 0.3, color: colors.cellEmptyBorder, opacity: 0.5}}>
             +
           </Text>
         )
@@ -138,15 +146,15 @@ export function TenFrameCell({
 
 const styles = StyleSheet.create({
   cell: {
-    borderRadius: 12,
-    borderWidth: 2,
+    borderRadius: 10,
+    borderWidth: 1.5,
     alignItems: 'center',
     justifyContent: 'center',
     margin: 4,
-    elevation: 3,
+    elevation: 2,
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.2,
+    shadowRadius: 2.5,
   },
 });

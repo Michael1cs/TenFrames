@@ -27,7 +27,8 @@
     "reset": "Resetare",
     "newProblem": "Problemă Nouă",
     "newPuzzle": "Puzzle Nou",
-    "send": "Trimite"
+    "send": "Trimite",
+    "changeTheme": "Temă"
   },
   "feedback": {
     "correct": "Bravo! Ai răspuns corect!",
@@ -63,10 +64,12 @@
     "forest": "Pădure",
     "ocean": "Ocean",
     "farm": "Fermă",
-    "dino": "Dinozauri",
     "candy": "Dulciuri",
     "unicorn": "Unicorn",
-    "pixel": "Pixel"
+    "pixel": "Pixel",
+    "slime": "Slime",
+    "kpop": "K-Pop",
+    "monsters": "Monștri"
   },
   "info": {
     "title": "Despre Ten Frames - Metoda Americană!",
@@ -111,6 +114,21 @@
     "candy": "Bomboană", "donut": "Gogoașă",
     "soccer": "Fotbal", "trophy": "Trofeu", "medal": "Medalie", "crown": "Coroană",
     "diamond": "Diamant", "hundred": "100"
+  },
+  "premium": {
+    "dailyLimitTitle": "Ai fost super azi!",
+    "dailyLimitMessage": "Ai jucat foarte bine azi! Revino mâine pentru mai multe exerciții, sau deblochează tot!",
+    "unlockAll": "Deblochează Tot",
+    "comeBackTomorrow": "Ne vedem mâine!",
+    "upgradeTitle": "Matematica cu Zâmbete Premium",
+    "upgradeSubtitle": "Învață fără limite!",
+    "featureUnlimitedModes": "Adunare, Scădere și Puzzle nelimitat",
+    "featureAllThemes": "Toate cele 8 teme vizuale",
+    "featureStickerBook": "Album de Stickere complet",
+    "featureAchievements": "Toate Realizările",
+    "oneTimePurchase": "Plată unică",
+    "buyNow": "Deblochează Acum",
+    "maybeLater": "Poate mai târziu"
   },
   "achievements": {
     "firstStar": "Prima Stea",

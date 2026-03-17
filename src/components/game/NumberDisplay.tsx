@@ -32,11 +32,20 @@ export function NumberDisplay({number, colors, emoji}: NumberDisplayProps) {
         styles.container,
         animatedStyle,
         {
-          backgroundColor: colors.numberBg,
+          backgroundColor: 'rgba(0,0,0,0.25)',
           borderColor: colors.numberBorder,
         },
       ]}>
-      <Text style={[styles.number, {color: colors.numberText}]}>
+      <Text
+        style={[
+          styles.number,
+          {
+            color: colors.numberText,
+            textShadowColor: 'rgba(0,0,0,0.5)',
+            textShadowOffset: {width: 0, height: 1},
+            textShadowRadius: 3,
+          },
+        ]}>
         {number}
       </Text>
       <Text style={styles.emoji}>{emoji}</Text>
@@ -48,18 +57,18 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 12,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 14,
     borderWidth: 2,
     alignSelf: 'center',
     gap: 6,
   },
   number: {
-    fontSize: 32,
+    fontSize: 36,
     fontWeight: 'bold',
   },
   emoji: {
-    fontSize: 24,
+    fontSize: 28,
   },
 });

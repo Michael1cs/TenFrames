@@ -1,9 +1,10 @@
 import {useCallback} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {PlayerData, RewardData} from '../types/game';
+import {PlayerData, RewardData, PremiumData} from '../types/game';
 
 const PLAYER_KEY = '@tenframes_player';
 const REWARDS_KEY = '@tenframes_rewards';
+const PREMIUM_KEY = '@tenframes_premium';
 
 const defaultPlayerData: PlayerData = {
   name: '',
@@ -76,5 +77,32 @@ export function usePersistence() {
     }
   }, []);
 
-  return {loadPlayerData, savePlayerData, loadRewardData, saveRewardData};
+  const loadPremiumData = useCallback(async (): Promise<PremiumData> => {
+    try {
+      const data = await AsyncStorage.getItem(PREMIUM_KEY);
+      if (data) {
+        return JSON.parse(data);
+      }
+    } catch {
+      // Return defaults on error
+    }
+    return {isPremium: false, dailyUsage: {date: '', counts: {}}};
+  }, []);
+
+  const savePremiumData = useCallback(async (data: PremiumData) => {
+    try {
+      await AsyncStorage.setItem(PREMIUM_KEY, JSON.stringify(data));
+    } catch {
+      // Silently fail
+    }
+  }, []);
+
+  return {
+    loadPlayerData,
+    savePlayerData,
+    loadRewardData,
+    saveRewardData,
+    loadPremiumData,
+    savePremiumData,
+  };
 }

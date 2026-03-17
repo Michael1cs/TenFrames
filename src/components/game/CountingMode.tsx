@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet, Pressable, ImageSourcePropType} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {TenFrame} from './TenFrame';
 import {NumberDisplay} from './NumberDisplay';
@@ -12,6 +12,7 @@ interface CountingModeProps {
   filledCount: number;
   colors: ThemeColors;
   emoji: string;
+  tokenImage?: ImageSourcePropType;
 }
 
 export function CountingMode({
@@ -21,16 +22,14 @@ export function CountingMode({
   filledCount,
   colors,
   emoji,
+  tokenImage,
 }: CountingModeProps) {
   const {t} = useTranslation();
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.title, {color: colors.accent}]}>
-        🚀 {t('game.countingTitle')} 🪐
-      </Text>
-      <Text style={[styles.description, {color: colors.text}]}>
-        {t('game.countingDesc')} 💎
+      <Text style={[styles.semiTitle, {color: colors.accent}]}>
+        Ten Frames
       </Text>
 
       <TenFrame
@@ -38,6 +37,7 @@ export function CountingMode({
         onCellClick={onCellClick}
         colors={colors}
         emoji={emoji}
+        tokenImage={tokenImage}
       />
 
       <NumberDisplay number={filledCount} colors={colors} emoji={emoji} />
@@ -48,10 +48,7 @@ export function CountingMode({
 
       <Pressable
         onPress={onReset}
-        style={[
-          styles.button,
-          {backgroundColor: colors.primaryButton},
-        ]}>
+        style={[styles.button, {backgroundColor: colors.primaryButton}]}>
         <Text style={styles.buttonText}>🔄 {t('game.reset')}</Text>
       </Pressable>
     </View>
@@ -60,25 +57,24 @@ export function CountingMode({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
-    gap: 12,
-    paddingVertical: 8,
+    gap: 10,
   },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
+  semiTitle: {
+    fontSize: 22,
+    fontWeight: '800',
     textAlign: 'center',
-  },
-  description: {
-    fontSize: 13,
-    textAlign: 'center',
-    opacity: 0.9,
+    textShadowColor: 'rgba(0,0,0,0.7)',
+    textShadowOffset: {width: 0, height: 1},
+    textShadowRadius: 3,
   },
   feedback: {
     fontSize: 14,
     fontWeight: '600',
     textAlign: 'center',
+    textShadowColor: 'rgba(0,0,0,0.7)',
+    textShadowOffset: {width: 0, height: 1},
+    textShadowRadius: 3,
   },
   button: {
     paddingHorizontal: 24,

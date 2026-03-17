@@ -8,12 +8,14 @@ interface ModeSelectorProps {
   onModeChange: (mode: GameMode) => void;
   colors: ThemeColors;
   vertical?: boolean;
+  getRemainingExercises?: (mode: GameMode) => number;
+  isPremium?: boolean;
 }
 
-const modes: {id: GameMode; emoji: string; key: string}[] = [
-  {id: 'counting', emoji: '🚀', key: 'modes.counting'},
-  {id: 'addition', emoji: '🎈', key: 'modes.addition'},
-  {id: 'subtraction', emoji: '💫', key: 'modes.subtraction'},
+const modes: {id: GameMode; emoji: string; key: string; emojiColor?: string}[] = [
+  {id: 'counting', emoji: '🔢', key: 'modes.counting'},
+  {id: 'addition', emoji: '+', key: 'modes.addition', emojiColor: '#4ADE80'},
+  {id: 'subtraction', emoji: '−', key: 'modes.subtraction', emojiColor: '#F87171'},
   {id: 'puzzle', emoji: '🧩', key: 'modes.puzzle'},
 ];
 
@@ -22,44 +24,114 @@ export function ModeSelector({
   onModeChange,
   colors,
   vertical = false,
+  getRemainingExercises,
+  isPremium = false,
 }: ModeSelectorProps) {
   const {t} = useTranslation();
 
+  if (vertical) {
+    // Landscape sidebar mode
+    return (
+      <View style={styles.containerVertical}>
+        {modes.map(mode => {
+          const isActive = activeMode === mode.id;
+          const isLimited = !isPremium && mode.id !== 'counting';
+          const remaining = getRemainingExercises
+            ? getRemainingExercises(mode.id)
+            : Infinity;
+          const isExhausted = isLimited && remaining <= 0;
+
+          return (
+            <Pressable
+              key={mode.id}
+              onPress={() => onModeChange(mode.id)}
+              style={[
+                styles.tabVertical,
+                {
+                  backgroundColor: isActive
+                    ? 'rgba(255,255,255,0.25)'
+                    : 'rgba(255,255,255,0.08)',
+                  borderColor: isActive ? colors.accent : 'transparent',
+                  opacity: isExhausted ? 0.5 : 1,
+                },
+              ]}>
+              <Text style={[styles.emojiVertical, mode.emojiColor ? {color: mode.emojiColor, fontWeight: 'bold'} : undefined]}>{mode.emoji}</Text>
+              <Text
+                style={[
+                  styles.labelVertical,
+                  {
+                    color: isActive ? '#FFFFFF' : colors.text,
+                    fontWeight: isActive ? 'bold' : 'normal',
+                  },
+                ]}
+                numberOfLines={1}>
+                {t(mode.key)}
+              </Text>
+              {isLimited && remaining < Infinity && (
+                <Text
+                  style={[
+                    styles.remainingVertical,
+                    {color: remaining <= 0 ? '#EF4444' : '#F59E0B'},
+                  ]}>
+                  {remaining <= 0 ? '0' : remaining}
+                </Text>
+              )}
+            </Pressable>
+          );
+        })}
+      </View>
+    );
+  }
+
+  // Portrait bottom tab bar
   return (
-    <View
-      style={[
-        styles.container,
-        vertical && styles.containerVertical,
-      ]}>
+    <View style={styles.bottomBar}>
       {modes.map(mode => {
         const isActive = activeMode === mode.id;
+        const isLimited = !isPremium && mode.id !== 'counting';
+        const remaining = getRemainingExercises
+          ? getRemainingExercises(mode.id)
+          : Infinity;
+        const isExhausted = isLimited && remaining <= 0;
+
         return (
           <Pressable
             key={mode.id}
             onPress={() => onModeChange(mode.id)}
             style={[
-              styles.tab,
-              vertical && styles.tabVertical,
-              {
-                backgroundColor: isActive
-                  ? 'rgba(255,255,255,0.25)'
-                  : 'rgba(255,255,255,0.08)',
-                borderColor: isActive ? colors.accent : 'transparent',
-              },
+              styles.bottomTab,
+              {opacity: isExhausted ? 0.5 : 1},
             ]}>
-            <Text style={styles.emoji}>{mode.emoji}</Text>
-            <Text
+            <View
               style={[
-                styles.label,
-                vertical && styles.labelVertical,
-                {
-                  color: isActive ? '#FFFFFF' : colors.text,
-                  fontWeight: isActive ? 'bold' : 'normal',
+                styles.bottomTabInner,
+                isActive && {
+                  backgroundColor: 'rgba(255,255,255,0.35)',
+                  borderColor: colors.accent,
                 },
-              ]}
-              numberOfLines={1}>
-              {t(mode.key)}
-            </Text>
+              ]}>
+              <Text style={[styles.bottomEmoji, mode.emojiColor ? {color: mode.emojiColor, fontWeight: 'bold'} : undefined]}>{mode.emoji}</Text>
+              <Text
+                style={[
+                  styles.bottomLabel,
+                  {
+                    color: isActive ? '#FFFFFF' : 'rgba(255,255,255,0.85)',
+                    fontWeight: isActive ? 'bold' : '500',
+                  },
+                ]}
+                numberOfLines={1}>
+                {t(mode.key)}
+              </Text>
+              {isLimited && remaining < Infinity && (
+                <Text
+                  style={[
+                    styles.remainingBottom,
+                    {color: remaining <= 0 ? '#EF4444' : '#F59E0B'},
+                  ]}>
+                  {remaining <= 0 ? '0' : remaining}
+                </Text>
+              )}
+            </View>
           </Pressable>
         );
       })}
@@ -68,40 +140,71 @@ export function ModeSelector({
 }
 
 const styles = StyleSheet.create({
-  container: {
+  /* Bottom tab bar (portrait) */
+  bottomBar: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 6,
     paddingHorizontal: 8,
+    paddingTop: 8,
+    paddingBottom: 12,
+    gap: 6,
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255,255,255,0.1)',
   },
-  containerVertical: {
-    flexDirection: 'column',
-    paddingHorizontal: 0,
-  },
-  tab: {
+  bottomTab: {
     flex: 1,
     alignItems: 'center',
+  },
+  bottomTabInner: {
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical: 8,
-    paddingHorizontal: 4,
+    paddingHorizontal: 6,
+    borderRadius: 14,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,255,255,0.25)',
+    backgroundColor: 'rgba(255,255,255,0.18)',
+    width: '100%',
+    minHeight: 64,
+  },
+  bottomEmoji: {
+    fontSize: 24,
+  },
+  bottomLabel: {
+    fontSize: 12,
+    marginTop: 2,
+    fontWeight: '600',
+    textShadowColor: 'rgba(0,0,0,0.5)',
+    textShadowOffset: {width: 0, height: 1},
+    textShadowRadius: 2,
+  },
+  remainingBottom: {
+    fontSize: 9,
+    fontWeight: '700',
+    marginTop: 1,
+  },
+  /* Vertical sidebar (landscape) */
+  containerVertical: {
+    gap: 4,
+  },
+  tabVertical: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
     borderRadius: 12,
     borderWidth: 1.5,
   },
-  tabVertical: {
-    flex: 0,
-    flexDirection: 'row',
-    gap: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-  },
-  emoji: {
+  emojiVertical: {
     fontSize: 18,
-  },
-  label: {
-    fontSize: 10,
-    marginTop: 2,
   },
   labelVertical: {
     fontSize: 13,
-    marginTop: 0,
+    flex: 1,
+  },
+  remainingVertical: {
+    fontSize: 10,
+    fontWeight: '700',
   },
 });

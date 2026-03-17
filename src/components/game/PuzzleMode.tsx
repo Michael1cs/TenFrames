@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet, Pressable, ImageSourcePropType} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {TenFrame} from './TenFrame';
 import {NumberDisplay} from './NumberDisplay';
@@ -15,6 +15,7 @@ interface PuzzleModeProps {
   showPuzzleAnswer: boolean;
   colors: ThemeColors;
   emoji: string;
+  tokenImage?: ImageSourcePropType;
 }
 
 export function PuzzleMode({
@@ -27,29 +28,19 @@ export function PuzzleMode({
   showPuzzleAnswer,
   colors,
   emoji,
+  tokenImage,
 }: PuzzleModeProps) {
   const {t} = useTranslation();
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.title, {color: colors.accent}]}>
-        🛰️ {t('game.puzzleTitle')} 👽
-      </Text>
-
-      <View
-        style={[
-          styles.questionBox,
-          {backgroundColor: 'rgba(255,255,255,0.1)'},
-        ]}>
+      <View style={styles.questionBox}>
         <Text style={[styles.question, {color: colors.text}]}>
           {t('game.puzzleDesc', {number: puzzleAnswer})}
         </Text>
-        <Text style={[{fontSize: 11, color: colors.text, opacity: 0.8, textAlign: 'center'}]}>
+        <Text style={[styles.hint, {color: '#FFFFFF'}]}>
           {t('game.puzzleHint')} 👆
         </Text>
-        <View style={styles.badge}>
-          <Text style={styles.badgeText}>🔢 {t('game.complement')}</Text>
-        </View>
       </View>
 
       <TenFrame
@@ -57,6 +48,7 @@ export function PuzzleMode({
         onCellClick={onCellClick}
         colors={colors}
         emoji={emoji}
+        tokenImage={tokenImage}
       />
 
       <NumberDisplay number={filledCount} colors={colors} emoji={emoji} />
@@ -89,37 +81,31 @@ export function PuzzleMode({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
-    gap: 12,
-    paddingVertical: 8,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    gap: 10,
   },
   questionBox: {
-    padding: 12,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    padding: 10,
     borderRadius: 12,
     alignItems: 'center',
-    gap: 8,
+    gap: 4,
   },
   question: {
     fontSize: 14,
     fontWeight: 'bold',
     textAlign: 'center',
+    textShadowColor: 'rgba(0,0,0,0.7)',
+    textShadowOffset: {width: 0, height: 1},
+    textShadowRadius: 3,
   },
-  badge: {
-    backgroundColor: '#3B82F6',
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 20,
-  },
-  badgeText: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: '600',
+  hint: {
+    fontSize: 13,
+    fontWeight: '700',
+    textAlign: 'center',
+    textShadowColor: 'rgba(0,0,0,0.7)',
+    textShadowOffset: {width: 0, height: 1},
+    textShadowRadius: 3,
   },
   answerContainer: {
     flexDirection: 'row',

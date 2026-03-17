@@ -3,7 +3,7 @@ export type GameMode = 'counting' | 'addition' | 'subtraction' | 'puzzle';
 // 'color1' = first addend / pre-filled for subtraction/puzzle
 // 'color2' = second addend / user-added in addition/puzzle
 export type CellState = 'empty' | 'filled' | 'color1' | 'color2';
-export type Theme = 'space' | 'forest' | 'ocean' | 'farm' | 'dino' | 'candy' | 'unicorn' | 'pixel';
+export type Theme = 'space' | 'forest' | 'ocean' | 'farm' | 'candy' | 'unicorn' | 'pixel' | 'slime' | 'kpop' | 'monsters';
 export type MascotMood = 'happy' | 'excited' | 'thinking' | 'celebrating';
 export type Language = 'ro' | 'en';
 
@@ -124,6 +124,9 @@ export interface ThemeConfig {
   selectorEmoji: string;
   colors: ThemeColors;
   backgroundEmojis: BackgroundEmoji[];
+  backgroundPortrait: any; // ImageSourcePropType (require PNG)
+  backgroundLandscape: any; // ImageSourcePropType (require PNG)
+  tokenImage?: any; // ImageSourcePropType — filled cell token (require PNG)
 }
 
 export interface BackgroundEmoji {
@@ -132,4 +135,17 @@ export interface BackgroundEmoji {
   top: number;
   size: number;
   delay: number;
+}
+
+// === Premium / Trial System ===
+
+export interface DailyUsage {
+  date: string; // 'YYYY-MM-DD'
+  counts: {[mode: string]: number}; // mode -> exercises completed today
+}
+
+export interface PremiumData {
+  isPremium: boolean;
+  purchaseDate?: string; // ISO date
+  dailyUsage: DailyUsage;
 }

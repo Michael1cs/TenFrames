@@ -44,10 +44,12 @@ export function PlayerSetup({
     forest: ['#22C55E', '#10B981'],
     ocean: ['#3B82F6', '#06B6D4'],
     farm: ['#EAB308', '#F97316'],
-    dino: ['#65A30D', '#4D7C0F'],
     candy: ['#EC4899', '#D946EF'],
     unicorn: ['#8B5CF6', '#A855F7'],
     pixel: ['#0D9488', '#06B6D4'],
+    slime: ['#84CC16', '#A855F7'],
+    kpop: ['#EC4899', '#8B5CF6'],
+    monsters: ['#7C3AED', '#10B981'],
   };
 
   return (
@@ -184,8 +186,8 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   themeButton: {
-    width: '23%',
-    padding: 8,
+    width: '18%',
+    padding: 6,
     borderRadius: 12,
     borderWidth: 2,
     alignItems: 'center',

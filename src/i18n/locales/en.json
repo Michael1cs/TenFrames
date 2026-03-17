@@ -27,7 +27,8 @@
     "reset": "Reset",
     "newProblem": "New Problem",
     "newPuzzle": "New Puzzle",
-    "send": "Submit"
+    "send": "Submit",
+    "changeTheme": "Theme"
   },
   "feedback": {
     "correct": "Great! You got it right!",
@@ -63,10 +64,12 @@
     "forest": "Forest",
     "ocean": "Ocean",
     "farm": "Farm",
-    "dino": "Dino",
     "candy": "Candy",
     "unicorn": "Unicorn",
-    "pixel": "Pixel"
+    "pixel": "Pixel",
+    "slime": "Slime",
+    "kpop": "K-Pop",
+    "monsters": "Monsters"
   },
   "info": {
     "title": "About Ten Frames - The American Method!",
@@ -111,6 +114,21 @@
     "candy": "Candy", "donut": "Donut",
     "soccer": "Soccer", "trophy": "Trophy", "medal": "Medal", "crown": "Crown",
     "diamond": "Diamond", "hundred": "100"
+  },
+  "premium": {
+    "dailyLimitTitle": "Great job today!",
+    "dailyLimitMessage": "You played super today! Come back tomorrow for more exercises, or unlock everything!",
+    "unlockAll": "Unlock Everything",
+    "comeBackTomorrow": "See you tomorrow!",
+    "upgradeTitle": "Math with Smiles Premium",
+    "upgradeSubtitle": "Learn without limits!",
+    "featureUnlimitedModes": "Unlimited Addition, Subtraction & Puzzle",
+    "featureAllThemes": "All 8 visual themes",
+    "featureStickerBook": "Complete Sticker Book",
+    "featureAchievements": "All Achievements",
+    "oneTimePurchase": "One-time purchase",
+    "buyNow": "Unlock Now",
+    "maybeLater": "Maybe later"
   },
   "achievements": {
     "firstStar": "First Star",

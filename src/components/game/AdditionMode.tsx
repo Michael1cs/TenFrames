@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet, Pressable, ImageSourcePropType} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {TenFrame} from './TenFrame';
 import {NumberDisplay} from './NumberDisplay';
@@ -17,6 +17,7 @@ interface AdditionModeProps {
   feedback: string;
   colors: ThemeColors;
   emoji: string;
+  tokenImage?: ImageSourcePropType;
 }
 
 export function AdditionMode({
@@ -31,15 +32,12 @@ export function AdditionMode({
   feedback,
   colors,
   emoji,
+  tokenImage,
 }: AdditionModeProps) {
   const {t} = useTranslation();
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.title, {color: colors.accent}]}>
-        🛸 {t('game.additionTitle')} 🌌
-      </Text>
-
       {currentProblem && (
         <View style={styles.problemContainer}>
           <Text style={[styles.problem, {color: colors.text}]}>
@@ -48,10 +46,7 @@ export function AdditionMode({
             <Text style={{color: colors.cellColor2}}>{currentProblem.num2}</Text>
             {' = ?'}
           </Text>
-          <Text style={[styles.hint, {color: colors.accent}]}>
-            {t('game.additionDesc', {num1: currentProblem.num1, num2: currentProblem.num2})}
-          </Text>
-          <Text style={[styles.hint, {color: colors.text, opacity: 0.8, fontSize: 11}]}>
+          <Text style={[styles.hint, {color: '#FFFFFF'}]}>
             {t('game.additionHint')} 👆
           </Text>
         </View>
@@ -62,6 +57,7 @@ export function AdditionMode({
         onCellClick={onCellClick}
         colors={colors}
         emoji={emoji}
+        tokenImage={tokenImage}
       />
 
       {userAnswer !== null && (
@@ -128,26 +124,26 @@ export function AdditionMode({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
     gap: 10,
-    paddingVertical: 8,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
   problemContainer: {
     alignItems: 'center',
   },
   problem: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: 'bold',
+    textShadowColor: 'rgba(0,0,0,0.7)',
+    textShadowOffset: {width: 0, height: 1},
+    textShadowRadius: 3,
   },
   hint: {
-    fontSize: 12,
-    marginTop: 4,
+    fontSize: 13,
+    fontWeight: '700',
+    marginTop: 2,
+    textShadowColor: 'rgba(0,0,0,0.7)',
+    textShadowOffset: {width: 0, height: 1},
+    textShadowRadius: 3,
   },
   submitButton: {
     paddingHorizontal: 24,

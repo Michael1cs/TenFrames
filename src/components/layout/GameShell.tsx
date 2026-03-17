@@ -1,5 +1,5 @@
 import React, {useEffect, useCallback, useState} from 'react';
-import {View, Text, StyleSheet, StatusBar, Pressable, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, StatusBar, Pressable, ScrollView, ImageBackground} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useTranslation} from 'react-i18next';
 import {useGameState} from '../../hooks/useGameState';
@@ -22,8 +22,13 @@ import {NewStickerPopup} from '../feedback/NewStickerPopup';
 import {AchievementPopup} from '../feedback/AchievementPopup';
 import {StickerBook} from '../rewards/StickerBook';
 import {AchievementsScreen} from '../rewards/AchievementsScreen';
+import {DailyLimitModal} from '../premium/DailyLimitModal';
+import {UpgradeScreen} from '../premium/UpgradeScreen';
 import {PlayerSetup} from '../onboarding/PlayerSetup';
-import {Language} from '../../types/game';
+import {AboutTenFrames} from '../info/AboutTenFrames';
+import {usePremium} from '../../hooks/usePremium';
+import {FREE_DAILY_LIMIT} from '../../config/limits';
+import {Language, GameMode} from '../../types/game';
 import i18n from '../../i18n';
 
 export function GameShell() {
@@ -31,16 +36,23 @@ export function GameShell() {
   const game = useGameState();
   const themeConfig = useTheme(game.theme);
   const {colors} = themeConfig;
-  const {loadPlayerData, savePlayerData, loadRewardData, saveRewardData} =
-    usePersistence();
+  const {
+    loadPlayerData, savePlayerData,
+    loadRewardData, saveRewardData,
+    loadPremiumData, savePremiumData,
+  } = usePersistence();
   const {isLandscape, isTablet, fontScale} = useLayout();
   const rewardSystem = useRewards();
+  const premium = usePremium();
 
   // UI state for reward screens
   const [showStickerBook, setShowStickerBook] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
   const [lastStarsAwarded, setLastStarsAwarded] = useState(0);
   const [showStarsDisplay, setShowStarsDisplay] = useState(false);
+  const [showDailyLimit, setShowDailyLimit] = useState(false);
+  const [showUpgrade, setShowUpgrade] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
 
   // Load saved data on mount
   useEffect(() => {
@@ -56,6 +68,8 @@ export function GameShell() {
       const rewards = await loadRewardData();
       rewardSystem.loadRewards(rewards);
       rewardSystem.updateDailyStreak();
+      const premiumData = await loadPremiumData();
+      premium.loadPremiumData(premiumData);
     })();
   }, []);
 
@@ -73,16 +87,27 @@ export function GameShell() {
     }
   }, [game.score, game.level]);
 
-  // Track correct answers for reward system
+  // Save premium data when usage changes
+  useEffect(() => {
+    savePremiumData(premium.getPremiumData());
+  }, [premium.dailyUsage, premium.isPremium]);
+
+  // Track correct answers for reward system + record exercise for daily limit
   const prevIsCorrect = React.useRef<boolean | null>(null);
   useEffect(() => {
     if (game.isCorrect === true && prevIsCorrect.current !== true) {
-      // Award stars — wasFirstTry if streak > 0 (no wrong before this)
       const wasFirstTry = game.streak > 0;
       const stars = rewardSystem.awardStars(game.gameMode, wasFirstTry);
       setLastStarsAwarded(stars);
       setShowStarsDisplay(true);
       setTimeout(() => setShowStarsDisplay(false), 3000);
+      const updatedUsage = premium.recordExercise(game.gameMode);
+      if (!premium.isPremium && premium.isModeLimited(game.gameMode)) {
+        const used = updatedUsage.counts[game.gameMode] || 0;
+        if (used >= FREE_DAILY_LIMIT) {
+          setTimeout(() => setShowDailyLimit(true), 2500);
+        }
+      }
     }
     prevIsCorrect.current = game.isCorrect;
   }, [game.isCorrect]);
@@ -95,6 +120,23 @@ export function GameShell() {
     },
     [game, savePlayerData],
   );
+
+  const handleModeChange = useCallback(
+    (mode: GameMode) => {
+      if (!premium.canPlayMode(mode)) {
+        setShowDailyLimit(true);
+        return;
+      }
+      game.setGameMode(mode);
+    },
+    [game, premium],
+  );
+
+  const handleUpgrade = useCallback(() => {
+    premium.upgradeToPremium();
+    setShowUpgrade(false);
+    setShowDailyLimit(false);
+  }, [premium]);
 
   const handleSetupComplete = useCallback(() => {
     game.setShowSetup(false);
@@ -126,6 +168,7 @@ export function GameShell() {
             filledCount={game.filledCount}
             colors={colors}
             emoji={themeConfig.emoji}
+            tokenImage={themeConfig.tokenImage}
           />
         );
       case 'addition':
@@ -142,6 +185,7 @@ export function GameShell() {
             feedback={game.feedback}
             colors={colors}
             emoji={themeConfig.emoji}
+            tokenImage={themeConfig.tokenImage}
           />
         );
       case 'subtraction':
@@ -158,6 +202,7 @@ export function GameShell() {
             feedback={game.feedback}
             colors={colors}
             emoji={themeConfig.emoji}
+            tokenImage={themeConfig.tokenImage}
           />
         );
       case 'puzzle':
@@ -172,130 +217,86 @@ export function GameShell() {
             showPuzzleAnswer={game.showPuzzleAnswer}
             colors={colors}
             emoji={themeConfig.emoji}
+            tokenImage={themeConfig.tokenImage}
           />
         );
     }
   };
 
-  const renderHeader = () => (
-    <View style={[styles.header, isLandscape && styles.headerLandscape]}>
-      <View style={styles.headerTop}>
-        <View style={styles.titleRow}>
-          <Text style={styles.bounceEmoji}>🎮</Text>
-          <Text
-            style={[
-              styles.title,
-              {color: colors.text, fontSize: 20 * fontScale},
-            ]}>
-            {t('app.title')}
-          </Text>
-          <Text style={styles.bounceEmoji}>🌟</Text>
-        </View>
+  // Row 1: title + info button + language flags
+  const renderTitleBar = () => (
+    <View style={styles.titleBar}>
+      <Text style={[styles.title, {color: colors.text}]}>
+        {mascotEmoji} {t('app.title')}
+      </Text>
+      <View style={styles.titleRight}>
         <Pressable
-          onPress={() => {
-            game.setIsThemeChange(true);
-            game.setShowSetup(true);
-          }}
-          style={styles.themeButton}>
-          <Text style={styles.themeButtonText}>
-            {themeConfig.selectorEmoji} ⚙️
-          </Text>
+          onPress={() => setShowAbout(true)}
+          style={styles.infoButton}>
+          <Text style={styles.infoButtonText}>ℹ️</Text>
         </Pressable>
         <LanguageSwitcher
           language={game.language}
           onLanguageChange={handleLanguageChange}
         />
       </View>
-      <Text
-        style={[
-          styles.subtitle,
-          {color: colors.accent, fontSize: 13 * fontScale},
-        ]}>
-        🎯{' '}
-        {game.playerName
-          ? `${t('app.subtitle')}, ${game.playerName}!`
-          : t('app.subtitle')}{' '}
-        🎈
-      </Text>
     </View>
   );
 
-  const renderStats = () => (
-    <View style={[styles.statsRow, isLandscape && styles.statsRowLandscape]}>
-      {/* Total Stars */}
-      <View style={[styles.badge, {borderColor: '#F59E0B'}]}>
-        <Text
-          style={[
-            styles.badgeText,
-            {color: colors.text, fontSize: 12 * fontScale},
-          ]}>
-          ⭐ {rewardSystem.rewards.totalStars}
-        </Text>
-      </View>
-      {/* Level */}
-      <View style={[styles.badge, {borderColor: '#60A5FA'}]}>
-        <Text
-          style={[
-            styles.badgeText,
-            {color: colors.text, fontSize: 12 * fontScale},
-          ]}>
-          {t('stats.level')}: {game.level} 📈
-        </Text>
-      </View>
-      {/* Game streak */}
-      {game.streak > 0 && (
-        <View style={[styles.badge, styles.streakBadge]}>
-          <Text
-            style={[
-              styles.badgeText,
-              {color: colors.text, fontSize: 12 * fontScale},
-            ]}>
-            {game.streak} 🔥
+  // Row 2: stats badges + theme button on dark strip
+  const renderStatsBar = () => (
+    <View style={styles.statsBar}>
+      <View style={styles.statsLeft}>
+        <View style={[styles.statBadge, {borderColor: '#F59E0B'}]}>
+          <Text style={[styles.statBadgeText, {color: colors.text}]}>
+            ⭐ {rewardSystem.rewards.totalStars}
           </Text>
         </View>
-      )}
-      {/* Daily streak */}
-      {rewardSystem.rewards.streak.current > 1 && (
-        <View style={[styles.badge, {borderColor: '#F97316'}]}>
-          <Text
-            style={[
-              styles.badgeText,
-              {color: colors.text, fontSize: 12 * fontScale},
-            ]}>
-            {rewardSystem.rewards.streak.current} 📅
+        {game.streak > 0 && (
+          <View style={[styles.statBadge, styles.streakBadge]}>
+            <Text style={[styles.statBadgeText, {color: colors.text}]}>
+              {game.streak} 🔥
+            </Text>
+          </View>
+        )}
+        <Pressable
+          onPress={() => setShowStickerBook(true)}
+          style={[styles.statBadge, {borderColor: '#A855F7'}]}>
+          <Text style={styles.statBadgeText}>
+            🎨 {rewardSystem.rewards.stickers.length}
           </Text>
-        </View>
-      )}
-      {/* Reward buttons row */}
+        </Pressable>
+        <Pressable
+          onPress={() => setShowAchievements(true)}
+          style={[styles.statBadge, {borderColor: '#EAB308'}]}>
+          <Text style={styles.statBadgeText}>
+            🏆 {rewardSystem.rewards.achievements.length}
+          </Text>
+        </Pressable>
+      </View>
       <Pressable
-        onPress={() => setShowStickerBook(true)}
-        style={[styles.badge, {borderColor: '#A855F7'}]}>
-        <Text style={[styles.badgeText, {fontSize: 12 * fontScale}]}>
-          🎨 {rewardSystem.rewards.stickers.length}
-        </Text>
-      </Pressable>
-      <Pressable
-        onPress={() => setShowAchievements(true)}
-        style={[styles.badge, {borderColor: '#EAB308'}]}>
-        <Text style={[styles.badgeText, {fontSize: 12 * fontScale}]}>
-          🏆 {rewardSystem.rewards.achievements.length}
-        </Text>
+        onPress={() => {
+          game.setIsThemeChange(true);
+          game.setShowSetup(true);
+        }}
+        style={[styles.themeButton, {backgroundColor: colors.accentButton}]}>
+        <Text style={styles.themeButtonText}>🎨 {t('game.changeTheme')}</Text>
       </Pressable>
     </View>
   );
 
+  // Landscape sidebar
   const renderSidebar = () => (
     <View style={styles.sidebar}>
-      {renderHeader()}
-      {renderStats()}
-      <Text style={[styles.mascot, {fontSize: 32 * fontScale}]}>
-        {mascotEmoji}
-      </Text>
+      {renderTitleBar()}
+      {renderStatsBar()}
       <ModeSelector
         activeMode={game.gameMode}
-        onModeChange={game.setGameMode}
+        onModeChange={handleModeChange}
         colors={colors}
-        vertical={isLandscape}
+        vertical
+        getRemainingExercises={premium.getRemainingExercises}
+        isPremium={premium.isPremium}
       />
     </View>
   );
@@ -307,9 +308,20 @@ export function GameShell() {
         translucent
         backgroundColor="transparent"
       />
-      <LinearGradient
-        colors={[colors.backgroundFrom, colors.backgroundVia, colors.backgroundTo]}
-        style={styles.gradient}>
+      <ImageBackground
+        source={isLandscape ? themeConfig.backgroundLandscape : themeConfig.backgroundPortrait}
+        style={styles.background}
+        resizeMode="cover">
+        <LinearGradient
+          colors={[
+            'rgba(0,0,0,0.45)',
+            'rgba(0,0,0,0.15)',
+            'rgba(0,0,0,0.15)',
+            'rgba(0,0,0,0.40)',
+          ]}
+          locations={[0, 0.25, 0.7, 1]}
+          style={StyleSheet.absoluteFill}
+        />
         <BackgroundEmojis emojis={themeConfig.backgroundEmojis} />
         <CorrectAnimation visible={game.showConfetti} />
         <WrongAnimation visible={game.isCorrect === false} />
@@ -342,6 +354,29 @@ export function GameShell() {
           unlockedAchievements={rewardSystem.rewards.achievements}
           colors={colors}
           onClose={() => setShowAchievements(false)}
+        />
+
+        {/* Premium modals */}
+        <DailyLimitModal
+          visible={showDailyLimit}
+          colors={colors}
+          onDismiss={() => setShowDailyLimit(false)}
+          onUpgrade={() => {
+            setShowDailyLimit(false);
+            setShowUpgrade(true);
+          }}
+        />
+        <UpgradeScreen
+          visible={showUpgrade}
+          colors={colors}
+          onClose={() => setShowUpgrade(false)}
+          onPurchase={handleUpgrade}
+        />
+
+        <AboutTenFrames
+          visible={showAbout}
+          colors={colors}
+          onClose={() => setShowAbout(false)}
         />
 
         <PlayerSetup
@@ -377,18 +412,10 @@ export function GameShell() {
             </ScrollView>
           </View>
         ) : (
-          /* PORTRAIT: vertical stack */
-          <View style={styles.content}>
-            {renderHeader()}
-            {renderStats()}
-            <Text style={[styles.mascot, {fontSize: 32 * fontScale}]}>
-              {mascotEmoji}
-            </Text>
-            <ModeSelector
-              activeMode={game.gameMode}
-              onModeChange={game.setGameMode}
-              colors={colors}
-            />
+          /* PORTRAIT: title → stats → game content → bottom tab bar */
+          <View style={styles.portraitContainer}>
+            {renderTitleBar()}
+            {renderStatsBar()}
             <ScrollView
               style={styles.gameArea}
               contentContainerStyle={styles.gameAreaContent}
@@ -399,9 +426,16 @@ export function GameShell() {
                 visible={showStarsDisplay}
               />
             </ScrollView>
+            <ModeSelector
+              activeMode={game.gameMode}
+              onModeChange={handleModeChange}
+              colors={colors}
+              getRemainingExercises={premium.getRemainingExercises}
+              isPremium={premium.isPremium}
+            />
           </View>
         )}
-      </LinearGradient>
+      </ImageBackground>
     </View>
   );
 }
@@ -410,71 +444,67 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  gradient: {
+  background: {
     flex: 1,
   },
-  /* Portrait layout */
-  content: {
+
+  /* ── Portrait layout ── */
+  portraitContainer: {
     flex: 1,
-    paddingTop: 44,
-    paddingHorizontal: 12,
+    paddingTop: 36,
     zIndex: 10,
   },
-  header: {
-    alignItems: 'center',
-    marginBottom: 6,
-  },
-  headerLandscape: {
-    marginBottom: 4,
-  },
-  headerTop: {
+  /* Row 1: title bar */
+  titleBar: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '100%',
+    paddingHorizontal: 12,
+    marginBottom: 2,
   },
-  titleRow: {
+  title: {
+    fontSize: 15,
+    fontWeight: '800',
+  },
+  titleRight: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    flex: 1,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: '800',
-  },
-  bounceEmoji: {
-    fontSize: 16,
-  },
-  themeButton: {
+  infoButton: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     backgroundColor: 'rgba(255,255,255,0.2)',
-    borderRadius: 12,
-    paddingHorizontal: 8,
-    paddingVertical: 6,
-    marginRight: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  themeButtonText: {
+  infoButtonText: {
     fontSize: 16,
   },
-  subtitle: {
-    fontSize: 13,
-    fontWeight: '500',
-    marginTop: 2,
-  },
-  statsRow: {
+  /* Row 2: stats bar */
+  statsBar: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    marginHorizontal: 8,
+    marginBottom: 4,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    borderRadius: 14,
+  },
+  statsLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 6,
-    marginBottom: 6,
+    flexWrap: 'wrap',
+    flexShrink: 1,
   },
-  statsRowLandscape: {
-    justifyContent: 'flex-start',
-  },
-  badge: {
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    borderWidth: 1,
-    borderRadius: 20,
+  statBadge: {
+    backgroundColor: 'rgba(255,255,255,0.18)',
+    borderWidth: 1.5,
+    borderRadius: 16,
     paddingHorizontal: 10,
     paddingVertical: 4,
   },
@@ -482,24 +512,34 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(245,158,11,0.3)',
     borderColor: '#F59E0B',
   },
-  badgeText: {
-    fontSize: 12,
-    fontWeight: '600',
+  statBadgeText: {
+    fontSize: 13,
+    fontWeight: '700',
     color: '#FFFFFF',
   },
-  mascot: {
-    fontSize: 32,
-    textAlign: 'center',
-    marginBottom: 6,
+  themeButton: {
+    borderRadius: 16,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    marginLeft: 6,
+  },
+  themeButtonText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: 'bold',
   },
   gameArea: {
     flex: 1,
-    marginTop: 8,
   },
   gameAreaContent: {
-    paddingBottom: 20,
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+    paddingBottom: 8,
+    paddingTop: 8,
   },
-  /* Landscape layout */
+
+  /* ── Landscape layout ── */
   landscapeContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -508,8 +548,8 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   sidebarScroll: {
-    width: '35%',
-    maxWidth: 300,
+    width: '30%',
+    maxWidth: 260,
   },
   sidebarScrollContent: {
     paddingBottom: 20,
@@ -521,7 +561,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   gameAreaLandscapeContent: {
-    paddingBottom: 20,
+    flexGrow: 1,
+    justifyContent: 'center',
     alignItems: 'center',
+    paddingBottom: 20,
   },
 });
