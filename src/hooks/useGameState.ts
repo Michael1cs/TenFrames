@@ -32,6 +32,11 @@ export function useGameState() {
   const [isThemeChange, setIsThemeChange] = useState(false);
   // Track addition phase: 'first' = placing num1, 'second' = placing num2
   const [additionPhase, setAdditionPhase] = useState<'first' | 'second'>('first');
+  // Per-mode difficulty levels (1-9 = focused, 10+ = random)
+  const [additionLevel, setAdditionLevel] = useState(1);
+  const [subtractionLevel, setSubtractionLevel] = useState(1);
+  // Consecutive correct answers at current level (level up after 3)
+  const [levelCorrectStreak, setLevelCorrectStreak] = useState(0);
 
   // Refs for stale closure prevention
   const hasSubmittedRef = useRef(hasSubmitted);
@@ -79,9 +84,15 @@ export function useGameState() {
     setCells(newCells);
   }, []);
 
+  const additionLevelRef = useRef(additionLevel);
+  additionLevelRef.current = additionLevel;
+  const subtractionLevelRef = useRef(subtractionLevel);
+  subtractionLevelRef.current = subtractionLevel;
+
   const doGenerateProblem = useCallback(() => {
     const mode = gameModeRef.current;
-    const problem = generateProblem(mode);
+    const modeLevel = mode === 'addition' ? additionLevelRef.current : subtractionLevelRef.current;
+    const problem = generateProblem(mode, modeLevel);
     setCurrentProblem(problem);
     setFeedback('');
     setIsCorrect(null);
@@ -104,6 +115,7 @@ export function useGameState() {
 
   // Generate problem when mode changes
   useEffect(() => {
+    setLevelCorrectStreak(0);
     if (gameMode === 'addition' || gameMode === 'subtraction') {
       doGenerateProblem();
     } else if (gameMode === 'puzzle') {
@@ -231,6 +243,20 @@ export function useGameState() {
       setShowConfetti(true);
       setMascotMood('excited');
 
+      // Level-up: after 3 correct in a row at current level
+      setLevelCorrectStreak(prev => {
+        const newStreak = prev + 1;
+        if (newStreak >= 3) {
+          if (mode === 'addition') {
+            setAdditionLevel(l => Math.min(l + 1, 11));
+          } else if (mode === 'subtraction') {
+            setSubtractionLevel(l => Math.min(l + 1, 11));
+          }
+          return 0; // Reset streak for next level
+        }
+        return newStreak;
+      });
+
       setTimeout(() => {
         setShowConfetti(false);
         doGenerateProblem();
@@ -240,6 +266,7 @@ export function useGameState() {
       setIsCorrect(false);
       setFeedback('wrong');
       setStreak(0);
+      setLevelCorrectStreak(0); // Reset level streak on wrong answer
       setHasSubmitted(true);
       setMascotMood('thinking');
 
@@ -350,6 +377,8 @@ export function useGameState() {
     showSetup,
     isThemeChange,
     additionPhase,
+    additionLevel,
+    subtractionLevel,
 
     // Actions
     setGameMode,

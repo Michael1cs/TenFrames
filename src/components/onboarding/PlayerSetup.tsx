@@ -74,15 +74,17 @@ export function PlayerSetup({
               </View>
             )}
 
-            <View style={styles.section}>
-              <Text style={styles.label}>{t('setup.languageLabel')}</Text>
-              <View style={styles.languageRow}>
-                <LanguageSwitcher
-                  language={language}
-                  onLanguageChange={onLanguageChange}
-                />
+            {!isThemeChange && (
+              <View style={styles.section}>
+                <Text style={styles.label}>{t('setup.languageLabel')}</Text>
+                <View style={styles.languageRow}>
+                  <LanguageSwitcher
+                    language={language}
+                    onLanguageChange={onLanguageChange}
+                  />
+                </View>
               </View>
-            </View>
+            )}
 
             <View style={styles.section}>
               <Text style={styles.label}>{t('setup.themeLabel')}</Text>
@@ -93,7 +95,12 @@ export function PlayerSetup({
                   return (
                     <Pressable
                       key={themeConfig.id}
-                      onPress={() => onThemeChange(themeConfig.id)}
+                      onPress={() => {
+                        onThemeChange(themeConfig.id);
+                        if (isThemeChange) {
+                          onComplete();
+                        }
+                      }}
                       style={[
                         styles.themeButton,
                         {
@@ -121,13 +128,13 @@ export function PlayerSetup({
               </View>
             </View>
 
-            <Pressable onPress={onComplete} style={styles.startButton}>
-              <Text style={styles.startButtonText}>
-                {isThemeChange
-                  ? `✨ ${t('setup.saveTheme')}`
-                  : `🎮 ${t('setup.startAdventure')}`}
-              </Text>
-            </Pressable>
+            {!isThemeChange && (
+              <Pressable onPress={onComplete} style={styles.startButton}>
+                <Text style={styles.startButtonText}>
+                  🎮 {t('setup.startAdventure')}
+                </Text>
+              </Pressable>
+            )}
           </ScrollView>
         </View>
       </View>

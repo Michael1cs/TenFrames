@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Pressable,
   ScrollView,
+  Modal,
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
@@ -25,13 +26,15 @@ export function AchievementsScreen({
 }: AchievementsScreenProps) {
   const {t} = useTranslation();
 
-  if (!visible) return null;
-
   return (
-    <View style={styles.overlay}>
-      <Pressable style={styles.backdrop} onPress={onClose} />
-      <View style={[styles.modal, {backgroundColor: colors.backgroundFrom}]}>
-        <View style={styles.header}>
+    <Modal
+      visible={visible}
+      transparent
+      animationType="slide"
+      onRequestClose={onClose}>
+      <View style={styles.overlay}>
+        <View style={[styles.modal, {backgroundColor: colors.backgroundFrom}]}>
+          <View style={styles.header}>
           <Text style={[styles.title, {color: colors.accent}]}>
             {t('rewards.achievements')}
           </Text>
@@ -85,22 +88,20 @@ export function AchievementsScreen({
               </View>
             );
           })}
-        </ScrollView>
+          </ScrollView>
+        </View>
       </View>
-    </View>
+    </Modal>
   );
 }
 
 const styles = StyleSheet.create({
   overlay: {
-    ...StyleSheet.absoluteFillObject,
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.7)',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 80,
-  },
-  backdrop: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    padding: 20,
   },
   modal: {
     width: '90%',

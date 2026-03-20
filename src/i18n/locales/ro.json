@@ -72,11 +72,25 @@
     "monsters": "Monștri"
   },
   "info": {
-    "title": "Despre Ten Frames - Metoda Americană!",
-    "what": "Ce sunt Ten Frames?",
-    "whatDesc": "Ten Frames sunt o metodă educațională folosită în școlile americane pentru a ajuta copiii să înțeleagă numerele de la 0 la 10.",
-    "benefits": "Beneficii:",
-    "benefitsDesc": "Recunoașterea rapidă a cantităților, înțelegerea compoziției numerelor, dezvoltarea abilităților de adunare/scădere."
+    "title": "Despre Ten Frames",
+    "what": "Ce Sunt Ten Frames?",
+    "whatDesc": "Un Ten Frame este un instrument vizual simplu, dar foarte eficient: un dreptunghi împărțit în două rânduri a câte cinci celule, formând zece celule în total. Dezvoltat ca material didactic în anii 1980, Ten Frames este astăzi un element central al programelor de inițiere în aritmetică din întreaga lume — incluzând Common Core (SUA), Curriculumul Australian și Canadian, UK Early Years Foundation Stage, Proiectul de Numerație din Noua Zeelandă și metoda Singapore Math.",
+    "howHelp": "Cum Ajută Copiii Să Învețe?",
+    "howHelpDesc": "Ten Frames dezvoltă subitizarea — capacitatea de a recunoaște instantaneu o cantitate fără a număra. Copiii învață să vadă grupuri: 3 sus și 2 jos înseamnă 5. Un rând plin e întotdeauna 5, un cadru plin e întotdeauna 10. Aceste repere devin ancore pentru tot calculul mental viitor. Pentru copiii de 5-7 ani, Ten Frames oferă o punte de la gândirea concretă la cea abstractă (abordarea CPA din metoda Singapore Math).",
+    "counting": "Numărare (0–10)",
+    "countingDesc": "În modul de numărare, copiii ating celulele pentru a le umple pe rând. Fiecare celulă umplută reprezintă un obiect, construind corespondența unu-la-unu — înțelegerea că fiecare cuvânt-număr corespunde exact unui obiect. Copiii pot vedea dintr-o privire dacă au puține sau multe, dezvoltând abilitățile timpurii de estimare.",
+    "addition": "Adunarea cu Ten Frames",
+    "additionDesc": "Primul termen apare într-o culoare, iar al doilea în altă culoare. Copiii completează celulele pentru al doilea număr și văd vizual ambele părți și întregul. De exemplu, 3 + 4: trei celule sunt plasate, copilul adaugă patru mai multe și vede șapte în total. Metoda predă și strategia 'formează zece': pentru 8 + 5, completează cadrul la 10 (adaugă 2) și vezi că rămân 3 — descoperind că 8 + 5 = 13.",
+    "subtraction": "Scăderea cu Ten Frames",
+    "subtractionDesc": "Numărul inițial umple cadrul, iar copiii ating pentru a elimina obiecte. Pentru 7 − 3, șapte celule sunt umplute și copilul elimină trei pentru a vedea patru rămase. Acest model face scăderea tangibilă — copiii văd literalmente cantitatea micșorându-se.",
+    "bonds": "Complementele lui 10",
+    "bondsDesc": "Modul puzzle predă complementele lui 10 — dacă 6 celule sunt umplute, câte celule goale mai rămân? Copiii descoperă că 6 + 4 = 10, 7 + 3 = 10 și așa mai departe. Cunoașterea fluentă a acestor perechi este esențială pentru strategiile de calcul mental.",
+    "benefits": "Beneficii Cheie",
+    "benefitsDesc": "• Înțelegerea vizuală și concretă a numerelor\n• Recunoașterea instantanee a cantităților (subitizare)\n• Bază solidă pentru simțul numerelor\n• Adunare și scădere mentală fluentă\n• Reducerea anxietății matematice prin explorare jucăușă\n• Repere naturale de 5 și 10 pentru strategii de calcul\n• Punte de la gândirea concretă la cea abstractă (abordarea CPA)",
+    "tipsParents": "Sfaturi pentru Părinți",
+    "tipsParentsDesc": "• Lăsați copilul să exploreze liber — nu există un mod greșit de a umple un ten frame!\n• Puneți întrebări precum: Câte mai trebuie ca să faci 10?\n• Celebrați efortul, nu doar răspunsurile corecte\n• Sesiuni scurte zilnice (5–10 minute) sunt mai eficiente decât cele lungi\n• Conectați ten frames cu viața reală: Avem 3 mere, câte mai trebuie ca să umplem cutia de 10?",
+    "research": "Fundament Științific",
+    "researchDesc": "Ten Frames sunt recomandate de Consiliul Național al Profesorilor de Matematică (NCTM) ca un instrument esențial pentru dezvoltarea simțului numeric în copilăria timpurie. Cercetările arată că copiii care folosesc ten frames dezvoltă abilități mai puternice de calcul mental și o înțelegere mai profundă a valorii poziționale. Metoda face parte din standardele Common Core din Statele Unite și este folosită în programe educaționale din întreaga lume, inclusiv Singapore Math și Curriculumul Național Australian."
   },
   "rewards": {
     "totalStars": "Stele",
@@ -128,7 +142,12 @@
     "featureAchievements": "Toate Realizările",
     "oneTimePurchase": "Plată unică",
     "buyNow": "Deblochează Acum",
-    "maybeLater": "Poate mai târziu"
+    "maybeLater": "Poate mai târziu",
+    "restorePurchases": "Restaurează Achizițiile",
+    "restoreSuccess": "Achiziție restaurată!",
+    "restoreNotFound": "Nicio achiziție anterioară găsită",
+    "purchaseError": "Achiziția a eșuat. Încearcă din nou.",
+    "purchasing": "Se procesează..."
   },
   "achievements": {
     "firstStar": "Prima Stea",

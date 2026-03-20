@@ -62,19 +62,17 @@ export function PuzzleMode({
         </View>
       )}
 
-      <View style={styles.buttonsRow}>
-        <Pressable
-          onPress={onNewPuzzle}
-          style={[styles.button, {backgroundColor: '#7C3AED'}]}>
-          <Text style={styles.buttonText}>🔄 {t('game.newPuzzle')}</Text>
-        </Pressable>
+      <Pressable
+        onPress={onSubmit}
+        style={[styles.submitButton, {backgroundColor: '#16A34A'}]}>
+        <Text style={styles.submitButtonText}>✅</Text>
+      </Pressable>
 
-        <Pressable
-          onPress={onSubmit}
-          style={[styles.button, {backgroundColor: '#16A34A'}]}>
-          <Text style={styles.buttonText}>🎯 {t('game.send')}</Text>
-        </Pressable>
-      </View>
+      <Pressable
+        onPress={onNewPuzzle}
+        style={[styles.resetButton, {backgroundColor: '#7C3AED'}]}>
+        <Text style={styles.resetButtonText}>🔄</Text>
+      </Pressable>
     </View>
   );
 }
@@ -85,9 +83,12 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   questionBox: {
-    backgroundColor: 'rgba(255,255,255,0.1)',
-    padding: 10,
-    borderRadius: 12,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 14,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,255,255,0.3)',
     alignItems: 'center',
     gap: 4,
   },
@@ -130,15 +131,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 12,
   },
-  button: {
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 12,
-    elevation: 3,
+  submitButton: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 4,
   },
-  buttonText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-    fontSize: 13,
+  submitButtonText: {
+    fontSize: 36,
+  },
+  resetButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 2,
+    opacity: 0.7,
+  },
+  resetButtonText: {
+    fontSize: 20,
   },
 });

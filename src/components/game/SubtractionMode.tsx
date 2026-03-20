@@ -18,6 +18,7 @@ interface SubtractionModeProps {
   colors: ThemeColors;
   emoji: string;
   tokenImage?: ImageSourcePropType;
+  level: number;
 }
 
 export function SubtractionMode({
@@ -33,11 +34,16 @@ export function SubtractionMode({
   colors,
   emoji,
   tokenImage,
+  level,
 }: SubtractionModeProps) {
   const {t} = useTranslation();
 
   return (
     <View style={styles.container}>
+      <View style={[styles.levelBadge, {backgroundColor: colors.accent}]}>
+        <Text style={styles.levelText}>🎯 {level}</Text>
+      </View>
+
       {currentProblem && (
         <View style={styles.problemContainer}>
           <Text style={[styles.problem, {color: colors.text}]}>
@@ -64,8 +70,8 @@ export function SubtractionMode({
       {!hasSubmitted && (
         <Pressable
           onPress={onSubmit}
-          style={[styles.submitButton, {backgroundColor: colors.accentButton}]}>
-          <Text style={styles.buttonText}>🎯 {t('game.submit')}</Text>
+          style={[styles.submitButton, {backgroundColor: '#16A34A'}]}>
+          <Text style={styles.submitButtonText}>✅</Text>
         </Pressable>
       )}
 
@@ -105,8 +111,8 @@ export function SubtractionMode({
 
       <Pressable
         onPress={onReset}
-        style={[styles.button, {backgroundColor: colors.primaryButton}]}>
-        <Text style={styles.buttonText}>🔄 {t('game.newProblem')}</Text>
+        style={[styles.resetButton, {backgroundColor: colors.primaryButton}]}>
+        <Text style={styles.resetButtonText}>🔄</Text>
       </Pressable>
     </View>
   );
@@ -117,8 +123,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
   },
+  levelBadge: {
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 20,
+    elevation: 2,
+  },
+  levelText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '800',
+  },
   problemContainer: {
     alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 14,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,255,255,0.3)',
+    gap: 4,
   },
   problem: {
     fontSize: 24,
@@ -136,21 +160,28 @@ const styles = StyleSheet.create({
     textShadowRadius: 3,
   },
   submitButton: {
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 12,
-    elevation: 3,
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 4,
   },
-  button: {
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 12,
-    elevation: 3,
+  submitButtonText: {
+    fontSize: 36,
   },
-  buttonText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-    fontSize: 14,
+  resetButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 2,
+    opacity: 0.7,
+    marginTop: 16,
+  },
+  resetButtonText: {
+    fontSize: 20,
   },
   feedbackContainer: {
     alignItems: 'center',

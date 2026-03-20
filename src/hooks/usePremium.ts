@@ -14,10 +14,12 @@ const freshDailyUsage = (): DailyUsage => ({
 
 export function usePremium() {
   const [isPremium, setIsPremium] = useState(false);
+  const [purchaseDate, setPurchaseDate] = useState<string | undefined>();
   const [dailyUsage, setDailyUsage] = useState<DailyUsage>(freshDailyUsage());
 
   const loadPremiumData = useCallback((data: PremiumData) => {
     setIsPremium(data.isPremium);
+    setPurchaseDate(data.purchaseDate);
     // Reset counts if stored date is not today
     if (data.dailyUsage?.date === getToday()) {
       setDailyUsage(data.dailyUsage);
@@ -79,14 +81,16 @@ export function usePremium() {
 
   const upgradeToPremium = useCallback(() => {
     setIsPremium(true);
+    setPurchaseDate(new Date().toISOString());
   }, []);
 
   const getPremiumData = useCallback(
     (): PremiumData => ({
       isPremium,
+      purchaseDate,
       dailyUsage,
     }),
-    [isPremium, dailyUsage],
+    [isPremium, purchaseDate, dailyUsage],
   );
 
   return {

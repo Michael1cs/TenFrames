@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback, useState} from 'react';
+import React, {useEffect, useCallback, useState, useRef} from 'react';
 import {View, Text, StyleSheet, StatusBar, Pressable, ScrollView, ImageBackground} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useTranslation} from 'react-i18next';
@@ -27,6 +27,8 @@ import {UpgradeScreen} from '../premium/UpgradeScreen';
 import {PlayerSetup} from '../onboarding/PlayerSetup';
 import {AboutTenFrames} from '../info/AboutTenFrames';
 import {usePremium} from '../../hooks/usePremium';
+import {useSound} from '../../hooks/useSound';
+import {useIAPConnection} from '../../hooks/useIAP';
 import {FREE_DAILY_LIMIT} from '../../config/limits';
 import {Language, GameMode} from '../../types/game';
 import i18n from '../../i18n';
@@ -44,6 +46,15 @@ export function GameShell() {
   const {isLandscape, isTablet, fontScale} = useLayout();
   const rewardSystem = useRewards();
   const premium = usePremium();
+  const {play: playSound} = useSound();
+
+  const handleIAPSuccess = useCallback(() => {
+    premium.upgradeToPremium();
+    setShowUpgrade(false);
+    setShowDailyLimit(false);
+  }, [premium]);
+
+  const iap = useIAPConnection(handleIAPSuccess);
 
   // UI state for reward screens
   const [showStickerBook, setShowStickerBook] = useState(false);
@@ -96,11 +107,15 @@ export function GameShell() {
   const prevIsCorrect = React.useRef<boolean | null>(null);
   useEffect(() => {
     if (game.isCorrect === true && prevIsCorrect.current !== true) {
+      playSound('correct');
       const wasFirstTry = game.streak > 0;
       const stars = rewardSystem.awardStars(game.gameMode, wasFirstTry);
       setLastStarsAwarded(stars);
       setShowStarsDisplay(true);
-      setTimeout(() => setShowStarsDisplay(false), 3000);
+      setTimeout(() => {
+        setShowStarsDisplay(false);
+        playSound('star');
+      }, 3000);
       const updatedUsage = premium.recordExercise(game.gameMode);
       if (!premium.isPremium && premium.isModeLimited(game.gameMode)) {
         const used = updatedUsage.counts[game.gameMode] || 0;
@@ -108,9 +123,22 @@ export function GameShell() {
           setTimeout(() => setShowDailyLimit(true), 2500);
         }
       }
+    } else if (game.isCorrect === false && prevIsCorrect.current !== false) {
+      playSound('wrong');
     }
     prevIsCorrect.current = game.isCorrect;
   }, [game.isCorrect]);
+
+  // Sound on level-up
+  const prevAddLevel = useRef(game.additionLevel);
+  const prevSubLevel = useRef(game.subtractionLevel);
+  useEffect(() => {
+    if (game.additionLevel > prevAddLevel.current || game.subtractionLevel > prevSubLevel.current) {
+      playSound('levelup');
+    }
+    prevAddLevel.current = game.additionLevel;
+    prevSubLevel.current = game.subtractionLevel;
+  }, [game.additionLevel, game.subtractionLevel]);
 
   const handleLanguageChange = useCallback(
     (lang: Language) => {
@@ -119,6 +147,14 @@ export function GameShell() {
       savePlayerData({language: lang});
     },
     [game, savePlayerData],
+  );
+
+  const handleCellClick = useCallback(
+    (index: number) => {
+      playSound('tap');
+      game.handleCellClick(index);
+    },
+    [game, playSound],
   );
 
   const handleModeChange = useCallback(
@@ -133,10 +169,8 @@ export function GameShell() {
   );
 
   const handleUpgrade = useCallback(() => {
-    premium.upgradeToPremium();
-    setShowUpgrade(false);
-    setShowDailyLimit(false);
-  }, [premium]);
+    iap.requestPurchase();
+  }, [iap]);
 
   const handleSetupComplete = useCallback(() => {
     game.setShowSetup(false);
@@ -163,7 +197,7 @@ export function GameShell() {
         return (
           <CountingMode
             cells={game.cells}
-            onCellClick={game.handleCellClick}
+            onCellClick={handleCellClick}
             onReset={game.resetGame}
             filledCount={game.filledCount}
             colors={colors}
@@ -175,7 +209,7 @@ export function GameShell() {
         return (
           <AdditionMode
             cells={game.cells}
-            onCellClick={game.handleCellClick}
+            onCellClick={handleCellClick}
             onSubmit={game.handleSubmit}
             onReset={game.resetGame}
             currentProblem={game.currentProblem}
@@ -186,13 +220,14 @@ export function GameShell() {
             colors={colors}
             emoji={themeConfig.emoji}
             tokenImage={themeConfig.tokenImage}
+            level={game.additionLevel}
           />
         );
       case 'subtraction':
         return (
           <SubtractionMode
             cells={game.cells}
-            onCellClick={game.handleCellClick}
+            onCellClick={handleCellClick}
             onSubmit={game.handleSubmit}
             onReset={game.resetGame}
             currentProblem={game.currentProblem}
@@ -203,13 +238,14 @@ export function GameShell() {
             colors={colors}
             emoji={themeConfig.emoji}
             tokenImage={themeConfig.tokenImage}
+            level={game.subtractionLevel}
           />
         );
       case 'puzzle':
         return (
           <PuzzleMode
             cells={game.cells}
-            onCellClick={game.handleCellClick}
+            onCellClick={handleCellClick}
             onSubmit={game.handlePuzzleSubmit}
             onNewPuzzle={game.newPuzzle}
             puzzleAnswer={game.puzzleAnswer}
@@ -371,6 +407,12 @@ export function GameShell() {
           colors={colors}
           onClose={() => setShowUpgrade(false)}
           onPurchase={handleUpgrade}
+          onRestore={iap.restorePurchases}
+          product={iap.product}
+          purchasing={iap.purchasing}
+          restoring={iap.restoring}
+          error={iap.error}
+          onClearError={iap.clearError}
         />
 
         <AboutTenFrames

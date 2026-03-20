@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, Pressable, ScrollView, Modal} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
 
@@ -12,25 +12,27 @@ interface AboutTenFramesProps {
 export function AboutTenFrames({visible, colors, onClose}: AboutTenFramesProps) {
   const {t} = useTranslation();
 
-  if (!visible) return null;
-
   return (
-    <View style={styles.overlay}>
-      <Pressable style={styles.backdrop} onPress={onClose} />
-      <View style={[styles.modal, {backgroundColor: colors.backgroundFrom}]}>
-        <View style={styles.header}>
-          <Text style={[styles.title, {color: colors.accent}]}>
-            {t('info.title')}
-          </Text>
-          <Pressable onPress={onClose} style={styles.closeBtn}>
-            <Text style={styles.closeText}>✕</Text>
-          </Pressable>
-        </View>
+    <Modal
+      visible={visible}
+      transparent
+      animationType="slide"
+      onRequestClose={onClose}>
+      <View style={styles.overlay}>
+        <View style={[styles.modal, {backgroundColor: colors.backgroundFrom}]}>
+          <View style={styles.header}>
+            <Text style={[styles.title, {color: colors.accent}]}>
+              {t('info.title')}
+            </Text>
+            <Pressable onPress={onClose} style={styles.closeBtn}>
+              <Text style={styles.closeText}>✕</Text>
+            </Pressable>
+          </View>
 
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}>
+          <ScrollView
+            style={styles.scrollView}
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}>
           {/* Ten Frame illustration */}
           <View style={styles.illustration}>
             <View style={styles.miniGrid}>
@@ -69,6 +71,56 @@ export function AboutTenFrames({visible, colors, onClose}: AboutTenFramesProps) 
             </Text>
           </View>
 
+          {/* How do they help? */}
+          <View style={styles.section}>
+            <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+              🧒 {t('info.howHelp')}
+            </Text>
+            <Text style={[styles.sectionText, {color: colors.text}]}>
+              {t('info.howHelpDesc')}
+            </Text>
+          </View>
+
+          {/* Counting */}
+          <View style={styles.section}>
+            <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+              🔢 {t('info.counting')}
+            </Text>
+            <Text style={[styles.sectionText, {color: colors.text}]}>
+              {t('info.countingDesc')}
+            </Text>
+          </View>
+
+          {/* Addition */}
+          <View style={styles.section}>
+            <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+              ➕ {t('info.addition')}
+            </Text>
+            <Text style={[styles.sectionText, {color: colors.text}]}>
+              {t('info.additionDesc')}
+            </Text>
+          </View>
+
+          {/* Subtraction */}
+          <View style={styles.section}>
+            <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+              ➖ {t('info.subtraction')}
+            </Text>
+            <Text style={[styles.sectionText, {color: colors.text}]}>
+              {t('info.subtractionDesc')}
+            </Text>
+          </View>
+
+          {/* Number Bonds */}
+          <View style={styles.section}>
+            <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+              🧩 {t('info.bonds')}
+            </Text>
+            <Text style={[styles.sectionText, {color: colors.text}]}>
+              {t('info.bondsDesc')}
+            </Text>
+          </View>
+
           {/* Benefits */}
           <View style={styles.section}>
             <Text style={[styles.sectionTitle, {color: colors.accent}]}>
@@ -78,22 +130,40 @@ export function AboutTenFrames({visible, colors, onClose}: AboutTenFramesProps) 
               {t('info.benefitsDesc')}
             </Text>
           </View>
-        </ScrollView>
+
+          {/* Tips for Parents */}
+          <View style={styles.section}>
+            <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+              👨‍👩‍👧 {t('info.tipsParents')}
+            </Text>
+            <Text style={[styles.sectionText, {color: colors.text}]}>
+              {t('info.tipsParentsDesc')}
+            </Text>
+          </View>
+
+          {/* Research Background */}
+          <View style={styles.section}>
+            <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+              📚 {t('info.research')}
+            </Text>
+            <Text style={[styles.sectionText, {color: colors.text}]}>
+              {t('info.researchDesc')}
+            </Text>
+          </View>
+          </ScrollView>
+        </View>
       </View>
-    </View>
+    </Modal>
   );
 }
 
 const styles = StyleSheet.create({
   overlay: {
-    ...StyleSheet.absoluteFillObject,
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.7)',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 80,
-  },
-  backdrop: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    padding: 20,
   },
   modal: {
     width: '90%',

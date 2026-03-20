@@ -55,7 +55,9 @@ export function ModeSelector({
                   opacity: isExhausted ? 0.5 : 1,
                 },
               ]}>
-              <Text style={[styles.emojiVertical, mode.emojiColor ? {color: mode.emojiColor, fontWeight: 'bold'} : undefined]}>{mode.emoji}</Text>
+              <View style={styles.emojiVerticalContainer}>
+                <Text style={[styles.emojiVertical, mode.emojiColor ? {color: mode.emojiColor, fontWeight: 'bold', fontSize: 20} : undefined]}>{mode.emoji}</Text>
+              </View>
               <Text
                 style={[
                   styles.labelVertical,
@@ -73,7 +75,7 @@ export function ModeSelector({
                     styles.remainingVertical,
                     {color: remaining <= 0 ? '#EF4444' : '#F59E0B'},
                   ]}>
-                  {remaining <= 0 ? '0' : remaining}
+                  {remaining}/5
                 </Text>
               )}
             </Pressable>
@@ -110,7 +112,9 @@ export function ModeSelector({
                   borderColor: colors.accent,
                 },
               ]}>
-              <Text style={[styles.bottomEmoji, mode.emojiColor ? {color: mode.emojiColor, fontWeight: 'bold'} : undefined]}>{mode.emoji}</Text>
+              <View style={styles.bottomEmojiContainer}>
+                <Text style={[styles.bottomEmoji, mode.emojiColor ? {color: mode.emojiColor, fontWeight: 'bold', fontSize: 26} : undefined]}>{mode.emoji}</Text>
+              </View>
               <Text
                 style={[
                   styles.bottomLabel,
@@ -128,7 +132,7 @@ export function ModeSelector({
                     styles.remainingBottom,
                     {color: remaining <= 0 ? '#EF4444' : '#F59E0B'},
                   ]}>
-                  {remaining <= 0 ? '0' : remaining}
+                  {remaining}/5
                 </Text>
               )}
             </View>
@@ -167,8 +171,14 @@ const styles = StyleSheet.create({
     width: '100%',
     minHeight: 64,
   },
+  bottomEmojiContainer: {
+    width: 30,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   bottomEmoji: {
-    fontSize: 24,
+    fontSize: 22,
   },
   bottomLabel: {
     fontSize: 12,
@@ -195,6 +205,12 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 12,
     borderWidth: 1.5,
+  },
+  emojiVerticalContainer: {
+    width: 22,
+    height: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   emojiVertical: {
     fontSize: 18,

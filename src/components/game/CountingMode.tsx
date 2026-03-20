@@ -28,9 +28,11 @@ export function CountingMode({
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.semiTitle, {color: colors.accent}]}>
-        Ten Frames
-      </Text>
+      <View style={styles.titleCard}>
+        <Text style={[styles.semiTitle, {color: colors.accent}]}>
+          Ten Frames
+        </Text>
+      </View>
 
       <TenFrame
         cells={cells}
@@ -48,8 +50,8 @@ export function CountingMode({
 
       <Pressable
         onPress={onReset}
-        style={[styles.button, {backgroundColor: colors.primaryButton}]}>
-        <Text style={styles.buttonText}>🔄 {t('game.reset')}</Text>
+        style={[styles.iconButton, {backgroundColor: colors.primaryButton}]}>
+        <Text style={styles.iconButtonText}>🔄</Text>
       </Pressable>
     </View>
   );
@@ -59,6 +61,15 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     gap: 10,
+  },
+  titleCard: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 14,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,255,255,0.3)',
+    alignItems: 'center',
   },
   semiTitle: {
     fontSize: 22,
@@ -76,15 +87,15 @@ const styles = StyleSheet.create({
     textShadowOffset: {width: 0, height: 1},
     textShadowRadius: 3,
   },
-  button: {
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 12,
+  iconButton: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
     elevation: 3,
   },
-  buttonText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-    fontSize: 14,
+  iconButtonText: {
+    fontSize: 28,
   },
 });
