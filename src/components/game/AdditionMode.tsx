@@ -41,7 +41,7 @@ export function AdditionMode({
   return (
     <View style={styles.container}>
       <View style={[styles.levelBadge, {backgroundColor: colors.accent}]}>
-        <Text style={styles.levelText}>🎯 {level}</Text>
+        <Text style={styles.levelText}>⭐ Level {level} ⭐</Text>
       </View>
 
       {currentProblem && (

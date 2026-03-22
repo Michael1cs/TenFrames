@@ -1,12 +1,15 @@
-import {useCallback, useState} from 'react';
-
-// Placeholder IAP hook — real Google Play Billing will be added in a future update.
-// The premium system works locally (upgradeToPremium sets the flag).
-// When react-native-iap is properly integrated, this hook will connect to the store.
+import {useEffect, useCallback, useState} from 'react';
+import {
+  useIAP as useIAPHook,
+  withIAPContext,
+  type Product,
+  type Purchase,
+} from 'react-native-iap';
+import {PREMIUM_PRODUCT_ID} from '../config/iap';
 
 export interface IAPState {
   connected: boolean;
-  product: null;
+  product: Product | null;
   purchasing: boolean;
   restoring: boolean;
   error: string | null;
@@ -19,35 +22,105 @@ export function useIAPConnection(
   onPurchaseSuccess: () => void,
 ): IAPState {
   const [purchasing, setPurchasing] = useState(false);
+  const [restoring, setRestoring] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Placeholder: directly triggers premium unlock (no real payment)
+  const {
+    connected,
+    products,
+    getProducts,
+    currentPurchase,
+    currentPurchaseError,
+    finishTransaction,
+    requestPurchase: iapRequestPurchase,
+    getAvailablePurchases,
+    availablePurchases,
+  } = useIAPHook({
+    onPurchaseSuccess: async (purchase: Purchase) => {
+      // Acknowledge/finish the transaction
+      if (purchase.productId === PREMIUM_PRODUCT_ID) {
+        await finishTransaction({purchase, isConsumable: false});
+        setPurchasing(false);
+        onPurchaseSuccess();
+      }
+    },
+    onPurchaseError: (err) => {
+      setPurchasing(false);
+      if (err.code === 'E_USER_CANCELLED') {
+        return;
+      }
+      setError(err.message || 'Purchase failed');
+    },
+  });
+
+  // Fetch products when connected
+  useEffect(() => {
+    if (connected) {
+      getProducts({skus: [PREMIUM_PRODUCT_ID]});
+    }
+  }, [connected, getProducts]);
+
+  const product = products.find(
+    p => p.productId === PREMIUM_PRODUCT_ID,
+  ) || null;
+
   const requestPurchase = useCallback(async () => {
+    if (!connected) {
+      setError('Store not connected');
+      return;
+    }
     setPurchasing(true);
     setError(null);
-    // Simulate purchase success
-    setTimeout(() => {
+    try {
+      await iapRequestPurchase({sku: PREMIUM_PRODUCT_ID});
+    } catch (err: any) {
       setPurchasing(false);
-      onPurchaseSuccess();
-    }, 500);
-  }, [onPurchaseSuccess]);
+      if (err?.code !== 'E_USER_CANCELLED') {
+        setError(err?.message || 'Purchase failed');
+      }
+    }
+  }, [connected, iapRequestPurchase]);
 
   const restorePurchases = useCallback(async () => {
-    setError('no_previous_purchase');
-  }, []);
+    if (!connected) {
+      setError('Store not connected');
+      return;
+    }
+    setRestoring(true);
+    setError(null);
+    try {
+      await getAvailablePurchases();
+      // Check after fetching
+      const hasPremium = availablePurchases.some(
+        p => p.productId === PREMIUM_PRODUCT_ID,
+      );
+      if (hasPremium) {
+        onPurchaseSuccess();
+      } else {
+        setError('no_previous_purchase');
+      }
+    } catch (err: any) {
+      setError(err?.message || 'Restore failed');
+    } finally {
+      setRestoring(false);
+    }
+  }, [connected, getAvailablePurchases, availablePurchases, onPurchaseSuccess]);
 
   const clearError = useCallback(() => {
     setError(null);
   }, []);
 
   return {
-    connected: true,
-    product: null,
+    connected,
+    product,
     purchasing,
-    restoring: false,
+    restoring,
     error,
     requestPurchase,
     restorePurchases,
     clearError,
   };
 }
+
+// Re-export withIAPContext for wrapping the root component
+export {withIAPContext};

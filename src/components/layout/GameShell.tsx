@@ -28,12 +28,12 @@ import {PlayerSetup} from '../onboarding/PlayerSetup';
 import {AboutTenFrames} from '../info/AboutTenFrames';
 import {usePremium} from '../../hooks/usePremium';
 import {useSound} from '../../hooks/useSound';
-import {useIAPConnection} from '../../hooks/useIAP';
+import {useIAPConnection, withIAPContext} from '../../hooks/useIAP';
 import {FREE_DAILY_LIMIT} from '../../config/limits';
 import {Language, GameMode} from '../../types/game';
 import i18n from '../../i18n';
 
-export function GameShell() {
+function GameShellInner() {
   const {t} = useTranslation();
   const game = useGameState();
   const themeConfig = useTheme(game.theme);
@@ -310,14 +310,23 @@ export function GameShell() {
           </Text>
         </Pressable>
       </View>
-      <Pressable
-        onPress={() => {
-          game.setIsThemeChange(true);
-          game.setShowSetup(true);
-        }}
-        style={[styles.themeButton, {backgroundColor: colors.accentButton}]}>
-        <Text style={styles.themeButtonText}>🎨 {t('game.changeTheme')}</Text>
-      </Pressable>
+      <View style={styles.statsRight}>
+        {!premium.isPremium && (
+          <Pressable
+            onPress={() => setShowUpgrade(true)}
+            style={styles.premiumButton}>
+            <Text style={styles.premiumButtonText}>👑</Text>
+          </Pressable>
+        )}
+        <Pressable
+          onPress={() => {
+            game.setIsThemeChange(true);
+            game.setShowSetup(true);
+          }}
+          style={[styles.themeButton, {backgroundColor: colors.accentButton}]}>
+          <Text style={styles.themeButtonText}>🎨 {t('game.changeTheme')}</Text>
+        </Pressable>
+      </View>
     </View>
   );
 
@@ -559,11 +568,26 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#FFFFFF',
   },
+  statsRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  premiumButton: {
+    backgroundColor: 'rgba(245,158,11,0.3)',
+    borderWidth: 1.5,
+    borderColor: '#F59E0B',
+    borderRadius: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+  },
+  premiumButtonText: {
+    fontSize: 16,
+  },
   themeButton: {
     borderRadius: 16,
     paddingHorizontal: 14,
     paddingVertical: 8,
-    marginLeft: 6,
   },
   themeButtonText: {
     color: '#FFFFFF',
@@ -609,3 +633,5 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
 });
+
+export const GameShell = withIAPContext(GameShellInner);

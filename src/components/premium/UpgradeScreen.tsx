@@ -10,10 +10,7 @@ import {
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
-// Product type placeholder — will use react-native-iap Product when billing is integrated
-interface Product {
-  localizedPrice: string;
-}
+import type {Product} from 'react-native-iap';
 
 interface UpgradeScreenProps {
   visible: boolean;
