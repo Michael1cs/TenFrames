@@ -2,6 +2,7 @@ import {useEffect, useCallback, useState} from 'react';
 import {
   useIAP as useIAPHook,
   withIAPContext,
+  getAvailablePurchases as iapGetAvailablePurchases,
   type Product,
   type Purchase,
 } from 'react-native-iap';
@@ -89,10 +90,9 @@ export function useIAPConnection(
     setRestoring(true);
     setError(null);
     try {
-      await getAvailablePurchases();
-      // Check after fetching
-      const hasPremium = availablePurchases.some(
-        p => p.productId === PREMIUM_PRODUCT_ID,
+      const purchases = await iapGetAvailablePurchases();
+      const hasPremium = purchases.some(
+        (p: Purchase) => p.productId === PREMIUM_PRODUCT_ID,
       );
       if (hasPremium) {
         onPurchaseSuccess();
@@ -104,7 +104,7 @@ export function useIAPConnection(
     } finally {
       setRestoring(false);
     }
-  }, [connected, getAvailablePurchases, availablePurchases, onPurchaseSuccess]);
+  }, [connected, onPurchaseSuccess]);
 
   const clearError = useCallback(() => {
     setError(null);
