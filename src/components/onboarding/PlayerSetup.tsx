@@ -58,6 +58,9 @@ export function PlayerSetup({
       <View style={styles.overlay}>
         <View style={styles.card}>
           <ScrollView showsVerticalScrollIndicator={false}>
+            {!isThemeChange && (
+              <Text style={styles.titleMain}>Ten Frames</Text>
+            )}
             <Text style={styles.title}>
               {isThemeChange ? (
                 <><Emoji>🎨</Emoji>{` ${t('setup.changeTheme')}`}</>
@@ -164,8 +167,15 @@ const styles = StyleSheet.create({
     maxHeight: '85%',
     elevation: 10,
   },
+  titleMain: {
+    fontSize: 28,
+    fontWeight: '800',
+    textAlign: 'center',
+    color: '#4F46E5',
+    marginBottom: 4,
+  },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,

@@ -6,8 +6,13 @@ export function useLayout() {
   const isTablet = Math.min(width, height) >= 600;
 
   // Cell size adapts to available space
-  const gridWidth = isLandscape ? Math.min(width * 0.45, 500) : width - 60;
-  const cellSize = Math.min((gridWidth - 60) / 5, isTablet ? 80 : 64);
+  const maxGridWidth = isLandscape
+    ? Math.min(width * 0.45, 500)
+    : isTablet
+    ? Math.min(width - 60, 700)
+    : width - 60;
+  const gridWidth = maxGridWidth;
+  const cellSize = Math.min((gridWidth - 60) / 5, isTablet ? 120 : 64);
 
   return {
     width,
@@ -17,6 +22,6 @@ export function useLayout() {
     cellSize,
     gridWidth,
     // Font scale for tablets
-    fontScale: isTablet ? 1.3 : 1,
+    fontScale: isTablet ? 1.4 : 1,
   };
 }
