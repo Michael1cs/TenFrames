@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, Pressable, StyleSheet, Modal} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
+import {Emoji} from '../common/Emoji';
 
 interface DailyLimitModalProps {
   visible: boolean;
@@ -26,7 +27,7 @@ export function DailyLimitModal({
       onRequestClose={onDismiss}>
       <View style={styles.overlay}>
         <View style={[styles.card, {borderColor: colors.accent}]}>
-          <Text style={styles.emoji}>🌟</Text>
+          <Text style={styles.emoji}><Emoji>🌟</Emoji></Text>
           <Text style={[styles.title, {color: colors.text}]}>
             {t('premium.dailyLimitTitle')}
           </Text>
@@ -38,7 +39,7 @@ export function DailyLimitModal({
             onPress={onUpgrade}
             style={[styles.upgradeButton, {backgroundColor: colors.primaryButton}]}>
             <Text style={styles.upgradeButtonText}>
-              {t('premium.unlockAll')} ✨
+              {t('premium.unlockAll')} <Emoji>✨</Emoji>
             </Text>
           </Pressable>
 

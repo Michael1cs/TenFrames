@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {Emoji} from '../common/Emoji';
 import Animated, {
   useAnimatedStyle,
   withSpring,
@@ -48,7 +49,7 @@ export function NumberDisplay({number, colors, emoji}: NumberDisplayProps) {
         ]}>
         {number}
       </Text>
-      <Text style={styles.emoji}>{emoji}</Text>
+      <Text style={styles.emoji}><Emoji>{emoji}</Emoji></Text>
     </Animated.View>
   );
 }

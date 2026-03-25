@@ -1,5 +1,6 @@
 import React, {useEffect, useMemo} from 'react';
 import {View, Text, StyleSheet, useWindowDimensions} from 'react-native';
+import {Emoji} from '../common/Emoji';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -102,8 +103,8 @@ export function CorrectAnimation({visible}: CorrectAnimationProps) {
         <ConfettiPiece key={i} index={i} />
       ))}
       <Animated.View style={[styles.emojiContainer, emojiStyle]}>
-        <Text style={styles.emoji}>🎉</Text>
-        <Text style={styles.text}>🌟</Text>
+        <Text style={styles.emoji}><Emoji>🎉</Emoji></Text>
+        <Text style={styles.text}><Emoji>🌟</Emoji></Text>
       </Animated.View>
     </View>
   );

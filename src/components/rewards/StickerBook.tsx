@@ -10,6 +10,7 @@ import {
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
 import {ALL_STICKERS} from '../../utils/rewardData';
+import {Emoji} from '../common/Emoji';
 
 interface StickerBookProps {
   visible: boolean;
@@ -66,7 +67,7 @@ export function StickerBook({
             return (
               <View key={cat.id} style={styles.categorySection}>
                 <Text style={[styles.categoryTitle, {color: colors.text}]}>
-                  {cat.emoji} {t(`stickerCategories.${cat.id}`)}
+                  <Emoji>{cat.emoji}</Emoji> {t(`stickerCategories.${cat.id}`)}
                 </Text>
                 <View style={styles.stickerGrid}>
                   {stickers.map(sticker => {
@@ -85,11 +86,11 @@ export function StickerBook({
                             styles.stickerEmoji,
                             !isUnlocked && styles.stickerLockedEmoji,
                           ]}>
-                          {isUnlocked ? sticker.emoji : '❓'}
+                          <Emoji>{isUnlocked ? sticker.emoji : '❓'}</Emoji>
                         </Text>
                         {!isUnlocked && (
                           <Text style={styles.requirementText}>
-                            ⭐ {sticker.requirement}
+                            <Emoji>⭐</Emoji> {sticker.requirement}
                           </Text>
                         )}
                       </View>
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
   modal: {
     width: '90%',
     maxWidth: 400,
-    maxHeight: '85%',
+    height: '80%',
     borderRadius: 20,
     padding: 16,
     elevation: 10,

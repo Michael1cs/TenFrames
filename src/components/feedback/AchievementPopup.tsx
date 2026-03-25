@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {Text, StyleSheet} from 'react-native';
+import {Emoji} from '../common/Emoji';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -45,7 +46,7 @@ export function AchievementPopup({
 
   return (
     <Animated.View style={[styles.container, animStyle]}>
-      <Text style={styles.emoji}>{achievement.emoji}</Text>
+      <Text style={styles.emoji}><Emoji>{achievement.emoji}</Emoji></Text>
       <Text style={styles.label}>{t(achievement.nameKey)}</Text>
       <Text style={styles.desc}>{t(achievement.descKey)}</Text>
     </Animated.View>

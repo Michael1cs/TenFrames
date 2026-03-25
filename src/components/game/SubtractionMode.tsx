@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, Pressable, ImageSourcePropType} from 'react-nati
 import {useTranslation} from 'react-i18next';
 import {TenFrame} from './TenFrame';
 import {NumberDisplay} from './NumberDisplay';
+import {Emoji} from '../common/Emoji';
 import {CellState, Problem, ThemeColors} from '../../types/game';
 
 interface SubtractionModeProps {
@@ -41,16 +42,16 @@ export function SubtractionMode({
   return (
     <View style={styles.container}>
       <View style={[styles.levelBadge, {backgroundColor: colors.accent}]}>
-        <Text style={styles.levelText}>⭐ Level {level} ⭐</Text>
+        <Text style={styles.levelText}><Emoji>⭐</Emoji> Level {level} <Emoji>⭐</Emoji></Text>
       </View>
 
       {currentProblem && (
         <View style={styles.problemContainer}>
-          <Text style={[styles.problem, {color: colors.text}]}>
+          <Text style={[styles.problem, {color: '#FFFFFF'}]}>
             {currentProblem.num1} - {currentProblem.num2} = ?
           </Text>
           <Text style={[styles.hint, {color: '#FFFFFF'}]}>
-            {t('game.subtractionHint')} 👆
+            {t('game.subtractionHint')} <Emoji>👆</Emoji>
           </Text>
         </View>
       )}
@@ -71,7 +72,7 @@ export function SubtractionMode({
         <Pressable
           onPress={onSubmit}
           style={[styles.submitButton, {backgroundColor: '#16A34A'}]}>
-          <Text style={styles.submitButtonText}>✅</Text>
+          <Text style={styles.submitButtonText}><Emoji>✅</Emoji></Text>
         </Pressable>
       )}
 
@@ -88,7 +89,7 @@ export function SubtractionMode({
             },
           ]}>
           <Text style={styles.feedbackEmoji}>
-            {isCorrect === true ? '✅' : '💡'}
+            <Emoji>{isCorrect === true ? '✅' : '💡'}</Emoji>
           </Text>
           <Text
             style={[
@@ -112,7 +113,7 @@ export function SubtractionMode({
       <Pressable
         onPress={onReset}
         style={[styles.resetButton, {backgroundColor: colors.primaryButton}]}>
-        <Text style={styles.resetButtonText}>🔄</Text>
+        <Text style={styles.resetButtonText}><Emoji>🔄</Emoji></Text>
       </Pressable>
     </View>
   );
@@ -136,12 +137,12 @@ const styles = StyleSheet.create({
   },
   problemContainer: {
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: 'rgba(0,0,0,0.5)',
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 14,
     borderWidth: 1.5,
-    borderColor: 'rgba(255,255,255,0.3)',
+    borderColor: 'rgba(255,255,255,0.4)',
     gap: 4,
   },
   problem: {

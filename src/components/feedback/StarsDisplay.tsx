@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {Emoji} from '../common/Emoji';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -45,13 +46,13 @@ export function StarsDisplay({stars, visible}: StarsDisplayProps) {
   return (
     <View style={styles.container}>
       <Animated.Text style={[styles.star, style1]}>
-        {stars >= 1 ? '⭐' : '☆'}
+        {stars >= 1 ? <Emoji>⭐</Emoji> : '☆'}
       </Animated.Text>
       <Animated.Text style={[styles.starBig, style2]}>
-        {stars >= 2 ? '⭐' : '☆'}
+        {stars >= 2 ? <Emoji>⭐</Emoji> : '☆'}
       </Animated.Text>
       <Animated.Text style={[styles.star, style3]}>
-        {stars >= 3 ? '⭐' : '☆'}
+        {stars >= 3 ? <Emoji>⭐</Emoji> : '☆'}
       </Animated.Text>
     </View>
   );

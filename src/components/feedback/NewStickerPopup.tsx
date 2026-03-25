@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {Emoji} from '../common/Emoji';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -49,7 +50,7 @@ export function NewStickerPopup({stickerIds, visible}: NewStickerPopupProps) {
         {stickers.map(s =>
           s ? (
             <Text key={s.id} style={styles.emoji}>
-              {s.emoji}
+              <Emoji>{s.emoji}</Emoji>
             </Text>
           ) : null,
         )}

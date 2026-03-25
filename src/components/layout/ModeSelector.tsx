@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, Pressable, StyleSheet} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {GameMode, ThemeColors} from '../../types/game';
+import {Emoji} from '../common/Emoji';
 
 interface ModeSelectorProps {
   activeMode: GameMode;
@@ -56,7 +57,7 @@ export function ModeSelector({
                 },
               ]}>
               <View style={styles.emojiVerticalContainer}>
-                <Text style={[styles.emojiVertical, mode.emojiColor ? {color: mode.emojiColor, fontWeight: 'bold', fontSize: 20} : undefined]}>{mode.emoji}</Text>
+                <Text style={[styles.emojiVertical, mode.emojiColor ? {color: mode.emojiColor, fontWeight: 'bold', fontSize: 20} : undefined]}><Emoji>{mode.emoji}</Emoji></Text>
               </View>
               <Text
                 style={[
@@ -113,7 +114,7 @@ export function ModeSelector({
                 },
               ]}>
               <View style={styles.bottomEmojiContainer}>
-                <Text style={[styles.bottomEmoji, mode.emojiColor ? {color: mode.emojiColor, fontWeight: 'bold', fontSize: 26} : undefined]}>{mode.emoji}</Text>
+                <Text style={[styles.bottomEmoji, mode.emojiColor ? {color: mode.emojiColor, fontWeight: 'bold', fontSize: 26} : undefined]}><Emoji>{mode.emoji}</Emoji></Text>
               </View>
               <Text
                 style={[
@@ -126,7 +127,7 @@ export function ModeSelector({
                 numberOfLines={1}>
                 {t(mode.key)}
               </Text>
-              {isLimited && remaining < Infinity && (
+              {isLimited && remaining < Infinity ? (
                 <Text
                   style={[
                     styles.remainingBottom,
@@ -134,6 +135,8 @@ export function ModeSelector({
                   ]}>
                   {remaining}/5
                 </Text>
+              ) : (
+                <Text style={styles.remainingPlaceholder}>{' '}</Text>
               )}
             </View>
           </Pressable>
@@ -181,7 +184,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   bottomLabel: {
-    fontSize: 12,
+    fontSize: 11,
     marginTop: 2,
     fontWeight: '600',
     textShadowColor: 'rgba(0,0,0,0.5)',
@@ -192,6 +195,11 @@ const styles = StyleSheet.create({
     fontSize: 9,
     fontWeight: '700',
     marginTop: 1,
+  },
+  remainingPlaceholder: {
+    fontSize: 9,
+    marginTop: 1,
+    color: 'transparent',
   },
   /* Vertical sidebar (landscape) */
   containerVertical: {

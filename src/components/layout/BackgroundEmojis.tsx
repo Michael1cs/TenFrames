@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, Text, StyleSheet, useWindowDimensions} from 'react-native';
+import {View, StyleSheet, useWindowDimensions} from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -9,6 +9,7 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated';
 import {BackgroundEmoji as BackgroundEmojiType} from '../../types/game';
+import {Emoji} from '../common/Emoji';
 
 interface FloatingEmojiProps {
   config: BackgroundEmojiType;
@@ -43,7 +44,7 @@ function FloatingEmoji({config}: FloatingEmojiProps) {
           top: (config.top / 100) * height,
         },
       ]}>
-      <Text style={{fontSize: config.size}}>{config.emoji}</Text>
+      <Emoji size={config.size}>{config.emoji}</Emoji>
     </Animated.View>
   );
 }

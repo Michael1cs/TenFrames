@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {Emoji} from '../common/Emoji';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -41,8 +42,8 @@ export function WrongAnimation({visible}: WrongAnimationProps) {
   return (
     <View style={styles.container} pointerEvents="none">
       <Animated.View style={[styles.content, animStyle]}>
-        <Text style={styles.emoji}>🤔</Text>
-        <Text style={styles.text}>💪</Text>
+        <Text style={styles.emoji}><Emoji>🤔</Emoji></Text>
+        <Text style={styles.text}><Emoji>💪</Emoji></Text>
       </Animated.View>
     </View>
   );

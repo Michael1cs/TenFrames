@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, Pressable, ImageSourcePropType} from 'react-nati
 import {useTranslation} from 'react-i18next';
 import {TenFrame} from './TenFrame';
 import {NumberDisplay} from './NumberDisplay';
+import {Emoji} from '../common/Emoji';
 import {CellState, ThemeColors} from '../../types/game';
 
 interface PuzzleModeProps {
@@ -35,11 +36,11 @@ export function PuzzleMode({
   return (
     <View style={styles.container}>
       <View style={styles.questionBox}>
-        <Text style={[styles.question, {color: colors.text}]}>
+        <Text style={[styles.question, {color: '#FFFFFF'}]}>
           {t('game.puzzleDesc', {number: puzzleAnswer})}
         </Text>
         <Text style={[styles.hint, {color: '#FFFFFF'}]}>
-          {t('game.puzzleHint')} 👆
+          {t('game.puzzleHint')} <Emoji>👆</Emoji>
         </Text>
       </View>
 
@@ -55,7 +56,7 @@ export function PuzzleMode({
 
       {showPuzzleAnswer && (
         <View style={styles.answerContainer}>
-          <Text style={styles.answerEmoji}>✅</Text>
+          <Text style={styles.answerEmoji}><Emoji>✅</Emoji></Text>
           <Text style={styles.answerText}>
             {t('feedback.correctAnswer', {answer: 10 - puzzleAnswer})}
           </Text>
@@ -65,13 +66,13 @@ export function PuzzleMode({
       <Pressable
         onPress={onSubmit}
         style={[styles.submitButton, {backgroundColor: '#16A34A'}]}>
-        <Text style={styles.submitButtonText}>✅</Text>
+        <Text style={styles.submitButtonText}><Emoji>✅</Emoji></Text>
       </Pressable>
 
       <Pressable
         onPress={onNewPuzzle}
         style={[styles.resetButton, {backgroundColor: '#7C3AED'}]}>
-        <Text style={styles.resetButtonText}>🔄</Text>
+        <Text style={styles.resetButtonText}><Emoji>🔄</Emoji></Text>
       </Pressable>
     </View>
   );
@@ -83,12 +84,12 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   questionBox: {
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: 'rgba(0,0,0,0.5)',
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 14,
     borderWidth: 1.5,
-    borderColor: 'rgba(255,255,255,0.3)',
+    borderColor: 'rgba(255,255,255,0.4)',
     alignItems: 'center',
     gap: 4,
   },

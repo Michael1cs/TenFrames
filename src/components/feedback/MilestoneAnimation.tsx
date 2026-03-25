@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {Emoji} from '../common/Emoji';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -63,12 +64,12 @@ export function MilestoneAnimation({
     <Animated.View style={[styles.overlay, containerStyle]}>
       <Pressable style={styles.backdrop} onPress={onDismiss} />
       <Animated.View style={[styles.card, cardStyle]}>
-        <Text style={styles.emoji}>{emoji}</Text>
+        <Text style={styles.emoji}><Emoji>{emoji}</Emoji></Text>
         <Text style={styles.title}>{t('milestones.congratulations')}</Text>
         <Text style={styles.desc}>
           {t('milestones.starsReached', {count: starsCount})}
         </Text>
-        <Text style={styles.sparkle}>🎉🎊🎉</Text>
+        <Text style={styles.sparkle}><Emoji>🎉🎊🎉</Emoji></Text>
         <Pressable style={styles.button} onPress={onDismiss}>
           <Text style={styles.buttonText}>{t('milestones.continue')}</Text>
         </Pressable>

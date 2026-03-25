@@ -1,6 +1,7 @@
 import React from 'react';
-import {Pressable, Text, StyleSheet, View} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
 import {Language} from '../../types/game';
+import {Emoji} from '../common/Emoji';
 
 interface LanguageSwitcherProps {
   language: Language;
@@ -19,7 +20,7 @@ export function LanguageSwitcher({
           styles.flag,
           language === 'ro' && styles.activeFlag,
         ]}>
-        <Text style={styles.flagText}>🇷🇴</Text>
+        <Emoji style={styles.flagText}>🇷🇴</Emoji>
       </Pressable>
       <Pressable
         onPress={() => onLanguageChange('en')}
@@ -27,7 +28,7 @@ export function LanguageSwitcher({
           styles.flag,
           language === 'en' && styles.activeFlag,
         ]}>
-        <Text style={styles.flagText}>🇬🇧</Text>
+        <Emoji style={styles.flagText}>🇬🇧</Emoji>
       </Pressable>
     </View>
   );

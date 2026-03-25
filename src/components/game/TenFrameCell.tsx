@@ -1,5 +1,6 @@
 import React from 'react';
 import {Pressable, Image, Text, StyleSheet, ImageSourcePropType} from 'react-native';
+import {Emoji} from '../common/Emoji';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -129,7 +130,7 @@ export function TenFrameCell({
             />
           ) : (
             <Text style={{fontSize: cellSize * 0.4}}>
-              {cellColors.emoji || emoji}
+              <Emoji>{cellColors.emoji || emoji}</Emoji>
             </Text>
           )}
         </Animated.View>

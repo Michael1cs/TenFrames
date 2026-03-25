@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Pressable, ScrollView, Modal} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
+import {Emoji} from '../common/Emoji';
 
 interface AboutTenFramesProps {
   visible: boolean;
@@ -26,7 +27,7 @@ export function AboutTenFrames({visible, colors, onClose}: AboutTenFramesProps) 
             {/* Header */}
             <View style={styles.header}>
               <Text style={[styles.title, {color: colors.accent}]}>
-                📐 {t('info.title')}
+                <Emoji>📐</Emoji> {t('info.title')}
               </Text>
               <Pressable onPress={onClose} style={styles.closeBtn}>
                 <Text style={styles.closeText}>✕</Text>
@@ -51,7 +52,7 @@ export function AboutTenFrames({visible, colors, onClose}: AboutTenFramesProps) 
                       },
                     ]}>
                     {filled ? (
-                      <Text style={styles.miniCellEmoji}>⭐</Text>
+                      <Text style={styles.miniCellEmoji}><Emoji>⭐</Emoji></Text>
                     ) : null}
                   </View>
                 ))}
@@ -64,7 +65,7 @@ export function AboutTenFrames({visible, colors, onClose}: AboutTenFramesProps) 
             {/* What are Ten Frames? */}
             <View style={styles.section}>
               <Text style={[styles.sectionTitle, {color: colors.accent}]}>
-                📐 {t('info.what')}
+                <Emoji>📐</Emoji> {t('info.what')}
               </Text>
               <Text style={[styles.sectionText, {color: colors.text}]}>
                 {t('info.whatDesc')}
@@ -74,7 +75,7 @@ export function AboutTenFrames({visible, colors, onClose}: AboutTenFramesProps) 
             {/* How do they help? */}
             <View style={styles.section}>
               <Text style={[styles.sectionTitle, {color: colors.accent}]}>
-                🧒 {t('info.howHelp')}
+                <Emoji>🧒</Emoji> {t('info.howHelp')}
               </Text>
               <Text style={[styles.sectionText, {color: colors.text}]}>
                 {t('info.howHelpDesc')}
@@ -84,7 +85,7 @@ export function AboutTenFrames({visible, colors, onClose}: AboutTenFramesProps) 
             {/* Counting */}
             <View style={styles.section}>
               <Text style={[styles.sectionTitle, {color: colors.accent}]}>
-                🔢 {t('info.counting')}
+                <Emoji>🔢</Emoji> {t('info.counting')}
               </Text>
               <Text style={[styles.sectionText, {color: colors.text}]}>
                 {t('info.countingDesc')}
@@ -94,7 +95,7 @@ export function AboutTenFrames({visible, colors, onClose}: AboutTenFramesProps) 
             {/* Addition */}
             <View style={styles.section}>
               <Text style={[styles.sectionTitle, {color: colors.accent}]}>
-                ➕ {t('info.addition')}
+                <Emoji>➕</Emoji> {t('info.addition')}
               </Text>
               <Text style={[styles.sectionText, {color: colors.text}]}>
                 {t('info.additionDesc')}
@@ -104,7 +105,7 @@ export function AboutTenFrames({visible, colors, onClose}: AboutTenFramesProps) 
             {/* Subtraction */}
             <View style={styles.section}>
               <Text style={[styles.sectionTitle, {color: colors.accent}]}>
-                ➖ {t('info.subtraction')}
+                <Emoji>➖</Emoji> {t('info.subtraction')}
               </Text>
               <Text style={[styles.sectionText, {color: colors.text}]}>
                 {t('info.subtractionDesc')}
@@ -114,7 +115,7 @@ export function AboutTenFrames({visible, colors, onClose}: AboutTenFramesProps) 
             {/* Number Bonds */}
             <View style={styles.section}>
               <Text style={[styles.sectionTitle, {color: colors.accent}]}>
-                🧩 {t('info.bonds')}
+                <Emoji>🧩</Emoji> {t('info.bonds')}
               </Text>
               <Text style={[styles.sectionText, {color: colors.text}]}>
                 {t('info.bondsDesc')}
@@ -124,7 +125,7 @@ export function AboutTenFrames({visible, colors, onClose}: AboutTenFramesProps) 
             {/* Benefits */}
             <View style={styles.section}>
               <Text style={[styles.sectionTitle, {color: colors.accent}]}>
-                ✨ {t('info.benefits')}
+                <Emoji>✨</Emoji> {t('info.benefits')}
               </Text>
               <Text style={[styles.sectionText, {color: colors.text}]}>
                 {t('info.benefitsDesc')}
@@ -134,7 +135,7 @@ export function AboutTenFrames({visible, colors, onClose}: AboutTenFramesProps) 
             {/* Tips for Parents */}
             <View style={styles.section}>
               <Text style={[styles.sectionTitle, {color: colors.accent}]}>
-                👨‍👩‍👧 {t('info.tipsParents')}
+                <Emoji>👨‍👩‍👧</Emoji> {t('info.tipsParents')}
               </Text>
               <Text style={[styles.sectionText, {color: colors.text}]}>
                 {t('info.tipsParentsDesc')}
@@ -144,7 +145,7 @@ export function AboutTenFrames({visible, colors, onClose}: AboutTenFramesProps) 
             {/* Research Background */}
             <View style={styles.section}>
               <Text style={[styles.sectionTitle, {color: colors.accent}]}>
-                📚 {t('info.research')}
+                <Emoji>📚</Emoji> {t('info.research')}
               </Text>
               <Text style={[styles.sectionText, {color: colors.text}]}>
                 {t('info.researchDesc')}
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     width: '100%',
     maxWidth: 400,
-    maxHeight: '85%',
+    height: '80%',
   },
   scrollContent: {
     padding: 20,

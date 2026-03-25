@@ -1,3 +1,26 @@
+diff --git a/node_modules/react-native-iap/RNIap.podspec b/node_modules/react-native-iap/RNIap.podspec
+index 79784fd..7eb4f97 100644
+--- a/node_modules/react-native-iap/RNIap.podspec
++++ b/node_modules/react-native-iap/RNIap.podspec
+@@ -19,18 +19,4 @@ Pod::Spec.new do |s|
+   s.requires_arc  = true
+ 
+   s.dependency "React-Core"
+-
+-  # Don't install the dependencies when we run `pod install` in the old architecture.
+-  if ENV['RCT_NEW_ARCH_ENABLED'] == '1' then
+-    s.compiler_flags = folly_compiler_flags + " -DRCT_NEW_ARCH_ENABLED=1"
+-    s.pod_target_xcconfig    = {
+-        "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\"",
+-        "CLANG_CXX_LANGUAGE_STANDARD" => "c++17"
+-    }
+-
+-    s.dependency "RCT-Folly"
+-    s.dependency "RCTRequired"
+-    s.dependency "RCTTypeSafety"
+-    s.dependency "ReactCommon/turbomodule/core"
+-  end
+ end
 diff --git a/node_modules/react-native-iap/android/build/generated/source/buildConfig/play/release/com/dooboolab/rniap/BuildConfig.java b/node_modules/react-native-iap/android/build/generated/source/buildConfig/play/release/com/dooboolab/rniap/BuildConfig.java
 new file mode 100644
 index 0000000..ff8591d
@@ -399,8 +422,7 @@ index 0000000..c845b54
 \ No newline at end of file
 diff --git a/node_modules/react-native-iap/android/build/intermediates/compile_r_class_jar/playRelease/generatePlayReleaseRFile/R.jar b/node_modules/react-native-iap/android/build/intermediates/compile_r_class_jar/playRelease/generatePlayReleaseRFile/R.jar
 new file mode 100644
-index 0000000..6f77893
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/intermediates/compile_r_class_jar/playRelease/generatePlayReleaseRFile/R.jar differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/intermediates/compile_symbol_list/playRelease/generatePlayReleaseRFile/R.txt b/node_modules/react-native-iap/android/build/intermediates/compile_symbol_list/playRelease/generatePlayReleaseRFile/R.txt
 new file mode 100644
 index 0000000..e69de29
@@ -445,284 +467,214 @@ index 0000000..99886e7
 +com.dooboolab.rniap
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab
 new file mode 100644
-index 0000000..9654f35
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream
 new file mode 100644
-index 0000000..718a27f
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream.len
 new file mode 100644
-index 0000000..389cdb8
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.len
 new file mode 100644
-index 0000000..9e27f73
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.values.at b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.values.at
 new file mode 100644
-index 0000000..b822716
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.values.at differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab_i b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab_i
 new file mode 100644
-index 0000000..90bacc2
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab_i differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab_i.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab_i.len
 new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab_i.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab
 new file mode 100644
-index 0000000..f3e7888
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.keystream b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.keystream
 new file mode 100644
-index 0000000..28f4ca2
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.keystream differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.keystream.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.keystream.len
 new file mode 100644
-index 0000000..7bc863f
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.keystream.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.len
 new file mode 100644
-index 0000000..fa606b6
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.values.at b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.values.at
 new file mode 100644
-index 0000000..de0b0a4
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.values.at differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab_i b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab_i
 new file mode 100644
-index 0000000..9ee6cc8
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab_i differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab_i.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab_i.len
 new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab_i.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab
 new file mode 100644
-index 0000000..0edf350
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream
 new file mode 100644
-index 0000000..28f4ca2
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream.len
 new file mode 100644
-index 0000000..7bc863f
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.len
 new file mode 100644
-index 0000000..fa606b6
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.values.at b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.values.at
 new file mode 100644
-index 0000000..5a040d7
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.values.at differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i
 new file mode 100644
-index 0000000..9ee6cc8
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i.len
 new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab
 new file mode 100644
-index 0000000..7df6dbd
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.keystream b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.keystream
 new file mode 100644
-index 0000000..1f1749c
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.keystream differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.keystream.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.keystream.len
 new file mode 100644
-index 0000000..2a7cfc5
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.keystream.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.len
 new file mode 100644
-index 0000000..a9f80ae
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.values.at b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.values.at
 new file mode 100644
-index 0000000..ff4421e
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.values.at differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab_i b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab_i
 new file mode 100644
-index 0000000..2a2103d
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab_i differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab_i.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab_i.len
 new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab_i.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab
 new file mode 100644
-index 0000000..99beae3
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream
 new file mode 100644
-index 0000000..bff4baf
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream.len
 new file mode 100644
-index 0000000..7bcd8d9
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.len
 new file mode 100644
-index 0000000..a541356
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.values.at b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.values.at
 new file mode 100644
-index 0000000..fd21fad
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.values.at differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i
 new file mode 100644
-index 0000000..e072169
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i.len
 new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab
 new file mode 100644
-index 0000000..bdf584a
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.keystream b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.keystream
 new file mode 100644
-index 0000000..36a088a
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.keystream differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.keystream.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.keystream.len
 new file mode 100644
-index 0000000..9ce7b83
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.keystream.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.len
 new file mode 100644
-index 0000000..2a17e6e
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.values.at b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.values.at
 new file mode 100644
-index 0000000..46d6744
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.values.at differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab_i b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab_i
 new file mode 100644
-index 0000000..1258d88
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab_i differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab_i.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab_i.len
 new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab_i.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab
 new file mode 100644
-index 0000000..116f6d4
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.keystream b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.keystream
 new file mode 100644
-index 0000000..7286eb5
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.keystream differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.keystream.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.keystream.len
 new file mode 100644
-index 0000000..3e5b6a5
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.keystream.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.len
 new file mode 100644
-index 0000000..fd5292d
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.values.at b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.values.at
 new file mode 100644
-index 0000000..63b6264
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.values.at differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab_i b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab_i
 new file mode 100644
-index 0000000..6d7891b
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab_i differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab_i.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab_i.len
 new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab_i.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab
 new file mode 100644
-index 0000000..d45ef16
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream
 new file mode 100644
-index 0000000..718a27f
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream.len
 new file mode 100644
-index 0000000..389cdb8
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.len
 new file mode 100644
-index 0000000..9e27f73
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.values.at b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.values.at
 new file mode 100644
-index 0000000..8c63d8c
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.values.at differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab_i b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab_i
 new file mode 100644
-index 0000000..90bacc2
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab_i differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab_i.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab_i.len
 new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab_i.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab
 new file mode 100644
-index 0000000..7cb406e
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.keystream b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.keystream
 new file mode 100644
-index 0000000..7c3eb3a
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.keystream differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.keystream.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.keystream.len
 new file mode 100644
-index 0000000..81031c2
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.keystream.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.len
 new file mode 100644
-index 0000000..a9f80ae
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.values.at b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.values.at
 new file mode 100644
-index 0000000..7a4fbcc
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.values.at differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab_i b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab_i
 new file mode 100644
-index 0000000..f3dbb3c
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab_i differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab_i.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab_i.len
 new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab_i.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab
 new file mode 100644
-index 0000000..af2cc44
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.keystream b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.keystream
 new file mode 100644
-index 0000000..9b56f5e
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.keystream differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.keystream.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.keystream.len
 new file mode 100644
-index 0000000..a8206a1
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.keystream.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.len
 new file mode 100644
-index 0000000..01bdaa1
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.values.at b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.values.at
 new file mode 100644
-index 0000000..2738e72
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.values.at differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab_i b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab_i
 new file mode 100644
-index 0000000..e4ef40c
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab_i differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab_i.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab_i.len
 new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab_i.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/counters.tab b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/counters.tab
 new file mode 100644
 index 0000000..888a92d
@@ -734,148 +686,112 @@ index 0000000..888a92d
 \ No newline at end of file
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab
 new file mode 100644
-index 0000000..8c2830d
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.keystream b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.keystream
 new file mode 100644
-index 0000000..718a27f
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.keystream differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.keystream.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.keystream.len
 new file mode 100644
-index 0000000..389cdb8
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.keystream.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.len
 new file mode 100644
-index 0000000..9e27f73
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.values.at b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.values.at
 new file mode 100644
-index 0000000..87c4282
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.values.at differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab_i b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab_i
 new file mode 100644
-index 0000000..90bacc2
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab_i differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab_i.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab_i.len
 new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/file-to-id.tab_i.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab
 new file mode 100644
-index 0000000..da4d904
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.keystream b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.keystream
 new file mode 100644
-index 0000000..3d5fe7a
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.keystream differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.keystream.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.keystream.len
 new file mode 100644
-index 0000000..fa902fa
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.keystream.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.len
 new file mode 100644
-index 0000000..9e27f73
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.values.at b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.values.at
 new file mode 100644
-index 0000000..5e6d2e6
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.values.at differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i
 new file mode 100644
-index 0000000..b7dc911
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i.len
 new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab
 new file mode 100644
-index 0000000..317c2c8
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream
 new file mode 100644
-index 0000000..c1fcb89
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream.len
 new file mode 100644
-index 0000000..c672d54
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab.len
 new file mode 100644
-index 0000000..8f733c4
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab.values.at b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab.values.at
 new file mode 100644
-index 0000000..0f3c339
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab.values.at differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab_i b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab_i
 new file mode 100644
-index 0000000..5536553
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab_i differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab_i.len b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab_i.len
 new file mode 100644
-index 0000000..131e265
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/caches-jvm/lookups/lookups.tab_i.len differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/last-build.bin b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/last-build.bin
 new file mode 100644
-index 0000000..8a906ed
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/cacheable/last-build.bin differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/classpath-snapshot/shrunk-classpath-snapshot.bin b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/classpath-snapshot/shrunk-classpath-snapshot.bin
 new file mode 100644
-index 0000000..bc31917
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/classpath-snapshot/shrunk-classpath-snapshot.bin differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/local-state/build-history.bin b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/local-state/build-history.bin
 new file mode 100644
-index 0000000..e231c6b
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/kotlin/compilePlayReleaseKotlin/local-state/build-history.bin differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/META-INF/react-native-iap_playRelease.kotlin_module b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/META-INF/react-native-iap_playRelease.kotlin_module
 new file mode 100644
-index 0000000..0111811
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/META-INF/react-native-iap_playRelease.kotlin_module differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/BillingResponse.class b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/BillingResponse.class
 new file mode 100644
-index 0000000..e908586
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/BillingResponse.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/PlayUtils.class b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/PlayUtils.class
 new file mode 100644
-index 0000000..71ee697
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/PlayUtils.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/PromiseUtils.class b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/PromiseUtils.class
 new file mode 100644
-index 0000000..3bb1eae
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/PromiseUtils.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/PromiseUtlisKt.class b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/PromiseUtlisKt.class
 new file mode 100644
-index 0000000..d77d4b5
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/PromiseUtlisKt.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapActivityListener$Companion.class b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapActivityListener$Companion.class
 new file mode 100644
-index 0000000..0a45de7
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapActivityListener$Companion.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapActivityListener.class b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapActivityListener.class
 new file mode 100644
-index 0000000..c914d9f
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapActivityListener.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapModule$Companion.class b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapModule$Companion.class
 new file mode 100644
-index 0000000..b9e8bf9
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapModule$Companion.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapModule$initConnection$1$1.class b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapModule$initConnection$1$1.class
 new file mode 100644
-index 0000000..0f1ceb2
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapModule$initConnection$1$1.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapModule$lifecycleEventListener$1.class b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapModule$lifecycleEventListener$1.class
 new file mode 100644
-index 0000000..d206106
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapModule$lifecycleEventListener$1.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapModule.class b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapModule.class
 new file mode 100644
-index 0000000..2d3add3
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapModule.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapPackage.class b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapPackage.class
 new file mode 100644
-index 0000000..9eeffed
-Binary files /dev/null and b/node_modules/react-native-iap/android/build/tmp/kotlin-classes/playRelease/com/dooboolab/rniap/RNIapPackage.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-iap/android/src/play/java/com/dooboolab/rniap/RNIapModule.kt b/node_modules/react-native-iap/android/src/play/java/com/dooboolab/rniap/RNIapModule.kt
 index 70149d2..774562c 100644
 --- a/node_modules/react-native-iap/android/src/play/java/com/dooboolab/rniap/RNIapModule.kt

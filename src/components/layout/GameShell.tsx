@@ -7,6 +7,7 @@ import {useTheme} from '../../hooks/useTheme';
 import {useLayout} from '../../hooks/useLayout';
 import {usePersistence} from '../../hooks/usePersistence';
 import {useRewards} from '../../hooks/useRewards';
+import {Emoji} from '../common/Emoji';
 import {ModeSelector} from './ModeSelector';
 import {BackgroundEmojis} from './BackgroundEmojis';
 import {LanguageSwitcher} from './LanguageSwitcher';
@@ -259,63 +260,32 @@ function GameShellInner() {
     }
   };
 
-  // Row 1: title + info button + language flags
+  // Row 1: title + info + flags + crown + theme
   const renderTitleBar = () => (
     <View style={styles.titleBar}>
-      <Text style={[styles.title, {color: colors.text}]}>
-        {mascotEmoji} {t('app.title')}
-      </Text>
+      <View style={styles.titleLeft}>
+        <Text style={[styles.title, {color: colors.text}]}>
+          <Emoji>{mascotEmoji}</Emoji> Ten Frames
+        </Text>
+        <Text style={[styles.subtitle, {color: colors.accent}]}>
+          {t('app.title')}
+        </Text>
+      </View>
       <View style={styles.titleRight}>
         <Pressable
           onPress={() => setShowAbout(true)}
           style={styles.infoButton}>
-          <Text style={styles.infoButtonText}>ℹ️</Text>
+          <Text style={styles.infoButtonText}><Emoji>ℹ️</Emoji></Text>
         </Pressable>
         <LanguageSwitcher
           language={game.language}
           onLanguageChange={handleLanguageChange}
         />
-      </View>
-    </View>
-  );
-
-  // Row 2: stats badges + theme button on dark strip
-  const renderStatsBar = () => (
-    <View style={styles.statsBar}>
-      <View style={styles.statsLeft}>
-        <View style={[styles.statBadge, {borderColor: '#F59E0B'}]}>
-          <Text style={[styles.statBadgeText, {color: colors.text}]}>
-            ⭐ {rewardSystem.rewards.totalStars}
-          </Text>
-        </View>
-        {game.streak > 0 && (
-          <View style={[styles.statBadge, styles.streakBadge]}>
-            <Text style={[styles.statBadgeText, {color: colors.text}]}>
-              {game.streak} 🔥
-            </Text>
-          </View>
-        )}
-        <Pressable
-          onPress={() => setShowStickerBook(true)}
-          style={[styles.statBadge, {borderColor: '#A855F7'}]}>
-          <Text style={styles.statBadgeText}>
-            🎨 {rewardSystem.rewards.stickers.length}
-          </Text>
-        </Pressable>
-        <Pressable
-          onPress={() => setShowAchievements(true)}
-          style={[styles.statBadge, {borderColor: '#EAB308'}]}>
-          <Text style={styles.statBadgeText}>
-            🏆 {rewardSystem.rewards.achievements.length}
-          </Text>
-        </Pressable>
-      </View>
-      <View style={styles.statsRight}>
         {!premium.isPremium && (
           <Pressable
             onPress={() => setShowUpgrade(true)}
             style={styles.premiumButton}>
-            <Text style={styles.premiumButtonText}>👑</Text>
+            <Text style={styles.premiumButtonText}><Emoji>👑</Emoji></Text>
           </Pressable>
         )}
         <Pressable
@@ -324,9 +294,41 @@ function GameShellInner() {
             game.setShowSetup(true);
           }}
           style={[styles.themeButton, {backgroundColor: colors.accentButton}]}>
-          <Text style={styles.themeButtonText}>🎨 {t('game.changeTheme')}</Text>
+          <Text style={styles.themeButtonText}><Emoji>🎨</Emoji> {t('game.changeTheme')}</Text>
         </Pressable>
       </View>
+    </View>
+  );
+
+  // Row 2: stats badges only
+  const renderStatsBar = () => (
+    <View style={styles.statsBar}>
+      <View style={[styles.statBadge, {borderColor: '#F59E0B'}]}>
+        <Text style={[styles.statBadgeText, {color: colors.text}]}>
+          <Emoji>⭐</Emoji> {rewardSystem.rewards.totalStars}
+        </Text>
+      </View>
+      {game.streak > 0 && (
+        <View style={[styles.statBadge, styles.streakBadge]}>
+          <Text style={[styles.statBadgeText, {color: colors.text}]}>
+            {game.streak} <Emoji>🔥</Emoji>
+          </Text>
+        </View>
+      )}
+      <Pressable
+        onPress={() => setShowStickerBook(true)}
+        style={[styles.statBadge, {borderColor: '#A855F7'}]}>
+        <Text style={styles.statBadgeText}>
+          <Emoji>🎨</Emoji> {rewardSystem.rewards.stickers.length}
+        </Text>
+      </Pressable>
+      <Pressable
+        onPress={() => setShowAchievements(true)}
+        style={[styles.statBadge, {borderColor: '#EAB308'}]}>
+        <Text style={styles.statBadgeText}>
+          <Emoji>🏆</Emoji> {rewardSystem.rewards.achievements.length}
+        </Text>
+      </Pressable>
     </View>
   );
 
@@ -513,14 +515,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     marginBottom: 2,
   },
+  titleLeft: {
+    flexShrink: 1,
+  },
   title: {
     fontSize: 15,
     fontWeight: '800',
   },
+  subtitle: {
+    fontSize: 10,
+    fontWeight: '600',
+    opacity: 0.8,
+  },
   titleRight: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 6,
   },
   infoButton: {
     width: 30,
@@ -537,20 +547,14 @@ const styles = StyleSheet.create({
   statsBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     paddingHorizontal: 10,
     paddingVertical: 6,
     marginHorizontal: 8,
     marginBottom: 4,
     backgroundColor: 'rgba(0,0,0,0.3)',
     borderRadius: 14,
-  },
-  statsLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
     gap: 6,
-    flexWrap: 'wrap',
-    flexShrink: 1,
   },
   statBadge: {
     backgroundColor: 'rgba(255,255,255,0.18)',
@@ -567,11 +571,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '700',
     color: '#FFFFFF',
-  },
-  statsRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
   },
   premiumButton: {
     backgroundColor: 'rgba(245,158,11,0.3)',

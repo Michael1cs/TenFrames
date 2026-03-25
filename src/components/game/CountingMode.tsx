@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, Pressable, ImageSourcePropType} from 'react-nati
 import {useTranslation} from 'react-i18next';
 import {TenFrame} from './TenFrame';
 import {NumberDisplay} from './NumberDisplay';
+import {Emoji} from '../common/Emoji';
 import {CellState, ThemeColors} from '../../types/game';
 
 interface CountingModeProps {
@@ -51,7 +52,7 @@ export function CountingMode({
       <Pressable
         onPress={onReset}
         style={[styles.iconButton, {backgroundColor: colors.primaryButton}]}>
-        <Text style={styles.iconButtonText}>🔄</Text>
+        <Text style={styles.iconButtonText}><Emoji>🔄</Emoji></Text>
       </Pressable>
     </View>
   );

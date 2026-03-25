@@ -10,6 +10,7 @@ import {
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
 import {ALL_ACHIEVEMENTS} from '../../utils/rewardData';
+import {Emoji} from '../common/Emoji';
 
 interface AchievementsScreenProps {
   visible: boolean;
@@ -66,7 +67,7 @@ export function AchievementsScreen({
                     styles.achievementEmoji,
                     !isUnlocked && styles.lockedEmoji,
                   ]}>
-                  {isUnlocked ? ach.emoji : '🔒'}
+                  <Emoji>{isUnlocked ? ach.emoji : '🔒'}</Emoji>
                 </Text>
                 <View style={styles.achievementInfo}>
                   <Text
@@ -84,7 +85,7 @@ export function AchievementsScreen({
                     {t(ach.descKey)}
                   </Text>
                 </View>
-                {isUnlocked && <Text style={styles.checkmark}>✅</Text>}
+                {isUnlocked && <Text style={styles.checkmark}><Emoji>✅</Emoji></Text>}
               </View>
             );
           })}
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
   modal: {
     width: '90%',
     maxWidth: 400,
-    maxHeight: '85%',
+    height: '80%',
     borderRadius: 20,
     padding: 16,
     elevation: 10,

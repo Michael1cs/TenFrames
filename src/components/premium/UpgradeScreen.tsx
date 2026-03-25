@@ -11,6 +11,7 @@ import {
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
 import type {Product} from 'react-native-iap';
+import {Emoji} from '../common/Emoji';
 
 interface UpgradeScreenProps {
   visible: boolean;
@@ -46,8 +47,8 @@ export function UpgradeScreen({
     {emoji: '🏆', key: 'premium.featureAchievements'},
   ];
 
-  // Use localized price from store, fallback to $2.99
-  const displayPrice = product?.localizedPrice || '$2.99';
+  // Use localized price from store, fallback to $4.99
+  const displayPrice = product?.localizedPrice || '$4.99';
   const isLoading = purchasing || restoring;
 
   const getErrorMessage = (err: string): string => {
@@ -68,7 +69,7 @@ export function UpgradeScreen({
           <ScrollView
             contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={false}>
-            <Text style={styles.crown}>👑</Text>
+            <Text style={styles.crown}><Emoji>👑</Emoji></Text>
             <Text style={[styles.title, {color: colors.text}]}>
               {t('premium.upgradeTitle')}
             </Text>
@@ -79,7 +80,7 @@ export function UpgradeScreen({
             <View style={styles.featureList}>
               {features.map((feature, i) => (
                 <View key={i} style={styles.featureRow}>
-                  <Text style={styles.featureEmoji}>{feature.emoji}</Text>
+                  <Text style={styles.featureEmoji}><Emoji>{feature.emoji}</Emoji></Text>
                   <Text style={[styles.featureText, {color: colors.text}]}>
                     {t(feature.key)}
                   </Text>
@@ -121,7 +122,7 @@ export function UpgradeScreen({
                 </View>
               ) : (
                 <Text style={styles.purchaseButtonText}>
-                  {t('premium.buyNow')} ✨
+                  {t('premium.buyNow')} <Emoji>✨</Emoji>
                 </Text>
               )}
             </Pressable>

@@ -12,6 +12,7 @@ import {useTranslation} from 'react-i18next';
 import {Theme, Language} from '../../types/game';
 import {getAllThemes} from '../../hooks/useTheme';
 import {LanguageSwitcher} from '../layout/LanguageSwitcher';
+import {Emoji} from '../common/Emoji';
 
 interface PlayerSetupProps {
   visible: boolean;
@@ -58,7 +59,11 @@ export function PlayerSetup({
         <View style={styles.card}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <Text style={styles.title}>
-              {isThemeChange ? `🎨 ${t('setup.changeTheme')}` : `🎮 ${t('setup.welcome')} 🌟`}
+              {isThemeChange ? (
+                <><Emoji>🎨</Emoji>{` ${t('setup.changeTheme')}`}</>
+              ) : (
+                <><Emoji>🎮</Emoji>{` ${t('setup.welcome')} `}<Emoji>🌟</Emoji></>
+              )}
             </Text>
 
             {!isThemeChange && (
@@ -112,15 +117,15 @@ export function PlayerSetup({
                             : '#E5E7EB',
                         },
                       ]}>
-                      <Text style={styles.themeEmoji}>
+                      <Emoji style={styles.themeEmoji}>
                         {themeConfig.selectorEmoji}
-                      </Text>
+                      </Emoji>
                       <Text
                         style={[
                           styles.themeName,
                           {color: isSelected ? '#FFFFFF' : '#374151'},
                         ]}>
-                        {t(themeConfig.nameKey)} {themeConfig.emoji}
+                        {t(themeConfig.nameKey)} <Emoji>{themeConfig.emoji}</Emoji>
                       </Text>
                     </Pressable>
                   );
@@ -131,7 +136,7 @@ export function PlayerSetup({
             {!isThemeChange && (
               <Pressable onPress={onComplete} style={styles.startButton}>
                 <Text style={styles.startButtonText}>
-                  🎮 {t('setup.startAdventure')}
+                  <Emoji>🎮</Emoji> {t('setup.startAdventure')}
                 </Text>
               </Pressable>
             )}
@@ -191,20 +196,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 10,
+    justifyContent: 'center',
   },
   themeButton: {
-    width: '18%',
-    padding: 6,
+    width: '22%',
+    padding: 10,
     borderRadius: 12,
     borderWidth: 2,
     alignItems: 'center',
   },
   themeEmoji: {
     fontSize: 24,
-    marginBottom: 2,
+    marginBottom: 4,
   },
   themeName: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '600',
     textAlign: 'center',
   },
