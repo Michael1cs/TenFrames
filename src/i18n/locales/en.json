@@ -147,7 +147,13 @@
     "restoreSuccess": "Purchase restored!",
     "restoreNotFound": "No previous purchase found",
     "purchaseError": "Purchase failed. Please try again.",
-    "purchasing": "Processing..."
+    "purchasing": "Processing...",
+    "parentalGateTitle": "Parent Verification",
+    "parentalGateMessage": "This purchase requires a parent's permission.\nPlease solve this math problem:",
+    "parentalGateSubmit": "Continue",
+    "parentalGateCancel": "Cancel",
+    "parentalGateWrong": "Incorrect answer. Please try again.",
+    "parentalGatePlaceholder": "Enter the answer"
   },
   "achievements": {
     "firstStar": "First Star",

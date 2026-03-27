@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useCallback} from 'react';
 import {
   View,
   Text,
@@ -12,6 +12,7 @@ import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
 import type {Product} from 'react-native-iap';
 import {Emoji} from '../common/Emoji';
+import {ParentalGate} from './ParentalGate';
 
 interface UpgradeScreenProps {
   visible: boolean;
@@ -39,6 +40,33 @@ export function UpgradeScreen({
   onClearError,
 }: UpgradeScreenProps) {
   const {t} = useTranslation();
+  const [showParentalGate, setShowParentalGate] = useState(false);
+  const [pendingAction, setPendingAction] = useState<'purchase' | 'restore' | null>(null);
+
+  const handlePurchasePress = useCallback(() => {
+    setPendingAction('purchase');
+    setShowParentalGate(true);
+  }, []);
+
+  const handleRestorePress = useCallback(() => {
+    setPendingAction('restore');
+    setShowParentalGate(true);
+  }, []);
+
+  const handleGateSuccess = useCallback(() => {
+    setShowParentalGate(false);
+    if (pendingAction === 'purchase') {
+      onPurchase();
+    } else if (pendingAction === 'restore') {
+      onRestore();
+    }
+    setPendingAction(null);
+  }, [pendingAction, onPurchase, onRestore]);
+
+  const handleGateCancel = useCallback(() => {
+    setShowParentalGate(false);
+    setPendingAction(null);
+  }, []);
 
   const features = [
     {emoji: '🎈', key: 'premium.featureUnlimitedModes'},
@@ -106,7 +134,7 @@ export function UpgradeScreen({
 
             {/* Purchase button */}
             <Pressable
-              onPress={onPurchase}
+              onPress={handlePurchasePress}
               disabled={isLoading}
               style={[
                 styles.purchaseButton,
@@ -129,7 +157,7 @@ export function UpgradeScreen({
 
             {/* Restore purchases button */}
             <Pressable
-              onPress={onRestore}
+              onPress={handleRestorePress}
               disabled={isLoading}
               style={[styles.restoreButton, isLoading && styles.disabledButton]}>
               {restoring ? (
@@ -154,6 +182,13 @@ export function UpgradeScreen({
           </ScrollView>
         </View>
       </View>
+
+      <ParentalGate
+        visible={showParentalGate}
+        colors={colors}
+        onSuccess={handleGateSuccess}
+        onCancel={handleGateCancel}
+      />
     </Modal>
   );
 }

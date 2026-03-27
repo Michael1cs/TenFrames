@@ -147,7 +147,13 @@
     "restoreSuccess": "Achiziție restaurată!",
     "restoreNotFound": "Nicio achiziție anterioară găsită",
     "purchaseError": "Achiziția a eșuat. Încearcă din nou.",
-    "purchasing": "Se procesează..."
+    "purchasing": "Se procesează...",
+    "parentalGateTitle": "Verificare Părinte",
+    "parentalGateMessage": "Această achiziție necesită permisiunea unui părinte.\nRezolvă această problemă de matematică:",
+    "parentalGateSubmit": "Continuă",
+    "parentalGateCancel": "Anulează",
+    "parentalGateWrong": "Răspuns incorect. Încearcă din nou.",
+    "parentalGatePlaceholder": "Introdu răspunsul"
   },
   "achievements": {
     "firstStar": "Prima Stea",
