@@ -1,5 +1,6 @@
 import React, {useState, useCallback, useRef, useEffect} from 'react';
-import {View, Text, StyleSheet, ImageBackground, Modal} from 'react-native';
+import {View, Text, Pressable, StyleSheet, ImageBackground, Modal} from 'react-native';
+import Animated, {BounceIn, FadeIn} from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
 import {
   AdventureLevel,
@@ -356,27 +357,32 @@ export function AdventureLevelScreen({
         {!finished && (
           <View style={styles.submitArea}>
             {hasSubmitted && isCorrect && (
-              <Text style={styles.feedbackCorrect}>
-                <Emoji>✅</Emoji> {t('feedback.correct')}
-              </Text>
+              <Animated.View
+                entering={BounceIn.duration(400)}
+                style={styles.feedbackBox}>
+                <Text style={styles.feedbackEmoji}><Emoji>🎉</Emoji></Text>
+                <Text style={styles.feedbackCorrect}>{t('feedback.correct')}</Text>
+              </Animated.View>
             )}
             {hasSubmitted && !isCorrect && (
-              <Text style={styles.feedbackWrong}>
-                <Emoji>❌</Emoji> {t('feedback.tryAgain')}
-              </Text>
+              <Animated.View
+                entering={FadeIn.duration(300)}
+                style={styles.feedbackBox}>
+                <Text style={styles.feedbackEmoji}><Emoji>🤔</Emoji></Text>
+                <Text style={styles.feedbackWrong}>{t('feedback.tryAgain')}</Text>
+              </Animated.View>
             )}
             {(!hasSubmitted || !isCorrect) && (
-              <View
+              <Pressable
+                onPress={handleSubmit}
                 style={[
                   styles.submitBtn,
                   {backgroundColor: themeColors.primaryButton},
                 ]}>
-                <Text
-                  style={styles.submitText}
-                  onPress={handleSubmit}>
+                <Text style={styles.submitText}>
                   <Emoji>✅</Emoji>
                 </Text>
-              </View>
+              </Pressable>
             )}
           </View>
         )}
@@ -460,25 +466,35 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   submitBtn: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
     justifyContent: 'center',
     alignItems: 'center',
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   submitText: {
-    fontSize: 28,
+    fontSize: 32,
+  },
+  feedbackBox: {
+    alignItems: 'center',
+    gap: 4,
+  },
+  feedbackEmoji: {
+    fontSize: 40,
   },
   feedbackCorrect: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '700',
     color: '#22C55E',
-    marginBottom: 8,
   },
   feedbackWrong: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '700',
-    color: '#EF4444',
-    marginBottom: 8,
+    color: '#F59E0B',
   },
 });
