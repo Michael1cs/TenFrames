@@ -137,6 +137,64 @@ export interface BackgroundEmoji {
   delay: number;
 }
 
+// === Adventure Map Types ===
+
+export type WorldId =
+  | 'counting-meadow'
+  | 'addition-island'
+  | 'subtraction-mountain';
+
+export interface AdventureProgress {
+  version: number;
+  currentWorld: WorldId;
+  worlds: Record<WorldId, WorldProgress>;
+}
+
+export interface WorldProgress {
+  unlocked: boolean;
+  levels: Record<string, AdventureLevelProgress>;
+}
+
+export interface AdventureLevelProgress {
+  unlocked: boolean;
+  completed: boolean;
+  stars: number; // 0-3
+  bestFirstTry: number; // best count of first-try correct out of problemCount
+  attempts: number;
+}
+
+export type UnlockCondition =
+  | {type: 'first'}
+  | {type: 'previous'; levelId: string}
+  | {type: 'stars'; worldId: WorldId; count: number};
+
+export interface AdventureLevel {
+  id: string;
+  worldId: WorldId;
+  order: number;
+  nameKey: string;
+  emoji: string;
+  isBonus: boolean;
+  gameMode: GameMode;
+  modeLevel: number;
+  problemCount: number;
+  unlockCondition: UnlockCondition;
+}
+
+export interface AdventureWorld {
+  id: WorldId;
+  nameKey: string;
+  emoji: string;
+  theme: Theme;
+  isPremium: boolean;
+  levels: AdventureLevel[];
+}
+
+export interface CountingChallenge {
+  targetNumber: number;
+  instruction: 'fill_exactly' | 'fill_top_row' | 'fill_bottom_row' | 'fill_both_equal';
+}
+
 // === Premium / Trial System ===
 
 export interface DailyUsage {

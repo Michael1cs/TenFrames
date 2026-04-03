@@ -11,6 +11,7 @@ interface ModeSelectorProps {
   vertical?: boolean;
   getRemainingExercises?: (mode: GameMode) => number;
   isPremium?: boolean;
+  onAdventurePress?: () => void;
 }
 
 const modes: {id: GameMode; emoji: string; key: string; emojiColor?: string}[] = [
@@ -27,6 +28,7 @@ export function ModeSelector({
   vertical = false,
   getRemainingExercises,
   isPremium = false,
+  onAdventurePress,
 }: ModeSelectorProps) {
   const {t} = useTranslation();
 
@@ -142,6 +144,31 @@ export function ModeSelector({
           </Pressable>
         );
       })}
+      {onAdventurePress && (
+        <Pressable onPress={onAdventurePress} style={styles.bottomTab}>
+          <View
+            style={[
+              styles.bottomTabInner,
+              {
+                backgroundColor: 'rgba(255,255,255,0.18)',
+                borderColor: 'rgba(255,255,255,0.25)',
+              },
+            ]}>
+            <View style={styles.bottomEmojiContainer}>
+              <Text style={styles.bottomEmoji}><Emoji>🗺️</Emoji></Text>
+            </View>
+            <Text
+              style={[
+                styles.bottomLabel,
+                {color: 'rgba(255,255,255,0.85)', fontWeight: '500'},
+              ]}
+              numberOfLines={1}>
+              {t('adventure.title')}
+            </Text>
+            <Text style={styles.remainingPlaceholder}>{' '}</Text>
+          </View>
+        </Pressable>
+      )}
     </View>
   );
 }

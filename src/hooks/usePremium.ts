@@ -13,7 +13,7 @@ const freshDailyUsage = (): DailyUsage => ({
 });
 
 export function usePremium() {
-  const [isPremium, setIsPremium] = useState(false);
+  const [isPremium, setIsPremium] = useState(__DEV__ ? true : false);
   const [purchaseDate, setPurchaseDate] = useState<string | undefined>();
   const [dailyUsage, setDailyUsage] = useState<DailyUsage>(freshDailyUsage());
 

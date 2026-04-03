@@ -1,10 +1,12 @@
 import {useCallback} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {PlayerData, RewardData, PremiumData} from '../types/game';
+import {PlayerData, RewardData, PremiumData, AdventureProgress} from '../types/game';
+import {getDefaultAdventureProgress} from '../config/adventureWorlds';
 
 const PLAYER_KEY = '@tenframes_player';
 const REWARDS_KEY = '@tenframes_rewards';
 const PREMIUM_KEY = '@tenframes_premium';
+const ADVENTURE_KEY = '@tenframes_adventure';
 
 const defaultPlayerData: PlayerData = {
   name: '',
@@ -97,6 +99,27 @@ export function usePersistence() {
     }
   }, []);
 
+  const loadAdventureData =
+    useCallback(async (): Promise<AdventureProgress> => {
+      try {
+        const data = await AsyncStorage.getItem(ADVENTURE_KEY);
+        if (data) {
+          return JSON.parse(data);
+        }
+      } catch {
+        // Return defaults on error
+      }
+      return getDefaultAdventureProgress();
+    }, []);
+
+  const saveAdventureData = useCallback(async (data: AdventureProgress) => {
+    try {
+      await AsyncStorage.setItem(ADVENTURE_KEY, JSON.stringify(data));
+    } catch {
+      // Silently fail
+    }
+  }, []);
+
   return {
     loadPlayerData,
     savePlayerData,
@@ -104,5 +127,7 @@ export function usePersistence() {
     saveRewardData,
     loadPremiumData,
     savePremiumData,
+    loadAdventureData,
+    saveAdventureData,
   };
 }

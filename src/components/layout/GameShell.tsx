@@ -32,6 +32,10 @@ import {useSound} from '../../hooks/useSound';
 import {useIAPConnection, withIAPContext} from '../../hooks/useIAP';
 import {FREE_DAILY_LIMIT} from '../../config/limits';
 import {Language, GameMode} from '../../types/game';
+import {ADVENTURE_WORLDS} from '../../config/adventureWorlds';
+import {useAdventure} from '../../hooks/useAdventure';
+import {AdventureMapScreen} from '../adventure/AdventureMapScreen';
+import {AdventureLevelScreen} from '../adventure/AdventureLevelScreen';
 import i18n from '../../i18n';
 
 function GameShellInner() {
@@ -65,6 +69,11 @@ function GameShellInner() {
   const [showDailyLimit, setShowDailyLimit] = useState(false);
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
+  const [showAdventureMap, setShowAdventureMap] = useState(false);
+  const [showAdventureLevel, setShowAdventureLevel] = useState(false);
+  const [adventureStars, setAdventureStars] = useState<number | null>(null);
+  const [adventureIsNewBest, setAdventureIsNewBest] = useState(false);
+  const adventure = useAdventure();
 
   // Load saved data on mount
   useEffect(() => {
@@ -259,6 +268,73 @@ function GameShellInner() {
         );
     }
   };
+
+  // Adventure handlers
+  const handleAdventurePress = useCallback(() => {
+    setShowAdventureMap(true);
+  }, []);
+
+  const handleAdventureLevelPress = useCallback(
+    (levelId: string) => {
+      const world = ADVENTURE_WORLDS.find(
+        w => w.id === adventure.selectedWorld,
+      );
+      const level = world?.levels.find(l => l.id === levelId);
+      if (!level) return;
+
+      // Check premium
+      if (world?.isPremium && !premium.isPremium) {
+        setShowAdventureMap(false);
+        setShowUpgrade(true);
+        return;
+      }
+
+      adventure.startLevel(level);
+      setAdventureStars(null);
+      setAdventureIsNewBest(false);
+      setShowAdventureMap(false);
+      setShowAdventureLevel(true);
+    },
+    [adventure, premium.isPremium],
+  );
+
+  const handleAdventureLevelComplete = useCallback(() => {
+    const result = adventure.completeLevel();
+    setAdventureStars(result.stars);
+    setAdventureIsNewBest(result.isNewBest);
+    // Award stars to global reward system for each problem result
+    if (adventure.activeLevel) {
+      const {level, results} = adventure.activeLevel;
+      for (const wasFirstTry of results) {
+        rewardSystem.awardStars(level.gameMode, wasFirstTry);
+      }
+    }
+    return result;
+  }, [adventure, rewardSystem]);
+
+  const handleAdventureNextLevel = useCallback(() => {
+    const nextLevel = adventure.getNextPlayableLevel(adventure.selectedWorld);
+    if (nextLevel) {
+      adventure.startLevel(nextLevel);
+      setAdventureStars(null);
+      setAdventureIsNewBest(false);
+    }
+  }, [adventure]);
+
+  const handleAdventureReplay = useCallback(() => {
+    if (adventure.activeLevel) {
+      adventure.startLevel(adventure.activeLevel.level);
+      setAdventureStars(null);
+      setAdventureIsNewBest(false);
+    }
+  }, [adventure]);
+
+  const handleAdventureBackToMap = useCallback(() => {
+    adventure.exitLevel();
+    setShowAdventureLevel(false);
+    setShowAdventureMap(true);
+    setAdventureStars(null);
+  }, [adventure]);
 
   // Row 1: title + info + flags + crown + theme
   const renderTitleBar = () => (
@@ -485,10 +561,42 @@ function GameShellInner() {
               colors={colors}
               getRemainingExercises={premium.getRemainingExercises}
               isPremium={premium.isPremium}
+              onAdventurePress={handleAdventurePress}
             />
           </View>
         )}
       </ImageBackground>
+
+      {/* Adventure Map */}
+      <AdventureMapScreen
+        visible={showAdventureMap}
+        progress={adventure.progress}
+        selectedWorld={adventure.selectedWorld}
+        colors={colors}
+        isPremium={premium.isPremium}
+        onSelectWorld={adventure.setSelectedWorld}
+        onLevelPress={handleAdventureLevelPress}
+        onClose={() => setShowAdventureMap(false)}
+      />
+
+      {/* Adventure Level */}
+      {showAdventureLevel && adventure.activeLevel && (
+        <AdventureLevelScreen
+          key={adventure.activeLevel.level.id + '-' + adventure.activeLevel.level.order}
+          levelState={adventure.activeLevel}
+          colors={colors}
+          stars={adventureStars}
+          isNewBest={adventureIsNewBest}
+          hasNextLevel={
+            !!adventure.getNextPlayableLevel(adventure.selectedWorld)
+          }
+          onRecordResult={adventure.recordProblemResult}
+          onComplete={handleAdventureLevelComplete}
+          onNextLevel={handleAdventureNextLevel}
+          onReplay={handleAdventureReplay}
+          onBackToMap={handleAdventureBackToMap}
+        />
+      )}
     </View>
   );
 }
