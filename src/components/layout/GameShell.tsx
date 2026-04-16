@@ -26,6 +26,7 @@ import {AchievementsScreen} from '../rewards/AchievementsScreen';
 import {DailyLimitModal} from '../premium/DailyLimitModal';
 import {UpgradeScreen} from '../premium/UpgradeScreen';
 import {PlayerSetup} from '../onboarding/PlayerSetup';
+import {ModeChoice} from '../onboarding/ModeChoice';
 import {AboutTenFrames} from '../info/AboutTenFrames';
 import {usePremium} from '../../hooks/usePremium';
 import {useSound} from '../../hooks/useSound';
@@ -69,6 +70,8 @@ function GameShellInner() {
   const [showDailyLimit, setShowDailyLimit] = useState(false);
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
+  const [gameFlow, setGameFlow] = useState<'choice' | 'adventure' | 'freeplay'>('freeplay');
+  const [showModeChoice, setShowModeChoice] = useState(false);
   const [showAdventureMap, setShowAdventureMap] = useState(false);
   const [showAdventureLevel, setShowAdventureLevel] = useState(false);
   const [adventureStars, setAdventureStars] = useState<number | null>(null);
@@ -85,6 +88,14 @@ function GameShellInner() {
         game.setLanguage(data.language);
         game.setShowSetup(false);
         i18n.changeLanguage(data.language);
+        isFirstSetupRef.current = false;
+        // Restore last mode
+        if (data.lastMode) {
+          setGameFlow(data.lastMode);
+          if (data.lastMode === 'adventure') {
+            setShowAdventureMap(true);
+          }
+        }
       }
       const rewards = await loadRewardData();
       rewardSystem.loadRewards(rewards);
@@ -182,7 +193,11 @@ function GameShellInner() {
     iap.requestPurchase();
   }, [iap]);
 
+  // Track if this is the very first setup (no name was saved before)
+  const isFirstSetupRef = useRef(true);
+
   const handleSetupComplete = useCallback(() => {
+    const isFirstTime = isFirstSetupRef.current && !game.isThemeChange;
     game.setShowSetup(false);
     game.setIsThemeChange(false);
     savePlayerData({
@@ -190,7 +205,33 @@ function GameShellInner() {
       theme: game.theme,
       language: game.language,
     });
+    // Show mode choice only on first setup, not theme changes
+    if (isFirstTime) {
+      isFirstSetupRef.current = false;
+      setShowModeChoice(true);
+    }
   }, [game, savePlayerData]);
+
+  const handleModeChoice = useCallback((mode: 'adventure' | 'freeplay') => {
+    setShowModeChoice(false);
+    setGameFlow(mode);
+    savePlayerData({lastMode: mode});
+    if (mode === 'adventure') {
+      setShowAdventureMap(true);
+    }
+  }, [savePlayerData]);
+
+  const handleSwitchMode = useCallback(() => {
+    if (gameFlow === 'adventure') {
+      setGameFlow('freeplay');
+      setShowAdventureMap(false);
+      savePlayerData({lastMode: 'freeplay'});
+    } else {
+      setGameFlow('adventure');
+      setShowAdventureMap(true);
+      savePlayerData({lastMode: 'adventure'});
+    }
+  }, [gameFlow, savePlayerData]);
 
   const mascotEmoji =
     game.mascotMood === 'happy'
@@ -271,8 +312,10 @@ function GameShellInner() {
 
   // Adventure handlers
   const handleAdventurePress = useCallback(() => {
+    setGameFlow('adventure');
     setShowAdventureMap(true);
-  }, []);
+    savePlayerData({lastMode: 'adventure'});
+  }, [savePlayerData]);
 
   const handleAdventureLevelPress = useCallback(
     (levelId: string) => {
@@ -282,8 +325,15 @@ function GameShellInner() {
       const level = world?.levels.find(l => l.id === levelId);
       if (!level) return;
 
-      // Check premium
-      if (world?.isPremium && !premium.isPremium) {
+      // Check premium: levels beyond freeLevels require premium
+      const freeLevels = world?.freeLevels ?? 2;
+      if (level.order > freeLevels && !level.isBonus && !premium.isPremium) {
+        setShowAdventureMap(false);
+        setShowUpgrade(true);
+        return;
+      }
+      // Bonus levels always require premium
+      if (level.isBonus && !premium.isPremium) {
         setShowAdventureMap(false);
         setShowUpgrade(true);
         return;
@@ -352,6 +402,13 @@ function GameShellInner() {
           onPress={() => setShowAbout(true)}
           style={styles.infoButton}>
           <Text style={styles.infoButtonText}><Emoji>ℹ️</Emoji></Text>
+        </Pressable>
+        <Pressable
+          onPress={handleSwitchMode}
+          style={[styles.infoButton, {backgroundColor: 'rgba(139, 92, 246, 0.3)'}]}>
+          <Text style={styles.infoButtonText}>
+            <Emoji>{gameFlow === 'adventure' ? '🎮' : '🗺️'}</Emoji>
+          </Text>
         </Pressable>
         <LanguageSwitcher
           language={game.language}
@@ -520,6 +577,12 @@ function GameShellInner() {
           isThemeChange={game.isThemeChange}
         />
 
+        <ModeChoice
+          visible={showModeChoice}
+          onAdventure={() => handleModeChoice('adventure')}
+          onFreeplay={() => handleModeChoice('freeplay')}
+        />
+
         {isLandscape ? (
           /* LANDSCAPE: sidebar left, game right */
           <View style={styles.landscapeContainer}>
@@ -576,7 +639,11 @@ function GameShellInner() {
         isPremium={premium.isPremium}
         onSelectWorld={adventure.setSelectedWorld}
         onLevelPress={handleAdventureLevelPress}
-        onClose={() => setShowAdventureMap(false)}
+        onClose={() => {
+          setShowAdventureMap(false);
+          setGameFlow('freeplay');
+          savePlayerData({lastMode: 'freeplay'});
+        }}
       />
 
       {/* Adventure Level */}

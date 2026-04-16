@@ -33,7 +33,19 @@ export function useAdventure() {
   // Load on mount
   useEffect(() => {
     loadAdventureData().then(data => {
-      setProgress(data);
+      // In debug mode, force unlock all worlds and levels on every load
+      if (__DEV__) {
+        const unlocked = JSON.parse(JSON.stringify(data)) as AdventureProgress;
+        for (const worldId of Object.keys(unlocked.worlds) as WorldId[]) {
+          unlocked.worlds[worldId].unlocked = true;
+          for (const levelId of Object.keys(unlocked.worlds[worldId].levels)) {
+            unlocked.worlds[worldId].levels[levelId].unlocked = true;
+          }
+        }
+        setProgress(unlocked);
+      } else {
+        setProgress(data);
+      }
       setSelectedWorld(data.currentWorld);
       setLoaded(true);
     });

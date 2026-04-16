@@ -292,8 +292,11 @@ export function AdventureLevelScreen({
     <Modal visible animationType="fade" onRequestClose={onBackToMap}>
     <ImageBackground source={bgImage} style={styles.background} resizeMode="cover">
       <View style={styles.overlay}>
-        {/* Progress header */}
+        {/* Back button + Progress header */}
         <View style={styles.header}>
+          <Pressable onPress={onBackToMap} style={styles.backBtn}>
+            <Text style={styles.backText}>✕</Text>
+          </Pressable>
           <Text style={styles.progressText}>
             {t('adventure.problemOf', {
               current: Math.min(problemIndex + 1, problemCount),
@@ -419,6 +422,24 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     marginBottom: 16,
+    width: '100%',
+  },
+  backBtn: {
+    position: 'absolute',
+    left: 16,
+    top: 0,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
+  },
+  backText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   progressText: {
     color: '#FFFFFF',

@@ -147,14 +147,18 @@ export function MapNode({
             borderRadius: level.isBonus ? nodeSize / 4 : nodeSize / 2,
             backgroundColor: nodeColor,
             borderColor,
+            opacity: unlocked ? 1 : 0.55,
           },
         ]}>
-        {!unlocked ? (
-          <Text style={styles.lockEmoji}><Emoji>🔒</Emoji></Text>
-        ) : (
-          <Text style={[styles.nodeEmoji, {fontSize: nodeSize * 0.4}]}>
-            <Emoji>{level.emoji}</Emoji>
-          </Text>
+        <Text style={[styles.nodeEmoji, {fontSize: nodeSize * 0.5}]}>
+          <Emoji>{level.emoji}</Emoji>
+        </Text>
+        {!unlocked && (
+          <View style={styles.lockBadge}>
+            <Text style={styles.lockBadgeText}>
+              <Emoji>🔒</Emoji>
+            </Text>
+          </View>
         )}
         {completed && (
           <View style={styles.checkBadge}>
@@ -189,9 +193,21 @@ const styles = StyleSheet.create({
     top: -8,
     zIndex: 1,
   },
-  lockEmoji: {
-    fontSize: 20,
-    opacity: 0.5,
+  lockBadge: {
+    position: 'absolute',
+    top: -4,
+    right: -4,
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: 'rgba(0,0,0,0.75)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1.5,
+    borderColor: '#FFFFFF',
+  },
+  lockBadgeText: {
+    fontSize: 11,
   },
   nodeEmoji: {
     fontSize: 24,

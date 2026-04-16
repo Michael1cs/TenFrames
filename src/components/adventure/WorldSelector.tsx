@@ -27,7 +27,7 @@ export function WorldSelector({
       {ADVENTURE_WORLDS.map(world => {
         const isSelected = world.id === selectedWorld;
         const isUnlocked = progress.worlds[world.id]?.unlocked;
-        const isLocked = !isUnlocked || (world.isPremium && !isPremium);
+        const isLocked = !isUnlocked;
         const stars = getWorldStars(world.id, progress);
         const maxStars = getWorldMaxStars(world.id);
 

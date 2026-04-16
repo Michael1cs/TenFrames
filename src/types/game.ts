@@ -33,6 +33,7 @@ export interface PlayerData {
   language: Language;
   highScore: number;
   level: number;
+  lastMode?: 'adventure' | 'freeplay';
 }
 
 // === Reward System Types ===
@@ -186,7 +187,7 @@ export interface AdventureWorld {
   nameKey: string;
   emoji: string;
   theme: Theme;
-  isPremium: boolean;
+  freeLevels: number; // first N levels are free, rest need premium
   levels: AdventureLevel[];
 }
 

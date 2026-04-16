@@ -248,5 +248,12 @@
     "fillTopRow": "Fill only the top row!",
     "fillBottomRow": "Fill only the bottom row!",
     "fillBothEqual": "Same on both rows!"
+  },
+  "modeChoice": {
+    "title": "How do you want to play?",
+    "adventureTitle": "Adventure",
+    "adventureDesc": "Follow the path and earn stars!",
+    "freeplayTitle": "Free Play",
+    "freeplayDesc": "Choose what you want to practice!"
   }
 }

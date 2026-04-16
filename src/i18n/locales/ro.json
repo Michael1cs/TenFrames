@@ -248,5 +248,12 @@
     "fillTopRow": "Umple doar rândul de sus!",
     "fillBottomRow": "Umple doar rândul de jos!",
     "fillBothEqual": "La fel pe ambele rânduri!"
+  },
+  "modeChoice": {
+    "title": "Cum vrei să te joci?",
+    "adventureTitle": "Aventură",
+    "adventureDesc": "Parcurge drumul și câștigă stele!",
+    "freeplayTitle": "Joacă Liber",
+    "freeplayDesc": "Alege ce vrei să exersezi!"
   }
 }

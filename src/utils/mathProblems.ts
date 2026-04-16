@@ -21,8 +21,13 @@ function generateAdditionProblem(level: number): Problem {
   let num1: number, num2: number;
 
   if (level >= 1 && level <= 9) {
-    // Level N: second addend is always N
-    num2 = level;
+    // Level N: primarily add N, but allow ±1 for variety at higher levels
+    if (level >= 7) {
+      const variation = Math.floor(Math.random() * 3) - 1; // -1, 0, or 1
+      num2 = Math.max(1, Math.min(9, level + variation));
+    } else {
+      num2 = level;
+    }
     const maxNum1 = 10 - num2;
     num1 = Math.floor(Math.random() * maxNum1) + 1; // 1 to (10-num2)
   } else {
@@ -38,10 +43,17 @@ function generateSubtractionProblem(level: number): Problem {
   let num1: number, num2: number;
 
   if (level >= 1 && level <= 9) {
-    // Level N: subtract N
-    num2 = level;
+    // Level N: primarily subtract N, but allow ±1 for variety at higher levels
+    if (level >= 7) {
+      // Pool is tiny at high levels, so vary num2 by ±1
+      const variation = Math.floor(Math.random() * 3) - 1; // -1, 0, or 1
+      num2 = Math.max(1, Math.min(9, level + variation));
+    } else {
+      num2 = level;
+    }
     const minNum1 = num2 + 1;
-    num1 = Math.floor(Math.random() * (10 - minNum1 + 1)) + minNum1; // (num2+1) to 10
+    const maxNum1 = 10;
+    num1 = Math.floor(Math.random() * (maxNum1 - minNum1 + 1)) + minNum1;
   } else {
     // Level 10+: random
     num1 = Math.floor(Math.random() * 7) + 3;

@@ -7,7 +7,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.countingMeadow',
     emoji: '🌿',
     theme: 'forest',
-    isPremium: false,
+    freeLevels: 2,
     levels: [
       {
         id: 'cm-1',
@@ -138,7 +138,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.additionIsland',
     emoji: '🐳',
     theme: 'ocean',
-    isPremium: true,
+    freeLevels: 2,
     levels: [
       {
         id: 'ai-1',
@@ -293,7 +293,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.subtractionMountain',
     emoji: '🚀',
     theme: 'space',
-    isPremium: true,
+    freeLevels: 2,
     levels: [
       {
         id: 'sm-1',
@@ -452,15 +452,13 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
 ];
 
 export function getDefaultAdventureProgress(): AdventureProgress {
-  const debugUnlockAll = __DEV__;
-
   const progress: AdventureProgress = {
     version: 1,
     currentWorld: 'counting-meadow',
     worlds: {
       'counting-meadow': {unlocked: true, levels: {}},
-      'addition-island': {unlocked: debugUnlockAll || false, levels: {}},
-      'subtraction-mountain': {unlocked: debugUnlockAll || false, levels: {}},
+      'addition-island': {unlocked: true, levels: {}},
+      'subtraction-mountain': {unlocked: true, levels: {}},
     },
   };
 
@@ -468,7 +466,7 @@ export function getDefaultAdventureProgress(): AdventureProgress {
     for (const level of world.levels) {
       const isFirst = level.unlockCondition.type === 'first';
       progress.worlds[world.id].levels[level.id] = {
-        unlocked: debugUnlockAll || (world.id === 'counting-meadow' && isFirst),
+        unlocked: isFirst,
         completed: false,
         stars: 0,
         bestFirstTry: 0,
