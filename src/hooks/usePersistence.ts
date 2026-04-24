@@ -14,6 +14,7 @@ const defaultPlayerData: PlayerData = {
   language: 'ro',
   highScore: 0,
   level: 1,
+  audioMode: 'full',
 };
 
 const defaultRewardData: RewardData = {

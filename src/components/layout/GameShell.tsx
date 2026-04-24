@@ -8,6 +8,7 @@ import {useLayout} from '../../hooks/useLayout';
 import {usePersistence} from '../../hooks/usePersistence';
 import {useRewards} from '../../hooks/useRewards';
 import {Emoji} from '../common/Emoji';
+import {AudioToggle} from '../common/AudioToggle';
 import {ModeSelector} from './ModeSelector';
 import {BackgroundEmojis} from './BackgroundEmojis';
 import {LanguageSwitcher} from './LanguageSwitcher';
@@ -30,9 +31,10 @@ import {ModeChoice} from '../onboarding/ModeChoice';
 import {AboutTenFrames} from '../info/AboutTenFrames';
 import {usePremium} from '../../hooks/usePremium';
 import {useSound} from '../../hooks/useSound';
+import {useNarration} from '../../hooks/useNarration';
 import {useIAPConnection, withIAPContext} from '../../hooks/useIAP';
 import {FREE_DAILY_LIMIT} from '../../config/limits';
-import {Language, GameMode} from '../../types/game';
+import {AudioMode, Language, GameMode} from '../../types/game';
 import {ADVENTURE_WORLDS} from '../../config/adventureWorlds';
 import {useAdventure} from '../../hooks/useAdventure';
 import {AdventureMapScreen} from '../adventure/AdventureMapScreen';
@@ -52,7 +54,9 @@ function GameShellInner() {
   const {isLandscape, isTablet, fontScale} = useLayout();
   const rewardSystem = useRewards();
   const premium = usePremium();
-  const {play: playSound} = useSound();
+  const [audioMode, setAudioMode] = useState<AudioMode>('full');
+  const {play: playSound} = useSound(audioMode);
+  const {speakKey} = useNarration(audioMode);
 
   const handleIAPSuccess = useCallback(() => {
     premium.upgradeToPremium();
@@ -82,6 +86,9 @@ function GameShellInner() {
   useEffect(() => {
     (async () => {
       const data = await loadPlayerData();
+      if (data.audioMode) {
+        setAudioMode(data.audioMode);
+      }
       if (data.name) {
         game.setPlayerName(data.name);
         game.setTheme(data.theme);
@@ -96,6 +103,9 @@ function GameShellInner() {
             setShowAdventureMap(true);
           }
         }
+        setTimeout(() => {
+          speakKey('audio.welcomeBack', {name: data.name});
+        }, 800);
       }
       const rewards = await loadRewardData();
       rewardSystem.loadRewards(rewards);
@@ -129,6 +139,7 @@ function GameShellInner() {
   useEffect(() => {
     if (game.isCorrect === true && prevIsCorrect.current !== true) {
       playSound('correct');
+      speakKey('audio.correctCheer');
       const wasFirstTry = game.streak > 0;
       const stars = rewardSystem.awardStars(game.gameMode, wasFirstTry);
       setLastStarsAwarded(stars);
@@ -146,6 +157,7 @@ function GameShellInner() {
       }
     } else if (game.isCorrect === false && prevIsCorrect.current !== false) {
       playSound('wrong');
+      speakKey('audio.wrongCheer');
     }
     prevIsCorrect.current = game.isCorrect;
   }, [game.isCorrect]);
@@ -185,8 +197,27 @@ function GameShellInner() {
         return;
       }
       game.setGameMode(mode);
+      const instructionKey =
+        mode === 'addition'
+          ? 'audio.instructionAddition'
+          : mode === 'subtraction'
+          ? 'audio.instructionSubtraction'
+          : mode === 'puzzle'
+          ? 'audio.instructionPuzzle'
+          : null;
+      if (instructionKey) {
+        speakKey(instructionKey);
+      }
     },
-    [game, premium],
+    [game, premium, speakKey],
+  );
+
+  const handleAudioModeChange = useCallback(
+    (mode: AudioMode) => {
+      setAudioMode(mode);
+      savePlayerData({audioMode: mode});
+    },
+    [savePlayerData],
   );
 
   const handleUpgrade = useCallback(() => {
@@ -398,6 +429,7 @@ function GameShellInner() {
         </Text>
       </View>
       <View style={styles.titleRight}>
+        <AudioToggle mode={audioMode} onChange={handleAudioModeChange} />
         <Pressable
           onPress={() => setShowAbout(true)}
           style={styles.infoButton}>

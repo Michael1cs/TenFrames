@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     textShadowRadius: 3,
   },
   hint: {
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '700',
     marginTop: 2,
     textShadowColor: 'rgba(0,0,0,0.7)',
@@ -196,11 +196,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   feedbackText: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '600',
   },
   answerText: {
-    fontSize: 13,
+    fontSize: 15,
     fontWeight: 'bold',
   },
 });

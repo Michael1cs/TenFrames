@@ -1,5 +1,6 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import Sound from 'react-native-sound';
+import {AudioMode} from '../types/game';
 
 Sound.setCategory('Playback');
 
@@ -13,9 +14,11 @@ const SOUNDS: {name: SoundName; file: string; volume: number}[] = [
   {name: 'star', file: 'star.wav', volume: 0.6},
 ];
 
-export function useSound() {
+export function useSound(audioMode: AudioMode = 'full') {
   const loaded = useRef<Map<SoundName, Sound>>(new Map());
   const [ready, setReady] = useState(false);
+  const audioModeRef = useRef(audioMode);
+  audioModeRef.current = audioMode;
 
   useEffect(() => {
     let mounted = true;
@@ -48,14 +51,13 @@ export function useSound() {
   }, []);
 
   const play = useCallback((name: SoundName) => {
+    if (audioModeRef.current === 'mute') return;
     const sound = loaded.current.get(name);
     if (!sound) return;
-    // Stop any current playback and replay from start
     sound.stop(() => {
       sound.setCurrentTime(0);
       sound.play(success => {
         if (!success) {
-          // Reset on failure (Android audio focus lost)
           sound.reset();
         }
       });

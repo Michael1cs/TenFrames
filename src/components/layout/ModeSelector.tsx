@@ -122,8 +122,8 @@ export function ModeSelector({
                 style={[
                   styles.bottomLabel,
                   {
-                    color: isActive ? '#FFFFFF' : 'rgba(255,255,255,0.85)',
-                    fontWeight: isActive ? 'bold' : '500',
+                    color: '#FFFFFF',
+                    fontWeight: isActive ? 'bold' : '600',
                   },
                 ]}
                 numberOfLines={1}>
@@ -160,7 +160,7 @@ export function ModeSelector({
             <Text
               style={[
                 styles.bottomLabel,
-                {color: 'rgba(255,255,255,0.85)', fontWeight: '500'},
+                {color: '#FFFFFF', fontWeight: '600'},
               ]}
               numberOfLines={1}>
               {t('adventure.title')}
@@ -211,20 +211,20 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   bottomLabel: {
-    fontSize: 11,
+    fontSize: 14,
     marginTop: 2,
     fontWeight: '600',
-    textShadowColor: 'rgba(0,0,0,0.5)',
+    textShadowColor: 'rgba(0,0,0,0.6)',
     textShadowOffset: {width: 0, height: 1},
     textShadowRadius: 2,
   },
   remainingBottom: {
-    fontSize: 9,
+    fontSize: 12,
     fontWeight: '700',
     marginTop: 1,
   },
   remainingPlaceholder: {
-    fontSize: 9,
+    fontSize: 12,
     marginTop: 1,
     color: 'transparent',
   },
@@ -251,11 +251,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   labelVertical: {
-    fontSize: 13,
+    fontSize: 15,
     flex: 1,
   },
   remainingVertical: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '700',
   },
 });

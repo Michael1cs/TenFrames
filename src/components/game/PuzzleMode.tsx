@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   question: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
     textShadowColor: 'rgba(0,0,0,0.7)',
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     textShadowRadius: 3,
   },
   hint: {
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '700',
     textAlign: 'center',
     textShadowColor: 'rgba(0,0,0,0.7)',
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   answerText: {
     color: '#FFFFFF',
     fontWeight: 'bold',
-    fontSize: 13,
+    fontSize: 15,
   },
   buttonsRow: {
     flexDirection: 'row',

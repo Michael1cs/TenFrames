@@ -25,8 +25,8 @@ function ConfettiPiece({index}: ConfettiPieceProps) {
   const config = useMemo(() => ({
     startX: Math.random() * width,
     size: Math.random() * 8 + 4,
-    delay: Math.random() * 2000,
-    duration: 2500 + Math.random() * 1000,
+    delay: Math.random() * 800,
+    duration: 1400 + Math.random() * 400,
     drift: (Math.random() - 0.5) * 100,
     rotDir: Math.random() > 0.5 ? 1 : -1,
     round: Math.random() > 0.5,
@@ -39,13 +39,13 @@ function ConfettiPiece({index}: ConfettiPieceProps) {
     );
     translateX.value = withDelay(
       config.delay,
-      withTiming(config.drift, {duration: 2500}),
+      withTiming(config.drift, {duration: 1400}),
     );
     rotate.value = withDelay(
       config.delay,
-      withTiming(360 * config.rotDir, {duration: 2500}),
+      withTiming(360 * config.rotDir, {duration: 1400}),
     );
-    opacity.value = withDelay(config.delay + 2000, withTiming(0, {duration: 500}));
+    opacity.value = withDelay(config.delay + 1100, withTiming(0, {duration: 300}));
   }, []);
 
   const style = useAnimatedStyle(() => ({

@@ -147,7 +147,7 @@ export function useGameState() {
       setLevel(prev => prev + 1);
       setMascotMood('celebrating');
       setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 3000);
+      setTimeout(() => setShowConfetti(false), 1800);
     }
   }, [score, level]);
 
@@ -260,7 +260,7 @@ export function useGameState() {
       setTimeout(() => {
         setShowConfetti(false);
         doGenerateProblem();
-      }, 3000);
+      }, 1800);
     } else {
       // WRONG
       setIsCorrect(false);
@@ -270,7 +270,6 @@ export function useGameState() {
       setHasSubmitted(true);
       setMascotMood('thinking');
 
-      // After 3 seconds, reset same problem for retry
       setTimeout(() => {
         if (mode === 'addition') {
           setupAdditionCells(problem);
@@ -282,7 +281,7 @@ export function useGameState() {
         setHasSubmitted(false);
         setIsCorrect(null);
         setFeedback('');
-      }, 3000);
+      }, 2000);
     }
   }, [cells, doGenerateProblem, setupAdditionCells, setupSubtractionCells]);
 
@@ -308,7 +307,7 @@ export function useGameState() {
         const newNum = generatePuzzleNumber();
         setPuzzleAnswer(newNum);
         setupPuzzleCells(newNum);
-      }, 3000);
+      }, 1800);
     } else {
       // WRONG
       setShowPuzzleAnswer(true);
