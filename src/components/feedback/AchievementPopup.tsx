@@ -75,13 +75,14 @@ const styles = StyleSheet.create({
   label: {
     color: '#1E1B4B',
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 18,
     marginTop: 4,
   },
   desc: {
     color: '#1E1B4B',
-    fontSize: 12,
+    fontSize: 14,
     textAlign: 'center',
-    opacity: 0.8,
+    opacity: 0.85,
+    lineHeight: 19,
   },
 });

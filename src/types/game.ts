@@ -6,6 +6,7 @@ export type CellState = 'empty' | 'filled' | 'color1' | 'color2';
 export type Theme = 'space' | 'forest' | 'ocean' | 'farm' | 'candy' | 'unicorn' | 'pixel' | 'slime' | 'kpop' | 'monsters';
 export type MascotMood = 'happy' | 'excited' | 'thinking' | 'celebrating';
 export type Language = 'ro' | 'en';
+export type AgeGroup = 'young' | 'older';
 
 export interface Problem {
   num1: number;
@@ -31,6 +32,7 @@ export interface PlayerData {
   name: string;
   theme: Theme;
   language: Language;
+  ageGroup: AgeGroup;
   highScore: number;
   level: number;
   lastMode?: 'adventure' | 'freeplay';

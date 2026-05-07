@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
-import {Theme, Language} from '../../types/game';
+import {Theme, Language, AgeGroup} from '../../types/game';
 import {getAllThemes} from '../../hooks/useTheme';
 import {LanguageSwitcher} from '../layout/LanguageSwitcher';
 import {Emoji} from '../common/Emoji';
@@ -22,6 +22,8 @@ interface PlayerSetupProps {
   onThemeChange: (theme: Theme) => void;
   language: Language;
   onLanguageChange: (lang: Language) => void;
+  ageGroup: AgeGroup;
+  onAgeGroupChange: (group: AgeGroup) => void;
   onComplete: () => void;
   isThemeChange?: boolean;
 }
@@ -34,6 +36,8 @@ export function PlayerSetup({
   onThemeChange,
   language,
   onLanguageChange,
+  ageGroup,
+  onAgeGroupChange,
   onComplete,
   isThemeChange = false,
 }: PlayerSetupProps) {
@@ -90,6 +94,48 @@ export function PlayerSetup({
                     language={language}
                     onLanguageChange={onLanguageChange}
                   />
+                </View>
+              </View>
+            )}
+
+            {!isThemeChange && (
+              <View style={styles.section}>
+                <Text style={styles.label}>{t('setup.ageLabel')}</Text>
+                <View style={styles.ageRow}>
+                  <Pressable
+                    onPress={() => onAgeGroupChange('young')}
+                    style={[
+                      styles.ageButton,
+                      ageGroup === 'young' && styles.ageButtonActive,
+                    ]}>
+                    <Emoji style={styles.ageEmoji}>
+                      {t('setup.ageYoungEmoji')}
+                    </Emoji>
+                    <Text
+                      style={[
+                        styles.ageLabel,
+                        ageGroup === 'young' && styles.ageLabelActive,
+                      ]}>
+                      {t('setup.ageYoung')}
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    onPress={() => onAgeGroupChange('older')}
+                    style={[
+                      styles.ageButton,
+                      ageGroup === 'older' && styles.ageButtonActive,
+                    ]}>
+                    <Emoji style={styles.ageEmoji}>
+                      {t('setup.ageOlderEmoji')}
+                    </Emoji>
+                    <Text
+                      style={[
+                        styles.ageLabel,
+                        ageGroup === 'older' && styles.ageLabelActive,
+                      ]}>
+                      {t('setup.ageOlder')}
+                    </Text>
+                  </Pressable>
                 </View>
               </View>
             )}
@@ -160,47 +206,79 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 20,
+    borderRadius: 22,
     padding: 24,
     width: '100%',
-    maxWidth: 400,
-    maxHeight: '85%',
+    maxWidth: 420,
+    maxHeight: '88%',
     elevation: 10,
   },
   titleMain: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: '800',
     textAlign: 'center',
     color: '#4F46E5',
     marginBottom: 4,
   },
   title: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 22,
     color: '#1F2937',
   },
   section: {
-    marginBottom: 16,
+    marginBottom: 18,
   },
   label: {
-    fontSize: 14,
-    fontWeight: '600',
-    marginBottom: 8,
+    fontSize: 16,
+    fontWeight: '700',
+    marginBottom: 10,
     color: '#374151',
   },
   input: {
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: '#D1D5DB',
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    fontSize: 16,
+    borderRadius: 14,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    fontSize: 18,
     color: '#1F2937',
   },
   languageRow: {
     alignItems: 'flex-start',
+  },
+  ageRow: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  ageButton: {
+    flex: 1,
+    paddingVertical: 14,
+    paddingHorizontal: 12,
+    borderRadius: 16,
+    borderWidth: 2.5,
+    borderColor: '#E5E7EB',
+    backgroundColor: '#F9FAFB',
+    alignItems: 'center',
+    gap: 4,
+  },
+  ageButtonActive: {
+    borderColor: '#8B5CF6',
+    backgroundColor: '#F5F3FF',
+  },
+  ageEmoji: {
+    fontSize: 36,
+  },
+  ageLabel: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#6B7280',
+    textAlign: 'center',
+  },
+  ageLabelActive: {
+    color: '#5B21B6',
+    fontWeight: '700',
   },
   themeGrid: {
     flexDirection: 'row',
@@ -211,29 +289,29 @@ const styles = StyleSheet.create({
   themeButton: {
     width: '22%',
     padding: 10,
-    borderRadius: 12,
+    borderRadius: 14,
     borderWidth: 2,
     alignItems: 'center',
   },
   themeEmoji: {
-    fontSize: 24,
+    fontSize: 26,
     marginBottom: 4,
   },
   themeName: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     textAlign: 'center',
   },
   startButton: {
     backgroundColor: '#8B5CF6',
-    paddingVertical: 14,
-    borderRadius: 12,
+    paddingVertical: 16,
+    borderRadius: 14,
     marginTop: 8,
     elevation: 3,
   },
   startButtonText: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
   },

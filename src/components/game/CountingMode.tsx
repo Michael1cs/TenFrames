@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   semiTitle: {
-    fontSize: 22,
+    fontSize: 26,
     fontWeight: '800',
     textAlign: 'center',
     textShadowColor: 'rgba(0,0,0,0.7)',
@@ -81,22 +81,22 @@ const styles = StyleSheet.create({
     textShadowRadius: 3,
   },
   feedback: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: 18,
+    fontWeight: '700',
     textAlign: 'center',
     textShadowColor: 'rgba(0,0,0,0.7)',
     textShadowOffset: {width: 0, height: 1},
     textShadowRadius: 3,
   },
   iconButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 3,
   },
   iconButtonText: {
-    fontSize: 28,
+    fontSize: 32,
   },
 });

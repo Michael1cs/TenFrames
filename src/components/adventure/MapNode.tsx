@@ -207,25 +207,25 @@ const styles = StyleSheet.create({
     borderColor: '#FFFFFF',
   },
   lockBadgeText: {
-    fontSize: 11,
+    fontSize: 13,
   },
   nodeEmoji: {
-    fontSize: 24,
+    fontSize: 28,
   },
   checkBadge: {
     position: 'absolute',
     bottom: -2,
     right: -2,
-    width: 18,
-    height: 18,
-    borderRadius: 9,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
     backgroundColor: '#22C55E',
     justifyContent: 'center',
     alignItems: 'center',
   },
   checkText: {
     color: '#FFFFFF',
-    fontSize: 11,
+    fontSize: 13,
     fontWeight: 'bold',
   },
   starsRow: {
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     gap: 1,
   },
   starText: {
-    fontSize: 10,
+    fontSize: 13,
   },
   playLabel: {
     fontSize: 16,

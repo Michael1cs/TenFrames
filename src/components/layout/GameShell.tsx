@@ -30,6 +30,7 @@ import {ModeChoice} from '../onboarding/ModeChoice';
 import {AboutTenFrames} from '../info/AboutTenFrames';
 import {usePremium} from '../../hooks/usePremium';
 import {useSound} from '../../hooks/useSound';
+import {useAgeProfile} from '../../hooks/useAgeProfile';
 import {useIAPConnection, withIAPContext} from '../../hooks/useIAP';
 import {FREE_DAILY_LIMIT} from '../../config/limits';
 import {Language, GameMode} from '../../types/game';
@@ -53,6 +54,7 @@ function GameShellInner() {
   const rewardSystem = useRewards();
   const premium = usePremium();
   const {play: playSound} = useSound();
+  const ageProfile = useAgeProfile(game.ageGroup);
 
   const handleIAPSuccess = useCallback(() => {
     premium.upgradeToPremium();
@@ -86,6 +88,7 @@ function GameShellInner() {
         game.setPlayerName(data.name);
         game.setTheme(data.theme);
         game.setLanguage(data.language);
+        game.setAgeGroup(data.ageGroup);
         game.setShowSetup(false);
         i18n.changeLanguage(data.language);
         isFirstSetupRef.current = false;
@@ -170,6 +173,14 @@ function GameShellInner() {
     [game, savePlayerData],
   );
 
+  // If active mode falls outside the age profile (e.g. user switched to young
+  // while playing addition), drop back to counting.
+  useEffect(() => {
+    if (!ageProfile.availableModes.includes(game.gameMode)) {
+      game.setGameMode('counting');
+    }
+  }, [ageProfile.availableModes, game.gameMode]);
+
   const handleCellClick = useCallback(
     (index: number) => {
       playSound('tap');
@@ -204,6 +215,7 @@ function GameShellInner() {
       name: game.playerName,
       theme: game.theme,
       language: game.language,
+      ageGroup: game.ageGroup,
     });
     // Show mode choice only on first setup, not theme changes
     if (isFirstTime) {
@@ -477,6 +489,7 @@ function GameShellInner() {
         vertical
         getRemainingExercises={premium.getRemainingExercises}
         isPremium={premium.isPremium}
+        availableModes={ageProfile.availableModes}
       />
     </View>
   );
@@ -573,6 +586,8 @@ function GameShellInner() {
           onThemeChange={game.setTheme}
           language={game.language}
           onLanguageChange={handleLanguageChange}
+          ageGroup={game.ageGroup}
+          onAgeGroupChange={game.setAgeGroup}
           onComplete={handleSetupComplete}
           isThemeChange={game.isThemeChange}
         />
@@ -625,6 +640,7 @@ function GameShellInner() {
               getRemainingExercises={premium.getRemainingExercises}
               isPremium={premium.isPremium}
               onAdventurePress={handleAdventurePress}
+              availableModes={ageProfile.availableModes}
             />
           </View>
         )}
@@ -694,13 +710,13 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   title: {
-    fontSize: 15,
+    fontSize: 17,
     fontWeight: '800',
   },
   subtitle: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '600',
-    opacity: 0.8,
+    opacity: 0.85,
   },
   titleRight: {
     flexDirection: 'row',
@@ -743,7 +759,7 @@ const styles = StyleSheet.create({
     borderColor: '#F59E0B',
   },
   statBadgeText: {
-    fontSize: 13,
+    fontSize: 15,
     fontWeight: '700',
     color: '#FFFFFF',
   },
@@ -765,7 +781,7 @@ const styles = StyleSheet.create({
   },
   themeButtonText: {
     color: '#FFFFFF',
-    fontSize: 13,
+    fontSize: 15,
     fontWeight: 'bold',
   },
   gameArea: {

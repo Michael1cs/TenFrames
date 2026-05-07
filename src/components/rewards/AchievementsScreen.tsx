@@ -120,13 +120,13 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   title: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
     flex: 1,
   },
   progress: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: 16,
+    fontWeight: '700',
     marginRight: 12,
   },
   closeBtn: {
@@ -176,14 +176,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   achievementName: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   achievementDesc: {
-    fontSize: 11,
+    fontSize: 13,
     marginTop: 2,
+    lineHeight: 18,
   },
   checkmark: {
-    fontSize: 16,
+    fontSize: 18,
   },
 });

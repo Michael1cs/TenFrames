@@ -131,13 +131,13 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   title: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
     flex: 1,
   },
   progress: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: 16,
+    fontWeight: '700',
     marginRight: 12,
   },
   closeBtn: {
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   categoryTitle: {
-    fontSize: 14,
+    fontSize: 17,
     fontWeight: 'bold',
     marginBottom: 8,
   },
@@ -173,9 +173,9 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   stickerCell: {
-    width: 56,
-    height: 56,
-    borderRadius: 12,
+    width: 64,
+    height: 64,
+    borderRadius: 14,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -190,14 +190,15 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0.1)',
   },
   stickerEmoji: {
-    fontSize: 28,
+    fontSize: 32,
   },
   stickerLockedEmoji: {
     opacity: 0.4,
   },
   requirementText: {
-    fontSize: 8,
-    color: 'rgba(255,255,255,0.5)',
+    fontSize: 10,
+    color: 'rgba(255,255,255,0.6)',
     marginTop: 2,
+    fontWeight: '600',
   },
 });

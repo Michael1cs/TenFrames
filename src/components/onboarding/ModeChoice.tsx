@@ -204,9 +204,9 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   cardDesc: {
-    fontSize: 13,
+    fontSize: 15,
     color: '#6B7280',
-    lineHeight: 18,
+    lineHeight: 21,
   },
   previewRow: {
     flexDirection: 'row',

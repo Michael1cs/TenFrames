@@ -12,9 +12,10 @@ interface ModeSelectorProps {
   getRemainingExercises?: (mode: GameMode) => number;
   isPremium?: boolean;
   onAdventurePress?: () => void;
+  availableModes?: GameMode[];
 }
 
-const modes: {id: GameMode; emoji: string; key: string; emojiColor?: string}[] = [
+const allModes: {id: GameMode; emoji: string; key: string; emojiColor?: string}[] = [
   {id: 'counting', emoji: '🔢', key: 'modes.counting'},
   {id: 'addition', emoji: '+', key: 'modes.addition', emojiColor: '#4ADE80'},
   {id: 'subtraction', emoji: '−', key: 'modes.subtraction', emojiColor: '#F87171'},
@@ -29,8 +30,12 @@ export function ModeSelector({
   getRemainingExercises,
   isPremium = false,
   onAdventurePress,
+  availableModes,
 }: ModeSelectorProps) {
   const {t} = useTranslation();
+  const modes = availableModes
+    ? allModes.filter(m => availableModes.includes(m.id))
+    : allModes;
 
   if (vertical) {
     // Landscape sidebar mode
@@ -208,23 +213,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bottomEmoji: {
-    fontSize: 22,
+    fontSize: 26,
   },
   bottomLabel: {
-    fontSize: 11,
+    fontSize: 13,
     marginTop: 2,
-    fontWeight: '600',
+    fontWeight: '700',
     textShadowColor: 'rgba(0,0,0,0.5)',
     textShadowOffset: {width: 0, height: 1},
     textShadowRadius: 2,
   },
   remainingBottom: {
-    fontSize: 9,
+    fontSize: 11,
     fontWeight: '700',
     marginTop: 1,
   },
   remainingPlaceholder: {
-    fontSize: 9,
+    fontSize: 11,
     marginTop: 1,
     color: 'transparent',
   },
@@ -242,20 +247,21 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
   },
   emojiVerticalContainer: {
-    width: 22,
-    height: 22,
+    width: 26,
+    height: 26,
     alignItems: 'center',
     justifyContent: 'center',
   },
   emojiVertical: {
-    fontSize: 18,
+    fontSize: 22,
   },
   labelVertical: {
-    fontSize: 13,
+    fontSize: 15,
     flex: 1,
+    fontWeight: '600',
   },
   remainingVertical: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '700',
   },
 });

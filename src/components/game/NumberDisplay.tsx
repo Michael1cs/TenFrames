@@ -66,10 +66,10 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   number: {
-    fontSize: 36,
+    fontSize: 44,
     fontWeight: 'bold',
   },
   emoji: {
-    fontSize: 28,
+    fontSize: 34,
   },
 });

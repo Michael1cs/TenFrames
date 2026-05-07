@@ -83,17 +83,17 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   worldEmoji: {
-    fontSize: 24,
+    fontSize: 28,
     marginBottom: 4,
   },
   worldName: {
-    fontSize: 11,
+    fontSize: 13,
     fontWeight: '700',
     textAlign: 'center',
   },
   worldStars: {
-    fontSize: 10,
-    fontWeight: '600',
+    fontSize: 12,
+    fontWeight: '700',
     marginTop: 2,
   },
 });

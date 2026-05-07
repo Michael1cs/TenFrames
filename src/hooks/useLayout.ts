@@ -12,7 +12,7 @@ export function useLayout() {
     ? Math.min(width - 60, 700)
     : width - 60;
   const gridWidth = maxGridWidth;
-  const cellSize = Math.min((gridWidth - 60) / 5, isTablet ? 120 : 64);
+  const cellSize = Math.min((gridWidth - 60) / 5, isTablet ? 120 : 72);
 
   return {
     width,

@@ -12,6 +12,7 @@ const defaultPlayerData: PlayerData = {
   name: '',
   theme: 'space',
   language: 'ro',
+  ageGroup: 'older',
   highScore: 0,
   level: 1,
 };

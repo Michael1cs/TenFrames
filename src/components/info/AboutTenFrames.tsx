@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, Pressable, ScrollView, Modal} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
@@ -10,8 +10,11 @@ interface AboutTenFramesProps {
   onClose: () => void;
 }
 
+type Tab = 'kids' | 'parents';
+
 export function AboutTenFrames({visible, colors, onClose}: AboutTenFramesProps) {
   const {t} = useTranslation();
+  const [tab, setTab] = useState<Tab>('kids');
 
   return (
     <Modal
@@ -21,20 +24,52 @@ export function AboutTenFrames({visible, colors, onClose}: AboutTenFramesProps) 
       onRequestClose={onClose}>
       <View style={styles.overlay}>
         <View style={[styles.card, {borderColor: colors.accent}]}>
+          {/* Header */}
+          <View style={styles.header}>
+            <Text style={[styles.title, {color: colors.accent}]}>
+              <Emoji>📐</Emoji> {t('info.title')}
+            </Text>
+            <Pressable onPress={onClose} style={styles.closeBtn}>
+              <Text style={styles.closeText}>✕</Text>
+            </Pressable>
+          </View>
+
+          {/* Tabs */}
+          <View style={styles.tabs}>
+            <Pressable
+              onPress={() => setTab('kids')}
+              style={[
+                styles.tab,
+                tab === 'kids' && {backgroundColor: colors.accent},
+              ]}>
+              <Text
+                style={[
+                  styles.tabText,
+                  tab === 'kids' && styles.tabTextActive,
+                ]}>
+                <Emoji>🧒</Emoji> {t('info.tabKids')}
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => setTab('parents')}
+              style={[
+                styles.tab,
+                tab === 'parents' && {backgroundColor: colors.accent},
+              ]}>
+              <Text
+                style={[
+                  styles.tabText,
+                  tab === 'parents' && styles.tabTextActive,
+                ]}>
+                <Emoji>👨‍👩‍👧</Emoji> {t('info.tabParents')}
+              </Text>
+            </Pressable>
+          </View>
+
           <ScrollView
             contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={false}>
-            {/* Header */}
-            <View style={styles.header}>
-              <Text style={[styles.title, {color: colors.accent}]}>
-                <Emoji>📐</Emoji> {t('info.title')}
-              </Text>
-              <Pressable onPress={onClose} style={styles.closeBtn}>
-                <Text style={styles.closeText}>✕</Text>
-              </Pressable>
-            </View>
-
-            {/* Ten Frame illustration */}
+            {/* Ten Frame illustration (always visible) */}
             <View style={styles.illustration}>
               <View style={styles.miniGrid}>
                 {[1, 1, 1, 1, 0, 0, 0, 0, 0, 0].map((filled, i) => (
@@ -62,95 +97,134 @@ export function AboutTenFrames({visible, colors, onClose}: AboutTenFramesProps) 
               </Text>
             </View>
 
-            {/* What are Ten Frames? */}
-            <View style={styles.section}>
-              <Text style={[styles.sectionTitle, {color: colors.accent}]}>
-                <Emoji>📐</Emoji> {t('info.what')}
-              </Text>
-              <Text style={[styles.sectionText, {color: colors.text}]}>
-                {t('info.whatDesc')}
-              </Text>
-            </View>
+            {tab === 'kids' ? (
+              <>
+                <View style={styles.kidsIntro}>
+                  <Text style={[styles.kidsIntroText, {color: colors.text}]}>
+                    {t('info.kids.intro')}
+                  </Text>
+                </View>
 
-            {/* How do they help? */}
-            <View style={styles.section}>
-              <Text style={[styles.sectionTitle, {color: colors.accent}]}>
-                <Emoji>🧒</Emoji> {t('info.howHelp')}
-              </Text>
-              <Text style={[styles.sectionText, {color: colors.text}]}>
-                {t('info.howHelpDesc')}
-              </Text>
-            </View>
+                <View style={styles.section}>
+                  <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+                    {t('info.kids.counting')}
+                  </Text>
+                  <Text style={[styles.kidsText, {color: colors.text}]}>
+                    {t('info.kids.countingDesc')}
+                  </Text>
+                </View>
 
-            {/* Counting */}
-            <View style={styles.section}>
-              <Text style={[styles.sectionTitle, {color: colors.accent}]}>
-                <Emoji>🔢</Emoji> {t('info.counting')}
-              </Text>
-              <Text style={[styles.sectionText, {color: colors.text}]}>
-                {t('info.countingDesc')}
-              </Text>
-            </View>
+                <View style={styles.section}>
+                  <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+                    {t('info.kids.addition')}
+                  </Text>
+                  <Text style={[styles.kidsText, {color: colors.text}]}>
+                    {t('info.kids.additionDesc')}
+                  </Text>
+                </View>
 
-            {/* Addition */}
-            <View style={styles.section}>
-              <Text style={[styles.sectionTitle, {color: colors.accent}]}>
-                <Emoji>➕</Emoji> {t('info.addition')}
-              </Text>
-              <Text style={[styles.sectionText, {color: colors.text}]}>
-                {t('info.additionDesc')}
-              </Text>
-            </View>
+                <View style={styles.section}>
+                  <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+                    {t('info.kids.subtraction')}
+                  </Text>
+                  <Text style={[styles.kidsText, {color: colors.text}]}>
+                    {t('info.kids.subtractionDesc')}
+                  </Text>
+                </View>
 
-            {/* Subtraction */}
-            <View style={styles.section}>
-              <Text style={[styles.sectionTitle, {color: colors.accent}]}>
-                <Emoji>➖</Emoji> {t('info.subtraction')}
-              </Text>
-              <Text style={[styles.sectionText, {color: colors.text}]}>
-                {t('info.subtractionDesc')}
-              </Text>
-            </View>
+                <View style={styles.section}>
+                  <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+                    {t('info.kids.puzzle')}
+                  </Text>
+                  <Text style={[styles.kidsText, {color: colors.text}]}>
+                    {t('info.kids.puzzleDesc')}
+                  </Text>
+                </View>
+              </>
+            ) : (
+              <>
+                <View style={styles.section}>
+                  <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+                    <Emoji>📐</Emoji> {t('info.parents.what')}
+                  </Text>
+                  <Text style={[styles.sectionText, {color: colors.text}]}>
+                    {t('info.parents.whatDesc')}
+                  </Text>
+                </View>
 
-            {/* Number Bonds */}
-            <View style={styles.section}>
-              <Text style={[styles.sectionTitle, {color: colors.accent}]}>
-                <Emoji>🧩</Emoji> {t('info.bonds')}
-              </Text>
-              <Text style={[styles.sectionText, {color: colors.text}]}>
-                {t('info.bondsDesc')}
-              </Text>
-            </View>
+                <View style={styles.section}>
+                  <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+                    <Emoji>🧒</Emoji> {t('info.parents.howHelp')}
+                  </Text>
+                  <Text style={[styles.sectionText, {color: colors.text}]}>
+                    {t('info.parents.howHelpDesc')}
+                  </Text>
+                </View>
 
-            {/* Benefits */}
-            <View style={styles.section}>
-              <Text style={[styles.sectionTitle, {color: colors.accent}]}>
-                <Emoji>✨</Emoji> {t('info.benefits')}
-              </Text>
-              <Text style={[styles.sectionText, {color: colors.text}]}>
-                {t('info.benefitsDesc')}
-              </Text>
-            </View>
+                <View style={styles.section}>
+                  <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+                    <Emoji>🔢</Emoji> {t('info.parents.counting')}
+                  </Text>
+                  <Text style={[styles.sectionText, {color: colors.text}]}>
+                    {t('info.parents.countingDesc')}
+                  </Text>
+                </View>
 
-            {/* Tips for Parents */}
-            <View style={styles.section}>
-              <Text style={[styles.sectionTitle, {color: colors.accent}]}>
-                <Emoji>👨‍👩‍👧</Emoji> {t('info.tipsParents')}
-              </Text>
-              <Text style={[styles.sectionText, {color: colors.text}]}>
-                {t('info.tipsParentsDesc')}
-              </Text>
-            </View>
+                <View style={styles.section}>
+                  <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+                    <Emoji>➕</Emoji> {t('info.parents.addition')}
+                  </Text>
+                  <Text style={[styles.sectionText, {color: colors.text}]}>
+                    {t('info.parents.additionDesc')}
+                  </Text>
+                </View>
 
-            {/* Research Background */}
-            <View style={styles.section}>
-              <Text style={[styles.sectionTitle, {color: colors.accent}]}>
-                <Emoji>📚</Emoji> {t('info.research')}
-              </Text>
-              <Text style={[styles.sectionText, {color: colors.text}]}>
-                {t('info.researchDesc')}
-              </Text>
-            </View>
+                <View style={styles.section}>
+                  <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+                    <Emoji>➖</Emoji> {t('info.parents.subtraction')}
+                  </Text>
+                  <Text style={[styles.sectionText, {color: colors.text}]}>
+                    {t('info.parents.subtractionDesc')}
+                  </Text>
+                </View>
+
+                <View style={styles.section}>
+                  <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+                    <Emoji>🧩</Emoji> {t('info.parents.bonds')}
+                  </Text>
+                  <Text style={[styles.sectionText, {color: colors.text}]}>
+                    {t('info.parents.bondsDesc')}
+                  </Text>
+                </View>
+
+                <View style={styles.section}>
+                  <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+                    <Emoji>✨</Emoji> {t('info.parents.benefits')}
+                  </Text>
+                  <Text style={[styles.sectionText, {color: colors.text}]}>
+                    {t('info.parents.benefitsDesc')}
+                  </Text>
+                </View>
+
+                <View style={styles.section}>
+                  <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+                    <Emoji>👨‍👩‍👧</Emoji> {t('info.parents.tips')}
+                  </Text>
+                  <Text style={[styles.sectionText, {color: colors.text}]}>
+                    {t('info.parents.tipsDesc')}
+                  </Text>
+                </View>
+
+                <View style={styles.section}>
+                  <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+                    <Emoji>📚</Emoji> {t('info.parents.research')}
+                  </Text>
+                  <Text style={[styles.sectionText, {color: colors.text}]}>
+                    {t('info.parents.researchDesc')}
+                  </Text>
+                </View>
+              </>
+            )}
           </ScrollView>
         </View>
       </View>
@@ -174,32 +248,57 @@ const styles = StyleSheet.create({
     maxWidth: 400,
     height: '80%',
   },
-  scrollContent: {
-    padding: 20,
-    gap: 14,
-  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 4,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 8,
   },
   title: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
     flex: 1,
   },
   closeBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     backgroundColor: 'rgba(255,255,255,0.15)',
     justifyContent: 'center',
     alignItems: 'center',
   },
   closeText: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
+  },
+  tabs: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    gap: 8,
+    marginBottom: 4,
+  },
+  tab: {
+    flex: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: 12,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    alignItems: 'center',
+  },
+  tabText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: 'rgba(255,255,255,0.7)',
+  },
+  tabTextActive: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+  },
+  scrollContent: {
+    padding: 20,
+    gap: 14,
   },
   illustration: {
     alignItems: 'center',
@@ -227,9 +326,20 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   illustrationLabel: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
     opacity: 0.8,
+  },
+  kidsIntro: {
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderRadius: 14,
+    padding: 16,
+  },
+  kidsIntroText: {
+    fontSize: 18,
+    lineHeight: 26,
+    fontWeight: '600',
+    textAlign: 'center',
   },
   section: {
     backgroundColor: 'rgba(255,255,255,0.06)',
@@ -238,12 +348,17 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   sectionTitle: {
-    fontSize: 15,
+    fontSize: 17,
     fontWeight: 'bold',
   },
   sectionText: {
-    fontSize: 13,
-    lineHeight: 20,
+    fontSize: 14,
+    lineHeight: 22,
+    color: '#E5E7EB',
+  },
+  kidsText: {
+    fontSize: 17,
+    lineHeight: 25,
     color: '#E5E7EB',
   },
 });

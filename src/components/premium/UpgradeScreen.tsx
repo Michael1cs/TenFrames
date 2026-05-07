@@ -259,8 +259,9 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   priceNote: {
-    fontSize: 13,
+    fontSize: 14,
     marginTop: 2,
+    fontWeight: '500',
   },
   errorBox: {
     backgroundColor: 'rgba(239,68,68,0.2)',
@@ -273,7 +274,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: '#F87171',
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '600',
     textAlign: 'center',
   },
@@ -295,8 +296,8 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   restoreText: {
-    fontSize: 13,
-    fontWeight: '500',
+    fontSize: 15,
+    fontWeight: '600',
   },
   loadingRow: {
     flexDirection: 'row',

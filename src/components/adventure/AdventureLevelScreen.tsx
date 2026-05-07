@@ -473,9 +473,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   instructionText: {
-    color: 'rgba(255,255,255,0.8)',
-    fontSize: 14,
-    fontWeight: '600',
+    color: 'rgba(255,255,255,0.85)',
+    fontSize: 17,
+    fontWeight: '700',
     textAlign: 'center',
     marginTop: 4,
   },

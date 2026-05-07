@@ -6,6 +6,7 @@ import {
   MascotMood,
   Theme,
   Language,
+  AgeGroup,
 } from '../types/game';
 import {generateProblem, generatePuzzleNumber} from '../utils/mathProblems';
 import {shouldLevelUp} from '../utils/scoring';
@@ -27,6 +28,7 @@ export function useGameState() {
   const [feedback, setFeedback] = useState<string>('');
   const [theme, setTheme] = useState<Theme>('space');
   const [language, setLanguage] = useState<Language>('ro');
+  const [ageGroup, setAgeGroup] = useState<AgeGroup>('older');
   const [playerName, setPlayerName] = useState('');
   const [showSetup, setShowSetup] = useState(true);
   const [isThemeChange, setIsThemeChange] = useState(false);
@@ -373,6 +375,7 @@ export function useGameState() {
     color2Count,
     theme,
     language,
+    ageGroup,
     playerName,
     showSetup,
     isThemeChange,
@@ -389,6 +392,7 @@ export function useGameState() {
     newPuzzle,
     setTheme,
     setLanguage,
+    setAgeGroup,
     setPlayerName,
     setShowSetup,
     setIsThemeChange,
