@@ -1,3 +1,6 @@
+# Local working dirs (font/sound sourcing scratch space)
+tmp_sounds/
+
 # OSX
 #
 .DS_Store
