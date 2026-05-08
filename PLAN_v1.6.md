@@ -102,12 +102,12 @@
 
 ---
 
-## Pachet 2 — Voce ElevenLabs + sistem `useVoice` (Săptămânile 1-2)
+## Pachet 2 — Voce ElevenLabs + sistem `useVoice` (Săptămânile 1-2) — 🟡 IN PROGRESS
 
 **Țintește:** Words/sounds · Sound quality · Engagement · Usefulness of sound effects
 
-### 2.1 Script complet pentru voce
-- [ ] Generare `voice-script-ro.json` și `voice-script-en.json` cu toate replicile organizate pe categorii:
+### 2.1 Script complet pentru voce — ✅ DONE
+- [x] [src/voice/script.ts](src/voice/script.ts) — 50 entries bilingve RO+EN, organizate pe categorii:
   - **numbers** (0-10, plus formă numărată „un', doi', trei'…")
   - **counting-rhythmic** (numărare rapidă 1-10 pentru levelup)
   - **instructions-counting** (3 variante)
@@ -126,15 +126,17 @@
   - **achievements-unlock** (10 variante scurte)
 - [ ] Estimare totală: ~120 clipuri × 2 limbi = 240
 
-### 2.2 Generare ElevenLabs
-- [ ] Selecție voce RO (recomandat: voce feminină tânără, „Charlotte" sau „Alice" cu setting RO)
-- [ ] Selecție voce EN (recomandat: voce copil-friendly, „Rachel" sau „Bella")
-- [ ] Script de batch generation (Node script local cu API ElevenLabs)
-- [ ] Output: `assets/audio/{ro,en}/{category}/{key}.mp3` (~3-5KB per fișier la bitrate 64kbps mono)
-- [ ] Total estimat: ~3-5MB asset audio
+### 2.2 Generare ElevenLabs — 🟡 PARTIALLY DONE (script gata, generare pe tine)
+- [x] Voci default: Charlotte (RO, voiceId XB0fDUnXU5powFXDhCwa), Bella (EN, EXAVITQu4vr4xnSDxMaL)
+- [x] [scripts/gen-voice.mjs](scripts/gen-voice.mjs) — batch generation Node script
+- [x] Output flat: `assets/audio/voice_{ro|en}_{id}.mp3` (compatibil cu react-native-asset)
+- [x] Bitrate 64kbps mono, model `eleven_multilingual_v2` (suportă RO)
+- [ ] **Rulezi tu**: `ELEVENLABS_API_KEY=sk_xxx node scripts/gen-voice.mjs`
+- [ ] După generare: `npx react-native-asset && cd ios && pod install`
+- [ ] Cost estimat: ~3-5k caractere/limbă × 2 = ~6-10k → free tier ElevenLabs
 
-### 2.3 Hook `useVoice`
-- [ ] Creare `src/hooks/useVoice.ts`:
+### 2.3 Hook `useVoice` — ✅ DONE
+- [x] [src/hooks/useVoice.ts](src/hooks/useVoice.ts):
   - Pre-load lista (lazy per categorie)
   - Queue cu interrupt (replică nouă oprește pe cea veche)
   - Suport `play(key, params?)` și `playSequence([keys])`
