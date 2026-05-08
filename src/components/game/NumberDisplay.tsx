@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {Text, StyleSheet} from 'react-native';
 import {Emoji} from '../common/Emoji';
 import Animated, {
   useAnimatedStyle,
@@ -12,19 +12,20 @@ interface NumberDisplayProps {
   number: number;
   colors: ThemeColors;
   emoji: string;
+  scale?: number;
 }
 
-export function NumberDisplay({number, colors, emoji}: NumberDisplayProps) {
-  const scale = useSharedValue(1);
+export function NumberDisplay({number, colors, emoji, scale = 1}: NumberDisplayProps) {
+  const popScale = useSharedValue(1);
 
   React.useEffect(() => {
-    scale.value = withSpring(1.1, {damping: 4}, () => {
-      scale.value = withSpring(1);
+    popScale.value = withSpring(1.1, {damping: 4}, () => {
+      popScale.value = withSpring(1);
     });
   }, [number]);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{scale: scale.value}],
+    transform: [{scale: popScale.value}],
   }));
 
   return (
@@ -42,6 +43,7 @@ export function NumberDisplay({number, colors, emoji}: NumberDisplayProps) {
           styles.number,
           {
             color: colors.numberText,
+            fontSize: 44 * scale,
             textShadowColor: 'rgba(0,0,0,0.5)',
             textShadowOffset: {width: 0, height: 1},
             textShadowRadius: 3,
@@ -49,7 +51,7 @@ export function NumberDisplay({number, colors, emoji}: NumberDisplayProps) {
         ]}>
         {number}
       </Text>
-      <Text style={styles.emoji}><Emoji>{emoji}</Emoji></Text>
+      <Text style={[styles.emoji, {fontSize: 34 * scale}]}><Emoji>{emoji}</Emoji></Text>
     </Animated.View>
   );
 }

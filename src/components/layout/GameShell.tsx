@@ -50,7 +50,7 @@ function GameShellInner() {
     loadRewardData, saveRewardData,
     loadPremiumData, savePremiumData,
   } = usePersistence();
-  const {isLandscape, isTablet, fontScale} = useLayout();
+  const {isLandscape, isTablet, fontScale} = useLayout(game.ageGroup);
   const rewardSystem = useRewards();
   const premium = usePremium();
   const {play: playSound} = useSound();
@@ -266,6 +266,9 @@ function GameShellInner() {
             colors={colors}
             emoji={themeConfig.emoji}
             tokenImage={themeConfig.tokenImage}
+            ageGroup={game.ageGroup}
+            ageProfile={ageProfile}
+            onCelebrate={() => playSound('star')}
           />
         );
       case 'addition':

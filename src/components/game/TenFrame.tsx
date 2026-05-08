@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, ImageSourcePropType} from 'react-native';
 import {TenFrameCell} from './TenFrameCell';
-import {CellState, ThemeColors} from '../../types/game';
+import {AgeGroup, CellState, ThemeColors} from '../../types/game';
 import {useLayout} from '../../hooks/useLayout';
 
 interface TenFrameProps {
@@ -11,6 +11,7 @@ interface TenFrameProps {
   colors: ThemeColors;
   emoji: string;
   tokenImage?: ImageSourcePropType;
+  ageGroup?: AgeGroup;
 }
 
 export function TenFrame({
@@ -20,8 +21,9 @@ export function TenFrame({
   colors,
   emoji,
   tokenImage,
+  ageGroup = 'older',
 }: TenFrameProps) {
-  const {cellSize} = useLayout();
+  const {cellSize} = useLayout(ageGroup);
 
   return (
     <View

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {View, Text, StyleSheet, Pressable, ImageSourcePropType} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {TenFrame} from './TenFrame';
 import {NumberDisplay} from './NumberDisplay';
-import {Emoji} from '../common/Emoji';
-import {CellState, ThemeColors} from '../../types/game';
+import {AgeProfile} from '../../hooks/useAgeProfile';
+import {AgeGroup, CellState, ThemeColors} from '../../types/game';
 
 interface CountingModeProps {
   cells: CellState[];
@@ -14,6 +14,9 @@ interface CountingModeProps {
   colors: ThemeColors;
   emoji: string;
   tokenImage?: ImageSourcePropType;
+  ageGroup?: AgeGroup;
+  ageProfile?: AgeProfile;
+  onCelebrate?: () => void;
 }
 
 export function CountingMode({
@@ -24,16 +27,44 @@ export function CountingMode({
   colors,
   emoji,
   tokenImage,
+  ageGroup = 'older',
+  ageProfile,
+  onCelebrate,
 }: CountingModeProps) {
   const {t} = useTranslation();
+  const compact = ageProfile?.compact ?? false;
+  const fontScale = ageProfile?.fontScale ?? 1;
+
+  // Auto-reset for young profile when frame fills up: celebrate, then reset.
+  const celebratedRef = useRef(false);
+  useEffect(() => {
+    if (!compact) {
+      celebratedRef.current = false;
+      return;
+    }
+    if (filledCount === 10 && !celebratedRef.current) {
+      celebratedRef.current = true;
+      onCelebrate?.();
+      const timer = setTimeout(() => {
+        onReset();
+        celebratedRef.current = false;
+      }, 1800);
+      return () => clearTimeout(timer);
+    }
+    if (filledCount < 10) {
+      celebratedRef.current = false;
+    }
+  }, [filledCount, compact, onCelebrate, onReset]);
 
   return (
     <View style={styles.container}>
-      <View style={styles.titleCard}>
-        <Text style={[styles.semiTitle, {color: colors.accent}]}>
-          Ten Frames
-        </Text>
-      </View>
+      {!compact && (
+        <View style={styles.titleCard}>
+          <Text style={[styles.semiTitle, {color: colors.accent}]}>
+            Ten Frames
+          </Text>
+        </View>
+      )}
 
       <TenFrame
         cells={cells}
@@ -41,13 +72,21 @@ export function CountingMode({
         colors={colors}
         emoji={emoji}
         tokenImage={tokenImage}
+        ageGroup={ageGroup}
       />
 
-      <NumberDisplay number={filledCount} colors={colors} emoji={emoji} />
+      <NumberDisplay
+        number={filledCount}
+        colors={colors}
+        emoji={emoji}
+        scale={fontScale}
+      />
 
-      <Text style={[styles.feedback, {color: colors.accent}]}>
-        {t('game.youHave', {count: filledCount})}
-      </Text>
+      {!compact && (
+        <Text style={[styles.feedback, {color: colors.accent}]}>
+          {t('game.youHave', {count: filledCount})}
+        </Text>
+      )}
 
       <Pressable
         onPress={onReset}
