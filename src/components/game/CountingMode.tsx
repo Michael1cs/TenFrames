@@ -52,7 +52,7 @@ export function CountingMode({
       <Pressable
         onPress={onReset}
         style={[styles.iconButton, {backgroundColor: colors.primaryButton}]}>
-        <Text style={styles.iconButtonText}><Emoji>🔄</Emoji></Text>
+        <Text style={styles.iconButtonText}>↻</Text>
       </Pressable>
     </View>
   );
@@ -89,14 +89,25 @@ const styles = StyleSheet.create({
     textShadowRadius: 3,
   },
   iconButton: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
+    width: 92,
+    height: 92,
+    borderRadius: 46,
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 3,
+    elevation: 6,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.35,
+    shadowRadius: 8,
+    borderWidth: 3,
+    borderColor: 'rgba(255,255,255,0.4)',
   },
   iconButtonText: {
-    fontSize: 32,
+    fontSize: 56,
+    fontWeight: '900',
+    color: '#FFFFFF',
+    textAlign: 'center',
+    lineHeight: 62,
+    includeFontPadding: false,
   },
 });
