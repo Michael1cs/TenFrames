@@ -16,6 +16,7 @@
 		A1B2C3D403000000000000AA /* wrong.wav in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D403000000000000BB /* wrong.wav */; };
 		A1B2C3D404000000000000AA /* star.wav in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D404000000000000BB /* star.wav */; };
 		A1B2C3D405000000000000AA /* levelup.wav in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D405000000000000BB /* levelup.wav */; };
+		A1C1C196EF234B76AD101F5C /* Fredoka.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DD0BB466E9B04FD08303D9EE /* Fredoka.ttf */; };
 		AEF37B174452DB08300AD3E2 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,7 @@
 		A1B2C3D403000000000000BB /* wrong.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = wrong.wav; path = TenFrames/wrong.wav; sourceTree = "<group>"; };
 		A1B2C3D404000000000000BB /* star.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = star.wav; path = TenFrames/star.wav; sourceTree = "<group>"; };
 		A1B2C3D405000000000000BB /* levelup.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = levelup.wav; path = TenFrames/levelup.wav; sourceTree = "<group>"; };
+		DD0BB466E9B04FD08303D9EE /* Fredoka.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Fredoka.ttf; path = ../assets/fonts/Fredoka.ttf; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -90,6 +92,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				C8F9BB11B5984AE684E76E70 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -111,6 +114,15 @@
 				5709B34CF0A7D63546082F79 /* Pods-TenFrames.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		C8F9BB11B5984AE684E76E70 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DD0BB466E9B04FD08303D9EE /* Fredoka.ttf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,6 +193,7 @@
 				A1B2C3D404000000000000AA /* star.wav in Resources */,
 				A1B2C3D405000000000000AA /* levelup.wav in Resources */,
 				AEF37B174452DB08300AD3E2 /* PrivacyInfo.xcprivacy in Resources */,
+				A1C1C196EF234B76AD101F5C /* Fredoka.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

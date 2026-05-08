@@ -66,7 +66,7 @@ export function PuzzleMode({
       <Pressable
         onPress={onSubmit}
         style={[styles.submitButton, {backgroundColor: '#16A34A'}]}>
-        <Text style={styles.submitButtonText}><Emoji>✅</Emoji></Text>
+        <Text style={styles.submitButtonText}>✓</Text>
       </Pressable>
 
       <Pressable
@@ -133,15 +133,26 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   submitButton: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 92,
+    height: 92,
+    borderRadius: 46,
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 4,
+    elevation: 6,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.35,
+    shadowRadius: 8,
+    borderWidth: 3,
+    borderColor: 'rgba(255,255,255,0.4)',
   },
   submitButtonText: {
-    fontSize: 40,
+    fontSize: 56,
+    fontWeight: '900',
+    color: '#FFFFFF',
+    textAlign: 'center',
+    lineHeight: 62,
+    includeFontPadding: false,
   },
   resetButton: {
     width: 48,

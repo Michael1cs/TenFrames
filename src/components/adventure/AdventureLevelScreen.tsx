@@ -382,9 +382,7 @@ export function AdventureLevelScreen({
                   styles.submitBtn,
                   {backgroundColor: themeColors.primaryButton},
                 ]}>
-                <Text style={styles.submitText}>
-                  <Emoji>✅</Emoji>
-                </Text>
+                <Text style={styles.submitText}>✓</Text>
               </Pressable>
             )}
           </View>
@@ -487,19 +485,26 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   submitBtn: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
+    width: 92,
+    height: 92,
+    borderRadius: 46,
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 4,
+    elevation: 6,
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.35,
+    shadowRadius: 8,
+    borderWidth: 3,
+    borderColor: 'rgba(255,255,255,0.4)',
   },
   submitText: {
-    fontSize: 32,
+    fontSize: 56,
+    fontWeight: '900',
+    color: '#FFFFFF',
+    textAlign: 'center',
+    lineHeight: 62,
+    includeFontPadding: false,
   },
   feedbackBox: {
     alignItems: 'center',
