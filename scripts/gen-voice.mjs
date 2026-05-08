@@ -2,7 +2,13 @@
 // Batch generator for voice clips via ElevenLabs API.
 //
 // Usage:
-//   ELEVENLABS_API_KEY=sk_xxx node scripts/gen-voice.mjs [--lang=ro|en|both] [--force]
+//   ELEVENLABS_API_KEY=sk_xxx node scripts/gen-voice.mjs [opts]
+// Options:
+//   --lang=ro|en|both       (default: both)
+//   --force                  re-generate even if file exists
+//   --sample                 generate a curated 10-entry diverse subset (QA pass)
+//   --limit=N                generate first N entries from VOICE_SCRIPT
+//   --ids=id1,id2,id3        generate only these exact IDs
 //
 // Output: assets/audio/voice_{lang}_{id}.mp3 — flat namespace so
 //   react-native-asset can link without subfolder gymnastics.
@@ -38,7 +44,26 @@ const MODEL_ID = process.env.ELEVENLABS_MODEL || 'eleven_multilingual_v2';
 const args = new Set(process.argv.slice(2));
 const lang = [...args].find(a => a.startsWith('--lang='))?.split('=')[1] || 'both';
 const force = args.has('--force');
+const sample = args.has('--sample');
+const limitArg = [...args].find(a => a.startsWith('--limit='))?.split('=')[1];
+const idsArg = [...args].find(a => a.startsWith('--ids='))?.split('=')[1];
 const langs = lang === 'both' ? ['ro', 'en'] : [lang];
+
+// Curated 10-entry diverse subset for quality QA pass.
+// Covers: short words with diacritics, longer numbers, exclamations,
+// gentle phrases, and full mascot narration.
+const SAMPLE_IDS = [
+  'num_3',           // RO: "trei" — clear short
+  'num_5',           // RO: "cinci" — diacritic-free
+  'num_8',           // RO: "opt" — shortest
+  'num_9',           // RO: "nouă" — diacritic ă
+  'count_to_5',      // exclamation in sequence
+  'fb_correct_3',    // "Super!" — energetic
+  'fb_again_2',      // "Mai încearcă!" — diacritic î + ă, gentle
+  'zee_greeting',    // longest narration
+  'world_counting',  // story-style with "Lunca Numerelor"
+  'instr_addition_easy', // imperative, short
+];
 
 // Parse VOICE_SCRIPT array literal from src/voice/script.ts
 const scriptSrc = fs.readFileSync(SCRIPT_TS, 'utf8');
@@ -55,7 +80,19 @@ while ((m = entryRe.exec(arrMatch[1])) !== null) {
   const en = (m[4] ?? m[5] ?? '').replace(/\\'/g, "'").replace(/\\"/g, '"');
   entries.push({id: m[1], ro, en});
 }
-console.log(`Parsed ${entries.length} entries.`);
+// Apply selection filters
+let selectedEntries = entries;
+if (idsArg) {
+  const wantedIds = new Set(idsArg.split(','));
+  selectedEntries = entries.filter(e => wantedIds.has(e.id));
+} else if (sample) {
+  const wantedIds = new Set(SAMPLE_IDS);
+  selectedEntries = entries.filter(e => wantedIds.has(e.id));
+} else if (limitArg) {
+  selectedEntries = entries.slice(0, parseInt(limitArg, 10));
+}
+
+console.log(`Parsed ${entries.length} entries; will generate ${selectedEntries.length} per language (${langs.join(', ')}).`);
 
 if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, {recursive: true});
 
@@ -85,7 +122,7 @@ async function generateAll() {
   let total = 0, skipped = 0, errors = 0;
   for (const language of langs) {
     const voiceId = language === 'ro' ? VOICE_ID_RO : VOICE_ID_EN;
-    for (const entry of entries) {
+    for (const entry of selectedEntries) {
       const text = entry[language];
       const filename = `voice_${language}_${entry.id}.mp3`;
       const outPath = path.join(OUT_DIR, filename);
