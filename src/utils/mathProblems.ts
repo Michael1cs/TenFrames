@@ -1,11 +1,50 @@
-import {GameMode, Problem, CountingChallenge} from '../types/game';
+import {AgeGroup, GameMode, Problem, CountingChallenge} from '../types/game';
+
+const YOUNG_ADDITION_POOL: Problem[] = [
+  {num1: 1, num2: 1, answer: 2},
+  {num1: 1, num2: 2, answer: 3},
+  {num1: 2, num2: 1, answer: 3},
+  {num1: 1, num2: 3, answer: 4},
+  {num1: 3, num2: 1, answer: 4},
+  {num1: 2, num2: 2, answer: 4},
+  {num1: 1, num2: 4, answer: 5},
+  {num1: 4, num2: 1, answer: 5},
+  {num1: 2, num2: 3, answer: 5},
+  {num1: 3, num2: 2, answer: 5},
+];
+
+const YOUNG_SUBTRACTION_POOL: Problem[] = [
+  {num1: 2, num2: 1, answer: 1},
+  {num1: 3, num2: 1, answer: 2},
+  {num1: 3, num2: 2, answer: 1},
+  {num1: 4, num2: 1, answer: 3},
+  {num1: 4, num2: 2, answer: 2},
+  {num1: 4, num2: 3, answer: 1},
+  {num1: 5, num2: 1, answer: 4},
+  {num1: 5, num2: 2, answer: 3},
+  {num1: 5, num2: 3, answer: 2},
+  {num1: 5, num2: 4, answer: 1},
+];
+
+function pickRandom<T>(pool: T[]): T {
+  return pool[Math.floor(Math.random() * pool.length)];
+}
 
 /**
  * Generate a problem based on game mode and difficulty level.
  * Levels 1-9: focused practice (e.g., level 1 = +1 only, level 2 = +2 only)
  * Level 10+: random (full range)
+ * ageGroup === 'young' clamps sum/difference to ≤ 5.
  */
-export function generateProblem(gameMode: GameMode, level: number = 10): Problem {
+export function generateProblem(
+  gameMode: GameMode,
+  level: number = 10,
+  ageGroup: AgeGroup = 'older',
+): Problem {
+  if (ageGroup === 'young') {
+    if (gameMode === 'addition') return pickRandom(YOUNG_ADDITION_POOL);
+    if (gameMode === 'subtraction') return pickRandom(YOUNG_SUBTRACTION_POOL);
+  }
   if (gameMode === 'addition') {
     return generateAdditionProblem(level);
   } else if (gameMode === 'subtraction') {

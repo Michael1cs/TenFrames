@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {View, Text, StyleSheet, Pressable, ImageSourcePropType} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {TenFrame} from './TenFrame';
 import {NumberDisplay} from './NumberDisplay';
 import {Emoji} from '../common/Emoji';
-import {CellState, Problem, ThemeColors} from '../../types/game';
+import {AgeProfile} from '../../hooks/useAgeProfile';
+import {AgeGroup, CellState, Problem, ThemeColors} from '../../types/game';
 
 interface SubtractionModeProps {
   cells: CellState[];
@@ -20,6 +21,8 @@ interface SubtractionModeProps {
   emoji: string;
   tokenImage?: ImageSourcePropType;
   level: number;
+  ageGroup?: AgeGroup;
+  ageProfile?: AgeProfile;
 }
 
 export function SubtractionMode({
@@ -36,23 +39,44 @@ export function SubtractionMode({
   emoji,
   tokenImage,
   level,
+  ageGroup = 'older',
+  ageProfile,
 }: SubtractionModeProps) {
   const {t} = useTranslation();
+  const compact = ageProfile?.compact ?? false;
+  const fontScale = ageProfile?.fontScale ?? 1;
+
+  const autoSubmittedRef = useRef(false);
+  useEffect(() => {
+    if (!compact || !currentProblem || hasSubmitted) {
+      autoSubmittedRef.current = false;
+      return;
+    }
+    if (userAnswer === currentProblem.answer && !autoSubmittedRef.current) {
+      autoSubmittedRef.current = true;
+      const t = setTimeout(() => onSubmit(), 350);
+      return () => clearTimeout(t);
+    }
+  }, [userAnswer, currentProblem, hasSubmitted, compact, onSubmit]);
 
   return (
     <View style={styles.container}>
-      <View style={[styles.levelBadge, {backgroundColor: colors.accent}]}>
-        <Text style={styles.levelText}><Emoji>⭐</Emoji> Level {level} <Emoji>⭐</Emoji></Text>
-      </View>
+      {!compact && (
+        <View style={[styles.levelBadge, {backgroundColor: colors.accent}]}>
+          <Text style={styles.levelText}><Emoji>⭐</Emoji> Level {level} <Emoji>⭐</Emoji></Text>
+        </View>
+      )}
 
       {currentProblem && (
         <View style={styles.problemContainer}>
           <Text style={[styles.problem, {color: '#FFFFFF'}]}>
             {currentProblem.num1} - {currentProblem.num2} = ?
           </Text>
-          <Text style={[styles.hint, {color: '#FFFFFF'}]}>
-            {t('game.subtractionHint')} <Emoji>👆</Emoji>
-          </Text>
+          {!compact && (
+            <Text style={[styles.hint, {color: '#FFFFFF'}]}>
+              {t('game.subtractionHint')} <Emoji>👆</Emoji>
+            </Text>
+          )}
         </View>
       )}
 
@@ -62,13 +86,14 @@ export function SubtractionMode({
         colors={colors}
         emoji={emoji}
         tokenImage={tokenImage}
+        ageGroup={ageGroup}
       />
 
       {userAnswer !== null && (
-        <NumberDisplay number={userAnswer} colors={colors} emoji={emoji} />
+        <NumberDisplay number={userAnswer} colors={colors} emoji={emoji} scale={fontScale} />
       )}
 
-      {!hasSubmitted && (
+      {!hasSubmitted && !compact && (
         <Pressable
           onPress={onSubmit}
           style={[styles.submitButton, {backgroundColor: '#16A34A'}]}>

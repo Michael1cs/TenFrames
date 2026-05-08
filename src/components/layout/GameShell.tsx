@@ -30,6 +30,7 @@ import {ModeChoice} from '../onboarding/ModeChoice';
 import {AboutTenFrames} from '../info/AboutTenFrames';
 import {usePremium} from '../../hooks/usePremium';
 import {useSound} from '../../hooks/useSound';
+import {useVoice, VOICE_GROUPS} from '../../hooks/useVoice';
 import {useAgeProfile} from '../../hooks/useAgeProfile';
 import {useIAPConnection, withIAPContext} from '../../hooks/useIAP';
 import {FREE_DAILY_LIMIT} from '../../config/limits';
@@ -55,6 +56,7 @@ function GameShellInner() {
   const premium = usePremium();
   const {play: playSound} = useSound();
   const ageProfile = useAgeProfile(game.ageGroup);
+  const voice = useVoice();
 
   const handleIAPSuccess = useCallback(() => {
     premium.upgradeToPremium();
@@ -132,6 +134,7 @@ function GameShellInner() {
   useEffect(() => {
     if (game.isCorrect === true && prevIsCorrect.current !== true) {
       playSound('correct');
+      voice.playRandom(VOICE_GROUPS.correct);
       const wasFirstTry = game.streak > 0;
       const stars = rewardSystem.awardStars(game.gameMode, wasFirstTry);
       setLastStarsAwarded(stars);
@@ -149,9 +152,23 @@ function GameShellInner() {
       }
     } else if (game.isCorrect === false && prevIsCorrect.current !== false) {
       playSound('wrong');
+      voice.playRandom(VOICE_GROUPS.tryAgain);
     }
     prevIsCorrect.current = game.isCorrect;
   }, [game.isCorrect]);
+
+  // Young profile: speak the number whenever it changes in counting mode.
+  const prevFilledCount = useRef(game.filledCount);
+  useEffect(() => {
+    if (game.ageGroup !== 'young') {
+      prevFilledCount.current = game.filledCount;
+      return;
+    }
+    if (game.gameMode === 'counting' && game.filledCount !== prevFilledCount.current) {
+      voice.play(`num_${game.filledCount}`);
+    }
+    prevFilledCount.current = game.filledCount;
+  }, [game.filledCount, game.ageGroup, game.gameMode, voice]);
 
   // Sound on level-up
   const prevAddLevel = useRef(game.additionLevel);
@@ -221,8 +238,10 @@ function GameShellInner() {
     if (isFirstTime) {
       isFirstSetupRef.current = false;
       setShowModeChoice(true);
+      // Mascot greeting (silent fallback if voice asset missing).
+      voice.play('zee_greeting');
     }
-  }, [game, savePlayerData]);
+  }, [game, savePlayerData, voice]);
 
   const handleModeChoice = useCallback((mode: 'adventure' | 'freeplay') => {
     setShowModeChoice(false);
@@ -287,6 +306,8 @@ function GameShellInner() {
             emoji={themeConfig.emoji}
             tokenImage={themeConfig.tokenImage}
             level={game.additionLevel}
+            ageGroup={game.ageGroup}
+            ageProfile={ageProfile}
           />
         );
       case 'subtraction':
@@ -305,6 +326,8 @@ function GameShellInner() {
             emoji={themeConfig.emoji}
             tokenImage={themeConfig.tokenImage}
             level={game.subtractionLevel}
+            ageGroup={game.ageGroup}
+            ageProfile={ageProfile}
           />
         );
       case 'puzzle':

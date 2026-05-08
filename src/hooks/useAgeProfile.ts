@@ -18,7 +18,7 @@ export function useAgeProfile(ageGroup: AgeGroup): AgeProfile {
       autoVoice: isYoung,
       showHints: !isYoung,
       availableModes: isYoung
-        ? (['counting'] as GameMode[])
+        ? (['counting', 'addition', 'subtraction'] as GameMode[])
         : (['counting', 'addition', 'subtraction', 'puzzle'] as GameMode[]),
       fontScale: isYoung ? 1.15 : 1.0,
       cellMinSize: isYoung ? 64 : 56,

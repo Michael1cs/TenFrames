@@ -90,11 +90,13 @@ export function useGameState() {
   additionLevelRef.current = additionLevel;
   const subtractionLevelRef = useRef(subtractionLevel);
   subtractionLevelRef.current = subtractionLevel;
+  const ageGroupRef = useRef(ageGroup);
+  ageGroupRef.current = ageGroup;
 
   const doGenerateProblem = useCallback(() => {
     const mode = gameModeRef.current;
     const modeLevel = mode === 'addition' ? additionLevelRef.current : subtractionLevelRef.current;
-    const problem = generateProblem(mode, modeLevel);
+    const problem = generateProblem(mode, modeLevel, ageGroupRef.current);
     setCurrentProblem(problem);
     setFeedback('');
     setIsCorrect(null);
