@@ -2,28 +2,132 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "assets/audio/voice_en_ask_age.mp3",
+      "sha1": "6b8f99b2c76f45028b51aff806b6d27d6b1b2b71"
+    },
+    {
+      "path": "assets/audio/voice_en_ask_theme.mp3",
+      "sha1": "40dc0d9f00bbb19977ece0b75d1d2aecd729a502"
+    },
+    {
+      "path": "assets/audio/voice_en_count_to_10.mp3",
+      "sha1": "659ba1e4af716a64a1cc97e94a575b1e68a22f0c"
+    },
+    {
       "path": "assets/audio/voice_en_count_to_5.mp3",
       "sha1": "0896009a9b11ca520d0fd254c0718d5bb061c4d6"
+    },
+    {
+      "path": "assets/audio/voice_en_fb_again_1.mp3",
+      "sha1": "4bf3345aa65e60dad9f752d8d161acb284356b8b"
     },
     {
       "path": "assets/audio/voice_en_fb_again_2.mp3",
       "sha1": "91e1af7c16808c27e5076a01892341f70c5e8211"
     },
     {
+      "path": "assets/audio/voice_en_fb_again_3.mp3",
+      "sha1": "5aadfcb328063b8a098488795d3f260706c39fa8"
+    },
+    {
+      "path": "assets/audio/voice_en_fb_again_4.mp3",
+      "sha1": "4862c6ced2d7393263e0b5409a3e7e4b3d3bd5a0"
+    },
+    {
+      "path": "assets/audio/voice_en_fb_again_5.mp3",
+      "sha1": "2e7e4e8d8e77f6a1c61b38edb4431ba66230ac71"
+    },
+    {
+      "path": "assets/audio/voice_en_fb_correct_1.mp3",
+      "sha1": "ea75fabf3f99f6aa3428efcc74b27721a6aba744"
+    },
+    {
+      "path": "assets/audio/voice_en_fb_correct_2.mp3",
+      "sha1": "06e697813ec30900a98a0bd6dda878f5a09d7ab6"
+    },
+    {
       "path": "assets/audio/voice_en_fb_correct_3.mp3",
       "sha1": "af17c921c56ea23be5f57acfa8eb117570957d1b"
+    },
+    {
+      "path": "assets/audio/voice_en_fb_correct_4.mp3",
+      "sha1": "3463d291e0f1f680da0ceabcf5cc96052f2cc9aa"
+    },
+    {
+      "path": "assets/audio/voice_en_fb_correct_5.mp3",
+      "sha1": "27a785de72c49543a21e949e7fa77ec4e379c8fd"
+    },
+    {
+      "path": "assets/audio/voice_en_fb_correct_6.mp3",
+      "sha1": "76b8274fc1be41d6197ca1f59ab590840471e5ba"
+    },
+    {
+      "path": "assets/audio/voice_en_fb_correct_7.mp3",
+      "sha1": "e74eefacbf846a671552cbdfdfac372fdbbbd661"
+    },
+    {
+      "path": "assets/audio/voice_en_fb_correct_8.mp3",
+      "sha1": "60aa94cbf3d10e024c0eb5227c5ffe0afd2dcf57"
     },
     {
       "path": "assets/audio/voice_en_instr_addition_easy.mp3",
       "sha1": "d84a61111b8c95bdeed37fb205a7aa5499c9d3ff"
     },
     {
+      "path": "assets/audio/voice_en_instr_addition.mp3",
+      "sha1": "37929a21a77abd80b0b4d0d8c3b1018d857743ae"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_counting.mp3",
+      "sha1": "2d943de802ec126a1a6cad3dcb1ed98204cca912"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_puzzle.mp3",
+      "sha1": "8d383fd9d8d361b5b0b2d832766e91f57233a1be"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_subtraction_easy.mp3",
+      "sha1": "6614e1d2fb7e4ca99130597f6cfdc7b671040f44"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_subtraction.mp3",
+      "sha1": "d6fb7d8fb36ef672bc97cee0cfd828fce5322361"
+    },
+    {
+      "path": "assets/audio/voice_en_num_0.mp3",
+      "sha1": "c97e29d3fabf801441877901104ecd73add6ba8a"
+    },
+    {
+      "path": "assets/audio/voice_en_num_1.mp3",
+      "sha1": "b8299bb26a10f3c10c4c520d5e04be7e8f4626a9"
+    },
+    {
+      "path": "assets/audio/voice_en_num_10.mp3",
+      "sha1": "85eff479f547416b9a2f4994a576ecc48a7a693c"
+    },
+    {
+      "path": "assets/audio/voice_en_num_2.mp3",
+      "sha1": "f2f5efa40cce97d17af3f4ebbcaa3f61ab4d08d3"
+    },
+    {
       "path": "assets/audio/voice_en_num_3.mp3",
       "sha1": "f7cb08c69defc2153d195e5bac3e880b7d23f34d"
     },
     {
+      "path": "assets/audio/voice_en_num_4.mp3",
+      "sha1": "947c9457d578a8a2f851bbedb08a7a88c6731432"
+    },
+    {
       "path": "assets/audio/voice_en_num_5.mp3",
       "sha1": "70abbadecacc7b2092eaee3f747d7306fb477730"
+    },
+    {
+      "path": "assets/audio/voice_en_num_6.mp3",
+      "sha1": "1b59c0cb68051182238d7e0e0f4fa2ff6b9a6ff8"
+    },
+    {
+      "path": "assets/audio/voice_en_num_7.mp3",
+      "sha1": "add17cbc36d1659af20976463d725117100b2dc6"
     },
     {
       "path": "assets/audio/voice_en_num_8.mp3",
@@ -34,36 +138,212 @@
       "sha1": "d8d7dd0fbee4929b6be39f08430e9a59338b8cd3"
     },
     {
+      "path": "assets/audio/voice_en_reward_achievement.mp3",
+      "sha1": "91ef81d3ea587d275eb8dfefbb955c1c112485b9"
+    },
+    {
+      "path": "assets/audio/voice_en_reward_level_good.mp3",
+      "sha1": "1f6d56de21d7e1b87c158497d2e2ed9fe35f824d"
+    },
+    {
+      "path": "assets/audio/voice_en_reward_level_great.mp3",
+      "sha1": "c652a2cc87a5e86a6b3d3360a6c5b5ebe4dbce3b"
+    },
+    {
+      "path": "assets/audio/voice_en_reward_level_perfect.mp3",
+      "sha1": "3c9836f9f04eb70510ac054b26ab987d543755ce"
+    },
+    {
+      "path": "assets/audio/voice_en_reward_milestone_10.mp3",
+      "sha1": "b3a7ea74f79335c1f92ee6335aca37aec95280da"
+    },
+    {
+      "path": "assets/audio/voice_en_reward_milestone_100.mp3",
+      "sha1": "c25eeff81cf846e40b451ff0d6acdd059c2bf25d"
+    },
+    {
+      "path": "assets/audio/voice_en_reward_milestone_25.mp3",
+      "sha1": "672c33a1392d92b09ff3060c8a34b7a2f901ef55"
+    },
+    {
+      "path": "assets/audio/voice_en_reward_milestone_50.mp3",
+      "sha1": "94302ff22716a4ebc8aeb8e8b347c6ba877d6514"
+    },
+    {
+      "path": "assets/audio/voice_en_reward_sticker.mp3",
+      "sha1": "994a759f2aa2928f1643f0795c6de94ae1950594"
+    },
+    {
+      "path": "assets/audio/voice_en_reward_streak.mp3",
+      "sha1": "542f3f50705a4ca887e601c706fddb127b53ec6e"
+    },
+    {
+      "path": "assets/audio/voice_en_welcome.mp3",
+      "sha1": "9149df0a100fd5abdefee770b53de4a0ca8f1773"
+    },
+    {
+      "path": "assets/audio/voice_en_world_addition.mp3",
+      "sha1": "7f80fecce57550bbb2b5a672253f98dafbaf42b0"
+    },
+    {
       "path": "assets/audio/voice_en_world_counting.mp3",
       "sha1": "f229ac8c259a16f18cb07ad7cc71f074bf135704"
+    },
+    {
+      "path": "assets/audio/voice_en_world_subtraction.mp3",
+      "sha1": "7dc999acf3a5c75581cf31e45b4d40ab9c24f919"
+    },
+    {
+      "path": "assets/audio/voice_en_zee_cheer.mp3",
+      "sha1": "14028374977833a406be8d58976c0616529a1aaf"
+    },
+    {
+      "path": "assets/audio/voice_en_zee_encourage.mp3",
+      "sha1": "eed39ce2a4de29e0e599bc259f3d2d30adaea79c"
     },
     {
       "path": "assets/audio/voice_en_zee_greeting.mp3",
       "sha1": "97c71ec24b3fd0a4c5c0b3c755d3d0f54cfd2676"
     },
     {
+      "path": "assets/audio/voice_en_zee_surprised.mp3",
+      "sha1": "ef7c57870f090539a7f737280f3e6c7caa915fea"
+    },
+    {
+      "path": "assets/audio/voice_en_zee_thinking.mp3",
+      "sha1": "f60aee60efc10e4b4349c14a5e7eb7d617772a35"
+    },
+    {
+      "path": "assets/audio/voice_en_zee_wave_bye.mp3",
+      "sha1": "4d71b5ea9d5ee6154403708d5c5f542bece14352"
+    },
+    {
+      "path": "assets/audio/voice_ro_ask_age.mp3",
+      "sha1": "95ec9355f21d9320a438fa387e5fcc9f2602ed17"
+    },
+    {
+      "path": "assets/audio/voice_ro_ask_theme.mp3",
+      "sha1": "e879dddd0e0a5abcb1fdd530307d974ae0716e60"
+    },
+    {
+      "path": "assets/audio/voice_ro_count_to_10.mp3",
+      "sha1": "7c7dd1524acaec87e036623f725de31012fd2c64"
+    },
+    {
       "path": "assets/audio/voice_ro_count_to_5.mp3",
       "sha1": "79735d33ef458b7ed8498ff911c1f765057897e8"
+    },
+    {
+      "path": "assets/audio/voice_ro_fb_again_1.mp3",
+      "sha1": "017e09e3fcc37300a7dcd37f8305b07e253b33f8"
     },
     {
       "path": "assets/audio/voice_ro_fb_again_2.mp3",
       "sha1": "e2afc9fb521f49d6b964d02093b4eedbb894832f"
     },
     {
+      "path": "assets/audio/voice_ro_fb_again_3.mp3",
+      "sha1": "8135396b92ee192a0bd42a2791ed795c2c766e44"
+    },
+    {
+      "path": "assets/audio/voice_ro_fb_again_4.mp3",
+      "sha1": "27b69cde9fc629c3ceea83e385bb3c3a136ad8b4"
+    },
+    {
+      "path": "assets/audio/voice_ro_fb_again_5.mp3",
+      "sha1": "7d7b99b7e9cdaf31b565f4b8fe0f7801623b5411"
+    },
+    {
+      "path": "assets/audio/voice_ro_fb_correct_1.mp3",
+      "sha1": "c5684d4c2edb1e503b152c3191f3550ac7dcb6e8"
+    },
+    {
+      "path": "assets/audio/voice_ro_fb_correct_2.mp3",
+      "sha1": "d4853740c26320c3e0c17868c3b0fa125b6cad21"
+    },
+    {
       "path": "assets/audio/voice_ro_fb_correct_3.mp3",
       "sha1": "e7e71de84e6e3a0f8cd20f53ecaa056a5ecbe194"
+    },
+    {
+      "path": "assets/audio/voice_ro_fb_correct_4.mp3",
+      "sha1": "e258486a0c428c8f0e67cdd792101eff8a7f018e"
+    },
+    {
+      "path": "assets/audio/voice_ro_fb_correct_5.mp3",
+      "sha1": "2a05f8e29e119f9646e0a80fd7f46158528e376e"
+    },
+    {
+      "path": "assets/audio/voice_ro_fb_correct_6.mp3",
+      "sha1": "d68248b2f31620ca124f13a8727aaf96c97eea27"
+    },
+    {
+      "path": "assets/audio/voice_ro_fb_correct_7.mp3",
+      "sha1": "1c723b5701f0cc6c56ace4fe6441dea99546ff9b"
+    },
+    {
+      "path": "assets/audio/voice_ro_fb_correct_8.mp3",
+      "sha1": "b35975c7c597c7201fffc204f45e7a3fee642faa"
     },
     {
       "path": "assets/audio/voice_ro_instr_addition_easy.mp3",
       "sha1": "9484a043264eb47600b0c050f597418416b6a45a"
     },
     {
+      "path": "assets/audio/voice_ro_instr_addition.mp3",
+      "sha1": "35ca34e6d17f1f7cdc656d30d617b12567fb7089"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_counting.mp3",
+      "sha1": "3228df7eed918cfc0fd31b20f547ee960f468943"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_puzzle.mp3",
+      "sha1": "617fbcc4fc098703fc6130edca6ce1ec6bf98588"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_subtraction_easy.mp3",
+      "sha1": "29fe351b32e01729c53876729668c44ef149f0c4"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_subtraction.mp3",
+      "sha1": "fb0ed9eecb5c44d9b2a5184c87b33e93d380738d"
+    },
+    {
+      "path": "assets/audio/voice_ro_num_0.mp3",
+      "sha1": "b350f39855a97c05359ee23cbf3d8c2bdd016b90"
+    },
+    {
+      "path": "assets/audio/voice_ro_num_1.mp3",
+      "sha1": "7ec638672f5150f9d23216d8c500c56f729f2630"
+    },
+    {
+      "path": "assets/audio/voice_ro_num_10.mp3",
+      "sha1": "effcb7b01035f8e6dcc0f4fd656a0585a7162684"
+    },
+    {
+      "path": "assets/audio/voice_ro_num_2.mp3",
+      "sha1": "2d9fa5544a66e052fffc85d13532d8ec579d38a3"
+    },
+    {
       "path": "assets/audio/voice_ro_num_3.mp3",
       "sha1": "61f4eb3de10e3991ac634e8c6072dc39686af7bf"
     },
     {
+      "path": "assets/audio/voice_ro_num_4.mp3",
+      "sha1": "6f1515f0cc220edc4ec5bbea846557c614951338"
+    },
+    {
       "path": "assets/audio/voice_ro_num_5.mp3",
       "sha1": "621c7dd9e3f02e783962e8f7521bef03389de105"
+    },
+    {
+      "path": "assets/audio/voice_ro_num_6.mp3",
+      "sha1": "e49096524b993f0bf960bf87ffd402546063dc51"
+    },
+    {
+      "path": "assets/audio/voice_ro_num_7.mp3",
+      "sha1": "d6542a67292f5657612c712631bbcf2b20be69f0"
     },
     {
       "path": "assets/audio/voice_ro_num_8.mp3",
@@ -74,12 +354,84 @@
       "sha1": "d2e6a8e284931d01f33b45904d480ea373ce003d"
     },
     {
+      "path": "assets/audio/voice_ro_reward_achievement.mp3",
+      "sha1": "0645d4f9b79a71c414956176df4079e1f32850d5"
+    },
+    {
+      "path": "assets/audio/voice_ro_reward_level_good.mp3",
+      "sha1": "d625e26ddfbd704f28d9da02a5e935be14bcd9f8"
+    },
+    {
+      "path": "assets/audio/voice_ro_reward_level_great.mp3",
+      "sha1": "8c10e48bf94faee74f5e1007256651aa66539969"
+    },
+    {
+      "path": "assets/audio/voice_ro_reward_level_perfect.mp3",
+      "sha1": "99e686b27075597478463d05e93df48633689e78"
+    },
+    {
+      "path": "assets/audio/voice_ro_reward_milestone_10.mp3",
+      "sha1": "d2b0d82f567ea98b1c61fb6bd9b4795509eac3f9"
+    },
+    {
+      "path": "assets/audio/voice_ro_reward_milestone_100.mp3",
+      "sha1": "f7cb80df2a0c7a76e64b1bcbc4f0f942cb2952bc"
+    },
+    {
+      "path": "assets/audio/voice_ro_reward_milestone_25.mp3",
+      "sha1": "9ee7559998ba88579580857c738bcb10cc9091c3"
+    },
+    {
+      "path": "assets/audio/voice_ro_reward_milestone_50.mp3",
+      "sha1": "995bcfa138afe18c14d68595119c5923247ec020"
+    },
+    {
+      "path": "assets/audio/voice_ro_reward_sticker.mp3",
+      "sha1": "10337abe27d43c8d41975e084535dfe3e40336f7"
+    },
+    {
+      "path": "assets/audio/voice_ro_reward_streak.mp3",
+      "sha1": "89efd36146d83dff9bae5713e4bb5db8adf26333"
+    },
+    {
+      "path": "assets/audio/voice_ro_welcome.mp3",
+      "sha1": "637880d99e186c29eebb6ab69e967d5dda907916"
+    },
+    {
+      "path": "assets/audio/voice_ro_world_addition.mp3",
+      "sha1": "7c396265869753e62751972840b271e35fa375cf"
+    },
+    {
       "path": "assets/audio/voice_ro_world_counting.mp3",
       "sha1": "6e0434b13564af41a983176038fc85a95454dfaf"
     },
     {
+      "path": "assets/audio/voice_ro_world_subtraction.mp3",
+      "sha1": "a0da2f5dfdbff870ceceb7ba42e393bbdd307a95"
+    },
+    {
+      "path": "assets/audio/voice_ro_zee_cheer.mp3",
+      "sha1": "59dd6525094e4e5e73475d4d8df91dbb54ceac62"
+    },
+    {
+      "path": "assets/audio/voice_ro_zee_encourage.mp3",
+      "sha1": "8f28326ada52f7e46944bdd3fbf6e2085a7887b6"
+    },
+    {
       "path": "assets/audio/voice_ro_zee_greeting.mp3",
       "sha1": "2982152b4042f84676e5b8015d28c1a27dedc635"
+    },
+    {
+      "path": "assets/audio/voice_ro_zee_surprised.mp3",
+      "sha1": "09fb341ce7d8a19e862724c07d38e350953e0018"
+    },
+    {
+      "path": "assets/audio/voice_ro_zee_thinking.mp3",
+      "sha1": "c391250e2bba0e62d82d930ba0cf55765fe595c6"
+    },
+    {
+      "path": "assets/audio/voice_ro_zee_wave_bye.mp3",
+      "sha1": "7d6e29add3524648a84a1c85ed4d9f855dadc951"
     },
     {
       "path": "assets/fonts/Fredoka.ttf",
