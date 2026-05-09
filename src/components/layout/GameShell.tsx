@@ -134,7 +134,17 @@ function GameShellInner() {
   useEffect(() => {
     if (game.isCorrect === true && prevIsCorrect.current !== true) {
       playSound('correct');
-      voice.playRandom(VOICE_GROUPS.correct);
+      // Young profile in addition/subtraction: play themed result narration.
+      // Otherwise, random short feedback.
+      if (
+        game.ageGroup === 'young' &&
+        game.currentProblem &&
+        (game.gameMode === 'addition' || game.gameMode === 'subtraction')
+      ) {
+        voice.play(`post_great_${game.theme}_${game.currentProblem.answer}`);
+      } else {
+        voice.playRandom(VOICE_GROUPS.correct);
+      }
       const wasFirstTry = game.streak > 0;
       const stars = rewardSystem.awardStars(game.gameMode, wasFirstTry);
       setLastStarsAwarded(stars);
@@ -179,13 +189,56 @@ function GameShellInner() {
     const key = `${game.gameMode}-${game.currentProblem.num1}-${game.currentProblem.num2}`;
     if (key === lastProblemKey.current) return;
     lastProblemKey.current = key;
-    const n = game.currentProblem.num2;
-    if (game.gameMode === 'addition') {
-      voice.play(`instr_add_${game.theme}_${n}`);
-    } else if (game.gameMode === 'subtraction') {
-      voice.play(`instr_sub_${game.theme}_${n}`);
-    }
+    const n1 = game.currentProblem.num1;
+    const n2 = game.currentProblem.num2;
+    const action = game.gameMode === 'addition' ? 'add' : 'sub';
+    // Sequence: "You have 1 rocket." → 1.4s gap → "Add 2 more!"
+    voice.playSequence([
+      `pre_have_${game.theme}_${n1}`,
+      `instr_${action}_${game.theme}_${n2}`,
+    ]);
   }, [game.currentProblem, game.gameMode, game.ageGroup, game.theme, voice]);
+
+  // Reward voices: sticker, achievement, milestone — fire on edge transitions.
+  const prevStickerCount = useRef(0);
+  useEffect(() => {
+    if (rewardSystem.newStickers.length > prevStickerCount.current) {
+      voice.play('reward_sticker');
+    }
+    prevStickerCount.current = rewardSystem.newStickers.length;
+  }, [rewardSystem.newStickers.length, voice]);
+
+  const prevAchievement = useRef<string | null>(null);
+  useEffect(() => {
+    if (rewardSystem.newAchievement && rewardSystem.newAchievement !== prevAchievement.current) {
+      voice.play('reward_achievement');
+    }
+    prevAchievement.current = rewardSystem.newAchievement;
+  }, [rewardSystem.newAchievement, voice]);
+
+  const prevMilestone = useRef<string | null>(null);
+  useEffect(() => {
+    if (rewardSystem.showMilestone && rewardSystem.showMilestone !== prevMilestone.current) {
+      // showMilestone is a string id like 'star10', 'star25', etc.
+      const id = rewardSystem.showMilestone;
+      if (id.includes('100')) voice.play('reward_milestone_100');
+      else if (id.includes('50')) voice.play('reward_milestone_50');
+      else if (id.includes('25')) voice.play('reward_milestone_25');
+      else voice.play('reward_milestone_10');
+    }
+    prevMilestone.current = rewardSystem.showMilestone;
+  }, [rewardSystem.showMilestone, voice]);
+
+  // Level complete in adventure: voice based on stars earned.
+  const prevAdventureStars = useRef<number | null>(null);
+  useEffect(() => {
+    if (adventureStars !== null && adventureStars !== prevAdventureStars.current) {
+      if (adventureStars === 3) voice.play('reward_level_perfect');
+      else if (adventureStars === 2) voice.play('reward_level_great');
+      else if (adventureStars === 1) voice.play('reward_level_good');
+    }
+    prevAdventureStars.current = adventureStars;
+  }, [adventureStars, voice]);
 
   // Sound on level-up
   const prevAddLevel = useRef(game.additionLevel);

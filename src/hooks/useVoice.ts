@@ -98,12 +98,38 @@ export function useVoice(opts: UseVoiceOptions = {}) {
     [play],
   );
 
+  const queueTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cancelQueue = () => {
+    if (queueTimerRef.current) {
+      clearTimeout(queueTimerRef.current);
+      queueTimerRef.current = null;
+    }
+  };
+
+  const playSequence = useCallback(
+    (ids: string[], gapMs = 1400) => {
+      cancelQueue();
+      if (!ids.length) return;
+      let i = 0;
+      const next = () => {
+        if (i >= ids.length) return;
+        play(ids[i++]);
+        if (i < ids.length) {
+          queueTimerRef.current = setTimeout(next, gapMs);
+        }
+      };
+      next();
+    },
+    [play],
+  );
+
   const stop = useCallback(() => {
+    cancelQueue();
     currentlyPlaying?.stop();
     currentlyPlaying = null;
   }, []);
 
-  return {play, playRandom, stop, ready};
+  return {play, playRandom, playSequence, stop, ready};
 }
 
 // Predefined groups for random pickup
