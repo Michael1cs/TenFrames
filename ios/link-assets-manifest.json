@@ -2,6 +2,86 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "assets/audio/voice_en_count_to_5.mp3",
+      "sha1": "0896009a9b11ca520d0fd254c0718d5bb061c4d6"
+    },
+    {
+      "path": "assets/audio/voice_en_fb_again_2.mp3",
+      "sha1": "91e1af7c16808c27e5076a01892341f70c5e8211"
+    },
+    {
+      "path": "assets/audio/voice_en_fb_correct_3.mp3",
+      "sha1": "af17c921c56ea23be5f57acfa8eb117570957d1b"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_addition_easy.mp3",
+      "sha1": "d84a61111b8c95bdeed37fb205a7aa5499c9d3ff"
+    },
+    {
+      "path": "assets/audio/voice_en_num_3.mp3",
+      "sha1": "f7cb08c69defc2153d195e5bac3e880b7d23f34d"
+    },
+    {
+      "path": "assets/audio/voice_en_num_5.mp3",
+      "sha1": "70abbadecacc7b2092eaee3f747d7306fb477730"
+    },
+    {
+      "path": "assets/audio/voice_en_num_8.mp3",
+      "sha1": "7309ffec0e8aab32f08b91e2bd853226932f0e84"
+    },
+    {
+      "path": "assets/audio/voice_en_num_9.mp3",
+      "sha1": "d8d7dd0fbee4929b6be39f08430e9a59338b8cd3"
+    },
+    {
+      "path": "assets/audio/voice_en_world_counting.mp3",
+      "sha1": "f229ac8c259a16f18cb07ad7cc71f074bf135704"
+    },
+    {
+      "path": "assets/audio/voice_en_zee_greeting.mp3",
+      "sha1": "97c71ec24b3fd0a4c5c0b3c755d3d0f54cfd2676"
+    },
+    {
+      "path": "assets/audio/voice_ro_count_to_5.mp3",
+      "sha1": "79735d33ef458b7ed8498ff911c1f765057897e8"
+    },
+    {
+      "path": "assets/audio/voice_ro_fb_again_2.mp3",
+      "sha1": "e2afc9fb521f49d6b964d02093b4eedbb894832f"
+    },
+    {
+      "path": "assets/audio/voice_ro_fb_correct_3.mp3",
+      "sha1": "e7e71de84e6e3a0f8cd20f53ecaa056a5ecbe194"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_addition_easy.mp3",
+      "sha1": "9484a043264eb47600b0c050f597418416b6a45a"
+    },
+    {
+      "path": "assets/audio/voice_ro_num_3.mp3",
+      "sha1": "61f4eb3de10e3991ac634e8c6072dc39686af7bf"
+    },
+    {
+      "path": "assets/audio/voice_ro_num_5.mp3",
+      "sha1": "621c7dd9e3f02e783962e8f7521bef03389de105"
+    },
+    {
+      "path": "assets/audio/voice_ro_num_8.mp3",
+      "sha1": "ef788ad33a9233bc8c639037a90a245ccf0a89d7"
+    },
+    {
+      "path": "assets/audio/voice_ro_num_9.mp3",
+      "sha1": "d2e6a8e284931d01f33b45904d480ea373ce003d"
+    },
+    {
+      "path": "assets/audio/voice_ro_world_counting.mp3",
+      "sha1": "6e0434b13564af41a983176038fc85a95454dfaf"
+    },
+    {
+      "path": "assets/audio/voice_ro_zee_greeting.mp3",
+      "sha1": "2982152b4042f84676e5b8015d28c1a27dedc635"
+    },
+    {
       "path": "assets/fonts/Fredoka.ttf",
       "sha1": "071c16b87b55f0ff4a2e5891a3a7647dd61a3635"
     }
