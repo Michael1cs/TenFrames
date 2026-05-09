@@ -465,7 +465,7 @@ function GameShellInner() {
             game.setShowSetup(true);
           }}
           style={[styles.themeButton, {backgroundColor: colors.accentButton}]}>
-          <Text style={styles.themeButtonText}><Emoji>🎨</Emoji> {t('game.changeTheme')}</Text>
+          <Text style={styles.themeButtonText}><Emoji>⚙️</Emoji> {t('game.changeTheme')}</Text>
         </Pressable>
       </View>
     </View>

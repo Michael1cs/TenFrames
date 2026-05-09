@@ -25,6 +25,8 @@ interface PlayerSetupProps {
   ageGroup: AgeGroup;
   onAgeGroupChange: (group: AgeGroup) => void;
   onComplete: () => void;
+  // When true, modal is opened from header (returning user editing settings).
+  // We don't show the big "Ten Frames" title and the CTA copy is "Save".
   isThemeChange?: boolean;
 }
 
@@ -43,6 +45,7 @@ export function PlayerSetup({
 }: PlayerSetupProps) {
   const {t} = useTranslation();
   const themes = getAllThemes();
+  const isSettings = isThemeChange;
 
   const themeGradients: Record<Theme, string[]> = {
     space: ['#6366F1', '#8B5CF6'],
@@ -62,83 +65,77 @@ export function PlayerSetup({
       <View style={styles.overlay}>
         <View style={styles.card}>
           <ScrollView showsVerticalScrollIndicator={false}>
-            {!isThemeChange && (
+            {!isSettings && (
               <Text style={styles.titleMain}>Ten Frames</Text>
             )}
             <Text style={styles.title}>
-              {isThemeChange ? (
-                <><Emoji>🎨</Emoji>{` ${t('setup.changeTheme')}`}</>
+              {isSettings ? (
+                <><Emoji>⚙️</Emoji>{` ${t('setup.settings')}`}</>
               ) : (
                 <><Emoji>🎮</Emoji>{` ${t('setup.welcome')} `}<Emoji>🌟</Emoji></>
               )}
             </Text>
 
-            {!isThemeChange && (
-              <View style={styles.section}>
-                <Text style={styles.label}>{t('setup.nameLabel')}</Text>
-                <TextInput
-                  value={playerName}
-                  onChangeText={onNameChange}
-                  placeholder={t('setup.namePlaceholder')}
-                  style={styles.input}
-                  placeholderTextColor="#9CA3AF"
+            <View style={styles.section}>
+              <Text style={styles.label}>{t('setup.nameLabel')}</Text>
+              <TextInput
+                value={playerName}
+                onChangeText={onNameChange}
+                placeholder={t('setup.namePlaceholder')}
+                style={styles.input}
+                placeholderTextColor="#9CA3AF"
+              />
+            </View>
+
+            <View style={styles.section}>
+              <Text style={styles.label}>{t('setup.languageLabel')}</Text>
+              <View style={styles.languageRow}>
+                <LanguageSwitcher
+                  language={language}
+                  onLanguageChange={onLanguageChange}
                 />
               </View>
-            )}
+            </View>
 
-            {!isThemeChange && (
-              <View style={styles.section}>
-                <Text style={styles.label}>{t('setup.languageLabel')}</Text>
-                <View style={styles.languageRow}>
-                  <LanguageSwitcher
-                    language={language}
-                    onLanguageChange={onLanguageChange}
-                  />
-                </View>
-              </View>
-            )}
-
-            {!isThemeChange && (
-              <View style={styles.section}>
-                <Text style={styles.label}>{t('setup.ageLabel')}</Text>
-                <View style={styles.ageRow}>
-                  <Pressable
-                    onPress={() => onAgeGroupChange('young')}
+            <View style={styles.section}>
+              <Text style={styles.label}>{t('setup.ageLabel')}</Text>
+              <View style={styles.ageRow}>
+                <Pressable
+                  onPress={() => onAgeGroupChange('young')}
+                  style={[
+                    styles.ageButton,
+                    ageGroup === 'young' && styles.ageButtonActive,
+                  ]}>
+                  <Emoji style={styles.ageEmoji}>
+                    {t('setup.ageYoungEmoji')}
+                  </Emoji>
+                  <Text
                     style={[
-                      styles.ageButton,
-                      ageGroup === 'young' && styles.ageButtonActive,
+                      styles.ageLabel,
+                      ageGroup === 'young' && styles.ageLabelActive,
                     ]}>
-                    <Emoji style={styles.ageEmoji}>
-                      {t('setup.ageYoungEmoji')}
-                    </Emoji>
-                    <Text
-                      style={[
-                        styles.ageLabel,
-                        ageGroup === 'young' && styles.ageLabelActive,
-                      ]}>
-                      {t('setup.ageYoung')}
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    onPress={() => onAgeGroupChange('older')}
+                    {t('setup.ageYoung')}
+                  </Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => onAgeGroupChange('older')}
+                  style={[
+                    styles.ageButton,
+                    ageGroup === 'older' && styles.ageButtonActive,
+                  ]}>
+                  <Emoji style={styles.ageEmoji}>
+                    {t('setup.ageOlderEmoji')}
+                  </Emoji>
+                  <Text
                     style={[
-                      styles.ageButton,
-                      ageGroup === 'older' && styles.ageButtonActive,
+                      styles.ageLabel,
+                      ageGroup === 'older' && styles.ageLabelActive,
                     ]}>
-                    <Emoji style={styles.ageEmoji}>
-                      {t('setup.ageOlderEmoji')}
-                    </Emoji>
-                    <Text
-                      style={[
-                        styles.ageLabel,
-                        ageGroup === 'older' && styles.ageLabelActive,
-                      ]}>
-                      {t('setup.ageOlder')}
-                    </Text>
-                  </Pressable>
-                </View>
+                    {t('setup.ageOlder')}
+                  </Text>
+                </Pressable>
               </View>
-            )}
+            </View>
 
             <View style={styles.section}>
               <Text style={styles.label}>{t('setup.themeLabel')}</Text>
@@ -149,12 +146,7 @@ export function PlayerSetup({
                   return (
                     <Pressable
                       key={themeConfig.id}
-                      onPress={() => {
-                        onThemeChange(themeConfig.id);
-                        if (isThemeChange) {
-                          onComplete();
-                        }
-                      }}
+                      onPress={() => onThemeChange(themeConfig.id)}
                       style={[
                         styles.themeButton,
                         {
@@ -182,13 +174,15 @@ export function PlayerSetup({
               </View>
             </View>
 
-            {!isThemeChange && (
-              <Pressable onPress={onComplete} style={styles.startButton}>
-                <Text style={styles.startButtonText}>
-                  <Emoji>🎮</Emoji> {t('setup.startAdventure')}
-                </Text>
-              </Pressable>
-            )}
+            <Pressable onPress={onComplete} style={styles.startButton}>
+              <Text style={styles.startButtonText}>
+                {isSettings ? (
+                  <>✓ {t('setup.saveSettings')}</>
+                ) : (
+                  <><Emoji>🎮</Emoji> {t('setup.startAdventure')}</>
+                )}
+              </Text>
+            </Pressable>
           </ScrollView>
         </View>
       </View>

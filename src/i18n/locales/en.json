@@ -29,7 +29,7 @@
     "newProblem": "New problem",
     "newPuzzle": "New puzzle",
     "send": "Submit",
-    "changeTheme": "Theme"
+    "changeTheme": "Settings"
   },
   "feedback": {
     "correct": "Yes! That's right!",
@@ -63,6 +63,8 @@
     "ageYoungEmoji": "🐣",
     "ageOlderEmoji": "🚀",
     "saveTheme": "Save",
+    "saveSettings": "Save settings",
+    "settings": "Settings",
     "startAdventure": "Start adventure!"
   },
   "themes": {

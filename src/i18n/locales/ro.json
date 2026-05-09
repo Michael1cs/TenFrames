@@ -29,7 +29,7 @@
     "newProblem": "Problemă nouă",
     "newPuzzle": "Puzzle nou",
     "send": "Trimite",
-    "changeTheme": "Temă"
+    "changeTheme": "Setări"
   },
   "feedback": {
     "correct": "Bravo! Așa e!",
@@ -63,6 +63,8 @@
     "ageYoungEmoji": "🐣",
     "ageOlderEmoji": "🚀",
     "saveTheme": "Salvează",
+    "saveSettings": "Salvează setările",
+    "settings": "Setări",
     "startAdventure": "Începe aventura!"
   },
   "themes": {
