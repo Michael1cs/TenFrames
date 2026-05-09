@@ -46,16 +46,27 @@ export function AdditionMode({
   const compact = ageProfile?.compact ?? false;
   const fontScale = ageProfile?.fontScale ?? 1;
 
-  // Auto-submit for young: when child reaches the correct count, fire submit.
+  // Auto-submit for young profile:
+  //   - exact answer       → submit immediately (fast positive feedback)
+  //   - overshoot (>answer) → submit after 2s grace (wrong feedback)
+  //   - undershoot         → wait, child is still working
   const autoSubmittedRef = useRef(false);
   useEffect(() => {
     if (!compact || !currentProblem || hasSubmitted) {
       autoSubmittedRef.current = false;
       return;
     }
-    if (userAnswer === currentProblem.answer && !autoSubmittedRef.current) {
+    if (autoSubmittedRef.current) return;
+    if (userAnswer === currentProblem.answer) {
       autoSubmittedRef.current = true;
       const t = setTimeout(() => onSubmit(), 350);
+      return () => clearTimeout(t);
+    }
+    if (userAnswer !== null && userAnswer > currentProblem.answer) {
+      const t = setTimeout(() => {
+        autoSubmittedRef.current = true;
+        onSubmit();
+      }, 2000);
       return () => clearTimeout(t);
     }
   }, [userAnswer, currentProblem, hasSubmitted, compact, onSubmit]);
