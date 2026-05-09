@@ -179,10 +179,11 @@ function GameShellInner() {
     const key = `${game.gameMode}-${game.currentProblem.num1}-${game.currentProblem.num2}`;
     if (key === lastProblemKey.current) return;
     lastProblemKey.current = key;
+    const n = game.currentProblem.num2;
     if (game.gameMode === 'addition') {
-      voice.play(`instr_add_${game.theme}`);
+      voice.play(`instr_add_${game.theme}_${n}`);
     } else if (game.gameMode === 'subtraction') {
-      voice.play(`instr_sub_${game.theme}`);
+      voice.play(`instr_sub_${game.theme}_${n}`);
     }
   }, [game.currentProblem, game.gameMode, game.ageGroup, game.theme, voice]);
 
