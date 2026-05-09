@@ -70,6 +70,46 @@
       "sha1": "60aa94cbf3d10e024c0eb5227c5ffe0afd2dcf57"
     },
     {
+      "path": "assets/audio/voice_en_instr_add_candy.mp3",
+      "sha1": "e5e5996f941c15a238c544c5f04b9bbeca8a00fb"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_add_farm.mp3",
+      "sha1": "e461484fbabd4b80aba25db83bd5af3efbcecd22"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_add_forest.mp3",
+      "sha1": "d7843ba67d942cf2411df12d5b5da8cfa83e39b7"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_add_kpop.mp3",
+      "sha1": "c0ee1f9c1865ca991e0643637d0492da0ed4ebb3"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_add_monsters.mp3",
+      "sha1": "3010f9c2793c4b8b755a97e619fcaa4f563c2bdf"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_add_ocean.mp3",
+      "sha1": "7d6c1b9fdbf2986b8613cdbdf4bdbd649378727d"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_add_pixel.mp3",
+      "sha1": "380948705fc25abb0cbfc89138c47f968f4b0706"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_add_slime.mp3",
+      "sha1": "b120a655fbd39c21c1a4bc840f2c92d904b91d07"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_add_space.mp3",
+      "sha1": "090a48a0c4097e7dabaca608e5772725ad80c9cf"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_add_unicorn.mp3",
+      "sha1": "a48125f14e802899a3f32e05afcdacbe740c4fdc"
+    },
+    {
       "path": "assets/audio/voice_en_instr_addition_easy.mp3",
       "sha1": "d84a61111b8c95bdeed37fb205a7aa5499c9d3ff"
     },
@@ -84,6 +124,46 @@
     {
       "path": "assets/audio/voice_en_instr_puzzle.mp3",
       "sha1": "8d383fd9d8d361b5b0b2d832766e91f57233a1be"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_sub_candy.mp3",
+      "sha1": "c275af134a9feb73d311bc5a5fff66385f68b78b"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_sub_farm.mp3",
+      "sha1": "8f74f35490f8e4c35320875366e272a8133d8090"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_sub_forest.mp3",
+      "sha1": "f30ba03d4940b14caf41980e473a36eadf2efe1c"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_sub_kpop.mp3",
+      "sha1": "458227d01230fe20f7686f4c337be49e0c0072a8"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_sub_monsters.mp3",
+      "sha1": "d09b4b3543672474247eac8845b347c793049b4e"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_sub_ocean.mp3",
+      "sha1": "132bad01455bb7e0bacf1f1ef2d34009d8b925e3"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_sub_pixel.mp3",
+      "sha1": "15a6e072435729a91ecd3be195bc80eb7b2ef27d"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_sub_slime.mp3",
+      "sha1": "fbfb1161a871abc93ff96233c01ee9ef159ad83d"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_sub_space.mp3",
+      "sha1": "f16a984cdc2cd0f6fe7e7c632e0f0e00d470ce78"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_sub_unicorn.mp3",
+      "sha1": "272fe282ce0f74a23664cfdc4c231076f468d1f5"
     },
     {
       "path": "assets/audio/voice_en_instr_subtraction_easy.mp3",
@@ -286,6 +366,46 @@
       "sha1": "b35975c7c597c7201fffc204f45e7a3fee642faa"
     },
     {
+      "path": "assets/audio/voice_ro_instr_add_candy.mp3",
+      "sha1": "25595be410526483dddc6310ee9755993eb56042"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_add_farm.mp3",
+      "sha1": "4bc6c36af42edde0ffeb32a1a467bec942054ce0"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_add_forest.mp3",
+      "sha1": "49dc351dc2875761b5de2b973f0ece9a63a6921e"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_add_kpop.mp3",
+      "sha1": "5c35627c8eb2afddb8a92e82c8dadf03200edf74"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_add_monsters.mp3",
+      "sha1": "d9ad730057a4e70c2ab9a4338f82ddc50bb88a4a"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_add_ocean.mp3",
+      "sha1": "2c511b1ce4d98285b9073c3fbd4b2c2bf16f00be"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_add_pixel.mp3",
+      "sha1": "db67616ab375ca7aafc5e024efd33ed3e50b79d3"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_add_slime.mp3",
+      "sha1": "616267620c62358b331ddaa35d9969b875dd16cf"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_add_space.mp3",
+      "sha1": "8b9b4e774623390e1de1fb5d51da842a1c8c4616"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_add_unicorn.mp3",
+      "sha1": "a7a0399c4c6a931fce295e389f4fcd95f61abcc7"
+    },
+    {
       "path": "assets/audio/voice_ro_instr_addition_easy.mp3",
       "sha1": "9484a043264eb47600b0c050f597418416b6a45a"
     },
@@ -300,6 +420,46 @@
     {
       "path": "assets/audio/voice_ro_instr_puzzle.mp3",
       "sha1": "617fbcc4fc098703fc6130edca6ce1ec6bf98588"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_sub_candy.mp3",
+      "sha1": "2871661a5c1166d0dc2ffbd96ca607569f786dee"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_sub_farm.mp3",
+      "sha1": "ebf4bb26b9694b25650569379546c01295755c11"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_sub_forest.mp3",
+      "sha1": "ebe5d65c298459bf2ad54923c000dca016ad2faa"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_sub_kpop.mp3",
+      "sha1": "0b053d5e97101ea9e367b1b3c5381142b6e6ae10"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_sub_monsters.mp3",
+      "sha1": "6180d000686512140103f1ffcee654845b46f624"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_sub_ocean.mp3",
+      "sha1": "363177b5d61be02a866a0f521c54271bbcdacafc"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_sub_pixel.mp3",
+      "sha1": "62878b0a790629dd60e302e23bc7e3180ffc18cb"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_sub_slime.mp3",
+      "sha1": "4fe8f6474756f51a08d0d92b2258f48221cc10ad"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_sub_space.mp3",
+      "sha1": "b5a2a802f37c4078804ad914d3cea4f4ec18af6c"
+    },
+    {
+      "path": "assets/audio/voice_ro_instr_sub_unicorn.mp3",
+      "sha1": "6cd2a2a25403d7b85fed11c9b1479949ca09a248"
     },
     {
       "path": "assets/audio/voice_ro_instr_subtraction_easy.mp3",

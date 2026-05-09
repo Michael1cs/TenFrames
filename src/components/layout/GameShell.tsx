@@ -170,6 +170,22 @@ function GameShellInner() {
     prevFilledCount.current = game.filledCount;
   }, [game.filledCount, game.ageGroup, game.gameMode, voice]);
 
+  // Young profile: themed addition/subtraction prompt when a new problem appears.
+  // Triggered when problem identity changes (num1+num2 fingerprint), not on every
+  // re-render. Subtraction uses instr_sub_*, addition uses instr_add_*.
+  const lastProblemKey = useRef<string | null>(null);
+  useEffect(() => {
+    if (game.ageGroup !== 'young' || !game.currentProblem) return;
+    const key = `${game.gameMode}-${game.currentProblem.num1}-${game.currentProblem.num2}`;
+    if (key === lastProblemKey.current) return;
+    lastProblemKey.current = key;
+    if (game.gameMode === 'addition') {
+      voice.play(`instr_add_${game.theme}`);
+    } else if (game.gameMode === 'subtraction') {
+      voice.play(`instr_sub_${game.theme}`);
+    }
+  }, [game.currentProblem, game.gameMode, game.ageGroup, game.theme, voice]);
+
   // Sound on level-up
   const prevAddLevel = useRef(game.additionLevel);
   const prevSubLevel = useRef(game.subtractionLevel);

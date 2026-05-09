@@ -76,6 +76,30 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'world_addition', ro: 'Pe Insula Adunării punem comori în cufăr. Câte sunt împreună?', en: 'On Addition Island we put treasures in the chest. How many together?'},
   {id: 'world_subtraction', ro: 'Pe Muntele Scăderii eliberăm păsările. Câte rămân?', en: 'On Subtraction Mountain we set birds free. How many are left?'},
 
+  // ── Instrucțiuni tematice pe temă (young addition/subtraction) ──
+  // Adunare: „Mai adaugă rachete!" / „Add more rockets!"
+  {id: 'instr_add_space', ro: 'Mai adaugă rachete!', en: 'Add more rockets!'},
+  {id: 'instr_add_forest', ro: 'Mai adaugă ghinde!', en: 'Add more acorns!'},
+  {id: 'instr_add_ocean', ro: 'Mai adaugă peștișori!', en: 'Add more fish!'},
+  {id: 'instr_add_farm', ro: 'Mai adaugă morcovi!', en: 'Add more carrots!'},
+  {id: 'instr_add_candy', ro: 'Mai adaugă bomboane!', en: 'Add more candies!'},
+  {id: 'instr_add_unicorn', ro: 'Mai adaugă unicorni!', en: 'Add more unicorns!'},
+  {id: 'instr_add_pixel', ro: 'Mai adaugă extratereștri!', en: 'Add more aliens!'},
+  {id: 'instr_add_slime', ro: 'Mai adaugă bule!', en: 'Add more bubbles!'},
+  {id: 'instr_add_kpop', ro: 'Mai adaugă inimi!', en: 'Add more hearts!'},
+  {id: 'instr_add_monsters', ro: 'Mai adaugă monștri!', en: 'Add more monsters!'},
+  // Scădere: „Ia rachete!" / „Take rockets away!"
+  {id: 'instr_sub_space', ro: 'Ia rachete!', en: 'Take some rockets away!'},
+  {id: 'instr_sub_forest', ro: 'Ia ghinde!', en: 'Take some acorns away!'},
+  {id: 'instr_sub_ocean', ro: 'Ia peștișori!', en: 'Take some fish away!'},
+  {id: 'instr_sub_farm', ro: 'Ia morcovi!', en: 'Take some carrots away!'},
+  {id: 'instr_sub_candy', ro: 'Ia bomboane!', en: 'Take some candies away!'},
+  {id: 'instr_sub_unicorn', ro: 'Ia unicorni!', en: 'Take some unicorns away!'},
+  {id: 'instr_sub_pixel', ro: 'Ia extratereștri!', en: 'Take some aliens away!'},
+  {id: 'instr_sub_slime', ro: 'Ia bule!', en: 'Take some bubbles away!'},
+  {id: 'instr_sub_kpop', ro: 'Ia inimi!', en: 'Take some hearts away!'},
+  {id: 'instr_sub_monsters', ro: 'Ia monștri!', en: 'Take some monsters away!'},
+
   // ── Recompense (achievements, stickers, level complete) ──
   {id: 'reward_sticker', ro: 'Ai un sticker nou!', en: 'You got a new sticker!'},
   {id: 'reward_achievement', ro: 'Realizare nouă deblocată!', en: 'New achievement unlocked!'},
