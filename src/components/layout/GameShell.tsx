@@ -101,6 +101,9 @@ function GameShellInner() {
             setShowAdventureMap(true);
           }
         }
+        // Welcome voice for returning users (non-readers need an audible
+        // confirmation that the app opened).
+        setTimeout(() => voice.play('welcome'), 800);
       }
       const rewards = await loadRewardData();
       rewardSystem.loadRewards(rewards);
