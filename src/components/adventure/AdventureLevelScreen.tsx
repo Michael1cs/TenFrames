@@ -524,11 +524,16 @@ export function AdventureLevelScreen({
                 voiceRef.current.playRandom(VOICE_GROUPS.tryAgain);
               }}
               onPhaseChange={(phase, targetCount) => {
-                if (phase === 'show') voice.play('mem_watch');
-                else if (phase === 'input') voice.play('mem_count');
+                if (phase === 'show') voiceRef.current.play('mem_watch');
+                else if (phase === 'input') voiceRef.current.play('mem_count');
                 else if (phase === 'reveal') {
                   const clamped = Math.min(7, Math.max(1, targetCount));
-                  voice.play(`mem_was_${clamped}`);
+                  // Praise + count narration: "Awesome! There were 4!"
+                  const praiseId =
+                    VOICE_GROUPS.correct[
+                      Math.floor(Math.random() * VOICE_GROUPS.correct.length)
+                    ];
+                  voiceRef.current.playSequence([praiseId, `mem_was_${clamped}`]);
                 }
               }}
             />
