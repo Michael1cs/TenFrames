@@ -26,6 +26,7 @@ export function WorldSelector({
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
+      style={styles.scroll}
       contentContainerStyle={styles.container}>
       {ADVENTURE_WORLDS.map(world => {
         const isSelected = world.id === selectedWorld;
@@ -71,6 +72,9 @@ export function WorldSelector({
 }
 
 const styles = StyleSheet.create({
+  scroll: {
+    flexGrow: 0,
+  },
   container: {
     flexDirection: 'row',
     gap: 8,
