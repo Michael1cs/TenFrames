@@ -440,6 +440,13 @@
 		96256AD12355419F91AC9387 /* voice_en_mode_question.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E72AADFEF9DC4A68A44E4D26 /* voice_en_mode_question.mp3 */; };
 		7265742EDD7B4D6FAB4A0506 /* voice_en_mode_freeplay.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7CB6D81B13AC413E9A2301EF /* voice_en_mode_freeplay.mp3 */; };
 		E80F24A34E374478804CCC0B /* voice_en_mode_adventure.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9923B2E3F8AE4B7A8DB90C59 /* voice_en_mode_adventure.mp3 */; };
+		4472A567C0A64FF9AAC43552 /* voice_en_world_memory_garden.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C60F0F510AFD431498F819CF /* voice_en_world_memory_garden.mp3 */; };
+		CCD304661D2A4CE0BF62B988 /* voice_en_world_counting_meadow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 732160D8957F4253B0BA5ABE /* voice_en_world_counting_meadow.mp3 */; };
+		DE308CB0B83B47D3B790952B /* voice_en_choose_world.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A716A428E3254F4C8476410D /* voice_en_choose_world.mp3 */; };
+		26BE32B51E334E1F808D8874 /* voice_en_world_subtraction_mountain.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F56EDDAFBD3146B5AC1E2D9F /* voice_en_world_subtraction_mountain.mp3 */; };
+		44180831655846F9B536D768 /* voice_en_world_make_ten_beach.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D391208FD5D44E4F959F5C54 /* voice_en_world_make_ten_beach.mp3 */; };
+		B3C9217ED58F44359A8FA9E9 /* voice_en_world_addition_island.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9397E80154C14558934A634F /* voice_en_world_addition_island.mp3 */; };
+		4C670D7A32E745DE9BF0EBAB /* voice_en_world_doubles_castle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 24FABC247B234FC5B07E6A2B /* voice_en_world_doubles_castle.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -881,6 +888,13 @@
 		E72AADFEF9DC4A68A44E4D26 /* voice_en_mode_question.mp3 */ = {isa = PBXFileReference; name = "voice_en_mode_question.mp3"; path = "../assets/audio/voice_en_mode_question.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		7CB6D81B13AC413E9A2301EF /* voice_en_mode_freeplay.mp3 */ = {isa = PBXFileReference; name = "voice_en_mode_freeplay.mp3"; path = "../assets/audio/voice_en_mode_freeplay.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		9923B2E3F8AE4B7A8DB90C59 /* voice_en_mode_adventure.mp3 */ = {isa = PBXFileReference; name = "voice_en_mode_adventure.mp3"; path = "../assets/audio/voice_en_mode_adventure.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C60F0F510AFD431498F819CF /* voice_en_world_memory_garden.mp3 */ = {isa = PBXFileReference; name = "voice_en_world_memory_garden.mp3"; path = "../assets/audio/voice_en_world_memory_garden.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		732160D8957F4253B0BA5ABE /* voice_en_world_counting_meadow.mp3 */ = {isa = PBXFileReference; name = "voice_en_world_counting_meadow.mp3"; path = "../assets/audio/voice_en_world_counting_meadow.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A716A428E3254F4C8476410D /* voice_en_choose_world.mp3 */ = {isa = PBXFileReference; name = "voice_en_choose_world.mp3"; path = "../assets/audio/voice_en_choose_world.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F56EDDAFBD3146B5AC1E2D9F /* voice_en_world_subtraction_mountain.mp3 */ = {isa = PBXFileReference; name = "voice_en_world_subtraction_mountain.mp3"; path = "../assets/audio/voice_en_world_subtraction_mountain.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D391208FD5D44E4F959F5C54 /* voice_en_world_make_ten_beach.mp3 */ = {isa = PBXFileReference; name = "voice_en_world_make_ten_beach.mp3"; path = "../assets/audio/voice_en_world_make_ten_beach.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9397E80154C14558934A634F /* voice_en_world_addition_island.mp3 */ = {isa = PBXFileReference; name = "voice_en_world_addition_island.mp3"; path = "../assets/audio/voice_en_world_addition_island.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		24FABC247B234FC5B07E6A2B /* voice_en_world_doubles_castle.mp3 */ = {isa = PBXFileReference; name = "voice_en_world_doubles_castle.mp3"; path = "../assets/audio/voice_en_world_doubles_castle.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1386,6 +1400,13 @@
 				E72AADFEF9DC4A68A44E4D26 /* voice_en_mode_question.mp3 */,
 				7CB6D81B13AC413E9A2301EF /* voice_en_mode_freeplay.mp3 */,
 				9923B2E3F8AE4B7A8DB90C59 /* voice_en_mode_adventure.mp3 */,
+				C60F0F510AFD431498F819CF /* voice_en_world_memory_garden.mp3 */,
+				732160D8957F4253B0BA5ABE /* voice_en_world_counting_meadow.mp3 */,
+				A716A428E3254F4C8476410D /* voice_en_choose_world.mp3 */,
+				F56EDDAFBD3146B5AC1E2D9F /* voice_en_world_subtraction_mountain.mp3 */,
+				D391208FD5D44E4F959F5C54 /* voice_en_world_make_ten_beach.mp3 */,
+				9397E80154C14558934A634F /* voice_en_world_addition_island.mp3 */,
+				24FABC247B234FC5B07E6A2B /* voice_en_world_doubles_castle.mp3 */,
 			);
 			name = Resources;
 			path = "";
@@ -1882,6 +1903,13 @@
 				96256AD12355419F91AC9387 /* voice_en_mode_question.mp3 in Resources */,
 				7265742EDD7B4D6FAB4A0506 /* voice_en_mode_freeplay.mp3 in Resources */,
 				E80F24A34E374478804CCC0B /* voice_en_mode_adventure.mp3 in Resources */,
+				4472A567C0A64FF9AAC43552 /* voice_en_world_memory_garden.mp3 in Resources */,
+				CCD304661D2A4CE0BF62B988 /* voice_en_world_counting_meadow.mp3 in Resources */,
+				DE308CB0B83B47D3B790952B /* voice_en_choose_world.mp3 in Resources */,
+				26BE32B51E334E1F808D8874 /* voice_en_world_subtraction_mountain.mp3 in Resources */,
+				44180831655846F9B536D768 /* voice_en_world_make_ten_beach.mp3 in Resources */,
+				B3C9217ED58F44359A8FA9E9 /* voice_en_world_addition_island.mp3 in Resources */,
+				4C670D7A32E745DE9BF0EBAB /* voice_en_world_doubles_castle.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

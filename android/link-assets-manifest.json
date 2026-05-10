@@ -10,6 +10,10 @@
       "sha1": "40dc0d9f00bbb19977ece0b75d1d2aecd729a502"
     },
     {
+      "path": "assets/audio/voice_en_choose_world.mp3",
+      "sha1": "c257308e17eec40b468cb0a2a0d37002c69fe4be"
+    },
+    {
       "path": "assets/audio/voice_en_count_to_10.mp3",
       "sha1": "659ba1e4af716a64a1cc97e94a575b1e68a22f0c"
     },
@@ -1038,12 +1042,36 @@
       "sha1": "9149df0a100fd5abdefee770b53de4a0ca8f1773"
     },
     {
+      "path": "assets/audio/voice_en_world_addition_island.mp3",
+      "sha1": "7c5b4b0bab513e2b844220ce6587f4194d2f30fa"
+    },
+    {
       "path": "assets/audio/voice_en_world_addition.mp3",
       "sha1": "7f80fecce57550bbb2b5a672253f98dafbaf42b0"
     },
     {
+      "path": "assets/audio/voice_en_world_counting_meadow.mp3",
+      "sha1": "6f35125d38ed751df53ecebe519113e2c69633ad"
+    },
+    {
       "path": "assets/audio/voice_en_world_counting.mp3",
       "sha1": "f229ac8c259a16f18cb07ad7cc71f074bf135704"
+    },
+    {
+      "path": "assets/audio/voice_en_world_doubles_castle.mp3",
+      "sha1": "65c040d51f85e9ebbcedb328557ec901b0ae1355"
+    },
+    {
+      "path": "assets/audio/voice_en_world_make_ten_beach.mp3",
+      "sha1": "32a96f5cc53945381652bfdf1cefcc4342111d06"
+    },
+    {
+      "path": "assets/audio/voice_en_world_memory_garden.mp3",
+      "sha1": "69f0e3b015c31d9ea453e0f8eb3b0cc6d8bf4167"
+    },
+    {
+      "path": "assets/audio/voice_en_world_subtraction_mountain.mp3",
+      "sha1": "de662f7e01dcc64b0bff3fe4bea0984764d079c5"
     },
     {
       "path": "assets/audio/voice_en_world_subtraction.mp3",

@@ -33,20 +33,34 @@ export function useAdventure() {
   // Load on mount
   useEffect(() => {
     loadAdventureData().then(data => {
-      // In debug mode, force unlock all worlds and levels on every load
-      if (__DEV__) {
-        const unlocked = JSON.parse(JSON.stringify(data)) as AdventureProgress;
-        for (const worldId of Object.keys(unlocked.worlds) as WorldId[]) {
-          unlocked.worlds[worldId].unlocked = true;
-          for (const levelId of Object.keys(unlocked.worlds[worldId].levels)) {
-            unlocked.worlds[worldId].levels[levelId].unlocked = true;
+      // Merge with current defaults so newly-added worlds/levels appear
+      // for returning users whose saved progress predates them.
+      const defaults = getDefaultAdventureProgress();
+      const merged = JSON.parse(JSON.stringify(defaults)) as AdventureProgress;
+      for (const worldId of Object.keys(merged.worlds) as WorldId[]) {
+        const savedWorld = data.worlds?.[worldId];
+        if (!savedWorld) continue;
+        merged.worlds[worldId].unlocked = savedWorld.unlocked;
+        for (const levelId of Object.keys(merged.worlds[worldId].levels)) {
+          const savedLevel = savedWorld.levels?.[levelId];
+          if (savedLevel) {
+            merged.worlds[worldId].levels[levelId] = savedLevel;
           }
         }
-        setProgress(unlocked);
-      } else {
-        setProgress(data);
       }
-      setSelectedWorld(data.currentWorld);
+      merged.currentWorld = data.currentWorld ?? defaults.currentWorld;
+
+      // In debug mode, force unlock all worlds and levels on every load
+      if (__DEV__) {
+        for (const worldId of Object.keys(merged.worlds) as WorldId[]) {
+          merged.worlds[worldId].unlocked = true;
+          for (const levelId of Object.keys(merged.worlds[worldId].levels)) {
+            merged.worlds[worldId].levels[levelId].unlocked = true;
+          }
+        }
+      }
+      setProgress(merged);
+      setSelectedWorld(merged.currentWorld);
       setLoaded(true);
     });
   }, [loadAdventureData]);

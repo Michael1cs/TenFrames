@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   View,
   Text,
@@ -18,7 +18,18 @@ import {ADVENTURE_WORLDS} from '../../config/adventureWorlds';
 import {WorldSelector} from './WorldSelector';
 import {AdventureMapPath} from './AdventureMapPath';
 import {getAllThemes} from '../../hooks/useTheme';
+import {useVoice} from '../../hooks/useVoice';
 import {Emoji} from '../common/Emoji';
+
+// Map worldId → voice clip ID for narration.
+const WORLD_VOICE: Record<WorldId, string> = {
+  'counting-meadow': 'world_counting_meadow',
+  'addition-island': 'world_addition_island',
+  'subtraction-mountain': 'world_subtraction_mountain',
+  'make-ten-beach': 'world_make_ten_beach',
+  'doubles-castle': 'world_doubles_castle',
+  'memory-garden': 'world_memory_garden',
+};
 
 interface AdventureMapScreenProps {
   visible: boolean;
@@ -42,6 +53,30 @@ export function AdventureMapScreen({
   onClose,
 }: AdventureMapScreenProps) {
   const {t} = useTranslation();
+  const voice = useVoice();
+  const voiceRef = useRef(voice);
+  voiceRef.current = voice;
+
+  // On modal open: play "Choose a world!" intro.
+  useEffect(() => {
+    if (!visible) return;
+    const timer = setTimeout(
+      () => voiceRef.current.play('choose_world'),
+      500,
+    );
+    return () => clearTimeout(timer);
+  }, [visible]);
+
+  // When user changes world (tab tap), narrate the world name.
+  const prevWorld = useRef<WorldId | null>(null);
+  useEffect(() => {
+    if (!visible) return;
+    if (prevWorld.current !== null && prevWorld.current !== selectedWorld) {
+      const clip = WORLD_VOICE[selectedWorld];
+      if (clip) voiceRef.current.play(clip);
+    }
+    prevWorld.current = selectedWorld;
+  }, [selectedWorld, visible]);
 
   const world = ADVENTURE_WORLDS.find(w => w.id === selectedWorld);
   if (!world) return null;

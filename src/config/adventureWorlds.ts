@@ -12,7 +12,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.countingMeadow',
     emoji: '🌿',
     theme: 'forest',
-    freeLevels: 2,
+    freeLevels: 5,
     levels: [
       {
         id: 'cm-1',
@@ -84,7 +84,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.additionIsland',
     emoji: '🐳',
     theme: 'ocean',
-    freeLevels: 2,
+    freeLevels: 5,
     levels: [
       {
         id: 'ai-1',
@@ -156,7 +156,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.subtractionMountain',
     emoji: '🚀',
     theme: 'space',
-    freeLevels: 2,
+    freeLevels: 5,
     levels: [
       {
         id: 'sm-1',
@@ -233,7 +233,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.makeTenBeach',
     emoji: '🏖️',
     theme: 'candy',
-    freeLevels: 2,
+    freeLevels: 5,
     levels: [
       {
         id: 'mtb-1',
@@ -305,7 +305,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.doublesCastle',
     emoji: '🏰',
     theme: 'unicorn',
-    freeLevels: 2,
+    freeLevels: 5,
     levels: [
       {
         id: 'dc-1',
@@ -377,7 +377,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.memoryGarden',
     emoji: '🍄',
     theme: 'unicorn',
-    freeLevels: 2,
+    freeLevels: 5,
     levels: [
       {
         id: 'mg-1',
