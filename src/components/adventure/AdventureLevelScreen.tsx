@@ -277,6 +277,11 @@ export function AdventureLevelScreen({
   useEffect(() => {
     autoSubmitFiredRef.current = false;
   }, [problemIndex, level]);
+  // Reset the latch when child unlocks for a retry by tapping a cell
+  // (handleCellPress sets hasSubmitted=false on wrong answer retry).
+  useEffect(() => {
+    if (!hasSubmitted) autoSubmitFiredRef.current = false;
+  }, [hasSubmitted]);
   useEffect(() => {
     if (finished || hasSubmitted || level.gameMode === 'memory') return;
     if (autoSubmitFiredRef.current) return;
