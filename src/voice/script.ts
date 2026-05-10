@@ -286,6 +286,12 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'world_doubles_castle', ro: 'Castelul dublurilor!', en: 'Doubles Castle!'},
   {id: 'world_memory_garden', ro: 'Grădina memoriei!', en: 'Memory Garden!'},
 
+  // ── Adventure level challenge intros ──
+  {id: 'instr_top_row', ro: 'Umple rândul de sus!', en: 'Fill the top row!'},
+  {id: 'instr_bottom_row', ro: 'Umple rândul de jos!', en: 'Fill the bottom row!'},
+  {id: 'instr_both_rows', ro: 'La fel pe ambele rânduri!', en: 'Same on both rows!'},
+  {id: 'instr_make_ten', ro: 'Fă zece!', en: 'Make ten!'},
+
   // ── Memory Garden phrases ──
   // Phase intros + per-count success announcements.
   {id: 'mem_watch', ro: 'Privește atent!', en: 'Watch carefully!'},

@@ -282,8 +282,20 @@
       "sha1": "37929a21a77abd80b0b4d0d8c3b1018d857743ae"
     },
     {
+      "path": "assets/audio/voice_en_instr_both_rows.mp3",
+      "sha1": "8dcc316a377f5021fe5c2bf8f931f13cc5ec330d"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_bottom_row.mp3",
+      "sha1": "b21ca50a2616811c121f3b540a13834f47999144"
+    },
+    {
       "path": "assets/audio/voice_en_instr_counting.mp3",
       "sha1": "2d943de802ec126a1a6cad3dcb1ed98204cca912"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_make_ten.mp3",
+      "sha1": "cdffc74404785af7a5eabb08dbcc2bd0692c7465"
     },
     {
       "path": "assets/audio/voice_en_instr_puzzle.mp3",
@@ -496,6 +508,10 @@
     {
       "path": "assets/audio/voice_en_instr_subtraction.mp3",
       "sha1": "d6fb7d8fb36ef672bc97cee0cfd828fce5322361"
+    },
+    {
+      "path": "assets/audio/voice_en_instr_top_row.mp3",
+      "sha1": "27684fb5c2b4f11ad15275f96580f58844cabaeb"
     },
     {
       "path": "assets/audio/voice_en_lets_play.mp3",

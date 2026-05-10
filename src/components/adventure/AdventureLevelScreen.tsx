@@ -255,6 +255,57 @@ export function AdventureLevelScreen({
     }
   }, [finished, completedStars, onComplete]);
 
+  // Voice narration per problem. Memory mode handles its own voice via
+  // onPhaseChange, so we skip it here.
+  const voiceRef = useRef(voice);
+  voiceRef.current = voice;
+  const prevVoiceKey = useRef<string | null>(null);
+  useEffect(() => {
+    if (finished || level.gameMode === 'memory') return;
+    const themeId = ADVENTURE_WORLDS.find(w => w.id === level.worldId)?.theme;
+
+    let key = '';
+    if (level.gameMode === 'counting' && countingChallenge) {
+      const {instruction, targetNumber} = countingChallenge;
+      key = `c-${instruction}-${targetNumber}-${problemIndex}`;
+      if (key === prevVoiceKey.current) return;
+      prevVoiceKey.current = key;
+      if (instruction === 'fill_top_row') {
+        voiceRef.current.play('instr_top_row');
+      } else if (instruction === 'fill_bottom_row') {
+        voiceRef.current.play('instr_bottom_row');
+      } else if (instruction === 'fill_both_equal') {
+        voiceRef.current.play('instr_both_rows');
+      } else {
+        // fill_exactly: just announce the target number.
+        voiceRef.current.play(`num_${targetNumber}`);
+      }
+    } else if (level.gameMode === 'puzzle' && currentProblem) {
+      key = `p-${currentProblem.num1}-${problemIndex}`;
+      if (key === prevVoiceKey.current) return;
+      prevVoiceKey.current = key;
+      voiceRef.current.play('instr_make_ten');
+    } else if (currentProblem && themeId) {
+      key = `${level.gameMode}-${currentProblem.num1}-${currentProblem.num2}-${problemIndex}`;
+      if (key === prevVoiceKey.current) return;
+      prevVoiceKey.current = key;
+      const action = level.gameMode === 'addition' ? 'add' : 'sub';
+      // Use themed clips only when num1/num2 fall within generated range (1-5/1-4).
+      const ids: string[] = [];
+      if (currentProblem.num1 <= 5) {
+        ids.push(`pre_have_${themeId}_${currentProblem.num1}`);
+      } else {
+        ids.push(`num_${currentProblem.num1}`);
+      }
+      if (currentProblem.num2 <= 4) {
+        ids.push(`instr_${action}_${themeId}_${currentProblem.num2}`);
+      } else {
+        ids.push(`num_${currentProblem.num2}`);
+      }
+      voiceRef.current.playSequence(ids);
+    }
+  }, [currentProblem, countingChallenge, problemIndex, level, finished]);
+
   // Get world theme background
   const world = ADVENTURE_WORLDS.find(w => w.id === level.worldId);
   const allThemes = getAllThemes();

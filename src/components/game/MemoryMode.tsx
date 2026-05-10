@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Text, StyleSheet, Pressable, ImageSourcePropType} from 'react-native';
+import {View, Text, StyleSheet, ImageSourcePropType} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {TenFrame} from './TenFrame';
 import {AgeProfile} from '../../hooks/useAgeProfile';
@@ -38,23 +38,36 @@ export function MemoryMode({
     Array(10).fill('empty'),
   );
 
+  // Hold callbacks in refs so parent re-renders don't reset our timers
+  // (otherwise the 350ms auto-submit gets cancelled before it fires).
+  const onCorrectRef = useRef(onCorrect);
+  const onWrongRef = useRef(onWrong);
+  const onPhaseChangeRef = useRef(onPhaseChange);
+  onCorrectRef.current = onCorrect;
+  onWrongRef.current = onWrong;
+  onPhaseChangeRef.current = onPhaseChange;
+
   // Reset when a new challenge is given.
   useEffect(() => {
     setPhase('show');
     setUserCells(Array(10).fill('empty'));
-    onPhaseChange?.('show', challenge.targetCount);
+    onPhaseChangeRef.current?.('show', challenge.targetCount);
     const showTimer = setTimeout(() => {
       setPhase('input');
-      onPhaseChange?.('input', challenge.targetCount);
+      onPhaseChangeRef.current?.('input', challenge.targetCount);
     }, challenge.showDurationMs);
     return () => clearTimeout(showTimer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [challenge]);
 
   const filledCount = userCells.filter(c => c !== 'empty').length;
 
   // Auto-submit on count match (correct) or after overshoot grace (wrong).
+  // Latch via ref to prevent double-fire if re-renders happen mid-timer.
   const correctFiredRef = useRef(false);
+  useEffect(() => {
+    correctFiredRef.current = false;
+  }, [challenge]);
+
   useEffect(() => {
     if (phase !== 'input') return;
     if (correctFiredRef.current) return;
@@ -63,8 +76,8 @@ export function MemoryMode({
       correctFiredRef.current = true;
       const timer = setTimeout(() => {
         setPhase('reveal');
-        onPhaseChange?.('reveal', challenge.targetCount);
-        onCorrect();
+        onPhaseChangeRef.current?.('reveal', challenge.targetCount);
+        onCorrectRef.current();
       }, 350);
       return () => clearTimeout(timer);
     }
@@ -73,17 +86,12 @@ export function MemoryMode({
         if (correctFiredRef.current) return;
         correctFiredRef.current = true;
         setPhase('reveal');
-        onPhaseChange?.('reveal', challenge.targetCount);
-        onWrong();
+        onPhaseChangeRef.current?.('reveal', challenge.targetCount);
+        onWrongRef.current();
       }, 1800);
       return () => clearTimeout(timer);
     }
-  }, [filledCount, phase, challenge.targetCount, onCorrect, onWrong, onPhaseChange]);
-
-  // Reset the firing latch when challenge changes
-  useEffect(() => {
-    correctFiredRef.current = false;
-  }, [challenge]);
+  }, [filledCount, phase, challenge.targetCount]);
 
   const handleCellClick = (index: number) => {
     if (phase !== 'input') return;
@@ -124,13 +132,17 @@ export function MemoryMode({
         ageGroup={ageGroup}
       />
 
-      {phase === 'input' && (
-        <View style={[styles.counter, {backgroundColor: 'rgba(0,0,0,0.4)'}]}>
-          <Text style={[styles.counterText, {color: colors.numberText}]}>
-            {filledCount}
-          </Text>
-        </View>
-      )}
+      {/* Counter container — reserved height so layout doesn't shift between
+          phases. Empty placeholder in show/reveal keeps the ten frame anchored. */}
+      <View style={styles.counterSlot}>
+        {phase === 'input' && (
+          <View style={[styles.counter, {backgroundColor: 'rgba(0,0,0,0.4)'}]}>
+            <Text style={[styles.counterText, {color: colors.numberText}]}>
+              {filledCount}
+            </Text>
+          </View>
+        )}
+      </View>
     </View>
   );
 }
@@ -155,6 +167,11 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '800',
     textAlign: 'center',
+  },
+  counterSlot: {
+    height: 70,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   counter: {
     paddingHorizontal: 32,
