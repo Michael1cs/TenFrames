@@ -98,46 +98,6 @@ export function PlayerSetup({
             </View>
 
             <View style={styles.section}>
-              <Text style={styles.label}>{t('setup.ageLabel')}</Text>
-              <View style={styles.ageRow}>
-                <Pressable
-                  onPress={() => onAgeGroupChange('young')}
-                  style={[
-                    styles.ageButton,
-                    ageGroup === 'young' && styles.ageButtonActive,
-                  ]}>
-                  <Emoji style={styles.ageEmoji}>
-                    {t('setup.ageYoungEmoji')}
-                  </Emoji>
-                  <Text
-                    style={[
-                      styles.ageLabel,
-                      ageGroup === 'young' && styles.ageLabelActive,
-                    ]}>
-                    {t('setup.ageYoung')}
-                  </Text>
-                </Pressable>
-                <Pressable
-                  onPress={() => onAgeGroupChange('older')}
-                  style={[
-                    styles.ageButton,
-                    ageGroup === 'older' && styles.ageButtonActive,
-                  ]}>
-                  <Emoji style={styles.ageEmoji}>
-                    {t('setup.ageOlderEmoji')}
-                  </Emoji>
-                  <Text
-                    style={[
-                      styles.ageLabel,
-                      ageGroup === 'older' && styles.ageLabelActive,
-                    ]}>
-                    {t('setup.ageOlder')}
-                  </Text>
-                </Pressable>
-              </View>
-            </View>
-
-            <View style={styles.section}>
               <Text style={styles.label}>{t('setup.themeLabel')}</Text>
               <View style={styles.themeGrid}>
                 {themes.map(themeConfig => {

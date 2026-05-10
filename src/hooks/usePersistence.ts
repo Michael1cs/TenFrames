@@ -12,7 +12,7 @@ const defaultPlayerData: PlayerData = {
   name: '',
   theme: 'space',
   language: 'ro',
-  ageGroup: 'older',
+  ageGroup: 'young',
   highScore: 0,
   level: 1,
 };
@@ -38,7 +38,8 @@ export function usePersistence() {
       const data = await AsyncStorage.getItem(PLAYER_KEY);
       if (data) {
         const parsed = JSON.parse(data);
-        return {...defaultPlayerData, ...parsed};
+        // v1.6: app re-targeted at 4-6 age group — migrate older players to young.
+        return {...defaultPlayerData, ...parsed, ageGroup: 'young'};
       }
     } catch {
       // Return defaults on error
