@@ -64,9 +64,13 @@ export function MemoryMode({
   // Auto-submit on count match (correct) or after overshoot grace (wrong).
   // Latch via ref to prevent double-fire if re-renders happen mid-timer.
   const correctFiredRef = useRef(false);
+  // Latch: did the child overshoot at least once during this challenge?
+  // Used to record an attempt even if they self-correct before grace expires.
+  const hadWrongRef = useRef(false);
   const retryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {
     correctFiredRef.current = false;
+    hadWrongRef.current = false;
     if (retryTimerRef.current) {
       clearTimeout(retryTimerRef.current);
       retryTimerRef.current = null;
@@ -87,11 +91,14 @@ export function MemoryMode({
       return () => clearTimeout(timer);
     }
     if (filledCount > challenge.targetCount) {
-      // Wrong: tell parent (which records attempt + plays "try again" voice),
-      // clear user input, re-show the target pattern briefly, then back to input.
-      // No latch — child gets unlimited retries on the same memory.
-      const timer = setTimeout(() => {
+      // First overshoot in this challenge records the attempt immediately —
+      // even if child self-corrects within 1.8s, the wrong was real.
+      if (!hadWrongRef.current) {
+        hadWrongRef.current = true;
         onWrongRef.current();
+      }
+      // Re-show fallback after 1.8s if still overshoot (child stuck).
+      const timer = setTimeout(() => {
         setUserCells(Array(10).fill('empty'));
         setPhase('show');
         onPhaseChangeRef.current?.('show', challenge.targetCount);
