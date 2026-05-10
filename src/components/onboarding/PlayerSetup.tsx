@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,13 @@ import {
   Modal,
   ScrollView,
 } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
 import {Theme, Language, AgeGroup} from '../../types/game';
 import {getAllThemes} from '../../hooks/useTheme';
@@ -47,6 +54,23 @@ export function PlayerSetup({
   const themes = getAllThemes();
   const isSettings = isThemeChange;
 
+  // Pulse animation on the start button — draws attention for non-readers.
+  const pulse = useSharedValue(1);
+  useEffect(() => {
+    if (isSettings) return; // calmer in settings mode
+    pulse.value = withRepeat(
+      withSequence(
+        withTiming(1.07, {duration: 700}),
+        withTiming(1, {duration: 700}),
+      ),
+      -1,
+      false,
+    );
+  }, [isSettings, pulse]);
+  const pulseStyle = useAnimatedStyle(() => ({
+    transform: [{scale: pulse.value}],
+  }));
+
   const themeGradients: Record<Theme, string[]> = {
     space: ['#6366F1', '#8B5CF6'],
     forest: ['#22C55E', '#10B981'],
@@ -64,7 +88,10 @@ export function PlayerSetup({
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
         <View style={styles.card}>
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={styles.scrollArea}
+            contentContainerStyle={styles.scrollContent}>
             {!isSettings && (
               <Text style={styles.titleMain}>Ten Frames</Text>
             )}
@@ -134,16 +161,27 @@ export function PlayerSetup({
               </View>
             </View>
 
-            <Pressable onPress={onComplete} style={styles.startButton}>
-              <Text style={styles.startButtonText}>
-                {isSettings ? (
-                  <>✓ {t('setup.saveSettings')}</>
-                ) : (
-                  <><Emoji>🎮</Emoji> {t('setup.startAdventure')}</>
-                )}
-              </Text>
-            </Pressable>
           </ScrollView>
+
+          {/* Sticky bottom CTA — always visible without scroll. */}
+          <View style={styles.ctaContainer}>
+            <Animated.View style={!isSettings ? pulseStyle : undefined}>
+              <Pressable onPress={onComplete} style={styles.startButton}>
+                {isSettings ? (
+                  <Text style={styles.startButtonText}>
+                    ✓ {t('setup.saveSettings')}
+                  </Text>
+                ) : (
+                  <View style={styles.startButtonContent}>
+                    <Text style={styles.startButtonIcon}><Emoji>▶️</Emoji></Text>
+                    <Text style={styles.startButtonText}>
+                      {t('setup.startAdventure')}
+                    </Text>
+                  </View>
+                )}
+              </Pressable>
+            </Animated.View>
+          </View>
         </View>
       </View>
     </Modal>
@@ -161,11 +199,25 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: '#FFFFFF',
     borderRadius: 22,
-    padding: 24,
+    paddingHorizontal: 24,
+    paddingTop: 24,
+    paddingBottom: 0,
     width: '100%',
     maxWidth: 420,
     maxHeight: '88%',
     elevation: 10,
+  },
+  scrollArea: {
+    flexShrink: 1,
+  },
+  scrollContent: {
+    paddingBottom: 12,
+  },
+  ctaContainer: {
+    paddingTop: 12,
+    paddingBottom: 24,
+    borderTopWidth: 1,
+    borderTopColor: '#F3F4F6',
   },
   titleMain: {
     fontSize: 32,
@@ -258,15 +310,31 @@ const styles = StyleSheet.create({
   },
   startButton: {
     backgroundColor: '#8B5CF6',
-    paddingVertical: 16,
-    borderRadius: 14,
-    marginTop: 8,
-    elevation: 3,
+    paddingVertical: 18,
+    paddingHorizontal: 24,
+    borderRadius: 18,
+    marginTop: 12,
+    elevation: 5,
+    shadowColor: '#8B5CF6',
+    shadowOffset: {width: 0, height: 6},
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+    borderWidth: 3,
+    borderColor: 'rgba(255,255,255,0.3)',
+  },
+  startButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 12,
+  },
+  startButtonIcon: {
+    fontSize: 32,
   },
   startButtonText: {
     color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontWeight: '800',
     textAlign: 'center',
   },
 });
