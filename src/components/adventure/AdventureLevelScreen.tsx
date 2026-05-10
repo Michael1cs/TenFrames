@@ -22,6 +22,7 @@ import {
 import {TenFrame} from '../game/TenFrame';
 import {NumberDisplay} from '../game/NumberDisplay';
 import {MemoryMode} from '../game/MemoryMode';
+import {useVoice} from '../../hooks/useVoice';
 import {LevelCompleteScreen} from './LevelCompleteScreen';
 import {LevelPlayState} from '../../hooks/useAdventure';
 import {getAllThemes} from '../../hooks/useTheme';
@@ -54,6 +55,7 @@ export function AdventureLevelScreen({
   onBackToMap,
 }: AdventureLevelScreenProps) {
   const {t} = useTranslation();
+  const voice = useVoice();
   const {level, problemIndex, problemCount, finished} = levelState;
   const [cells, setCells] = useState<CellState[]>(Array(10).fill('empty'));
   const [currentProblem, setCurrentProblem] = useState<Problem | null>(null);
@@ -354,6 +356,14 @@ export function AdventureLevelScreen({
               onCorrect={() => onRecordResult(attempts === 0)}
               onWrong={() => {
                 setAttempts(prev => prev + 1);
+              }}
+              onPhaseChange={(phase, targetCount) => {
+                if (phase === 'show') voice.play('mem_watch');
+                else if (phase === 'input') voice.play('mem_count');
+                else if (phase === 'reveal') {
+                  const clamped = Math.min(7, Math.max(1, targetCount));
+                  voice.play(`mem_was_${clamped}`);
+                }
               }}
             />
           )

@@ -175,15 +175,15 @@
     },
     {
       "path": "assets/audio/voice_en_instr_add_ocean_2.mp3",
-      "sha1": "ecc364388007f3271fd8a5f4fb2a861ff948351c"
+      "sha1": "9e40f8ed4b21d707f902947b1d4ce32755aa1500"
     },
     {
       "path": "assets/audio/voice_en_instr_add_ocean_3.mp3",
-      "sha1": "ccf62aa302c4e4ce58da35b1f9c617c2257fbf5a"
+      "sha1": "4b01a297ea4815fbf207f8d9a2d8d6a6a4c3dda7"
     },
     {
       "path": "assets/audio/voice_en_instr_add_ocean_4.mp3",
-      "sha1": "625028c5803a4b952ad09b7d8a9c41ae864427d7"
+      "sha1": "fdd687d6751946c4ad5689f9e8095d7b9ddd310f"
     },
     {
       "path": "assets/audio/voice_en_instr_add_ocean.mp3",
@@ -391,15 +391,15 @@
     },
     {
       "path": "assets/audio/voice_en_instr_sub_ocean_2.mp3",
-      "sha1": "feac8058c5885b25870a8a63308faa40d09f1ba7"
+      "sha1": "9c6c928b881ea757244923c02815bd0849038eb0"
     },
     {
       "path": "assets/audio/voice_en_instr_sub_ocean_3.mp3",
-      "sha1": "5211ce7d05d2d81586f60b41dd9cb1540ae84233"
+      "sha1": "415668f22c184c3dfa3c63d002b405b42cfcdcb4"
     },
     {
       "path": "assets/audio/voice_en_instr_sub_ocean_4.mp3",
-      "sha1": "46b2690656c21a1e32635e5d6610d41b740388f2"
+      "sha1": "b8cb543fcdce5ff8db09018b05ff9afffc4b40a4"
     },
     {
       "path": "assets/audio/voice_en_instr_sub_ocean.mp3",
@@ -492,6 +492,42 @@
     {
       "path": "assets/audio/voice_en_instr_subtraction.mp3",
       "sha1": "d6fb7d8fb36ef672bc97cee0cfd828fce5322361"
+    },
+    {
+      "path": "assets/audio/voice_en_mem_count.mp3",
+      "sha1": "7364b207853fe88bd8eccec7855f5b8fd703c121"
+    },
+    {
+      "path": "assets/audio/voice_en_mem_was_1.mp3",
+      "sha1": "558a69f1e3e17da6dd584334a114fac50afe8033"
+    },
+    {
+      "path": "assets/audio/voice_en_mem_was_2.mp3",
+      "sha1": "42edf7ad1e49ea113eadbff192b3f248fedbe340"
+    },
+    {
+      "path": "assets/audio/voice_en_mem_was_3.mp3",
+      "sha1": "a9002c67b69c9cfcc6fa132f4db453d505b65a03"
+    },
+    {
+      "path": "assets/audio/voice_en_mem_was_4.mp3",
+      "sha1": "faff2bc7656e4ed381b06de9f4870ccb76b210c8"
+    },
+    {
+      "path": "assets/audio/voice_en_mem_was_5.mp3",
+      "sha1": "9add82be144120f20189daa6f3e2037581e1e8b4"
+    },
+    {
+      "path": "assets/audio/voice_en_mem_was_6.mp3",
+      "sha1": "3fadbc74029a9585491ff8eb0f95faf9be455061"
+    },
+    {
+      "path": "assets/audio/voice_en_mem_was_7.mp3",
+      "sha1": "7dfdbba95e5ab2ba3cc540aec01936afa62ea85a"
+    },
+    {
+      "path": "assets/audio/voice_en_mem_watch.mp3",
+      "sha1": "1d822c6411b2d9e816641f7ed6fccbb3217e92e8"
     },
     {
       "path": "assets/audio/voice_en_num_0.mp3",
@@ -643,19 +679,19 @@
     },
     {
       "path": "assets/audio/voice_en_post_great_ocean_2.mp3",
-      "sha1": "152f4c5dec8937bd9d3168422e9d876cacd23f58"
+      "sha1": "0907b59840d8775c7afb2962a930f8845589a519"
     },
     {
       "path": "assets/audio/voice_en_post_great_ocean_3.mp3",
-      "sha1": "f51cc620c7a53cf737a609e800b0a19bf9189090"
+      "sha1": "27aa7451a827c23303f933c5facfe5deaa2189ac"
     },
     {
       "path": "assets/audio/voice_en_post_great_ocean_4.mp3",
-      "sha1": "882ac3b020a1ac780be597f21a4f45607d8cadc1"
+      "sha1": "39adb36ac96147aa68eb1d7dcc2ca00a0f743d41"
     },
     {
       "path": "assets/audio/voice_en_post_great_ocean_5.mp3",
-      "sha1": "9823b678b3913f23a2d7a4dbff17548b0a64f377"
+      "sha1": "6e383257e91ba83574d280b79fef76f664c23016"
     },
     {
       "path": "assets/audio/voice_en_post_great_pixel_1.mp3",
@@ -823,15 +859,15 @@
     },
     {
       "path": "assets/audio/voice_en_pre_have_ocean_2.mp3",
-      "sha1": "12d8b66635521bef8e6a6c1088001ae9a8bba2a6"
+      "sha1": "2260e6317dca841c687c9cb73421f5b980deb14c"
     },
     {
       "path": "assets/audio/voice_en_pre_have_ocean_3.mp3",
-      "sha1": "5f23e524b751a5f0ba981a0d596c8d9631a77159"
+      "sha1": "9ec5b64fb6be0c53b676e99a5b9cc0a2595b38ff"
     },
     {
       "path": "assets/audio/voice_en_pre_have_ocean_4.mp3",
-      "sha1": "c7636c9a320d31a29040e049b9d1e2da8b2f2178"
+      "sha1": "ec86091b0ee8dfe05053c53a9c905d38170065e3"
     },
     {
       "path": "assets/audio/voice_en_pre_have_pixel_1.mp3",

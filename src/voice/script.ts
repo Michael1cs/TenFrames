@@ -258,6 +258,18 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'post_great_monsters_4', ro: 'Bravo! Ai 4 monștri!', en: 'Great! You have 4 monsters!'},
   {id: 'post_great_monsters_5', ro: 'Bravo! Ai 5 monștri!', en: 'Great! You have 5 monsters!'},
 
+  // ── Memory Garden phrases ──
+  // Phase intros + per-count success announcements.
+  {id: 'mem_watch', ro: 'Privește atent!', en: 'Watch carefully!'},
+  {id: 'mem_count', ro: 'Acum tu!', en: 'Now your turn!'},
+  {id: 'mem_was_1', ro: 'A fost 1!', en: 'There was 1!'},
+  {id: 'mem_was_2', ro: 'Au fost 2!', en: 'There were 2!'},
+  {id: 'mem_was_3', ro: 'Au fost 3!', en: 'There were 3!'},
+  {id: 'mem_was_4', ro: 'Au fost 4!', en: 'There were 4!'},
+  {id: 'mem_was_5', ro: 'Au fost 5!', en: 'There were 5!'},
+  {id: 'mem_was_6', ro: 'Au fost 6!', en: 'There were 6!'},
+  {id: 'mem_was_7', ro: 'Au fost 7!', en: 'There were 7!'},
+
   // ── Recompense (achievements, stickers, level complete) ──
   {id: 'reward_sticker', ro: 'Ai un sticker nou!', en: 'You got a new sticker!'},
   {id: 'reward_achievement', ro: 'Realizare nouă deblocată!', en: 'New achievement unlocked!'},
