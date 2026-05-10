@@ -61,7 +61,15 @@ export function MemoryMode({
 
   const filledCount = userCells.filter(c => c !== 'empty').length;
 
-  // Auto-submit on count match (correct) or after overshoot grace (wrong).
+  // Pattern match: every cell must align with the target pattern.
+  // For memory training, identical positions — not just count — matter.
+  const patternMatches = userCells.every((cell, i) => {
+    const targetFilled = challenge.targetCells[i] !== 'empty';
+    const userFilled = cell !== 'empty';
+    return targetFilled === userFilled;
+  });
+
+  // Auto-submit on pattern match (correct) or after grace if mismatched.
   // Latch via ref to prevent double-fire if re-renders happen mid-timer.
   const correctFiredRef = useRef(false);
   // Latch: did the child overshoot at least once during this challenge?
@@ -81,10 +89,9 @@ export function MemoryMode({
     if (phase !== 'input') return;
     if (correctFiredRef.current) return;
 
-    if (filledCount === challenge.targetCount) {
-      // Don't latch yet — only commit when the timer fires. If the child
-      // moves off target before then, cleanup cancels it and we'll re-evaluate.
-      // 1500ms hold lets the child verify their selection before lock-in.
+    // Correct: child reached the EXACT target count AND every cell matches
+    // the pattern shown. Hold for 1.5s so child can verify before lock-in.
+    if (filledCount === challenge.targetCount && patternMatches) {
       const timer = setTimeout(() => {
         if (correctFiredRef.current) return;
         correctFiredRef.current = true;
@@ -94,14 +101,18 @@ export function MemoryMode({
       }, 1500);
       return () => clearTimeout(timer);
     }
-    if (filledCount > challenge.targetCount) {
-      // First overshoot in this challenge records the attempt immediately —
-      // even if child self-corrects within 1.8s, the wrong was real.
+
+    // Wrong: count matches the target but pattern is off (wrong cells),
+    // OR child placed too many cells.
+    const countMatchButWrongPattern =
+      filledCount === challenge.targetCount && !patternMatches;
+    const tooMany = filledCount > challenge.targetCount;
+    if (countMatchButWrongPattern || tooMany) {
       if (!hadWrongRef.current) {
         hadWrongRef.current = true;
         onWrongRef.current();
       }
-      // Re-show fallback after 1.8s if still overshoot (child stuck).
+      // Re-show pattern after 1.8s so child can retry with fresh memory.
       const timer = setTimeout(() => {
         setUserCells(Array(10).fill('empty'));
         setPhase('show');
@@ -114,7 +125,7 @@ export function MemoryMode({
       }, 1800);
       return () => clearTimeout(timer);
     }
-  }, [filledCount, phase, challenge.targetCount]);
+  }, [filledCount, phase, challenge.targetCount, patternMatches]);
 
   const handleCellClick = (index: number) => {
     if (phase !== 'input') return;

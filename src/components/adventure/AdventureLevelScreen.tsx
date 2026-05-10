@@ -243,20 +243,31 @@ export function AdventureLevelScreen({
 
     if (correct) {
       const wasFirstTry = attempts === 0;
-      // Announce the result: "Great! You have N {theme noun}!" for N=1-5,
-      // otherwise just the plain number. Memory has its own voice path.
+      // Announce success with a random praise + result count narration:
+      // "Awesome!" → "Great! You have 5 rockets!"  (or just num_N if out of range)
       if (level.gameMode !== 'memory') {
         const themeId = ADVENTURE_WORLDS.find(w => w.id === level.worldId)?.theme;
         const visible = cells.filter(c => c !== 'empty').length;
-        if (visible >= 1 && visible <= 5 && themeId) {
-          voiceRef.current.play(`post_great_${themeId}_${visible}`);
-        } else if (visible >= 0 && visible <= 10) {
-          voiceRef.current.play(`num_${visible}`);
+        const praiseId =
+          VOICE_GROUPS.correct[
+            Math.floor(Math.random() * VOICE_GROUPS.correct.length)
+          ];
+        const resultId =
+          visible >= 1 && visible <= 5 && themeId
+            ? `post_great_${themeId}_${visible}`
+            : visible >= 0 && visible <= 10
+            ? `num_${visible}`
+            : null;
+        if (resultId) {
+          voiceRef.current.playSequence([praiseId, resultId]);
+        } else {
+          voiceRef.current.play(praiseId);
         }
       }
       onRecordResult(wasFirstTry);
     } else {
       setAttempts(prev => prev + 1);
+      voiceRef.current.playRandom(VOICE_GROUPS.tryAgain);
     }
   }, [cells, currentProblem, countingChallenge, level, attempts, onRecordResult]);
 
