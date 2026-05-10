@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   View,
   Text,
@@ -76,17 +76,26 @@ export function PlayerSetup({
   // - Welcome plays immediately when the modal opens (helps non-readers
   //   understand they reached the app).
   // - After 6s of inactivity, the press-play hint reinforces the CTA.
+  // We hold voice in a ref so re-renders of parent don't reset the timers
+  // (otherwise frequent re-renders cancel the timeouts before they fire).
   const voice = useVoice();
+  const voiceRef = useRef(voice);
+  voiceRef.current = voice;
   useEffect(() => {
     if (!visible) return;
-    // Small delay so it doesn't collide with screen transition / launch sounds.
-    const welcomeTimer = setTimeout(() => voice.play('welcome'), 500);
-    const hintTimer = setTimeout(() => voice.play('press_play'), 6000);
+    const welcomeTimer = setTimeout(
+      () => voiceRef.current.play('welcome'),
+      500,
+    );
+    const hintTimer = setTimeout(
+      () => voiceRef.current.play('press_play'),
+      6000,
+    );
     return () => {
       clearTimeout(welcomeTimer);
       clearTimeout(hintTimer);
     };
-  }, [visible, voice]);
+  }, [visible]);
 
   const themeGradients: Record<Theme, string[]> = {
     space: ['#6366F1', '#8B5CF6'],
