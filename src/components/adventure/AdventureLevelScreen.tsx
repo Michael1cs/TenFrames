@@ -56,6 +56,8 @@ export function AdventureLevelScreen({
 }: AdventureLevelScreenProps) {
   const {t} = useTranslation();
   const voice = useVoice();
+  const voiceRef = useRef(voice);
+  voiceRef.current = voice;
   const {level, problemIndex, problemCount, finished} = levelState;
   const [cells, setCells] = useState<CellState[]>(Array(10).fill('empty'));
   const [currentProblem, setCurrentProblem] = useState<Problem | null>(null);
@@ -241,6 +243,17 @@ export function AdventureLevelScreen({
 
     if (correct) {
       const wasFirstTry = attempts === 0;
+      // Announce the result: "Great! You have N {theme noun}!" for N=1-5,
+      // otherwise just the plain number. Memory has its own voice path.
+      if (level.gameMode !== 'memory') {
+        const themeId = ADVENTURE_WORLDS.find(w => w.id === level.worldId)?.theme;
+        const visible = cells.filter(c => c !== 'empty').length;
+        if (visible >= 1 && visible <= 5 && themeId) {
+          voiceRef.current.play(`post_great_${themeId}_${visible}`);
+        } else if (visible >= 0 && visible <= 10) {
+          voiceRef.current.play(`num_${visible}`);
+        }
+      }
       onRecordResult(wasFirstTry);
     } else {
       setAttempts(prev => prev + 1);
@@ -257,8 +270,6 @@ export function AdventureLevelScreen({
 
   // Voice narration per problem. Memory mode handles its own voice via
   // onPhaseChange, so we skip it here.
-  const voiceRef = useRef(voice);
-  voiceRef.current = voice;
   const prevVoiceKey = useRef<string | null>(null);
   useEffect(() => {
     if (finished || level.gameMode === 'memory') return;
@@ -356,9 +367,10 @@ export function AdventureLevelScreen({
     return {visual: '', text: ''};
   };
 
-  const filledCount = cells.filter(
-    c => c === 'filled' || c === 'color2',
-  ).length;
+  // Total non-empty cells = the visible count. For subtraction this is
+  // num1 - (cells removed) = current remaining. For addition this is
+  // num1 + (color2 added) = total so far. For puzzle: color1 + color2.
+  const filledCount = cells.filter(c => c !== 'empty').length;
 
   return (
     <Modal visible animationType="fade" onRequestClose={onBackToMap}>
