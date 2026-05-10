@@ -72,13 +72,21 @@ export function PlayerSetup({
     transform: [{scale: pulse.value}],
   }));
 
-  // Voice hint after 8s of inactivity on first-time onboarding.
+  // Voice cues on the setup screen.
+  // - Welcome plays immediately when the modal opens (helps non-readers
+  //   understand they reached the app).
+  // - After 6s of inactivity, the press-play hint reinforces the CTA.
   const voice = useVoice();
   useEffect(() => {
-    if (!visible || isSettings) return;
-    const timer = setTimeout(() => voice.play('press_play'), 8000);
-    return () => clearTimeout(timer);
-  }, [visible, isSettings, voice]);
+    if (!visible) return;
+    // Small delay so it doesn't collide with screen transition / launch sounds.
+    const welcomeTimer = setTimeout(() => voice.play('welcome'), 500);
+    const hintTimer = setTimeout(() => voice.play('press_play'), 6000);
+    return () => {
+      clearTimeout(welcomeTimer);
+      clearTimeout(hintTimer);
+    };
+  }, [visible, voice]);
 
   const themeGradients: Record<Theme, string[]> = {
     space: ['#6366F1', '#8B5CF6'],
