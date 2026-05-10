@@ -268,6 +268,74 @@ export function AdventureLevelScreen({
     }
   }, [finished, completedStars, onComplete]);
 
+  // Auto-submit: when child reaches the correct answer, fire submit after
+  // 350ms (positive). When they overshoot, fire after 1.8s grace (wrong).
+  // This replaces the manual ✓ button — 4-6 ages don't need to confirm.
+  const handleSubmitRef = useRef(handleSubmit);
+  handleSubmitRef.current = handleSubmit;
+  const autoSubmitFiredRef = useRef(false);
+  useEffect(() => {
+    autoSubmitFiredRef.current = false;
+  }, [problemIndex, level]);
+  useEffect(() => {
+    if (finished || hasSubmitted || level.gameMode === 'memory') return;
+    if (autoSubmitFiredRef.current) return;
+
+    const topFilled = cells.slice(0, 5).filter(c => c !== 'empty').length;
+    const bottomFilled = cells.slice(5, 10).filter(c => c !== 'empty').length;
+    const totalFilled = topFilled + bottomFilled;
+
+    let isMatch = false;
+    let isOvershoot = false;
+
+    if (level.gameMode === 'counting' && countingChallenge) {
+      const {instruction, targetNumber} = countingChallenge;
+      if (instruction === 'fill_top_row') {
+        isMatch = topFilled === 5 && bottomFilled === 0;
+        isOvershoot = bottomFilled > 0 || topFilled > 5;
+      } else if (instruction === 'fill_bottom_row') {
+        isMatch = bottomFilled === 5 && topFilled === 0;
+        isOvershoot = topFilled > 0 || bottomFilled > 5;
+      } else if (instruction === 'fill_both_equal') {
+        const perRow = targetNumber / 2;
+        isMatch = topFilled === perRow && bottomFilled === perRow;
+        isOvershoot = topFilled > perRow || bottomFilled > perRow;
+      } else {
+        // fill_exactly
+        isMatch = totalFilled === targetNumber;
+        isOvershoot = totalFilled > targetNumber;
+      }
+    } else if (level.gameMode === 'puzzle' && currentProblem) {
+      const color2Count = cells.filter(c => c === 'color2').length;
+      isMatch = color2Count === 10 - currentProblem.num1;
+      isOvershoot = color2Count > 10 - currentProblem.num1;
+    } else if (currentProblem) {
+      if (level.gameMode === 'addition') {
+        const color2Count = cells.filter(c => c === 'color2').length;
+        isMatch = color2Count === currentProblem.num2;
+        isOvershoot = color2Count > currentProblem.num2;
+      } else if (level.gameMode === 'subtraction') {
+        const remainingColor1 = cells.filter(c => c === 'color1').length;
+        isMatch = remainingColor1 === currentProblem.answer;
+        isOvershoot = remainingColor1 < currentProblem.answer; // removed too many
+      }
+    }
+
+    if (isMatch) {
+      autoSubmitFiredRef.current = true;
+      const t = setTimeout(() => handleSubmitRef.current(), 350);
+      return () => clearTimeout(t);
+    }
+    if (isOvershoot) {
+      const t = setTimeout(() => {
+        if (autoSubmitFiredRef.current) return;
+        autoSubmitFiredRef.current = true;
+        handleSubmitRef.current();
+      }, 1800);
+      return () => clearTimeout(t);
+    }
+  }, [cells, currentProblem, countingChallenge, level, hasSubmitted, finished, problemIndex]);
+
   // Voice narration per problem. Memory mode handles its own voice via
   // onPhaseChange, so we skip it here.
   //
@@ -500,16 +568,7 @@ export function AdventureLevelScreen({
                     <Text style={styles.feedbackWrong}>{t('feedback.tryAgain')}</Text>
                   </Animated.View>
                 )}
-                {(!hasSubmitted || !isCorrect) && (
-                  <Pressable
-                    onPress={handleSubmit}
-                    style={[
-                      styles.submitBtn,
-                      {backgroundColor: themeColors.primaryButton},
-                    ]}>
-                    <Text style={styles.submitText}>✓</Text>
-                  </Pressable>
-                )}
+                {/* Manual ✓ button removed — auto-submit handles it for 4-6 ages. */}
               </View>
             )}
           </>
