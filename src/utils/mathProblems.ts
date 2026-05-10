@@ -1,4 +1,4 @@
-import {AgeGroup, GameMode, Problem, CountingChallenge} from '../types/game';
+import {AgeGroup, CellState, GameMode, MemoryChallenge, Problem, CountingChallenge} from '../types/game';
 
 const YOUNG_ADDITION_POOL: Problem[] = [
   {num1: 1, num2: 1, answer: 2},
@@ -56,7 +56,22 @@ export function generateProblem(
   return {num1, num2, answer: num1 + num2};
 }
 
+// Doubles pool: 1+1, 2+2, 3+3, 4+4, 5+5. Capped at 5+5 since result must fit
+// in ten frame (max 10).
+const DOUBLES_POOL: Problem[] = [
+  {num1: 1, num2: 1, answer: 2},
+  {num1: 2, num2: 2, answer: 4},
+  {num1: 3, num2: 3, answer: 6},
+  {num1: 4, num2: 4, answer: 8},
+  {num1: 5, num2: 5, answer: 10},
+];
+
 function generateAdditionProblem(level: number): Problem {
+  // Special level 20: Doubles Castle.
+  if (level === 20) {
+    return DOUBLES_POOL[Math.floor(Math.random() * DOUBLES_POOL.length)];
+  }
+
   let num1: number, num2: number;
 
   if (level >= 1 && level <= 9) {
@@ -194,4 +209,32 @@ export function generateCountingChallenge(level: number): CountingChallenge {
   ];
 
   return pool[Math.floor(Math.random() * pool.length)];
+}
+
+
+/**
+ * Generate a memory challenge based on level (1-5).
+ * Easier levels: fewer cells, longer show duration.
+ */
+export function generateMemoryChallenge(level: number): MemoryChallenge {
+  let min: number, max: number, durationMs: number;
+  switch (level) {
+    case 1: min = 1; max = 2; durationMs = 3000; break;
+    case 2: min = 2; max = 3; durationMs = 2500; break;
+    case 3: min = 3; max = 4; durationMs = 2200; break;
+    case 4: min = 4; max = 5; durationMs = 2000; break;
+    case 5: min = 5; max = 7; durationMs = 1500; break; // champion
+    default: min = 3; max = 5; durationMs = 2200;
+  }
+  const targetCount = min + Math.floor(Math.random() * (max - min + 1));
+
+  // Pick targetCount random cell positions from 0-9.
+  const indices = Array.from({length: 10}, (_, i) => i)
+    .sort(() => Math.random() - 0.5)
+    .slice(0, targetCount);
+
+  const targetCells: CellState[] = Array(10).fill("empty");
+  for (const i of indices) targetCells[i] = "filled";
+
+  return {targetCells, targetCount, showDurationMs: durationMs};
 }

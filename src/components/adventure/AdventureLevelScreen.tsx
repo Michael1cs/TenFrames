@@ -9,16 +9,19 @@ import {
   Problem,
   CellState,
   CountingChallenge,
+  MemoryChallenge,
 } from '../../types/game';
 import {
   generateProblem,
   generateCountingChallenge,
+  generateMemoryChallenge,
   generatePuzzleNumber,
   checkAnswer,
   checkPuzzleAnswer,
 } from '../../utils/mathProblems';
 import {TenFrame} from '../game/TenFrame';
 import {NumberDisplay} from '../game/NumberDisplay';
+import {MemoryMode} from '../game/MemoryMode';
 import {LevelCompleteScreen} from './LevelCompleteScreen';
 import {LevelPlayState} from '../../hooks/useAdventure';
 import {getAllThemes} from '../../hooks/useTheme';
@@ -56,6 +59,8 @@ export function AdventureLevelScreen({
   const [currentProblem, setCurrentProblem] = useState<Problem | null>(null);
   const [countingChallenge, setCountingChallenge] =
     useState<CountingChallenge | null>(null);
+  const [memoryChallenge, setMemoryChallenge] =
+    useState<MemoryChallenge | null>(null);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [attempts, setAttempts] = useState(0);
@@ -64,8 +69,15 @@ export function AdventureLevelScreen({
   // Pre-generate ALL problems/challenges for the level to avoid repeats
   const pregenCountingRef = useRef<CountingChallenge[]>([]);
   const pregenProblemsRef = useRef<Problem[]>([]);
+  const pregenMemoryRef = useRef<MemoryChallenge[]>([]);
   useEffect(() => {
-    if (level.gameMode === 'counting') {
+    if (level.gameMode === 'memory') {
+      const challenges: MemoryChallenge[] = [];
+      for (let i = 0; i < problemCount; i++) {
+        challenges.push(generateMemoryChallenge(level.modeLevel));
+      }
+      pregenMemoryRef.current = challenges;
+    } else if (level.gameMode === 'counting') {
       const challenges: CountingChallenge[] = [];
       const seen = new Set<string>();
       let tries = 0;
@@ -106,11 +118,18 @@ export function AdventureLevelScreen({
     setIsCorrect(null);
     setAttempts(0);
 
-    if (level.gameMode === 'counting') {
+    if (level.gameMode === 'memory') {
+      const challenge = pregenMemoryRef.current[problemIndex]
+        ?? generateMemoryChallenge(level.modeLevel);
+      setMemoryChallenge(challenge);
+      setCurrentProblem(null);
+      setCountingChallenge(null);
+    } else if (level.gameMode === 'counting') {
       const challenge = pregenCountingRef.current[problemIndex]
         ?? generateCountingChallenge(level.modeLevel);
       setCountingChallenge(challenge);
       setCurrentProblem(null);
+      setMemoryChallenge(null);
     } else if (level.gameMode === 'puzzle') {
       const problem = pregenProblemsRef.current[problemIndex]
         ?? (() => { const n = generatePuzzleNumber(); return {num1: n, num2: 10 - n, answer: 10}; })();
@@ -325,67 +344,84 @@ export function AdventureLevelScreen({
           </View>
         </View>
 
-        {/* Instruction - visual for kids + text for readers */}
-        {(() => {
-          const instr = getInstruction();
-          return (
-            <View style={styles.instructionBox}>
-              <Text style={styles.instructionVisual}>{instr.visual}</Text>
-              {instr.text ? (
-                <Text style={styles.instructionText}>{instr.text}</Text>
-              ) : null}
+        {level.gameMode === 'memory' ? (
+          memoryChallenge && (
+            <MemoryMode
+              challenge={memoryChallenge}
+              colors={themeColors}
+              emoji={worldTheme?.colors?.emojiColor1 ?? '🔵'}
+              tokenImage={worldTheme?.tokenImage}
+              onCorrect={() => onRecordResult(attempts === 0)}
+              onWrong={() => {
+                setAttempts(prev => prev + 1);
+              }}
+            />
+          )
+        ) : (
+          <>
+            {/* Instruction - visual for kids + text for readers */}
+            {(() => {
+              const instr = getInstruction();
+              return (
+                <View style={styles.instructionBox}>
+                  <Text style={styles.instructionVisual}>{instr.visual}</Text>
+                  {instr.text ? (
+                    <Text style={styles.instructionText}>{instr.text}</Text>
+                  ) : null}
+                </View>
+              );
+            })()}
+
+            {/* Ten Frame */}
+            <View style={styles.gameArea}>
+              <TenFrame
+                cells={cells}
+                onCellClick={handleCellPress}
+                colors={themeColors}
+                emoji={worldTheme?.colors?.emojiColor1 ?? '🔵'}
+                tokenImage={worldTheme?.tokenImage}
+              />
             </View>
-          );
-        })()}
 
-        {/* Ten Frame */}
-        <View style={styles.gameArea}>
-          <TenFrame
-            cells={cells}
-            onCellClick={handleCellPress}
-            colors={themeColors}
-            emoji={worldTheme?.colors?.emojiColor1 ?? '🔵'}
-            tokenImage={worldTheme?.tokenImage}
-          />
-        </View>
+            {/* Count display */}
+            <NumberDisplay
+              number={filledCount}
+              colors={themeColors}
+              emoji={worldTheme?.colors?.emojiColor1 ?? '🔵'}
+            />
 
-        {/* Count display */}
-        <NumberDisplay
-          number={filledCount}
-          colors={themeColors}
-          emoji={worldTheme?.colors?.emojiColor1 ?? '🔵'}
-        />
-
-        {/* Submit / Feedback */}
-        {!finished && (
-          <View style={styles.submitArea}>
-            {hasSubmitted && isCorrect && (
-              <Animated.View
-                entering={BounceIn.duration(400)}
-                style={styles.feedbackBox}>
-                <Text style={styles.feedbackEmoji}><Emoji>🎉</Emoji></Text>
-                <Text style={styles.feedbackCorrect}>{t('feedback.correct')}</Text>
-              </Animated.View>
+            {/* Submit / Feedback */}
+            {!finished && (
+              <View style={styles.submitArea}>
+                {hasSubmitted && isCorrect && (
+                  <Animated.View
+                    entering={BounceIn.duration(400)}
+                    style={styles.feedbackBox}>
+                    <Text style={styles.feedbackEmoji}><Emoji>🎉</Emoji></Text>
+                    <Text style={styles.feedbackCorrect}>{t('feedback.correct')}</Text>
+                  </Animated.View>
+                )}
+                {hasSubmitted && !isCorrect && (
+                  <Animated.View
+                    entering={FadeIn.duration(300)}
+                    style={styles.feedbackBox}>
+                    <Text style={styles.feedbackEmoji}><Emoji>🤔</Emoji></Text>
+                    <Text style={styles.feedbackWrong}>{t('feedback.tryAgain')}</Text>
+                  </Animated.View>
+                )}
+                {(!hasSubmitted || !isCorrect) && (
+                  <Pressable
+                    onPress={handleSubmit}
+                    style={[
+                      styles.submitBtn,
+                      {backgroundColor: themeColors.primaryButton},
+                    ]}>
+                    <Text style={styles.submitText}>✓</Text>
+                  </Pressable>
+                )}
+              </View>
             )}
-            {hasSubmitted && !isCorrect && (
-              <Animated.View
-                entering={FadeIn.duration(300)}
-                style={styles.feedbackBox}>
-                <Text style={styles.feedbackEmoji}><Emoji>🤔</Emoji></Text>
-                <Text style={styles.feedbackWrong}>{t('feedback.tryAgain')}</Text>
-              </Animated.View>
-            )}
-            {(!hasSubmitted || !isCorrect) && (
-              <Pressable
-                onPress={handleSubmit}
-                style={[
-                  styles.submitBtn,
-                  {backgroundColor: themeColors.primaryButton},
-                ]}>
-                <Text style={styles.submitText}>✓</Text>
-              </Pressable>
-            )}
-          </View>
+          </>
         )}
 
         {/* Level Complete overlay */}

@@ -1,4 +1,4 @@
-export type GameMode = 'counting' | 'addition' | 'subtraction' | 'puzzle';
+export type GameMode = 'counting' | 'addition' | 'subtraction' | 'puzzle' | 'memory';
 // 'filled' = user placed (counting mode or single-color)
 // 'color1' = first addend / pre-filled for subtraction/puzzle
 // 'color2' = second addend / user-added in addition/puzzle
@@ -145,7 +145,10 @@ export interface BackgroundEmoji {
 export type WorldId =
   | 'counting-meadow'
   | 'addition-island'
-  | 'subtraction-mountain';
+  | 'subtraction-mountain'
+  | 'make-ten-beach'
+  | 'doubles-castle'
+  | 'memory-garden';
 
 export interface AdventureProgress {
   version: number;
@@ -196,6 +199,12 @@ export interface AdventureWorld {
 export interface CountingChallenge {
   targetNumber: number;
   instruction: 'fill_exactly' | 'fill_top_row' | 'fill_bottom_row' | 'fill_both_equal';
+}
+
+export interface MemoryChallenge {
+  targetCells: CellState[]; // 10 cells with target pattern
+  targetCount: number;
+  showDurationMs: number;
 }
 
 // === Premium / Trial System ===

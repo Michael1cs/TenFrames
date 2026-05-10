@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Pressable, StyleSheet} from 'react-native';
+import {View, Text, Pressable, ScrollView, StyleSheet} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {WorldId, AdventureProgress, ThemeColors} from '../../types/game';
 import {ADVENTURE_WORLDS, getWorldStars, getWorldMaxStars} from '../../config/adventureWorlds';
@@ -23,7 +23,10 @@ export function WorldSelector({
   const {t} = useTranslation();
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.container}>
       {ADVENTURE_WORLDS.map(world => {
         const isSelected = world.id === selectedWorld;
         const isUnlocked = progress.worlds[world.id]?.unlocked;
@@ -63,7 +66,7 @@ export function WorldSelector({
           </Pressable>
         );
       })}
-    </View>
+    </ScrollView>
   );
 }
 
@@ -75,10 +78,10 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   worldButton: {
-    flex: 1,
+    width: 110,
     alignItems: 'center',
     paddingVertical: 10,
-    paddingHorizontal: 6,
+    paddingHorizontal: 8,
     borderRadius: 14,
     borderWidth: 2,
   },

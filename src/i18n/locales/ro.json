@@ -214,7 +214,10 @@
     "worlds": {
       "countingMeadow": "Lunca numerelor",
       "additionIsland": "Insula adunării",
-      "subtractionMountain": "Muntele scăderii"
+      "subtractionMountain": "Muntele scăderii",
+      "makeTenBeach": "Plaja lui 10",
+      "doublesCastle": "Castelul Dublurilor",
+      "memoryGarden": "Grădina Memoriei"
     },
     "levels": {
       "cm1": "Numără până la 2",
@@ -250,7 +253,22 @@
       "sm9": "Scade 9",
       "sm10": "Scădere mixtă",
       "smBonusA": "Provocarea stelelor",
-      "smBonusB": "Campion"
+      "smBonusB": "Campion",
+      "mtb1": "Fă 7",
+      "mtb2": "Fă 8",
+      "mtb3": "Fă 9",
+      "mtb4": "Mix până la 10",
+      "mtbBonusB": "Campion la 10",
+      "dc1": "1 + 1",
+      "dc2": "2 + 2",
+      "dc3": "3 + 3",
+      "dc4": "4 + 4",
+      "dcBonusB": "Toate dublurile",
+      "mg1": "1-2 căsuțe",
+      "mg2": "2-3 căsuțe",
+      "mg3": "3-4 căsuțe",
+      "mg4": "4-5 căsuțe",
+      "mgBonusB": "Memorie maximă"
     },
     "level": "Nivel",
     "stars": "Stele",
@@ -274,6 +292,11 @@
     "fillTopRow": "Umple doar rândul de sus!",
     "fillBottomRow": "Umple doar rândul de jos!",
     "fillBothEqual": "La fel pe ambele rânduri!"
+  },
+  "memory": {
+    "watch": "Privește atent!",
+    "yourTurn": "Acum tu!",
+    "target": "Au fost {{count}}!"
   },
   "modeChoice": {
     "title": "Cum vrei să te joci?",

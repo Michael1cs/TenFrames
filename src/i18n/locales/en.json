@@ -214,7 +214,10 @@
     "worlds": {
       "countingMeadow": "Counting Meadow",
       "additionIsland": "Addition Island",
-      "subtractionMountain": "Subtraction Mountain"
+      "subtractionMountain": "Subtraction Mountain",
+      "makeTenBeach": "Make 10 Beach",
+      "doublesCastle": "Doubles Castle",
+      "memoryGarden": "Memory Garden"
     },
     "levels": {
       "cm1": "Count to 2",
@@ -250,7 +253,22 @@
       "sm9": "Subtract 9",
       "sm10": "Mixed Subtraction",
       "smBonusA": "Star Challenge",
-      "smBonusB": "Champion"
+      "smBonusB": "Champion",
+      "mtb1": "Make 7",
+      "mtb2": "Make 8",
+      "mtb3": "Make 9",
+      "mtb4": "Mix to 10",
+      "mtbBonusB": "Make 10 Champion",
+      "dc1": "1 + 1",
+      "dc2": "2 + 2",
+      "dc3": "3 + 3",
+      "dc4": "4 + 4",
+      "dcBonusB": "All Doubles",
+      "mg1": "1-2 cells",
+      "mg2": "2-3 cells",
+      "mg3": "3-4 cells",
+      "mg4": "4-5 cells",
+      "mgBonusB": "Memory Master"
     },
     "level": "Level",
     "stars": "Stars",
@@ -274,6 +292,11 @@
     "fillTopRow": "Fill only the top row!",
     "fillBottomRow": "Fill only the bottom row!",
     "fillBothEqual": "Same on both rows!"
+  },
+  "memory": {
+    "watch": "Watch carefully!",
+    "yourTurn": "Now your turn!",
+    "target": "It was {{count}}!"
   },
   "modeChoice": {
     "title": "How do you want to play?",
