@@ -494,6 +494,10 @@
       "sha1": "d6fb7d8fb36ef672bc97cee0cfd828fce5322361"
     },
     {
+      "path": "assets/audio/voice_en_lets_play.mp3",
+      "sha1": "4e522136c6d83a8b9bdd74964812baefe8a76ae5"
+    },
+    {
       "path": "assets/audio/voice_en_mem_count.mp3",
       "sha1": "7364b207853fe88bd8eccec7855f5b8fd703c121"
     },

@@ -270,6 +270,7 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
 
   // ── Onboarding hint when child is idle on setup screen ──
   {id: 'press_play', ro: 'Apasă butonul de play să începi!', en: 'Press the play button to start!'},
+  {id: 'lets_play', ro: 'Hai să ne jucăm!', en: "Let's play!"},
 
   // ── Memory Garden phrases ──
   // Phase intros + per-count success announcements.

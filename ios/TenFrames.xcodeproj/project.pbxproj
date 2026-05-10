@@ -436,6 +436,7 @@
 		B1500C382F7448EABC67D1D7 /* voice_en_pre_have_unicorn_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E0074BDD929045CD90CA63CD /* voice_en_pre_have_unicorn_5.mp3 */; };
 		5BCE47E5CFCD4935BDE99F98 /* voice_en_pre_have_farm_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2437EC64A5624CBCB15BEFDD /* voice_en_pre_have_farm_5.mp3 */; };
 		53551967CFA9437C8D44C8EE /* voice_en_pre_have_forest_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 32DFB4D118F24E5BB03109B1 /* voice_en_pre_have_forest_5.mp3 */; };
+		46D04269CED34257B1E1C458 /* voice_en_lets_play.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 76AE99142D444FE4ACE84E16 /* voice_en_lets_play.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -873,6 +874,7 @@
 		E0074BDD929045CD90CA63CD /* voice_en_pre_have_unicorn_5.mp3 */ = {isa = PBXFileReference; name = "voice_en_pre_have_unicorn_5.mp3"; path = "../assets/audio/voice_en_pre_have_unicorn_5.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		2437EC64A5624CBCB15BEFDD /* voice_en_pre_have_farm_5.mp3 */ = {isa = PBXFileReference; name = "voice_en_pre_have_farm_5.mp3"; path = "../assets/audio/voice_en_pre_have_farm_5.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		32DFB4D118F24E5BB03109B1 /* voice_en_pre_have_forest_5.mp3 */ = {isa = PBXFileReference; name = "voice_en_pre_have_forest_5.mp3"; path = "../assets/audio/voice_en_pre_have_forest_5.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		76AE99142D444FE4ACE84E16 /* voice_en_lets_play.mp3 */ = {isa = PBXFileReference; name = "voice_en_lets_play.mp3"; path = "../assets/audio/voice_en_lets_play.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1374,6 +1376,7 @@
 				E0074BDD929045CD90CA63CD /* voice_en_pre_have_unicorn_5.mp3 */,
 				2437EC64A5624CBCB15BEFDD /* voice_en_pre_have_farm_5.mp3 */,
 				32DFB4D118F24E5BB03109B1 /* voice_en_pre_have_forest_5.mp3 */,
+				76AE99142D444FE4ACE84E16 /* voice_en_lets_play.mp3 */,
 			);
 			name = Resources;
 			path = "";
@@ -1866,6 +1869,7 @@
 				B1500C382F7448EABC67D1D7 /* voice_en_pre_have_unicorn_5.mp3 in Resources */,
 				5BCE47E5CFCD4935BDE99F98 /* voice_en_pre_have_farm_5.mp3 in Resources */,
 				53551967CFA9437C8D44C8EE /* voice_en_pre_have_forest_5.mp3 in Resources */,
+				46D04269CED34257B1E1C458 /* voice_en_lets_play.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
