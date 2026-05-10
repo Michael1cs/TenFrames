@@ -64,8 +64,13 @@ export function MemoryMode({
   // Auto-submit on count match (correct) or after overshoot grace (wrong).
   // Latch via ref to prevent double-fire if re-renders happen mid-timer.
   const correctFiredRef = useRef(false);
+  const retryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {
     correctFiredRef.current = false;
+    if (retryTimerRef.current) {
+      clearTimeout(retryTimerRef.current);
+      retryTimerRef.current = null;
+    }
   }, [challenge]);
 
   useEffect(() => {
@@ -82,12 +87,19 @@ export function MemoryMode({
       return () => clearTimeout(timer);
     }
     if (filledCount > challenge.targetCount) {
+      // Wrong: tell parent (which records attempt + plays "try again" voice),
+      // clear user input, re-show the target pattern briefly, then back to input.
+      // No latch — child gets unlimited retries on the same memory.
       const timer = setTimeout(() => {
-        if (correctFiredRef.current) return;
-        correctFiredRef.current = true;
-        setPhase('reveal');
-        onPhaseChangeRef.current?.('reveal', challenge.targetCount);
         onWrongRef.current();
+        setUserCells(Array(10).fill('empty'));
+        setPhase('show');
+        onPhaseChangeRef.current?.('show', challenge.targetCount);
+        const retryShow = setTimeout(() => {
+          setPhase('input');
+          onPhaseChangeRef.current?.('input', challenge.targetCount);
+        }, challenge.showDurationMs);
+        retryTimerRef.current = retryShow;
       }, 1800);
       return () => clearTimeout(timer);
     }

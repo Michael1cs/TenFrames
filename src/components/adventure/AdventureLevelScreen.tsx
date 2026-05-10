@@ -22,7 +22,7 @@ import {
 import {TenFrame} from '../game/TenFrame';
 import {NumberDisplay} from '../game/NumberDisplay';
 import {MemoryMode} from '../game/MemoryMode';
-import {useVoice} from '../../hooks/useVoice';
+import {useVoice, VOICE_GROUPS} from '../../hooks/useVoice';
 import {LevelCompleteScreen} from './LevelCompleteScreen';
 import {LevelPlayState} from '../../hooks/useAdventure';
 import {getAllThemes} from '../../hooks/useTheme';
@@ -510,6 +510,7 @@ export function AdventureLevelScreen({
               onCorrect={() => onRecordResult(attempts === 0)}
               onWrong={() => {
                 setAttempts(prev => prev + 1);
+                voiceRef.current.playRandom(VOICE_GROUPS.tryAgain);
               }}
               onPhaseChange={(phase, targetCount) => {
                 if (phase === 'show') voice.play('mem_watch');
