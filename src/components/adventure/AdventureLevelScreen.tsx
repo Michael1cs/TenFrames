@@ -259,7 +259,7 @@ export function AdventureLevelScreen({
             ? `num_${visible}`
             : null;
         if (resultId) {
-          voiceRef.current.playSequence([praiseId, resultId]);
+          voiceRef.current.playSequence([praiseId, resultId], 800);
         } else {
           voiceRef.current.play(praiseId);
         }
@@ -529,11 +529,16 @@ export function AdventureLevelScreen({
                 else if (phase === 'reveal') {
                   const clamped = Math.min(7, Math.max(1, targetCount));
                   // Praise + count narration: "Awesome! There were 4!"
+                  // Tight 800ms gap so praise flows directly into count
+                  // (praise clips are ~0.5-1s; default 1400ms felt delayed).
                   const praiseId =
                     VOICE_GROUPS.correct[
                       Math.floor(Math.random() * VOICE_GROUPS.correct.length)
                     ];
-                  voiceRef.current.playSequence([praiseId, `mem_was_${clamped}`]);
+                  voiceRef.current.playSequence(
+                    [praiseId, `mem_was_${clamped}`],
+                    800,
+                  );
                 }
               }}
             />
