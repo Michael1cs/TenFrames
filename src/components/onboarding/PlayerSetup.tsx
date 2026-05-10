@@ -18,6 +18,7 @@ import Animated, {
 import {useTranslation} from 'react-i18next';
 import {Theme, Language, AgeGroup} from '../../types/game';
 import {getAllThemes} from '../../hooks/useTheme';
+import {useVoice} from '../../hooks/useVoice';
 import {LanguageSwitcher} from '../layout/LanguageSwitcher';
 import {Emoji} from '../common/Emoji';
 
@@ -70,6 +71,14 @@ export function PlayerSetup({
   const pulseStyle = useAnimatedStyle(() => ({
     transform: [{scale: pulse.value}],
   }));
+
+  // Voice hint after 8s of inactivity on first-time onboarding.
+  const voice = useVoice();
+  useEffect(() => {
+    if (!visible || isSettings) return;
+    const timer = setTimeout(() => voice.play('press_play'), 8000);
+    return () => clearTimeout(timer);
+  }, [visible, isSettings, voice]);
 
   const themeGradients: Record<Theme, string[]> = {
     space: ['#6366F1', '#8B5CF6'],

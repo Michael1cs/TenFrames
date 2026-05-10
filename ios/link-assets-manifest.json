@@ -934,6 +934,10 @@
       "sha1": "8a81a5c665dfa99be371b64405802f2f01155864"
     },
     {
+      "path": "assets/audio/voice_en_press_play.mp3",
+      "sha1": "df58c34293d0755ee5710499402d49cf4618ee42"
+    },
+    {
       "path": "assets/audio/voice_en_reward_achievement.mp3",
       "sha1": "91ef81d3ea587d275eb8dfefbb955c1c112485b9"
     },

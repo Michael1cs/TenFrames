@@ -258,6 +258,9 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'post_great_monsters_4', ro: 'Bravo! Ai 4 monștri!', en: 'Great! You have 4 monsters!'},
   {id: 'post_great_monsters_5', ro: 'Bravo! Ai 5 monștri!', en: 'Great! You have 5 monsters!'},
 
+  // ── Onboarding hint when child is idle on setup screen ──
+  {id: 'press_play', ro: 'Apasă butonul de play să începi!', en: 'Press the play button to start!'},
+
   // ── Memory Garden phrases ──
   // Phase intros + per-count success announcements.
   {id: 'mem_watch', ro: 'Privește atent!', en: 'Watch carefully!'},
