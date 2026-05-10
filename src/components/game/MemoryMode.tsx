@@ -82,12 +82,16 @@ export function MemoryMode({
     if (correctFiredRef.current) return;
 
     if (filledCount === challenge.targetCount) {
-      correctFiredRef.current = true;
+      // Don't latch yet — only commit when the timer fires. If the child
+      // moves off target before then, cleanup cancels it and we'll re-evaluate.
+      // 1500ms hold lets the child verify their selection before lock-in.
       const timer = setTimeout(() => {
+        if (correctFiredRef.current) return;
+        correctFiredRef.current = true;
         setPhase('reveal');
         onPhaseChangeRef.current?.('reveal', challenge.targetCount);
         onCorrectRef.current();
-      }, 350);
+      }, 1500);
       return () => clearTimeout(timer);
     }
     if (filledCount > challenge.targetCount) {
