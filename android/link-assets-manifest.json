@@ -534,6 +534,18 @@
       "sha1": "1d822c6411b2d9e816641f7ed6fccbb3217e92e8"
     },
     {
+      "path": "assets/audio/voice_en_mode_adventure.mp3",
+      "sha1": "cf57a28b946e72c486b7fd70b7a43c05366f654c"
+    },
+    {
+      "path": "assets/audio/voice_en_mode_freeplay.mp3",
+      "sha1": "34a3870cab104ad4cd076208beafaee21e8b4f27"
+    },
+    {
+      "path": "assets/audio/voice_en_mode_question.mp3",
+      "sha1": "90d7d4a10287bb2933ebd53f82d7c2c3e315b0cf"
+    },
+    {
       "path": "assets/audio/voice_en_num_0.mp3",
       "sha1": "c97e29d3fabf801441877901104ecd73add6ba8a"
     },

@@ -272,6 +272,11 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'press_play', ro: 'Apasă butonul de play să începi!', en: 'Press the play button to start!'},
   {id: 'lets_play', ro: 'Hai să ne jucăm!', en: "Let's play!"},
 
+  // ── ModeChoice screen (Adventure vs Free Play) ──
+  {id: 'mode_question', ro: 'Cum vrei să te joci?', en: 'How do you want to play?'},
+  {id: 'mode_adventure', ro: 'Aventură! Mergi pe hartă!', en: 'Adventure! Follow the map!'},
+  {id: 'mode_freeplay', ro: 'Joc liber! Alege ce vrei!', en: 'Free play! Choose what you want!'},
+
   // ── Memory Garden phrases ──
   // Phase intros + per-count success announcements.
   {id: 'mem_watch', ro: 'Privește atent!', en: 'Watch carefully!'},

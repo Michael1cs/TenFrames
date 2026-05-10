@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, Text, Pressable, StyleSheet, Modal} from 'react-native';
 import Animated, {
   BounceIn,
@@ -8,9 +8,9 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
-import {useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Emoji} from '../common/Emoji';
+import {useVoice} from '../../hooks/useVoice';
 
 interface ModeChoiceProps {
   visible: boolean;
@@ -47,6 +47,68 @@ export function ModeChoice({
 }: ModeChoiceProps) {
   const {t} = useTranslation();
 
+  // Voice narration sequence + visual pulse on the card whose voice is playing.
+  const voice = useVoice();
+  const voiceRef = useRef(voice);
+  voiceRef.current = voice;
+  const [activeCard, setActiveCard] = useState<'adventure' | 'freeplay' | null>(
+    null,
+  );
+
+  const advPulse = useSharedValue(1);
+  const fpPulse = useSharedValue(1);
+  useEffect(() => {
+    if (activeCard === 'adventure') {
+      advPulse.value = withRepeat(
+        withSequence(
+          withTiming(1.05, {duration: 500}),
+          withTiming(1, {duration: 500}),
+        ),
+        4,
+        false,
+      );
+    } else if (activeCard === 'freeplay') {
+      fpPulse.value = withRepeat(
+        withSequence(
+          withTiming(1.05, {duration: 500}),
+          withTiming(1, {duration: 500}),
+        ),
+        4,
+        false,
+      );
+    }
+  }, [activeCard, advPulse, fpPulse]);
+
+  const advStyle = useAnimatedStyle(() => ({
+    transform: [{scale: advPulse.value}],
+  }));
+  const fpStyle = useAnimatedStyle(() => ({
+    transform: [{scale: fpPulse.value}],
+  }));
+
+  useEffect(() => {
+    if (!visible) {
+      setActiveCard(null);
+      return;
+    }
+    const t1 = setTimeout(() => voiceRef.current.play('mode_question'), 500);
+    const t2 = setTimeout(() => {
+      voiceRef.current.play('mode_adventure');
+      setActiveCard('adventure');
+    }, 3000);
+    const t3 = setTimeout(() => {
+      voiceRef.current.play('mode_freeplay');
+      setActiveCard('freeplay');
+    }, 6000);
+    const t4 = setTimeout(() => setActiveCard(null), 9000);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+      clearTimeout(t4);
+    };
+  }, [visible]);
+
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
@@ -56,8 +118,16 @@ export function ModeChoice({
 
         <View style={styles.cardsColumn}>
           {/* Adventure Card */}
-          <Animated.View entering={BounceIn.delay(400)}>
-            <Pressable onPress={onAdventure} style={styles.adventureCard}>
+          <Animated.View entering={BounceIn.delay(400)} style={advStyle}>
+            <Pressable
+              onPress={() => {
+                voiceRef.current.stop();
+                onAdventure();
+              }}
+              style={[
+                styles.adventureCard,
+                activeCard === 'adventure' && styles.cardHighlighted,
+              ]}>
               {/* Floating decorations */}
               <FloatingEmoji emoji="⭐" style={styles.floatTL} />
               <FloatingEmoji emoji="🌟" style={styles.floatTR} />
@@ -71,9 +141,6 @@ export function ModeChoice({
                   <Text style={styles.cardTitle}>
                     {t('modeChoice.adventureTitle')}
                   </Text>
-                  <Text style={styles.cardDesc}>
-                    {t('modeChoice.adventureDesc')}
-                  </Text>
                 </View>
               </View>
 
@@ -81,14 +148,23 @@ export function ModeChoice({
                 <Text style={styles.previewEmoji}><Emoji>🍄</Emoji></Text>
                 <Text style={styles.previewEmoji}><Emoji>🐟</Emoji></Text>
                 <Text style={styles.previewEmoji}><Emoji>🚀</Emoji></Text>
-                <Text style={styles.previewDots}>• • •</Text>
+                <Text style={styles.previewEmoji}><Emoji>🏖️</Emoji></Text>
+                <Text style={styles.previewEmoji}><Emoji>🏰</Emoji></Text>
               </View>
             </Pressable>
           </Animated.View>
 
           {/* Free Play Card */}
-          <Animated.View entering={BounceIn.delay(550)}>
-            <Pressable onPress={onFreeplay} style={styles.freeplayCard}>
+          <Animated.View entering={BounceIn.delay(550)} style={fpStyle}>
+            <Pressable
+              onPress={() => {
+                voiceRef.current.stop();
+                onFreeplay();
+              }}
+              style={[
+                styles.freeplayCard,
+                activeCard === 'freeplay' && styles.cardHighlighted,
+              ]}>
               <View style={styles.cardContent}>
                 <View style={styles.freeplayIcon}>
                   <Text style={styles.bigEmoji}><Emoji>🎮</Emoji></Text>
@@ -97,9 +173,6 @@ export function ModeChoice({
                   <Text style={styles.cardTitle}>
                     {t('modeChoice.freeplayTitle')}
                   </Text>
-                  <Text style={styles.cardDesc}>
-                    {t('modeChoice.freeplayDesc')}
-                  </Text>
                 </View>
               </View>
 
@@ -107,7 +180,6 @@ export function ModeChoice({
                 <Text style={styles.previewEmoji}><Emoji>🔢</Emoji></Text>
                 <Text style={styles.previewEmoji}><Emoji>➕</Emoji></Text>
                 <Text style={styles.previewEmoji}><Emoji>➖</Emoji></Text>
-                <Text style={styles.previewEmoji}><Emoji>🧩</Emoji></Text>
               </View>
             </Pressable>
           </Animated.View>
@@ -126,7 +198,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: '800',
     color: '#FFFFFF',
     textAlign: 'center',
@@ -138,11 +210,11 @@ const styles = StyleSheet.create({
   cardsColumn: {
     gap: 16,
     width: '100%',
-    maxWidth: 340,
+    maxWidth: 360,
   },
   adventureCard: {
     borderRadius: 24,
-    padding: 20,
+    padding: 22,
     borderWidth: 2,
     borderColor: '#E5E7EB',
     backgroundColor: '#FFFFFF',
@@ -155,7 +227,7 @@ const styles = StyleSheet.create({
   },
   freeplayCard: {
     borderRadius: 24,
-    padding: 20,
+    padding: 22,
     borderWidth: 2,
     borderColor: '#E5E7EB',
     backgroundColor: '#FFFFFF',
@@ -165,6 +237,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.12,
     shadowRadius: 8,
   },
+  cardHighlighted: {
+    borderWidth: 3,
+    borderColor: '#F59E0B',
+    shadowColor: '#F59E0B',
+    shadowOpacity: 0.5,
+    shadowRadius: 12,
+  },
   cardContent: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -172,41 +251,35 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   adventureIcon: {
-    width: 68,
-    height: 68,
-    borderRadius: 34,
+    width: 84,
+    height: 84,
+    borderRadius: 42,
     backgroundColor: 'rgba(34, 197, 94, 0.15)',
-    borderWidth: 2,
+    borderWidth: 2.5,
     borderColor: '#22C55E',
     justifyContent: 'center',
     alignItems: 'center',
   },
   freeplayIcon: {
-    width: 68,
-    height: 68,
-    borderRadius: 34,
+    width: 84,
+    height: 84,
+    borderRadius: 42,
     backgroundColor: 'rgba(139, 92, 246, 0.15)',
-    borderWidth: 2,
+    borderWidth: 2.5,
     borderColor: '#8B5CF6',
     justifyContent: 'center',
     alignItems: 'center',
   },
   bigEmoji: {
-    fontSize: 34,
+    fontSize: 48,
   },
   cardText: {
     flex: 1,
   },
   cardTitle: {
-    fontSize: 22,
+    fontSize: 26,
     fontWeight: '800',
     color: '#1F2937',
-    marginBottom: 4,
-  },
-  cardDesc: {
-    fontSize: 15,
-    color: '#6B7280',
-    lineHeight: 21,
   },
   previewRow: {
     flexDirection: 'row',
@@ -215,7 +288,7 @@ const styles = StyleSheet.create({
     paddingLeft: 4,
   },
   previewEmoji: {
-    fontSize: 22,
+    fontSize: 28,
   },
   previewDots: {
     color: '#9CA3AF',
@@ -225,23 +298,23 @@ const styles = StyleSheet.create({
   // Floating decorations
   floatTL: {
     position: 'absolute',
-    top: 6,
-    left: 6,
-    fontSize: 16,
+    top: 8,
+    left: 8,
+    fontSize: 18,
     opacity: 0.6,
   },
   floatTR: {
     position: 'absolute',
-    top: 10,
-    right: 10,
-    fontSize: 14,
+    top: 12,
+    right: 12,
+    fontSize: 16,
     opacity: 0.5,
   },
   floatBR: {
     position: 'absolute',
-    bottom: 8,
-    right: 12,
-    fontSize: 12,
+    bottom: 10,
+    right: 14,
+    fontSize: 14,
     opacity: 0.4,
   },
 });
