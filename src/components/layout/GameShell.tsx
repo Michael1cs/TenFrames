@@ -704,7 +704,12 @@ function GameShellInner() {
           onFreeplay={() => handleModeChoice('freeplay')}
         />
 
-        {isLandscape ? (
+        {gameFlow === 'adventure' ? (
+          /* When in Adventure flow, hide free-play UI entirely so it can't
+             flash through during modal transitions. The Adventure modals
+             above provide their own complete UI. */
+          <View style={styles.adventureBackdrop} />
+        ) : isLandscape ? (
           /* LANDSCAPE: sidebar left, game right */
           <View style={styles.landscapeContainer}>
             <ScrollView
@@ -796,6 +801,11 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
+  },
+
+  adventureBackdrop: {
+    flex: 1,
+    backgroundColor: '#1E1B4B',
   },
 
   /* ── Portrait layout ── */
