@@ -759,10 +759,10 @@ function GameShellInner() {
           onFreeplay={() => handleModeChoice('freeplay')}
         />
 
-        {gameFlow === 'adventure' ? (
-          /* When in Adventure flow, hide free-play UI entirely so it can't
-             flash through during modal transitions. The Adventure modals
-             above provide their own complete UI. */
+        {gameFlow === 'adventure' || showModeChoice || game.showSetup ? (
+          /* When an onboarding/adventure modal is up, hide free-play UI
+             entirely so it can't flash through during the modal's fade-in.
+             The modal itself paints over this backdrop with its own art. */
           <View style={styles.adventureBackdrop} />
         ) : isLandscape ? (
           /* LANDSCAPE: sidebar left, game right */
