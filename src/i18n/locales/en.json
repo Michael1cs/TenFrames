@@ -305,6 +305,7 @@
     "nextLevel": "Next Level",
     "backToMap": "Back to Map",
     "problemOf": "{{current}} of {{total}}",
+    "problemBadge": "Round",
     "levelComplete": "Level Complete!",
     "perfect": "Perfect!",
     "great": "Great job!",

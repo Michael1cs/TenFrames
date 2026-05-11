@@ -305,6 +305,7 @@
     "nextLevel": "Următorul nivel",
     "backToMap": "Înapoi la hartă",
     "problemOf": "{{current}} din {{total}}",
+    "problemBadge": "Provocarea",
     "levelComplete": "Nivel completat!",
     "perfect": "Perfect!",
     "great": "Foarte bine!",

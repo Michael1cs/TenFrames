@@ -1,6 +1,7 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Animated, {
+  Easing,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -8,7 +9,9 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
+import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
+import {Emoji} from '../common/Emoji';
 
 interface ProblemTransitionProps {
   // Increments on each problem change. Used to retrigger the animation.
@@ -18,50 +21,124 @@ interface ProblemTransitionProps {
   colors: ThemeColors;
 }
 
-// Brief celebratory badge that flashes in the middle of the screen when the
-// problem index advances. Patterned after Splash Math / Khan Academy Kids
-// where a card with "Question N of M" slides in between problems so the
-// child has an unambiguous beat between attempts. Skipped on the very first
-// problem of a level (trigger === 0) since the level itself is the entry.
+const CONFETTI = ['⭐', '✨', '🌟', '🎉', '💫'];
+
+function ConfettiDrop({
+  emoji,
+  left,
+  delay,
+  trigger,
+}: {
+  emoji: string;
+  left: string;
+  delay: number;
+  trigger: number;
+}) {
+  const ty = useSharedValue(-60);
+  const op = useSharedValue(0);
+  const rot = useSharedValue(0);
+
+  useEffect(() => {
+    if (trigger <= 0) return;
+    ty.value = -60;
+    op.value = 0;
+    rot.value = 0;
+    ty.value = withDelay(
+      delay,
+      withTiming(280, {duration: 1100, easing: Easing.in(Easing.quad)}),
+    );
+    op.value = withDelay(
+      delay,
+      withSequence(
+        withTiming(1, {duration: 120}),
+        withDelay(700, withTiming(0, {duration: 250})),
+      ),
+    );
+    rot.value = withDelay(delay, withTiming(360, {duration: 1100}));
+  }, [trigger, delay, ty, op, rot]);
+
+  const style = useAnimatedStyle(() => ({
+    transform: [{translateY: ty.value}, {rotate: `${rot.value}deg`}],
+    opacity: op.value,
+  }));
+
+  return (
+    <Animated.View
+      pointerEvents="none"
+      style={[styles.confettiDrop, {left: left as any}, style]}>
+      <Text style={styles.confettiText}>
+        <Emoji>{emoji}</Emoji>
+      </Text>
+    </Animated.View>
+  );
+}
+
+// Splash Math / Khan Academy Kids pattern: when problemIndex advances, show
+// a clear "between" beat — confetti falls from the top while a big centered
+// card announces the new problem number. Total dwell ~1.3s so the child
+// unambiguously registers a fresh attempt is starting.
 export function ProblemTransition({
   trigger,
   current,
   total,
   colors,
 }: ProblemTransitionProps) {
+  const {t} = useTranslation();
+  const [visible, setVisible] = useState(false);
+
   const scale = useSharedValue(0);
   const opacity = useSharedValue(0);
 
   useEffect(() => {
     if (trigger <= 0) return;
+    setVisible(true);
     scale.value = 0;
     opacity.value = 0;
-    // Pop in fast, hold briefly, fade out.
     scale.value = withSequence(
-      withSpring(1, {damping: 7, stiffness: 200}),
-      withDelay(550, withTiming(0.8, {duration: 250})),
+      withSpring(1, {damping: 8, stiffness: 180}),
+      withDelay(900, withTiming(0.9, {duration: 250})),
     );
     opacity.value = withSequence(
-      withTiming(1, {duration: 160}),
-      withDelay(550, withTiming(0, {duration: 250})),
+      withTiming(1, {duration: 200}),
+      withDelay(950, withTiming(0, {duration: 250})),
     );
+    // Hide pointer events / View after animation completes.
+    const t = setTimeout(() => setVisible(false), 1400);
+    return () => clearTimeout(t);
   }, [trigger, scale, opacity]);
 
-  const style = useAnimatedStyle(() => ({
+  const cardStyle = useAnimatedStyle(() => ({
     transform: [{scale: scale.value}],
     opacity: opacity.value,
   }));
 
+  if (!visible) return null;
+
   return (
     <View pointerEvents="none" style={styles.wrap}>
+      {CONFETTI.map((emoji, i) => (
+        <ConfettiDrop
+          key={`${trigger}-${i}`}
+          emoji={emoji}
+          left={`${12 + i * 18}%`}
+          delay={i * 80}
+          trigger={trigger}
+        />
+      ))}
+
       <Animated.View
         style={[
           styles.card,
-          style,
+          cardStyle,
           {backgroundColor: colors.accent, borderColor: '#FFFFFF'},
         ]}>
-        <Text style={styles.bigNum}>{current}</Text>
-        <Text style={styles.smallTotal}>/ {total}</Text>
+        <Text style={styles.label}>
+          {t('adventure.problemBadge', {defaultValue: 'Round'})}
+        </Text>
+        <View style={styles.numRow}>
+          <Text style={styles.bigNum}>{current}</Text>
+          <Text style={styles.smallTotal}> / {total}</Text>
+        </View>
       </Animated.View>
     </View>
   );
@@ -72,38 +149,55 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 25,
+    zIndex: 30,
+  },
+  confettiDrop: {
+    position: 'absolute',
+    top: 0,
+  },
+  confettiText: {
+    fontSize: 30,
   },
   card: {
-    minWidth: 140,
-    paddingHorizontal: 32,
-    paddingVertical: 18,
-    borderRadius: 22,
-    borderWidth: 4,
+    minWidth: 200,
+    paddingHorizontal: 36,
+    paddingVertical: 22,
+    borderRadius: 26,
+    borderWidth: 5,
+    alignItems: 'center',
+    elevation: 10,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 5},
+    shadowOpacity: 0.45,
+    shadowRadius: 8,
+  },
+  label: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'rgba(255,255,255,0.9)',
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+    marginBottom: 4,
+  },
+  numRow: {
     flexDirection: 'row',
     alignItems: 'baseline',
-    gap: 4,
-    elevation: 8,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 4},
-    shadowOpacity: 0.4,
-    shadowRadius: 6,
   },
   bigNum: {
-    fontSize: 72,
+    fontSize: 82,
     fontWeight: '900',
     color: '#FFFFFF',
-    lineHeight: 76,
+    lineHeight: 86,
     includeFontPadding: false,
     textShadowColor: 'rgba(0,0,0,0.4)',
     textShadowOffset: {width: 0, height: 2},
-    textShadowRadius: 3,
+    textShadowRadius: 4,
   },
   smallTotal: {
-    fontSize: 36,
+    fontSize: 40,
     fontWeight: '800',
     color: 'rgba(255,255,255,0.85)',
-    lineHeight: 40,
+    lineHeight: 44,
     includeFontPadding: false,
   },
 });

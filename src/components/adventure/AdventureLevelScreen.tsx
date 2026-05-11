@@ -485,9 +485,10 @@ export function AdventureLevelScreen({
     if (!action || key === prevVoiceKey.current) return;
     prevVoiceKey.current = key;
 
-    // Breathing room between the previous result+praise sequence and the
-    // next-problem instruction so the transition doesn't feel rushed.
-    const delay = isFirstProblemRef.current ? 400 : 1000;
+    // Wait long enough for the ProblemTransition overlay (~1.3s) to play out
+    // before the next-problem instruction voice starts. Otherwise the voice
+    // narrates content the child can't yet see clearly.
+    const delay = isFirstProblemRef.current ? 400 : 1400;
     isFirstProblemRef.current = false;
     const timer = setTimeout(action, delay);
     return () => clearTimeout(timer);
@@ -812,7 +813,11 @@ const styles = StyleSheet.create({
   },
   submitArea: {
     alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 12,
+    // Reserve height even when no feedback is showing so the ten frame
+    // doesn't jump up/down between question and answer states.
+    minHeight: 72,
   },
   submitBtn: {
     width: 92,
