@@ -67,9 +67,14 @@ const DOUBLES_POOL: Problem[] = [
 ];
 
 function generateAdditionProblem(level: number): Problem {
-  // Special level 20: Doubles Castle.
+  // Special level 20: Doubles Castle random mix.
   if (level === 20) {
     return DOUBLES_POOL[Math.floor(Math.random() * DOUBLES_POOL.length)];
+  }
+  // Levels 21-25: specific double N+N (21 = 1+1, 22 = 2+2, …, 25 = 5+5).
+  if (level >= 21 && level <= 25) {
+    const n = level - 20;
+    return {num1: n, num2: n, answer: n + n};
   }
 
   let num1: number, num2: number;
@@ -213,7 +218,7 @@ export function generateCountingChallenge(level: number): CountingChallenge {
 
 
 /**
- * Generate a memory challenge based on level (1-5).
+ * Generate a memory challenge based on level (1-6).
  * Easier levels: fewer cells, longer show duration.
  */
 export function generateMemoryChallenge(level: number): MemoryChallenge {
@@ -223,7 +228,8 @@ export function generateMemoryChallenge(level: number): MemoryChallenge {
     case 2: min = 2; max = 3; durationMs = 2500; break;
     case 3: min = 3; max = 4; durationMs = 2200; break;
     case 4: min = 4; max = 5; durationMs = 2000; break;
-    case 5: min = 5; max = 7; durationMs = 1500; break; // champion
+    case 5: min = 5; max = 6; durationMs = 1800; break;
+    case 6: min = 6; max = 8; durationMs = 1500; break; // champion
     default: min = 3; max = 5; durationMs = 2200;
   }
   const targetCount = min + Math.floor(Math.random() * (max - min + 1));
