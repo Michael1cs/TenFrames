@@ -103,8 +103,8 @@ function GameShellInner() {
             setShowAdventureMap(true);
           }
         }
-        // Welcome voice for returning users (non-readers need an audible
-        // confirmation that the app opened).
+        // Returning users skip ModeChoice (which now hosts the welcome cue),
+        // so play a brief welcome here too so the app open feels acknowledged.
         setTimeout(() => voice.play('welcome'), 800);
       } else {
         // First-time user: skip PlayerSetup, surface the mode choice first.

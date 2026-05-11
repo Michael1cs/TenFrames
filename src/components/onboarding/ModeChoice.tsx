@@ -92,17 +92,21 @@ export function ModeChoice({
       setActiveCard(null);
       return;
     }
-    const t1 = setTimeout(() => voiceRef.current.play('mode_question'), 500);
+    // Welcome lands first so the child knows the app heard them; then the
+    // mode prompt and per-card narration follow on the existing cadence.
+    const t0 = setTimeout(() => voiceRef.current.play('welcome'), 400);
+    const t1 = setTimeout(() => voiceRef.current.play('mode_question'), 2400);
     const t2 = setTimeout(() => {
       voiceRef.current.play('mode_adventure');
       setActiveCard('adventure');
-    }, 3000);
+    }, 4900);
     const t3 = setTimeout(() => {
       voiceRef.current.play('mode_freeplay');
       setActiveCard('freeplay');
-    }, 6000);
-    const t4 = setTimeout(() => setActiveCard(null), 9000);
+    }, 7900);
+    const t4 = setTimeout(() => setActiveCard(null), 10500);
     return () => {
+      clearTimeout(t0);
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
@@ -122,7 +126,24 @@ export function ModeChoice({
           <FloatingEmoji emoji="✨" style={styles.bgEmoji3} />
           <FloatingEmoji emoji="💫" style={styles.bgEmoji4} />
 
-          <Animated.Text entering={BounceIn.delay(200)} style={styles.title}>
+          {/* Ten Frames brand mark — a stylized mini ten-frame above the
+              question so the first screen actually announces the app. */}
+          <Animated.View entering={BounceIn.delay(100)} style={styles.brandWrap}>
+            <View style={styles.miniFrame}>
+              {Array.from({length: 10}).map((_, i) => (
+                <View
+                  key={i}
+                  style={[
+                    styles.miniCell,
+                    i < 7 && styles.miniCellFilled,
+                  ]}
+                />
+              ))}
+            </View>
+            <Text style={styles.brandText}>TEN FRAMES</Text>
+          </Animated.View>
+
+          <Animated.Text entering={BounceIn.delay(280)} style={styles.title}>
             {t('modeChoice.title')}
           </Animated.Text>
 
@@ -238,10 +259,50 @@ const styles = StyleSheet.create({
     fontSize: 26,
     opacity: 0.3,
   },
-  title: {
-    fontSize: 26,
-    fontWeight: '800',
+  brandWrap: {
+    alignItems: 'center',
+    marginBottom: 24,
+    gap: 10,
+  },
+  miniFrame: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: 5 * 26 + 4 * 6 + 12, // 5 cells × 26px + 4 gaps × 6px + padding
+    padding: 6,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.35)',
+    justifyContent: 'center',
+    gap: 4,
+  },
+  miniCell: {
+    width: 24,
+    height: 24,
+    borderRadius: 6,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,255,255,0.4)',
+    backgroundColor: 'rgba(255,255,255,0.06)',
+    marginRight: 2,
+    marginBottom: 2,
+  },
+  miniCellFilled: {
+    backgroundColor: '#F59E0B',
+    borderColor: '#F59E0B',
+  },
+  brandText: {
+    fontSize: 22,
+    fontWeight: '900',
     color: '#FFFFFF',
+    letterSpacing: 4,
+    textShadowColor: 'rgba(0,0,0,0.5)',
+    textShadowOffset: {width: 0, height: 2},
+    textShadowRadius: 4,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: 'rgba(255,255,255,0.92)',
     textAlign: 'center',
     marginBottom: 24,
     textShadowColor: 'rgba(0,0,0,0.5)',
