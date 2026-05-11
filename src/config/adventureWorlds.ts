@@ -28,7 +28,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.countingMeadow',
     emoji: '🌿',
     theme: 'forest',
-    freeLevels: 12,
+    freeLevels: 3,
     levels: [
       {id: 'cm-1', worldId: 'counting-meadow', order: 1, nameKey: 'adventure.levels.cm1', emoji: '🍄', isBonus: false, gameMode: 'counting', modeLevel: 1, problemCount: 5, unlockCondition: {type: 'first'}},
       {id: 'cm-2', worldId: 'counting-meadow', order: 2, nameKey: 'adventure.levels.cm2', emoji: '🦋', isBonus: false, gameMode: 'counting', modeLevel: 2, problemCount: 5, unlockCondition: unlockPrev('cm-1')},
@@ -49,7 +49,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.additionIsland',
     emoji: '🐳',
     theme: 'ocean',
-    freeLevels: 12,
+    freeLevels: 3,
     levels: [
       {id: 'ai-1', worldId: 'addition-island', order: 1, nameKey: 'adventure.levels.ai1', emoji: '🐚', isBonus: false, gameMode: 'addition', modeLevel: 1, problemCount: 5, unlockCondition: {type: 'first'}},
       {id: 'ai-2', worldId: 'addition-island', order: 2, nameKey: 'adventure.levels.ai2', emoji: '🐟', isBonus: false, gameMode: 'addition', modeLevel: 2, problemCount: 5, unlockCondition: unlockPrev('ai-1')},
@@ -72,7 +72,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.subtractionMountain',
     emoji: '🚀',
     theme: 'space',
-    freeLevels: 12,
+    freeLevels: 3,
     levels: [
       {id: 'sm-1', worldId: 'subtraction-mountain', order: 1, nameKey: 'adventure.levels.sm1', emoji: '🌙', isBonus: false, gameMode: 'subtraction', modeLevel: 1, problemCount: 5, unlockCondition: {type: 'first'}},
       {id: 'sm-2', worldId: 'subtraction-mountain', order: 2, nameKey: 'adventure.levels.sm2', emoji: '🚀', isBonus: false, gameMode: 'subtraction', modeLevel: 2, problemCount: 5, unlockCondition: unlockPrev('sm-1')},
@@ -96,7 +96,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.makeTenBeach',
     emoji: '🍬',
     theme: 'candy',
-    freeLevels: 8,
+    freeLevels: 3,
     levels: [
       {id: 'mtb-1', worldId: 'make-ten-beach', order: 1, nameKey: 'adventure.levels.mtb1', emoji: '🍬', isBonus: false, gameMode: 'puzzle', modeLevel: 1, problemCount: 5, unlockCondition: {type: 'first'}},
       {id: 'mtb-2', worldId: 'make-ten-beach', order: 2, nameKey: 'adventure.levels.mtb2', emoji: '🍭', isBonus: false, gameMode: 'puzzle', modeLevel: 2, problemCount: 5, unlockCondition: unlockPrev('mtb-1')},
@@ -116,7 +116,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.doublesCastle',
     emoji: '🏰',
     theme: 'unicorn',
-    freeLevels: 7,
+    freeLevels: 3,
     levels: [
       {id: 'dc-1', worldId: 'doubles-castle', order: 1, nameKey: 'adventure.levels.dc1', emoji: '✨', isBonus: false, gameMode: 'addition', modeLevel: 21, problemCount: 5, unlockCondition: {type: 'first'}},
       {id: 'dc-2', worldId: 'doubles-castle', order: 2, nameKey: 'adventure.levels.dc2', emoji: '🌈', isBonus: false, gameMode: 'addition', modeLevel: 22, problemCount: 5, unlockCondition: unlockPrev('dc-1')},
@@ -135,7 +135,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.memoryGarden',
     emoji: '🍄',
     theme: 'unicorn',
-    freeLevels: 7,
+    freeLevels: 3,
     levels: [
       {id: 'mg-1', worldId: 'memory-garden', order: 1, nameKey: 'adventure.levels.mg1', emoji: '🌷', isBonus: false, gameMode: 'memory', modeLevel: 1, problemCount: 5, unlockCondition: {type: 'first'}},
       {id: 'mg-2', worldId: 'memory-garden', order: 2, nameKey: 'adventure.levels.mg2', emoji: '🌹', isBonus: false, gameMode: 'memory', modeLevel: 2, problemCount: 5, unlockCondition: unlockPrev('mg-1')},
@@ -156,7 +156,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.friendsOfTen',
     emoji: '🤝',
     theme: 'ocean',
-    freeLevels: 11,
+    freeLevels: 3,
     levels: [
       {id: 'fot-1', worldId: 'friends-of-ten', order: 1, nameKey: 'adventure.levels.fot1', emoji: '1️⃣', isBonus: false, gameMode: 'puzzle', modeLevel: 1, problemCount: 5, unlockCondition: {type: 'first'}},
       {id: 'fot-2', worldId: 'friends-of-ten', order: 2, nameKey: 'adventure.levels.fot2', emoji: '2️⃣', isBonus: false, gameMode: 'puzzle', modeLevel: 2, problemCount: 5, unlockCondition: unlockPrev('fot-1')},
