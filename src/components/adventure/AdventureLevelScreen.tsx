@@ -320,9 +320,12 @@ export function AdventureLevelScreen({
           if (resultId) {
             // Result FIRST, then praise — naming the answer ("Five!") before
             // celebrating it ("Great!") matches how a teacher would respond.
-            voiceRef.current.playSequence([resultId, praiseId], 800);
-            // ~1.5s result + 800ms gap + ~0.7s praise ≈ 3.0s.
-            voiceDurationMs = 3000;
+            // playSequence's gapMs is measured from the START of the previous
+            // clip, so it must exceed the result clip's length (~1.5s) plus a
+            // brief breathing pause, otherwise praise interrupts mid-word.
+            voiceRef.current.playSequence([resultId, praiseId], 1800);
+            // 1.8s before praise starts + ~0.7s praise ≈ 2.5s, +300ms tail.
+            voiceDurationMs = 2800;
           } else {
             voiceRef.current.play(praiseId);
             voiceDurationMs = 900;
