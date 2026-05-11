@@ -122,8 +122,13 @@ function generateSubtractionProblem(level: number): Problem {
   return {num1, num2, answer: num1 - num2};
 }
 
-export function generatePuzzleNumber(): number {
-  return Math.floor(Math.random() * 8) + 1; // 1 to 8
+export function generatePuzzleNumber(level?: number): number {
+  // Friends-of-10 progression: levels 1-9 force the partner (e.g. level 3 →
+  // puzzleNumber 3 → child must fill 7). Anything else: random 1-8.
+  if (level !== undefined && level >= 1 && level <= 9) {
+    return level;
+  }
+  return Math.floor(Math.random() * 8) + 1;
 }
 
 export function checkAnswer(

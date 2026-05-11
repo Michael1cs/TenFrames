@@ -285,6 +285,7 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'world_make_ten_beach', ro: 'Fă zece!', en: 'Make ten!'},
   {id: 'world_doubles_castle', ro: 'Castelul dublurilor!', en: 'Doubles Castle!'},
   {id: 'world_memory_garden', ro: 'Grădina memoriei!', en: 'Memory Garden!'},
+  {id: 'world_friends_of_ten', ro: 'Prietenii lui zece!', en: 'Friends of ten!'},
 
   // ── Adventure level challenge intros ──
   {id: 'instr_top_row', ro: 'Umple rândul de sus!', en: 'Fill the top row!'},

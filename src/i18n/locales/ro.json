@@ -222,7 +222,8 @@
       "subtractionMountain": "Muntele scăderii",
       "makeTenBeach": "Fă 10!",
       "doublesCastle": "Castelul Dublurilor",
-      "memoryGarden": "Grădina Memoriei"
+      "memoryGarden": "Grădina Memoriei",
+      "friendsOfTen": "Prietenii lui 10"
     },
     "levels": {
       "cm1": "Numără până la 2",
@@ -280,7 +281,18 @@
       "mg4": "4-5 căsuțe",
       "mg5": "5-6 căsuțe",
       "mgBonusA": "Provocarea stelelor",
-      "mgBonusB": "Memorie maximă"
+      "mgBonusB": "Memorie maximă",
+      "fot1": "1 + 9",
+      "fot2": "2 + 8",
+      "fot3": "3 + 7",
+      "fot4": "4 + 6",
+      "fot5": "5 + 5",
+      "fot6": "6 + 4",
+      "fot7": "7 + 3",
+      "fot8": "8 + 2",
+      "fot9": "9 + 1",
+      "fotBonusA": "Prieteni Amestecați",
+      "fotBonusB": "Maestrul Prietenilor"
     },
     "level": "Nivel",
     "stars": "Stele",

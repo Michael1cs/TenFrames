@@ -106,7 +106,18 @@ export function usePersistence() {
       try {
         const data = await AsyncStorage.getItem(ADVENTURE_KEY);
         if (data) {
-          return JSON.parse(data);
+          const parsed = JSON.parse(data) as AdventureProgress;
+          // Forward-migrate: if defaults gained worlds since this save was
+          // written, splice them in so reading parsed.worlds[newId] is safe.
+          const defaults = getDefaultAdventureProgress();
+          for (const wid of Object.keys(defaults.worlds) as Array<
+            keyof typeof defaults.worlds
+          >) {
+            if (!parsed.worlds[wid]) {
+              parsed.worlds[wid] = defaults.worlds[wid];
+            }
+          }
+          return parsed;
         }
       } catch {
         // Return defaults on error

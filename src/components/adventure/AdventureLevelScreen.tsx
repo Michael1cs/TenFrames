@@ -107,7 +107,7 @@ export function AdventureLevelScreen({
       let tries = 0;
       while (problems.length < problemCount && tries < 50) {
         const p = level.gameMode === 'puzzle'
-          ? (() => { const n = generatePuzzleNumber(); return {num1: n, num2: 10 - n, answer: 10}; })()
+          ? (() => { const n = generatePuzzleNumber(level.modeLevel); return {num1: n, num2: 10 - n, answer: 10}; })()
           : generateProblem(level.gameMode, level.modeLevel);
         const key = `${p.num1}-${p.num2}`;
         if (!seen.has(key) || tries > 30) {
@@ -142,7 +142,7 @@ export function AdventureLevelScreen({
       setMemoryChallenge(null);
     } else if (level.gameMode === 'puzzle') {
       const problem = pregenProblemsRef.current[problemIndex]
-        ?? (() => { const n = generatePuzzleNumber(); return {num1: n, num2: 10 - n, answer: 10}; })();
+        ?? (() => { const n = generatePuzzleNumber(level.modeLevel); return {num1: n, num2: 10 - n, answer: 10}; })();
       const prefilled = Array(10).fill('empty') as CellState[];
       for (let i = 0; i < problem.num1; i++) {
         prefilled[i] = 'color1';

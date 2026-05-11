@@ -222,7 +222,8 @@
       "subtractionMountain": "Subtraction Mountain",
       "makeTenBeach": "Make 10!",
       "doublesCastle": "Doubles Castle",
-      "memoryGarden": "Memory Garden"
+      "memoryGarden": "Memory Garden",
+      "friendsOfTen": "Friends of 10"
     },
     "levels": {
       "cm1": "Count to 2",
@@ -280,7 +281,18 @@
       "mg4": "4-5 cells",
       "mg5": "5-6 cells",
       "mgBonusA": "Star Challenge",
-      "mgBonusB": "Memory Master"
+      "mgBonusB": "Memory Master",
+      "fot1": "1 + 9",
+      "fot2": "2 + 8",
+      "fot3": "3 + 7",
+      "fot4": "4 + 6",
+      "fot5": "5 + 5",
+      "fot6": "6 + 4",
+      "fot7": "7 + 3",
+      "fot8": "8 + 2",
+      "fot9": "9 + 1",
+      "fotBonusA": "Mixed Friends",
+      "fotBonusB": "Friend Master"
     },
     "level": "Level",
     "stars": "Stars",
