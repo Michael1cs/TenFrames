@@ -7,7 +7,12 @@
     "counting": "Counting",
     "addition": "Addition",
     "subtraction": "Subtraction",
-    "puzzle": "Puzzle"
+    "puzzle": "Puzzle",
+    "workshop": "Create"
+  },
+  "workshop": {
+    "title": "Create!",
+    "hint": "Pick an emoji and tap a cell."
   },
   "game": {
     "countingTitle": "Magic Counting",

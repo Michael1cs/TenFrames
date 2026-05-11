@@ -14,6 +14,7 @@ import {CountingMode} from '../game/CountingMode';
 import {AdditionMode} from '../game/AdditionMode';
 import {SubtractionMode} from '../game/SubtractionMode';
 import {PuzzleMode} from '../game/PuzzleMode';
+import {WorkshopMode} from '../game/WorkshopMode';
 import {CorrectAnimation} from '../feedback/CorrectAnimation';
 import {WrongAnimation} from '../feedback/WrongAnimation';
 import {StarsDisplay} from '../feedback/StarsDisplay';
@@ -432,6 +433,14 @@ function GameShellInner() {
             colors={colors}
             emoji={themeConfig.emoji}
             tokenImage={themeConfig.tokenImage}
+          />
+        );
+      case 'workshop':
+        return (
+          <WorkshopMode
+            paletteEmojis={themeConfig.backgroundEmojis}
+            colors={colors}
+            ageGroup={game.ageGroup}
           />
         );
     }

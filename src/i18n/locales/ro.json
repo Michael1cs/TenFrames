@@ -7,7 +7,12 @@
     "counting": "Numărare",
     "addition": "Adunare",
     "subtraction": "Scădere",
-    "puzzle": "Puzzle"
+    "puzzle": "Puzzle",
+    "workshop": "Creează"
+  },
+  "workshop": {
+    "title": "Creează!",
+    "hint": "Alege un emoji și apasă o celulă."
   },
   "game": {
     "countingTitle": "Numărarea magică",

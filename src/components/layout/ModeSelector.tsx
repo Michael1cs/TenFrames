@@ -20,6 +20,7 @@ const allModes: {id: GameMode; emoji: string; key: string; emojiColor?: string}[
   {id: 'addition', emoji: '+', key: 'modes.addition', emojiColor: '#4ADE80'},
   {id: 'subtraction', emoji: '−', key: 'modes.subtraction', emojiColor: '#F87171'},
   {id: 'puzzle', emoji: '🧩', key: 'modes.puzzle'},
+  {id: 'workshop', emoji: '🎨', key: 'modes.workshop'},
 ];
 
 export function ModeSelector({
@@ -43,7 +44,8 @@ export function ModeSelector({
       <View style={styles.containerVertical}>
         {modes.map(mode => {
           const isActive = activeMode === mode.id;
-          const isLimited = !isPremium && mode.id !== 'counting';
+          const isLimited =
+            !isPremium && mode.id !== 'counting' && mode.id !== 'workshop';
           const remaining = getRemainingExercises
             ? getRemainingExercises(mode.id)
             : Infinity;
