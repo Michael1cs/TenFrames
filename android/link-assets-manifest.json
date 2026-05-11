@@ -1078,6 +1078,10 @@
       "sha1": "f229ac8c259a16f18cb07ad7cc71f074bf135704"
     },
     {
+      "path": "assets/audio/voice_en_world_divide_tower.mp3",
+      "sha1": "f66833368a2bbf54b955b8332caf400cb4663da1"
+    },
+    {
       "path": "assets/audio/voice_en_world_doubles_castle.mp3",
       "sha1": "65c040d51f85e9ebbcedb328557ec901b0ae1355"
     },
@@ -2196,6 +2200,10 @@
     {
       "path": "assets/audio/voice_ro_world_counting.mp3",
       "sha1": "ddca27d064684ecffecbf859d33b2ff5a3c685a4"
+    },
+    {
+      "path": "assets/audio/voice_ro_world_divide_tower.mp3",
+      "sha1": "857ff008b9ead015e13ecfa049138dbe283ee319"
     },
     {
       "path": "assets/audio/voice_ro_world_doubles_castle.mp3",

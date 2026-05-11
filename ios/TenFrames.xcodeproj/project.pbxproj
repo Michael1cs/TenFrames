@@ -578,6 +578,8 @@
 		FFFE17264B654358BFCF3658 /* voice_en_instr_sub_ocean_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FD441ACA8E0E4C22A3CB9DDF /* voice_en_instr_sub_ocean_1.mp3 */; };
 		4DBD4D24289045569687EFC1 /* voice_ro_mem_intro.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2CBCC53CC13C448F82287B00 /* voice_ro_mem_intro.mp3 */; };
 		7219914E5A35419F89192C8B /* voice_en_mem_intro.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 37CDE3866486416C86303750 /* voice_en_mem_intro.mp3 */; };
+		8A797D0E1F3743A583CD0E02 /* voice_ro_world_divide_tower.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 304A63A202B34CD48F53C9E2 /* voice_ro_world_divide_tower.mp3 */; };
+		FC445342365447F3AAAB2484 /* voice_en_world_divide_tower.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 97663834B2644BA889262B89 /* voice_en_world_divide_tower.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1157,6 +1159,8 @@
 		FFF8669F2F974CBEA7A0D7C0 /* voice_en_instr_addition_easy.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_instr_addition_easy.mp3; path = ../assets/audio/voice_en_instr_addition_easy.mp3; sourceTree = "<group>"; };
 		2CBCC53CC13C448F82287B00 /* voice_ro_mem_intro.mp3 */ = {isa = PBXFileReference; name = "voice_ro_mem_intro.mp3"; path = "../assets/audio/voice_ro_mem_intro.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		37CDE3866486416C86303750 /* voice_en_mem_intro.mp3 */ = {isa = PBXFileReference; name = "voice_en_mem_intro.mp3"; path = "../assets/audio/voice_en_mem_intro.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		304A63A202B34CD48F53C9E2 /* voice_ro_world_divide_tower.mp3 */ = {isa = PBXFileReference; name = "voice_ro_world_divide_tower.mp3"; path = "../assets/audio/voice_ro_world_divide_tower.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		97663834B2644BA889262B89 /* voice_en_world_divide_tower.mp3 */ = {isa = PBXFileReference; name = "voice_en_world_divide_tower.mp3"; path = "../assets/audio/voice_en_world_divide_tower.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1800,6 +1804,8 @@
 				3CF5E7AD63C24ACCA2C7E95B /* voice_ro_pre_have_forest_1.mp3 */,
 				2CBCC53CC13C448F82287B00 /* voice_ro_mem_intro.mp3 */,
 				37CDE3866486416C86303750 /* voice_en_mem_intro.mp3 */,
+				304A63A202B34CD48F53C9E2 /* voice_ro_world_divide_tower.mp3 */,
+				97663834B2644BA889262B89 /* voice_en_world_divide_tower.mp3 */,
 			);
 			name = Resources;
 			path = "";
@@ -2434,6 +2440,8 @@
 				F2B6695177D3427F98346646 /* voice_ro_pre_have_forest_1.mp3 in Resources */,
 				4DBD4D24289045569687EFC1 /* voice_ro_mem_intro.mp3 in Resources */,
 				7219914E5A35419F89192C8B /* voice_en_mem_intro.mp3 in Resources */,
+				8A797D0E1F3743A583CD0E02 /* voice_ro_world_divide_tower.mp3 in Resources */,
+				FC445342365447F3AAAB2484 /* voice_en_world_divide_tower.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

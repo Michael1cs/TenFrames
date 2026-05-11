@@ -15,6 +15,7 @@ import {AdditionMode} from '../game/AdditionMode';
 import {SubtractionMode} from '../game/SubtractionMode';
 import {PuzzleMode} from '../game/PuzzleMode';
 import {WorkshopMode} from '../game/WorkshopMode';
+import {DivideMode} from '../game/DivideMode';
 import {CorrectAnimation} from '../feedback/CorrectAnimation';
 import {WrongAnimation} from '../feedback/WrongAnimation';
 import {WrongFlash} from '../feedback/WrongFlash';
@@ -442,6 +443,23 @@ function GameShellInner() {
             paletteEmojis={themeConfig.backgroundEmojis}
             colors={colors}
             ageGroup={game.ageGroup}
+          />
+        );
+      case 'divide':
+        return (
+          <DivideMode
+            cells={game.cells}
+            onCellClick={handleCellClick}
+            currentProblem={game.currentProblem}
+            colors={colors}
+            emoji={themeConfig.emoji}
+            tokenImage={themeConfig.tokenImage}
+            ageGroup={game.ageGroup}
+            onMatch={() => {
+              playSound('correct');
+              voice.playRandom(VOICE_GROUPS.correct);
+              setTimeout(() => game.newDivideProblem(), 1200);
+            }}
           />
         );
     }

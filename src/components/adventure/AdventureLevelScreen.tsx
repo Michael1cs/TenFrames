@@ -16,12 +16,14 @@ import {
   generateCountingChallenge,
   generateMemoryChallenge,
   generatePuzzleNumber,
+  generateDivideProblem,
   checkAnswer,
   checkPuzzleAnswer,
 } from '../../utils/mathProblems';
 import {TenFrame} from '../game/TenFrame';
 import {NumberDisplay} from '../game/NumberDisplay';
 import {MemoryMode} from '../game/MemoryMode';
+import {DivideMode} from '../game/DivideMode';
 import {useVoice, VOICE_GROUPS} from '../../hooks/useVoice';
 import {LevelCompleteScreen} from './LevelCompleteScreen';
 import {LevelPlayState} from '../../hooks/useAdventure';
@@ -108,6 +110,8 @@ export function AdventureLevelScreen({
       while (problems.length < problemCount && tries < 50) {
         const p = level.gameMode === 'puzzle'
           ? (() => { const n = generatePuzzleNumber(level.modeLevel); return {num1: n, num2: 10 - n, answer: 10}; })()
+          : level.gameMode === 'divide'
+          ? generateDivideProblem(level.modeLevel)
           : generateProblem(level.gameMode, level.modeLevel);
         const key = `${p.num1}-${p.num2}`;
         if (!seen.has(key) || tries > 30) {
@@ -150,6 +154,18 @@ export function AdventureLevelScreen({
       setCells(prefilled);
       setCurrentProblem(problem);
       setCountingChallenge(null);
+    } else if (level.gameMode === 'divide') {
+      const problem = pregenProblemsRef.current[problemIndex]
+        ?? generateDivideProblem(level.modeLevel);
+      // Pre-fill ALL `answer` cells in color1; child flips num2 of them to color2.
+      const prefilled = Array(10).fill('empty') as CellState[];
+      for (let i = 0; i < problem.answer; i++) {
+        prefilled[i] = 'color1';
+      }
+      setCells(prefilled);
+      setCurrentProblem(problem);
+      setCountingChallenge(null);
+      setMemoryChallenge(null);
     } else {
       const problem = pregenProblemsRef.current[problemIndex]
         ?? generateProblem(level.gameMode, level.modeLevel);
@@ -215,6 +231,11 @@ export function AdventureLevelScreen({
           } else if (currentState === 'empty') {
             newCells[index] = 'color1';
           }
+        } else if (level.gameMode === 'divide') {
+          // Toggle between the two colors; empty cells stay empty (outside split).
+          if (currentState === 'color1') newCells[index] = 'color2';
+          else if (currentState === 'color2') newCells[index] = 'color1';
+          else return prev;
         }
         return newCells;
       });
@@ -330,6 +351,9 @@ export function AdventureLevelScreen({
   }, [hasSubmitted]);
   useEffect(() => {
     if (finished || hasSubmitted || level.gameMode === 'memory') return;
+    // Divide mode owns its own match detection in <DivideMode/> so we skip
+    // the count-based auto-submit logic here.
+    if (level.gameMode === 'divide') return;
     if (autoSubmitFiredRef.current) return;
 
     const topFilled = cells.slice(0, 5).filter(c => c !== 'empty').length;
@@ -401,6 +425,9 @@ export function AdventureLevelScreen({
   const isFirstProblemRef = useRef(true);
   useEffect(() => {
     if (finished || level.gameMode === 'memory') return;
+    // Divide mode is silent — banner "5 = 2 + 3" is unambiguous visually; per-
+    // equation voice would balloon the audio bundle and add little for kids.
+    if (level.gameMode === 'divide') return;
     const themeId = ADVENTURE_WORLDS.find(w => w.id === level.worldId)?.theme;
 
     let key = '';
@@ -551,7 +578,17 @@ export function AdventureLevelScreen({
           </View>
         </View>
 
-        {level.gameMode === 'memory' ? (
+        {level.gameMode === 'divide' ? (
+          <DivideMode
+            cells={cells}
+            onCellClick={handleCellPress}
+            currentProblem={currentProblem}
+            colors={themeColors}
+            emoji={worldTheme?.colors?.emojiColor1 ?? '🔵'}
+            tokenImage={worldTheme?.tokenImage}
+            onMatch={() => onRecordResult(attempts === 0)}
+          />
+        ) : level.gameMode === 'memory' ? (
           memoryChallenge && (
             <MemoryMode
               challenge={memoryChallenge}
@@ -564,16 +601,14 @@ export function AdventureLevelScreen({
                 voiceRef.current.playRandom(VOICE_GROUPS.tryAgain);
               }}
               onPhaseChange={(phase, _targetCount) => {
-                // Only the first problem gets a spoken cue on 'show' — the
-                // intro explains the rules. Later problems are silent on
-                // 'show' so the cadence doesn't feel naggy.
+                // Industry pattern (Khan Academy Kids, Toca Boca, Endless
+                // Numbers): teach rules once, then trust the visual. Voice
+                // only at first problem's intro and on correct praise.
+                // Problems 2+ are completely silent during show/input — the
+                // lit cells and the empty grid are unambiguous.
                 if (phase === 'show' && problemIndex === 0) {
                   voiceRef.current.play('mem_intro');
-                } else if (phase === 'input') {
-                  voiceRef.current.play('mem_count');
                 } else if (phase === 'reveal') {
-                  // Just praise — the count is visually obvious; "There were N!"
-                  // was redundant and slowed the pacing.
                   voiceRef.current.playRandom(VOICE_GROUPS.correct);
                 }
               }}

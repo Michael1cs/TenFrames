@@ -122,6 +122,19 @@ function generateSubtractionProblem(level: number): Problem {
   return {num1, num2, answer: num1 - num2};
 }
 
+/**
+ * Decomposition problem: child sees `answer` cells in color1, must flip
+ * exactly `num2` of them to color2 so the split matches num1 + num2 = answer.
+ * Level controls the total N (level 1 → total 4, level 7 → total 10).
+ */
+export function generateDivideProblem(level: number): Problem {
+  const total = Math.min(10, Math.max(3, level + 3));
+  // num2 = part to "flip" — exclude 0 and `total` so neither side is empty.
+  const num2 = Math.floor(Math.random() * (total - 1)) + 1;
+  const num1 = total - num2;
+  return {num1, num2, answer: total};
+}
+
 export function generatePuzzleNumber(level?: number): number {
   // Friends-of-10 progression: levels 1-9 force the partner (e.g. level 3 →
   // puzzleNumber 3 → child must fill 7). Anything else: random 1-8.

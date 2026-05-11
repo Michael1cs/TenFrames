@@ -33,6 +33,7 @@ const WORLD_VOICE: Record<WorldId, string> = {
   'make-ten-beach': 'world_make_ten_beach',
   'doubles-castle': 'world_doubles_castle',
   'memory-garden': 'world_memory_garden',
+  'divide-tower': 'world_divide_tower',
 };
 
 interface AdventureMapScreenProps {

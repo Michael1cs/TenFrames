@@ -8,7 +8,7 @@ import {
   Language,
   AgeGroup,
 } from '../types/game';
-import {generateProblem, generatePuzzleNumber} from '../utils/mathProblems';
+import {generateProblem, generatePuzzleNumber, generateDivideProblem} from '../utils/mathProblems';
 import {shouldLevelUp} from '../utils/scoring';
 
 export function useGameState() {
@@ -133,6 +133,18 @@ export function useGameState() {
       setHasSubmitted(false);
       setShowPuzzleAnswer(false);
       setMascotMood('thinking');
+    } else if (gameMode === 'divide') {
+      // Random total 4..10 for free-play; adventure controls level via modeLevel.
+      const problem = generateDivideProblem(Math.floor(Math.random() * 7) + 1);
+      const prefilled = Array(10).fill('empty') as CellState[];
+      for (let i = 0; i < problem.answer; i++) prefilled[i] = 'color1';
+      setCells(prefilled);
+      setCurrentProblem(problem);
+      setUserAnswer(null);
+      setFeedback('');
+      setIsCorrect(null);
+      setHasSubmitted(false);
+      setMascotMood('thinking');
     } else {
       // Counting
       setCells(Array(10).fill('empty'));
@@ -198,6 +210,16 @@ export function useGameState() {
           }
           const totalFilled = newCells.filter(c => c !== 'empty').length;
           setUserAnswer(totalFilled);
+          return newCells;
+        });
+      } else if (mode === 'divide') {
+        // Divide: pre-filled color1 cells flip to color2 and back; empty
+        // stays empty (those cells are outside the total being split).
+        setCells(prev => {
+          const newCells = [...prev];
+          const s = newCells[index];
+          if (s === 'color1') newCells[index] = 'color2';
+          else if (s === 'color2') newCells[index] = 'color1';
           return newCells;
         });
       } else if (mode === 'puzzle') {
@@ -356,6 +378,16 @@ export function useGameState() {
     setIsCorrect(null);
   }, [setupPuzzleCells]);
 
+  const newDivideProblem = useCallback(() => {
+    const problem = generateDivideProblem(Math.floor(Math.random() * 7) + 1);
+    const prefilled = Array(10).fill('empty') as CellState[];
+    for (let i = 0; i < problem.answer; i++) prefilled[i] = 'color1';
+    setCells(prefilled);
+    setCurrentProblem(problem);
+    setIsCorrect(null);
+    setHasSubmitted(false);
+  }, []);
+
   return {
     // State
     gameMode,
@@ -392,6 +424,7 @@ export function useGameState() {
     handlePuzzleSubmit,
     resetGame,
     newPuzzle,
+    newDivideProblem,
     setTheme,
     setLanguage,
     setAgeGroup,

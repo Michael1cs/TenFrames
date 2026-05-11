@@ -8,6 +8,7 @@
     "addition": "Addition",
     "subtraction": "Subtraction",
     "puzzle": "Puzzle",
+    "divide": "Divide",
     "workshop": "Create"
   },
   "workshop": {
@@ -222,7 +223,8 @@
       "subtractionMountain": "Subtraction Mountain",
       "makeTenBeach": "Make 10!",
       "doublesCastle": "Doubles Castle",
-      "memoryGarden": "Memory Garden"
+      "memoryGarden": "Memory Garden",
+      "divideTower": "Divide Tower"
     },
     "levels": {
       "cm1": "Count to 2",
@@ -283,7 +285,16 @@
       "mg4": "4-5 cells",
       "mg5": "5-6 cells",
       "mgBonusA": "Star Challenge",
-      "mgBonusB": "Memory Master"
+      "mgBonusB": "Memory Master",
+      "dv1": "Divide 4",
+      "dv2": "Divide 5",
+      "dv3": "Divide 6",
+      "dv4": "Divide 7",
+      "dv5": "Divide 8",
+      "dv6": "Divide 9",
+      "dv7": "Divide 10",
+      "dvBonusA": "Mixed Divide",
+      "dvBonusB": "Divide Master"
     },
     "level": "Level",
     "stars": "Stars",

@@ -8,6 +8,7 @@
     "addition": "Adunare",
     "subtraction": "Scădere",
     "puzzle": "Puzzle",
+    "divide": "Împarte",
     "workshop": "Creează"
   },
   "workshop": {
@@ -222,7 +223,8 @@
       "subtractionMountain": "Muntele scăderii",
       "makeTenBeach": "Fă 10!",
       "doublesCastle": "Castelul Dublurilor",
-      "memoryGarden": "Grădina Memoriei"
+      "memoryGarden": "Grădina Memoriei",
+      "divideTower": "Turnul Împărțirii"
     },
     "levels": {
       "cm1": "Numără până la 2",
@@ -283,7 +285,16 @@
       "mg4": "4-5 căsuțe",
       "mg5": "5-6 căsuțe",
       "mgBonusA": "Provocarea stelelor",
-      "mgBonusB": "Memorie maximă"
+      "mgBonusB": "Memorie maximă",
+      "dv1": "Împarte 4",
+      "dv2": "Împarte 5",
+      "dv3": "Împarte 6",
+      "dv4": "Împarte 7",
+      "dv5": "Împarte 8",
+      "dv6": "Împarte 9",
+      "dv7": "Împarte 10",
+      "dvBonusA": "Împărțiri amestecate",
+      "dvBonusB": "Maestrul Împărțirii"
     },
     "level": "Nivel",
     "stars": "Stele",

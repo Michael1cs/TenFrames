@@ -1,6 +1,6 @@
 import {AdventureWorld, AdventureProgress} from '../types/game';
 
-// v1.6 Adventure: 6 lumi cu progresie completa = 59 niveluri totale.
+// v1.6 Adventure: 7 lumi cu progresie completa = 68 niveluri totale.
 // Pentru 4-6 ani, mai multe niveluri = retention mai bun + justifica
 // pretul premium fata de o aplicatie cu doar 30 niveluri.
 //
@@ -11,6 +11,7 @@ import {AdventureWorld, AdventureProgress} from '../types/game';
 //   - Make 10: 11 niveluri (mtb1-mtb9 drill pe perechi 1+9...9+1 + 2 bonus mix)
 //   - Doubles: 7 niveluri (5 doubles individuale + 2 bonus mix)
 //   - Memory: 7 niveluri (5 progresive + 2 bonus la cels max)
+//   - Divide: 9 niveluri (7 progresive total 4..10 + 2 bonus mix)
 
 function unlockPrev(prev: string) {
   return {type: 'previous' as const, levelId: prev};
@@ -149,6 +150,29 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     ],
   },
 
+  // === World 7: Divide Tower ===
+  // Decomposition: pre-fill N cells in color1, child flips num2 of them to
+  // color2 so the split matches the target equation shown in the banner.
+  // 7 progressive levels (total 4..10) + 2 bonus mix.
+  {
+    id: 'divide-tower',
+    nameKey: 'adventure.worlds.divideTower',
+    emoji: '✂️',
+    theme: 'pixel',
+    freeLevels: 3,
+    levels: [
+      {id: 'dv-1', worldId: 'divide-tower', order: 1, nameKey: 'adventure.levels.dv1', emoji: '4️⃣', isBonus: false, gameMode: 'divide', modeLevel: 1, problemCount: 5, unlockCondition: {type: 'first'}},
+      {id: 'dv-2', worldId: 'divide-tower', order: 2, nameKey: 'adventure.levels.dv2', emoji: '5️⃣', isBonus: false, gameMode: 'divide', modeLevel: 2, problemCount: 5, unlockCondition: unlockPrev('dv-1')},
+      {id: 'dv-3', worldId: 'divide-tower', order: 3, nameKey: 'adventure.levels.dv3', emoji: '6️⃣', isBonus: false, gameMode: 'divide', modeLevel: 3, problemCount: 5, unlockCondition: unlockPrev('dv-2')},
+      {id: 'dv-4', worldId: 'divide-tower', order: 4, nameKey: 'adventure.levels.dv4', emoji: '7️⃣', isBonus: false, gameMode: 'divide', modeLevel: 4, problemCount: 5, unlockCondition: unlockPrev('dv-3')},
+      {id: 'dv-5', worldId: 'divide-tower', order: 5, nameKey: 'adventure.levels.dv5', emoji: '8️⃣', isBonus: false, gameMode: 'divide', modeLevel: 5, problemCount: 5, unlockCondition: unlockPrev('dv-4')},
+      {id: 'dv-6', worldId: 'divide-tower', order: 6, nameKey: 'adventure.levels.dv6', emoji: '9️⃣', isBonus: false, gameMode: 'divide', modeLevel: 6, problemCount: 5, unlockCondition: unlockPrev('dv-5')},
+      {id: 'dv-7', worldId: 'divide-tower', order: 7, nameKey: 'adventure.levels.dv7', emoji: '🔟', isBonus: false, gameMode: 'divide', modeLevel: 7, problemCount: 5, unlockCondition: unlockPrev('dv-6')},
+      {id: 'dv-bonus-a', worldId: 'divide-tower', order: 8, nameKey: 'adventure.levels.dvBonusA', emoji: '⭐', isBonus: true, gameMode: 'divide', modeLevel: 5, problemCount: 5, unlockCondition: unlockStars('divide-tower', 14)},
+      {id: 'dv-bonus-b', worldId: 'divide-tower', order: 9, nameKey: 'adventure.levels.dvBonusB', emoji: '🏆', isBonus: true, gameMode: 'divide', modeLevel: 7, problemCount: 5, unlockCondition: unlockStars('divide-tower', 20)},
+    ],
+  },
+
 ];
 
 export function getDefaultAdventureProgress(): AdventureProgress {
@@ -162,6 +186,7 @@ export function getDefaultAdventureProgress(): AdventureProgress {
       'make-ten-beach': {unlocked: true, levels: {}},
       'doubles-castle': {unlocked: true, levels: {}},
       'memory-garden': {unlocked: true, levels: {}},
+      'divide-tower': {unlocked: true, levels: {}},
     },
   };
 
