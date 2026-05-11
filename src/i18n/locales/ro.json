@@ -9,6 +9,7 @@
     "subtraction": "Scădere",
     "puzzle": "Puzzle",
     "divide": "Împarte",
+    "share": "Împarte la fel",
     "workshop": "Creează"
   },
   "workshop": {
@@ -224,7 +225,7 @@
       "makeTenBeach": "Fă 10!",
       "doublesCastle": "Castelul Dublurilor",
       "memoryGarden": "Grădina Memoriei",
-      "divideTower": "Turnul Împărțirii"
+      "farmShare": "Împarte la Fermă"
     },
     "levels": {
       "cm1": "Numără până la 2",
@@ -286,15 +287,14 @@
       "mg5": "5-6 căsuțe",
       "mgBonusA": "Provocarea stelelor",
       "mgBonusB": "Memorie maximă",
-      "dv1": "Împarte 4",
-      "dv2": "Împarte 5",
-      "dv3": "Împarte 6",
-      "dv4": "Împarte 7",
-      "dv5": "Împarte 8",
-      "dv6": "Împarte 9",
-      "dv7": "Împarte 10",
-      "dvBonusA": "Împărțiri amestecate",
-      "dvBonusB": "Maestrul Împărțirii"
+      "fs1": "Iepurași & Morcovi",
+      "fs2": "Găinușe Flămânde",
+      "fs3": "Picnic la Purcei",
+      "fs4": "Gustare la Vacă",
+      "fs5": "Trei Prieteni",
+      "fs6": "Cinci Prieteni",
+      "fsBonusA": "Împărțeli Amestecate",
+      "fsBonusB": "Maestrul Împărțelii"
     },
     "level": "Nivel",
     "stars": "Stele",

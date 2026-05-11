@@ -16,6 +16,7 @@ import {SubtractionMode} from '../game/SubtractionMode';
 import {PuzzleMode} from '../game/PuzzleMode';
 import {WorkshopMode} from '../game/WorkshopMode';
 import {DivideMode} from '../game/DivideMode';
+import {FarmShareMode} from '../game/FarmShareMode';
 import {CorrectAnimation} from '../feedback/CorrectAnimation';
 import {WrongAnimation} from '../feedback/WrongAnimation';
 import {WrongFlash} from '../feedback/WrongFlash';
@@ -471,6 +472,22 @@ function GameShellInner() {
               voice.playRandom(VOICE_GROUPS.correct);
               setTimeout(() => game.newDivideProblem(), 1200);
             }}
+          />
+        );
+      case 'share':
+        return (
+          <FarmShareMode
+            problem={game.shareProblem}
+            foodEmoji="🥕"
+            animalEmoji="🐰"
+            colors={colors}
+            ageGroup={game.ageGroup}
+            onMatch={() => {
+              playSound('correct');
+              voice.playRandom(VOICE_GROUPS.correct);
+              setTimeout(() => game.newShareProblem(), 1200);
+            }}
+            onUnfair={() => voice.play('share_unfair')}
           />
         );
     }

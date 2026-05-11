@@ -8,7 +8,7 @@ import {
   Language,
   AgeGroup,
 } from '../types/game';
-import {generateProblem, generatePuzzleNumber, generateDivideProblem} from '../utils/mathProblems';
+import {generateProblem, generatePuzzleNumber, generateDivideProblem, generateShareProblem, ShareProblem} from '../utils/mathProblems';
 import {shouldLevelUp} from '../utils/scoring';
 
 export function useGameState() {
@@ -24,6 +24,7 @@ export function useGameState() {
   const [mascotMood, setMascotMood] = useState<MascotMood>('happy');
   const [showConfetti, setShowConfetti] = useState(false);
   const [puzzleAnswer, setPuzzleAnswer] = useState(5);
+  const [shareProblem, setShareProblem] = useState<ShareProblem | null>(null);
   const [showPuzzleAnswer, setShowPuzzleAnswer] = useState(false);
   const [feedback, setFeedback] = useState<string>('');
   const [theme, setTheme] = useState<Theme>('space');
@@ -140,6 +141,17 @@ export function useGameState() {
       for (let i = 0; i < problem.answer; i++) prefilled[i] = 'color1';
       setCells(prefilled);
       setCurrentProblem(problem);
+      setUserAnswer(null);
+      setFeedback('');
+      setIsCorrect(null);
+      setHasSubmitted(false);
+      setMascotMood('thinking');
+    } else if (gameMode === 'share') {
+      // Free-play: rotate through level 1..5 share configs randomly.
+      const sp = generateShareProblem(Math.floor(Math.random() * 5) + 1);
+      setShareProblem(sp);
+      setCells(Array(10).fill('empty'));
+      setCurrentProblem(null);
       setUserAnswer(null);
       setFeedback('');
       setIsCorrect(null);
@@ -388,6 +400,12 @@ export function useGameState() {
     setHasSubmitted(false);
   }, []);
 
+  const newShareProblem = useCallback(() => {
+    setShareProblem(generateShareProblem(Math.floor(Math.random() * 5) + 1));
+    setIsCorrect(null);
+    setHasSubmitted(false);
+  }, []);
+
   return {
     // State
     gameMode,
@@ -425,6 +443,8 @@ export function useGameState() {
     resetGame,
     newPuzzle,
     newDivideProblem,
+    newShareProblem,
+    shareProblem,
     setTheme,
     setLanguage,
     setAgeGroup,

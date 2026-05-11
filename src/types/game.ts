@@ -1,4 +1,4 @@
-export type GameMode = 'counting' | 'addition' | 'subtraction' | 'puzzle' | 'memory' | 'workshop' | 'divide';
+export type GameMode = 'counting' | 'addition' | 'subtraction' | 'puzzle' | 'memory' | 'workshop' | 'divide' | 'share';
 // 'filled' = user placed (counting mode or single-color)
 // 'color1' = first addend / pre-filled for subtraction/puzzle
 // 'color2' = second addend / user-added in addition/puzzle
@@ -149,7 +149,7 @@ export type WorldId =
   | 'make-ten-beach'
   | 'doubles-castle'
   | 'memory-garden'
-  | 'divide-tower';
+  | 'farm-share';
 
 export interface AdventureProgress {
   version: number;

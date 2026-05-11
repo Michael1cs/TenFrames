@@ -138,6 +138,33 @@ export function generateDivideProblem(level: number): Problem {
   return {num1, num2, answer: total};
 }
 
+/**
+ * Fair-share problem: child shares `total` items equally between `buckets`
+ * baskets so each basket gets `target = total / buckets`. Levels progress
+ * from ÷2 with small totals (4, 6) up to ÷3 (6, 9) and ÷5 (10).
+ */
+export interface ShareProblem {
+  total: number;
+  buckets: number;
+  target: number; // total / buckets — always evenly divisible
+}
+
+const SHARE_CONFIGS: Record<number, {totals: number[]; buckets: number}> = {
+  1: {totals: [4, 6], buckets: 2}, // 4÷2=2, 6÷2=3
+  2: {totals: [6, 8], buckets: 2},
+  3: {totals: [8, 10], buckets: 2},
+  4: {totals: [6, 9], buckets: 3}, // ÷3
+  5: {totals: [9, 6], buckets: 3},
+  6: {totals: [10], buckets: 5}, // ÷5 — special, maps to ten frame rows
+  7: {totals: [4, 6, 8, 10], buckets: 2}, // mixed
+};
+
+export function generateShareProblem(level: number): ShareProblem {
+  const cfg = SHARE_CONFIGS[level] ?? SHARE_CONFIGS[1];
+  const total = cfg.totals[Math.floor(Math.random() * cfg.totals.length)];
+  return {total, buckets: cfg.buckets, target: total / cfg.buckets};
+}
+
 export function generatePuzzleNumber(level?: number): number {
   // Friends-of-10 progression: levels 1-9 force the partner (e.g. level 3 →
   // puzzleNumber 3 → child must fill 7). Anything else: random 1-8.

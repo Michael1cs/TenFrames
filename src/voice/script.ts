@@ -285,12 +285,10 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'world_make_ten_beach', ro: 'Fă zece!', en: 'Make ten!'},
   {id: 'world_doubles_castle', ro: 'Castelul dublurilor!', en: 'Doubles Castle!'},
   {id: 'world_memory_garden', ro: 'Grădina memoriei!', en: 'Memory Garden!'},
-  {id: 'world_divide_tower', ro: 'Turnul împărțirii!', en: 'Divide Tower!'},
-  {id: 'div_intro', ro: 'Atinge punctele și fă două grupuri!', en: 'Tap the dots to make two groups!'},
-  {id: 'div_again', ro: 'Acum împarte-l altfel!', en: 'Now split it a different way!'},
-  {id: 'div_again_2', ro: 'Încearcă o nouă împărțire!', en: 'Try a new split!'},
-  {id: 'div_again_3', ro: 'Amestecă punctele altfel!', en: 'Mix the dots a different way!'},
-  {id: 'div_again_4', ro: 'Câte poți pune în fiecare grup?', en: 'How many in each group?'},
+  {id: 'world_farm_share', ro: 'Împarte la fermă!', en: 'Farm Share!'},
+  {id: 'share_intro', ro: 'Împarte mâncarea la fel pentru fiecare!', en: 'Share the food fairly with everyone!'},
+  {id: 'share_again', ro: 'Fă-o corect, fiecare la fel!', en: 'Make it fair, the same for each!'},
+  {id: 'share_unfair', ro: 'Unul are mai mult. Încearcă să fie egal.', en: 'One has more. Try to make it fair.'},
 
   // ── Level transition cues (between adventure levels) ──
   {id: 'lvl_next', ro: 'Hai la următorul nivel!', en: "Let's go to the next level!"},

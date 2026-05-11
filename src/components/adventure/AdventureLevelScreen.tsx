@@ -17,6 +17,8 @@ import {
   generateMemoryChallenge,
   generatePuzzleNumber,
   generateDivideProblem,
+  generateShareProblem,
+  ShareProblem,
   checkAnswer,
   checkPuzzleAnswer,
 } from '../../utils/mathProblems';
@@ -24,6 +26,7 @@ import {TenFrame} from '../game/TenFrame';
 import {NumberDisplay} from '../game/NumberDisplay';
 import {MemoryMode} from '../game/MemoryMode';
 import {DivideMode} from '../game/DivideMode';
+import {FarmShareMode} from '../game/FarmShareMode';
 import {useVoice, VOICE_GROUPS} from '../../hooks/useVoice';
 import {LevelCompleteScreen} from './LevelCompleteScreen';
 import {LevelPlayState} from '../../hooks/useAdventure';
@@ -70,6 +73,7 @@ export function AdventureLevelScreen({
     useState<CountingChallenge | null>(null);
   const [memoryChallenge, setMemoryChallenge] =
     useState<MemoryChallenge | null>(null);
+  const [shareProblem, setShareProblem] = useState<ShareProblem | null>(null);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [attempts, setAttempts] = useState(0);
@@ -83,6 +87,7 @@ export function AdventureLevelScreen({
   const pregenCountingRef = useRef<CountingChallenge[]>([]);
   const pregenProblemsRef = useRef<Problem[]>([]);
   const pregenMemoryRef = useRef<MemoryChallenge[]>([]);
+  const pregenShareRef = useRef<ShareProblem[]>([]);
   useEffect(() => {
     if (level.gameMode === 'memory') {
       const challenges: MemoryChallenge[] = [];
@@ -90,6 +95,20 @@ export function AdventureLevelScreen({
         challenges.push(generateMemoryChallenge(level.modeLevel));
       }
       pregenMemoryRef.current = challenges;
+    } else if (level.gameMode === 'share') {
+      const probs: ShareProblem[] = [];
+      const seen = new Set<string>();
+      let tries = 0;
+      while (probs.length < problemCount && tries < 50) {
+        const p = generateShareProblem(level.modeLevel);
+        const key = `${p.total}-${p.buckets}`;
+        if (!seen.has(key) || tries > 30) {
+          seen.add(key);
+          probs.push(p);
+        }
+        tries++;
+      }
+      pregenShareRef.current = probs;
     } else if (level.gameMode === 'counting') {
       const challenges: CountingChallenge[] = [];
       const seen = new Set<string>();
@@ -165,6 +184,13 @@ export function AdventureLevelScreen({
       }
       setCells(prefilled);
       setCurrentProblem(problem);
+      setCountingChallenge(null);
+      setMemoryChallenge(null);
+    } else if (level.gameMode === 'share') {
+      const sp = pregenShareRef.current[problemIndex]
+        ?? generateShareProblem(level.modeLevel);
+      setShareProblem(sp);
+      setCurrentProblem(null);
       setCountingChallenge(null);
       setMemoryChallenge(null);
     } else {
@@ -367,9 +393,9 @@ export function AdventureLevelScreen({
   }, [hasSubmitted]);
   useEffect(() => {
     if (finished || hasSubmitted || level.gameMode === 'memory') return;
-    // Divide mode owns its own match detection in <DivideMode/> so we skip
-    // the count-based auto-submit logic here.
-    if (level.gameMode === 'divide') return;
+    // Divide/Share modes own their own match detection so skip the
+    // count-based auto-submit logic here.
+    if (level.gameMode === 'divide' || level.gameMode === 'share') return;
     if (autoSubmitFiredRef.current) return;
 
     const topFilled = cells.slice(0, 5).filter(c => c !== 'empty').length;
@@ -461,6 +487,13 @@ export function AdventureLevelScreen({
     } else if (level.gameMode === 'puzzle' && currentProblem) {
       key = `p-${currentProblem.num1}`;
       action = () => voiceRef.current.play('instr_make_ten');
+    } else if (level.gameMode === 'share' && shareProblem) {
+      key = `sh-${problemIndex}-${shareProblem.total}-${shareProblem.buckets}`;
+      const isFirst = problemIndex === 0;
+      // Announce the total, then either the rules intro (first problem) or
+      // a "make it fair" nudge (later problems).
+      const ids = [`num_${shareProblem.total}`, isFirst ? 'share_intro' : 'share_again'];
+      action = () => voiceRef.current.playSequence(ids, 400);
     } else if (level.gameMode === 'divide' && currentProblem) {
       const total = currentProblem.answer;
       key = `dv-${problemIndex}-${total}`;
@@ -502,7 +535,7 @@ export function AdventureLevelScreen({
     isFirstProblemRef.current = false;
     const timer = setTimeout(action, delay);
     return () => clearTimeout(timer);
-  }, [currentProblem, countingChallenge, level, finished]);
+  }, [currentProblem, countingChallenge, shareProblem, level, finished]);
 
   // Reset first-problem flag when the level itself changes.
   useEffect(() => {
@@ -617,7 +650,34 @@ export function AdventureLevelScreen({
           </View>
         </View>
 
-        {level.gameMode === 'divide' ? (
+        {level.gameMode === 'share' ? (
+          (() => {
+            // Pick a food/animal pair per problem so each level varies a bit.
+            // Rotating by problemIndex keeps it deterministic per problem.
+            const pairs = [
+              {food: '🥕', animal: '🐰'},
+              {food: '🌽', animal: '🐔'},
+              {food: '🍎', animal: '🐷'},
+              {food: '🌾', animal: '🐄'},
+              {food: '🥚', animal: '🐔'},
+            ];
+            const pair = pairs[problemIndex % pairs.length];
+            return (
+              <FarmShareMode
+                problem={shareProblem}
+                foodEmoji={pair.food}
+                animalEmoji={pair.animal}
+                colors={themeColors}
+                ageGroup="young"
+                onMatch={() => onRecordResult(attempts === 0)}
+                onUnfair={() => {
+                  setAttempts(prev => prev + 1);
+                  voiceRef.current.play('share_unfair');
+                }}
+              />
+            );
+          })()
+        ) : level.gameMode === 'divide' ? (
           <DivideMode
             cells={cells}
             onCellClick={handleCellPress}

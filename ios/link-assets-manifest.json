@@ -1086,6 +1086,18 @@
       "sha1": "542f3f50705a4ca887e601c706fddb127b53ec6e"
     },
     {
+      "path": "assets/audio/voice_en_share_again.mp3",
+      "sha1": "1323da3d18364e8f488e5297d422ea39e8952aea"
+    },
+    {
+      "path": "assets/audio/voice_en_share_intro.mp3",
+      "sha1": "dbaa94304654139621dbfe27064ce8a0907dee92"
+    },
+    {
+      "path": "assets/audio/voice_en_share_unfair.mp3",
+      "sha1": "931633b52b4a0b645195e1337ca5b9ca7c3f3017"
+    },
+    {
       "path": "assets/audio/voice_en_welcome.mp3",
       "sha1": "9149df0a100fd5abdefee770b53de4a0ca8f1773"
     },
@@ -1112,6 +1124,10 @@
     {
       "path": "assets/audio/voice_en_world_doubles_castle.mp3",
       "sha1": "65c040d51f85e9ebbcedb328557ec901b0ae1355"
+    },
+    {
+      "path": "assets/audio/voice_en_world_farm_share.mp3",
+      "sha1": "0b80360d0adbeb639eb2ac64f5a7a3f70c03a3f6"
     },
     {
       "path": "assets/audio/voice_en_world_make_ten_beach.mp3",
@@ -2238,6 +2254,18 @@
       "sha1": "5de5b36f09d4dd421cea135f66b360bd9e567e14"
     },
     {
+      "path": "assets/audio/voice_ro_share_again.mp3",
+      "sha1": "06aa759f34a50d64b9461a5c3a97ca3f82744a24"
+    },
+    {
+      "path": "assets/audio/voice_ro_share_intro.mp3",
+      "sha1": "6ebb03ed491f978a4d325553db4f2febc5bb7ec6"
+    },
+    {
+      "path": "assets/audio/voice_ro_share_unfair.mp3",
+      "sha1": "f21375fd5a0c74d3a26121308ef2f6f8737c944a"
+    },
+    {
       "path": "assets/audio/voice_ro_welcome.mp3",
       "sha1": "f50c6d5207f02ad7682b0b45e046f1d44d8c6dfa"
     },
@@ -2264,6 +2292,10 @@
     {
       "path": "assets/audio/voice_ro_world_doubles_castle.mp3",
       "sha1": "405a63a92021632dfbab05a63ae197cdd1773192"
+    },
+    {
+      "path": "assets/audio/voice_ro_world_farm_share.mp3",
+      "sha1": "492678e42ed80bd1b08c47967c30637d824023d1"
     },
     {
       "path": "assets/audio/voice_ro_world_make_ten_beach.mp3",

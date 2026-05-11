@@ -9,6 +9,7 @@
     "subtraction": "Subtraction",
     "puzzle": "Puzzle",
     "divide": "Divide",
+    "share": "Share",
     "workshop": "Create"
   },
   "workshop": {
@@ -224,7 +225,7 @@
       "makeTenBeach": "Make 10!",
       "doublesCastle": "Doubles Castle",
       "memoryGarden": "Memory Garden",
-      "divideTower": "Divide Tower"
+      "farmShare": "Farm Share"
     },
     "levels": {
       "cm1": "Count to 2",
@@ -286,15 +287,14 @@
       "mg5": "5-6 cells",
       "mgBonusA": "Star Challenge",
       "mgBonusB": "Memory Master",
-      "dv1": "Divide 4",
-      "dv2": "Divide 5",
-      "dv3": "Divide 6",
-      "dv4": "Divide 7",
-      "dv5": "Divide 8",
-      "dv6": "Divide 9",
-      "dv7": "Divide 10",
-      "dvBonusA": "Mixed Divide",
-      "dvBonusB": "Divide Master"
+      "fs1": "Bunnies & Carrots",
+      "fs2": "Hungry Chickens",
+      "fs3": "Piggy Picnic",
+      "fs4": "Cow Snack",
+      "fs5": "Three Buddies",
+      "fs6": "Five Friends",
+      "fsBonusA": "Mixed Share",
+      "fsBonusB": "Share Master"
     },
     "level": "Level",
     "stars": "Stars",
