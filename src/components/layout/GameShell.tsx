@@ -169,8 +169,23 @@ function GameShellInner() {
     prevIsCorrect.current = game.isCorrect;
   }, [game.isCorrect]);
 
-  // Young profile: speak the number whenever it changes in counting mode.
+  // Refs for voice state trackers (declared early so both useEffects below
+  // can reference them).
   const prevFilledCount = useRef(game.filledCount);
+  const lastProblemKey = useRef<string | null>(null);
+
+  // Stop any in-flight voice when the game mode changes (tab switch). Without
+  // this, the previous mode's narration can spill into the new mode (e.g.
+  // hearing "Add 2 more rockets" right after switching to Counting tab).
+  // Also resync state trackers so we don't re-narrate stale values.
+  useEffect(() => {
+    voice.stop();
+    lastProblemKey.current = null;
+    prevFilledCount.current = game.filledCount;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [game.gameMode]);
+
+  // Young profile: speak the number whenever it changes in counting mode.
   useEffect(() => {
     if (game.ageGroup !== 'young') {
       prevFilledCount.current = game.filledCount;
@@ -185,8 +200,10 @@ function GameShellInner() {
   // Young profile: themed addition/subtraction prompt when a new problem appears.
   // Triggered when problem identity changes (num1+num2 fingerprint), not on every
   // re-render. Subtraction uses instr_sub_*, addition uses instr_add_*.
-  const lastProblemKey = useRef<string | null>(null);
   useEffect(() => {
+    // Only narrate for addition / subtraction. Counting and puzzle have their
+    // own paths (or none for free-play counting).
+    if (game.gameMode !== 'addition' && game.gameMode !== 'subtraction') return;
     if (game.ageGroup !== 'young' || !game.currentProblem) return;
     const key = `${game.gameMode}-${game.currentProblem.num1}-${game.currentProblem.num2}`;
     if (key === lastProblemKey.current) return;
