@@ -1,18 +1,27 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Pressable, ScrollView, Modal} from 'react-native';
 import {useTranslation} from 'react-i18next';
-import {ThemeColors} from '../../types/game';
+import {Language, ThemeColors} from '../../types/game';
 import {Emoji} from '../common/Emoji';
+import {LanguageSwitcher} from '../layout/LanguageSwitcher';
 
 interface AboutTenFramesProps {
   visible: boolean;
   colors: ThemeColors;
+  language: Language;
+  onLanguageChange: (lang: Language) => void;
   onClose: () => void;
 }
 
 type Tab = 'kids' | 'parents';
 
-export function AboutTenFrames({visible, colors, onClose}: AboutTenFramesProps) {
+export function AboutTenFrames({
+  visible,
+  colors,
+  language,
+  onLanguageChange,
+  onClose,
+}: AboutTenFramesProps) {
   const {t} = useTranslation();
   const [tab, setTab] = useState<Tab>('kids');
 
@@ -29,6 +38,10 @@ export function AboutTenFrames({visible, colors, onClose}: AboutTenFramesProps) 
             <Text style={[styles.title, {color: colors.accent}]}>
               <Emoji>📐</Emoji> {t('info.title')}
             </Text>
+            <LanguageSwitcher
+              language={language}
+              onLanguageChange={onLanguageChange}
+            />
             <Pressable onPress={onClose} style={styles.closeBtn}>
               <Text style={styles.closeText}>✕</Text>
             </Pressable>

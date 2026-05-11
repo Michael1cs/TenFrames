@@ -513,13 +513,6 @@ function GameShellInner() {
           style={styles.infoButton}>
           <Text style={styles.infoButtonText}><Emoji>ℹ️</Emoji></Text>
         </Pressable>
-        <Pressable
-          onPress={handleSwitchMode}
-          style={[styles.infoButton, {backgroundColor: 'rgba(139, 92, 246, 0.3)'}]}>
-          <Text style={styles.infoButtonText}>
-            <Emoji>{gameFlow === 'adventure' ? '🎮' : '🗺️'}</Emoji>
-          </Text>
-        </Pressable>
         {!premium.isPremium && (
           <Pressable
             onPress={() => setShowUpgrade(true)}
@@ -669,6 +662,8 @@ function GameShellInner() {
         <AboutTenFrames
           visible={showAbout}
           colors={colors}
+          language={game.language}
+          onLanguageChange={handleLanguageChange}
           onClose={() => setShowAbout(false)}
         />
 
