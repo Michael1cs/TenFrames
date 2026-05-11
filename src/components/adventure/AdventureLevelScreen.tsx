@@ -412,7 +412,10 @@ export function AdventureLevelScreen({
     if (!action || key === prevVoiceKey.current) return;
     prevVoiceKey.current = key;
 
-    const delay = isFirstProblemRef.current ? 400 : 1600;
+    // Delay before narrating next problem so the previous "Awesome! You have N
+    // rockets!" sequence (praise ~0.7s + 800ms gap + count narration ~1.5s
+    // ≈ 3s total) can finish without being cut off mid-word.
+    const delay = isFirstProblemRef.current ? 400 : 2800;
     isFirstProblemRef.current = false;
     const timer = setTimeout(action, delay);
     return () => clearTimeout(timer);

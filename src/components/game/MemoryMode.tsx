@@ -97,7 +97,10 @@ export function MemoryMode({
         correctFiredRef.current = true;
         setPhase('reveal');
         onPhaseChangeRef.current?.('reveal', challenge.targetCount);
-        onCorrectRef.current();
+        // Delay onCorrect (which advances to next problem) so the praise +
+        // "There were N!" voice sequence finishes without being cut off by
+        // the next problem's "Watch carefully!" voice.
+        setTimeout(() => onCorrectRef.current(), 2800);
       }, 1500);
       return () => clearTimeout(timer);
     }
