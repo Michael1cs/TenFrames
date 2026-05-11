@@ -214,11 +214,14 @@ function GameShellInner() {
     const n1 = game.currentProblem.num1;
     const n2 = game.currentProblem.num2;
     const action = game.gameMode === 'addition' ? 'add' : 'sub';
-    // Sequence: "You have 1 rocket." → 1.4s gap → "Add 2 more!"
-    voice.playSequence([
-      `pre_have_${game.theme}_${n1}`,
-      `instr_${action}_${game.theme}_${n2}`,
-    ]);
+    // Sequence: "You have 1 rocket." → brief pause → "Add 2 more!"
+    voice.playSequence(
+      [
+        `pre_have_${game.theme}_${n1}`,
+        `instr_${action}_${game.theme}_${n2}`,
+      ],
+      350,
+    );
   }, [game.currentProblem, game.gameMode, game.ageGroup, game.theme, voice]);
 
   // Reward voices: sticker, achievement, milestone — fire on edge transitions.

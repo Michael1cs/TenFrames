@@ -294,46 +294,48 @@ export function AdventureLevelScreen({
 
     if (correct) {
       const wasFirstTry = attempts === 0;
-      // Announce success with a random praise + result count narration.
-      // Then hold the screen on the correct state for the duration of the
-      // sequence before advancing — so the result voice finishes naturally
-      // and isn't clipped by the next problem's instruction voice.
-      let voiceDurationMs = 800; // bare praise floor
-      if (level.gameMode !== 'memory') {
-        const themeId = ADVENTURE_WORLDS.find(w => w.id === level.worldId)?.theme;
-        const visible = cells.filter(c => c !== 'empty').length;
+      // Industry pattern (Khan Academy Kids, Endless Numbers): always name
+      // the answer for reinforcement, but only celebrate ~40% of the time so
+      // praise stays meaningful instead of feeling auto-fired. The completion
+      // callback advances problemIndex when the actual voice finishes — no
+      // hand-tuned duration timers (clips vary in length).
+      const advance = () => onRecordResult(wasFirstTry);
+
+      if (level.gameMode === 'memory') {
+        advance();
+      } else if (level.gameMode === 'puzzle') {
+        // Make 10! — visual total is always 10, so just praise.
         const praiseId =
           VOICE_GROUPS.correct[
             Math.floor(Math.random() * VOICE_GROUPS.correct.length)
           ];
-        if (level.gameMode === 'puzzle') {
-          // Make 10! — visual total is always 10, count narration is redundant.
-          voiceRef.current.play(praiseId);
-          voiceDurationMs = 900;
+        voiceRef.current.play(praiseId, advance);
+      } else {
+        const themeId = ADVENTURE_WORLDS.find(w => w.id === level.worldId)?.theme;
+        const visible = cells.filter(c => c !== 'empty').length;
+        const resultId =
+          visible >= 1 && visible <= 5 && themeId
+            ? `post_great_${themeId}_${visible}`
+            : visible >= 0 && visible <= 10
+            ? `num_${visible}`
+            : null;
+        const withPraise = Math.random() < 0.4; // ~40% of correct answers
+        const praiseId = withPraise
+          ? VOICE_GROUPS.correct[
+              Math.floor(Math.random() * VOICE_GROUPS.correct.length)
+            ]
+          : null;
+
+        if (resultId && praiseId) {
+          voiceRef.current.playSequence([resultId, praiseId], 350, advance);
+        } else if (resultId) {
+          voiceRef.current.play(resultId, advance);
+        } else if (praiseId) {
+          voiceRef.current.play(praiseId, advance);
         } else {
-          const resultId =
-            visible >= 1 && visible <= 5 && themeId
-              ? `post_great_${themeId}_${visible}`
-              : visible >= 0 && visible <= 10
-              ? `num_${visible}`
-              : null;
-          if (resultId) {
-            // Result FIRST, then praise — naming the answer ("Five!") before
-            // celebrating it ("Great!") matches how a teacher would respond.
-            // playSequence's gapMs is measured from the START of the previous
-            // clip, so it must exceed the result clip's length (~1.5s) plus a
-            // brief breathing pause, otherwise praise interrupts mid-word.
-            voiceRef.current.playSequence([resultId, praiseId], 1800);
-            // 1.8s before praise starts + ~0.7s praise ≈ 2.5s, +300ms tail.
-            voiceDurationMs = 2800;
-          } else {
-            voiceRef.current.play(praiseId);
-            voiceDurationMs = 900;
-          }
+          advance();
         }
       }
-      // Hold so the voice finishes cleanly before problemIndex advances.
-      setTimeout(() => onRecordResult(wasFirstTry), voiceDurationMs);
     } else {
       setAttempts(prev => prev + 1);
       voiceRef.current.playRandom(VOICE_GROUPS.tryAgain);
@@ -476,7 +478,7 @@ export function AdventureLevelScreen({
       } else {
         ids.push(`num_${currentProblem.num2}`);
       }
-      action = () => voiceRef.current.playSequence(ids);
+      action = () => voiceRef.current.playSequence(ids, 350);
     }
 
     if (!action || key === prevVoiceKey.current) return;

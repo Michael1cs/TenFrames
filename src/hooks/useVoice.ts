@@ -64,16 +64,23 @@ export function useVoice(opts: UseVoiceOptions = {}) {
   }, []);
 
   const play = useCallback(
-    async (id: string) => {
-      if (!globalEnabled) return;
+    async (id: string, onDone?: () => void) => {
+      if (!globalEnabled) {
+        onDone?.();
+        return;
+      }
       const entry = VOICE_BY_ID[id];
       if (!entry) {
         console.warn(`[useVoice] Unknown voice id: ${id}`);
+        onDone?.();
         return;
       }
       const lang = (i18n.language === 'ro' ? 'ro' : 'en') as Lang;
       const sound = await loadFile(lang, id);
-      if (!sound) return; // file not yet generated — silent fallback
+      if (!sound) {
+        onDone?.();
+        return; // file not yet generated — silent fallback
+      }
 
       // Interrupt previous clip
       if (currentlyPlaying && currentlyPlaying !== sound) {
@@ -84,6 +91,7 @@ export function useVoice(opts: UseVoiceOptions = {}) {
         sound.setCurrentTime(0);
         sound.play(() => {
           if (currentlyPlaying === sound) currentlyPlaying = null;
+          onDone?.();
         });
       });
     },
@@ -106,17 +114,31 @@ export function useVoice(opts: UseVoiceOptions = {}) {
     }
   };
 
+  // Chain via completion callback so the next clip never interrupts the
+  // previous one, regardless of clip length. gapAfterMs is the silence
+  // inserted between the end of one clip and the start of the next.
+  // onAllDone fires after the last clip's playback (+ no trailing gap) finishes.
   const playSequence = useCallback(
-    (ids: string[], gapMs = 1400) => {
+    (ids: string[], gapAfterMs = 300, onAllDone?: () => void) => {
       cancelQueue();
-      if (!ids.length) return;
+      if (!ids.length) {
+        onAllDone?.();
+        return;
+      }
       let i = 0;
       const next = () => {
-        if (i >= ids.length) return;
-        play(ids[i++]);
-        if (i < ids.length) {
-          queueTimerRef.current = setTimeout(next, gapMs);
+        if (i >= ids.length) {
+          onAllDone?.();
+          return;
         }
+        const id = ids[i++];
+        play(id, () => {
+          if (i < ids.length) {
+            queueTimerRef.current = setTimeout(next, gapAfterMs);
+          } else {
+            onAllDone?.();
+          }
+        });
       };
       next();
     },
