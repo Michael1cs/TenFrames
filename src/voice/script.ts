@@ -296,7 +296,7 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   // Phase intros + per-count success announcements.
   {id: 'mem_watch', ro: 'Privește atent!', en: 'Watch carefully!'},
   {id: 'mem_count', ro: 'Acum tu!', en: 'Now your turn!'},
-  {id: 'mem_intro', ro: 'Îți arăt un model. Reține unde sunt punctele. Apoi atinge aceleași căsuțe!', en: 'I will show you a pattern. Remember where the dots are. Then tap the same cells!'},
+  {id: 'mem_intro', ro: 'Privește punctele. Apoi atinge la fel!', en: 'Watch the dots. Then tap the same!'},
   {id: 'mem_was_1', ro: 'A fost 1!', en: 'There was 1!'},
   {id: 'mem_was_2', ro: 'Au fost 2!', en: 'There were 2!'},
   {id: 'mem_was_3', ro: 'Au fost 3!', en: 'There were 3!'},

@@ -563,31 +563,18 @@ export function AdventureLevelScreen({
                 setAttempts(prev => prev + 1);
                 voiceRef.current.playRandom(VOICE_GROUPS.tryAgain);
               }}
-              onPhaseChange={(phase, targetCount) => {
-                if (phase === 'show') {
-                  // On the very first problem of the level, play the rules
-                  // intro before the short "watch carefully" cue — kids who
-                  // can't read need the game explained the first time.
-                  if (problemIndex === 0) {
-                    voiceRef.current.playSequence(['mem_intro', 'mem_watch'], 600);
-                  } else {
-                    voiceRef.current.play('mem_watch');
-                  }
-                }
-                else if (phase === 'input') voiceRef.current.play('mem_count');
-                else if (phase === 'reveal') {
-                  const clamped = Math.min(7, Math.max(1, targetCount));
-                  // Praise + count narration: "Awesome! There were 4!"
-                  // Tight 800ms gap so praise flows directly into count
-                  // (praise clips are ~0.5-1s; default 1400ms felt delayed).
-                  const praiseId =
-                    VOICE_GROUPS.correct[
-                      Math.floor(Math.random() * VOICE_GROUPS.correct.length)
-                    ];
-                  voiceRef.current.playSequence(
-                    [praiseId, `mem_was_${clamped}`],
-                    800,
-                  );
+              onPhaseChange={(phase, _targetCount) => {
+                // Only the first problem gets a spoken cue on 'show' — the
+                // intro explains the rules. Later problems are silent on
+                // 'show' so the cadence doesn't feel naggy.
+                if (phase === 'show' && problemIndex === 0) {
+                  voiceRef.current.play('mem_intro');
+                } else if (phase === 'input') {
+                  voiceRef.current.play('mem_count');
+                } else if (phase === 'reveal') {
+                  // Just praise — the count is visually obvious; "There were N!"
+                  // was redundant and slowed the pacing.
+                  voiceRef.current.playRandom(VOICE_GROUPS.correct);
                 }
               }}
             />
