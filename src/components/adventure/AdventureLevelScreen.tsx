@@ -318,8 +318,10 @@ export function AdventureLevelScreen({
               ? `num_${visible}`
               : null;
           if (resultId) {
-            voiceRef.current.playSequence([praiseId, resultId], 800);
-            // ~0.7s praise + 800ms gap + ~1.5s result ≈ 3.0s.
+            // Result FIRST, then praise — naming the answer ("Five!") before
+            // celebrating it ("Great!") matches how a teacher would respond.
+            voiceRef.current.playSequence([resultId, praiseId], 800);
+            // ~1.5s result + 800ms gap + ~0.7s praise ≈ 3.0s.
             voiceDurationMs = 3000;
           } else {
             voiceRef.current.play(praiseId);
@@ -477,10 +479,9 @@ export function AdventureLevelScreen({
     if (!action || key === prevVoiceKey.current) return;
     prevVoiceKey.current = key;
 
-    // Short gap between previous result voice and next-problem instruction.
-    // We already hold onRecordResult until the praise+result sequence finishes
-    // (in handleSubmit), so this is just breathing room.
-    const delay = isFirstProblemRef.current ? 400 : 500;
+    // Breathing room between the previous result+praise sequence and the
+    // next-problem instruction so the transition doesn't feel rushed.
+    const delay = isFirstProblemRef.current ? 400 : 1000;
     isFirstProblemRef.current = false;
     const timer = setTimeout(action, delay);
     return () => clearTimeout(timer);
