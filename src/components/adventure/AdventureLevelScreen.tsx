@@ -28,6 +28,8 @@ import {LevelPlayState} from '../../hooks/useAdventure';
 import {getAllThemes} from '../../hooks/useTheme';
 import {ADVENTURE_WORLDS} from '../../config/adventureWorlds';
 import {Emoji} from '../common/Emoji';
+import {WrongFlash} from '../feedback/WrongFlash';
+import {TapHint} from '../feedback/TapHint';
 
 interface AdventureLevelScreenProps {
   levelState: LevelPlayState;
@@ -69,6 +71,10 @@ export function AdventureLevelScreen({
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [attempts, setAttempts] = useState(0);
   const [completedStars, setCompletedStars] = useState<number | null>(stars);
+  // Hint when the child stalls. Shown after a few seconds of inactivity on a
+  // new problem; auto-hides as soon as they tap any cell.
+  const [showTapHint, setShowTapHint] = useState(false);
+  const hintTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Pre-generate ALL problems/challenges for the level to avoid repeats
   const pregenCountingRef = useRef<CountingChallenge[]>([]);
@@ -166,9 +172,33 @@ export function AdventureLevelScreen({
     }
   }, [problemIndex, finished, level]);
 
+  // Hint timer: arm on every new problem, fire after 4s if still untouched.
+  // Memory mode runs its own state machine, so skip it there.
+  useEffect(() => {
+    if (level.gameMode === 'memory' || finished) {
+      setShowTapHint(false);
+      return;
+    }
+    setShowTapHint(false);
+    if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
+    hintTimerRef.current = setTimeout(() => setShowTapHint(true), 4000);
+    return () => {
+      if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
+    };
+  }, [problemIndex, level.gameMode, finished]);
+
+  const dismissHint = useCallback(() => {
+    if (hintTimerRef.current) {
+      clearTimeout(hintTimerRef.current);
+      hintTimerRef.current = null;
+    }
+    setShowTapHint(false);
+  }, []);
+
   const handleCellPress = useCallback(
     (index: number) => {
       if (hasSubmitted && isCorrect) return;
+      dismissHint();
 
       setCells(prev => {
         const newCells = [...prev];
@@ -486,6 +516,7 @@ export function AdventureLevelScreen({
     <Modal visible animationType="fade" onRequestClose={onBackToMap}>
     <View style={styles.modalRoot}>
     <ImageBackground source={bgImage} style={styles.background} resizeMode="cover">
+      <WrongFlash visible={hasSubmitted && isCorrect === false} />
       <View style={styles.overlay}>
         {/* Back button + Progress header */}
         <View style={styles.header}>
@@ -576,6 +607,7 @@ export function AdventureLevelScreen({
                 emoji={worldTheme?.colors?.emojiColor1 ?? '🔵'}
                 tokenImage={worldTheme?.tokenImage}
               />
+              <TapHint visible={showTapHint && !hasSubmitted} />
             </View>
 
             {/* Count display */}

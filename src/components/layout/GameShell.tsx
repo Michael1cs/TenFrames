@@ -17,6 +17,7 @@ import {PuzzleMode} from '../game/PuzzleMode';
 import {WorkshopMode} from '../game/WorkshopMode';
 import {CorrectAnimation} from '../feedback/CorrectAnimation';
 import {WrongAnimation} from '../feedback/WrongAnimation';
+import {WrongFlash} from '../feedback/WrongFlash';
 import {StarsDisplay} from '../feedback/StarsDisplay';
 import {MilestoneAnimation} from '../feedback/MilestoneAnimation';
 import {NewStickerPopup} from '../feedback/NewStickerPopup';
@@ -631,6 +632,7 @@ function GameShellInner() {
         <BackgroundEmojis emojis={themeConfig.backgroundEmojis} />
         <CorrectAnimation visible={game.showConfetti} />
         <WrongAnimation visible={game.isCorrect === false} />
+        <WrongFlash visible={game.isCorrect === false} />
 
         {/* Reward popups */}
         <NewStickerPopup
