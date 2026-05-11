@@ -518,6 +518,14 @@
       "sha1": "4e522136c6d83a8b9bdd74964812baefe8a76ae5"
     },
     {
+      "path": "assets/audio/voice_en_lvl_next.mp3",
+      "sha1": "e534a3968d3389bae815b940c6ac68fb3e9e42e0"
+    },
+    {
+      "path": "assets/audio/voice_en_lvl_world_done.mp3",
+      "sha1": "099d9cd36dd323f8541db5b5eb120b55fceda843"
+    },
+    {
       "path": "assets/audio/voice_en_mem_count.mp3",
       "sha1": "7364b207853fe88bd8eccec7855f5b8fd703c121"
     },
@@ -1640,6 +1648,14 @@
     {
       "path": "assets/audio/voice_ro_lets_play.mp3",
       "sha1": "de76fa73d5f370e4551e3f7b1cae0e9e009a346c"
+    },
+    {
+      "path": "assets/audio/voice_ro_lvl_next.mp3",
+      "sha1": "29026636d99b6928f0643f3d4fa846ec91d64154"
+    },
+    {
+      "path": "assets/audio/voice_ro_lvl_world_done.mp3",
+      "sha1": "18cd30322e22635668fb4113f2e22479af01c3a9"
     },
     {
       "path": "assets/audio/voice_ro_mem_count.mp3",

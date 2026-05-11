@@ -287,6 +287,10 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'world_memory_garden', ro: 'Grădina memoriei!', en: 'Memory Garden!'},
   {id: 'world_divide_tower', ro: 'Turnul împărțirii!', en: 'Divide Tower!'},
 
+  // ── Level transition cues (between adventure levels) ──
+  {id: 'lvl_next', ro: 'Hai la următorul nivel!', en: "Let's go to the next level!"},
+  {id: 'lvl_world_done', ro: 'Ai terminat insula! Bravo!', en: 'You finished the island! Amazing!'},
+
   // ── Adventure level challenge intros ──
   {id: 'instr_top_row', ro: 'Umple rândul de sus!', en: 'Fill the top row!'},
   {id: 'instr_bottom_row', ro: 'Umple rândul de jos!', en: 'Fill the bottom row!'},

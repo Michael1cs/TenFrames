@@ -580,6 +580,10 @@
 		7219914E5A35419F89192C8B /* voice_en_mem_intro.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 37CDE3866486416C86303750 /* voice_en_mem_intro.mp3 */; };
 		8A797D0E1F3743A583CD0E02 /* voice_ro_world_divide_tower.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 304A63A202B34CD48F53C9E2 /* voice_ro_world_divide_tower.mp3 */; };
 		FC445342365447F3AAAB2484 /* voice_en_world_divide_tower.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 97663834B2644BA889262B89 /* voice_en_world_divide_tower.mp3 */; };
+		2AB1D86797C842E3B9148C92 /* voice_en_lvl_next.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7F19942D8B634DEB9838E941 /* voice_en_lvl_next.mp3 */; };
+		09AB7991367A4EC4911C6D2A /* voice_ro_lvl_world_done.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 175EA2CD4AD74E439A08A164 /* voice_ro_lvl_world_done.mp3 */; };
+		E499A5F1FD4346198AE71207 /* voice_ro_lvl_next.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A8EC10FEC6A042E4888DB71E /* voice_ro_lvl_next.mp3 */; };
+		DBC184DE1B60454FBBED701F /* voice_en_lvl_world_done.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 61149CA8405D4E2392B7A735 /* voice_en_lvl_world_done.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1161,6 +1165,10 @@
 		37CDE3866486416C86303750 /* voice_en_mem_intro.mp3 */ = {isa = PBXFileReference; name = "voice_en_mem_intro.mp3"; path = "../assets/audio/voice_en_mem_intro.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		304A63A202B34CD48F53C9E2 /* voice_ro_world_divide_tower.mp3 */ = {isa = PBXFileReference; name = "voice_ro_world_divide_tower.mp3"; path = "../assets/audio/voice_ro_world_divide_tower.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		97663834B2644BA889262B89 /* voice_en_world_divide_tower.mp3 */ = {isa = PBXFileReference; name = "voice_en_world_divide_tower.mp3"; path = "../assets/audio/voice_en_world_divide_tower.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7F19942D8B634DEB9838E941 /* voice_en_lvl_next.mp3 */ = {isa = PBXFileReference; name = "voice_en_lvl_next.mp3"; path = "../assets/audio/voice_en_lvl_next.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		175EA2CD4AD74E439A08A164 /* voice_ro_lvl_world_done.mp3 */ = {isa = PBXFileReference; name = "voice_ro_lvl_world_done.mp3"; path = "../assets/audio/voice_ro_lvl_world_done.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A8EC10FEC6A042E4888DB71E /* voice_ro_lvl_next.mp3 */ = {isa = PBXFileReference; name = "voice_ro_lvl_next.mp3"; path = "../assets/audio/voice_ro_lvl_next.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		61149CA8405D4E2392B7A735 /* voice_en_lvl_world_done.mp3 */ = {isa = PBXFileReference; name = "voice_en_lvl_world_done.mp3"; path = "../assets/audio/voice_en_lvl_world_done.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1806,6 +1814,10 @@
 				37CDE3866486416C86303750 /* voice_en_mem_intro.mp3 */,
 				304A63A202B34CD48F53C9E2 /* voice_ro_world_divide_tower.mp3 */,
 				97663834B2644BA889262B89 /* voice_en_world_divide_tower.mp3 */,
+				7F19942D8B634DEB9838E941 /* voice_en_lvl_next.mp3 */,
+				175EA2CD4AD74E439A08A164 /* voice_ro_lvl_world_done.mp3 */,
+				A8EC10FEC6A042E4888DB71E /* voice_ro_lvl_next.mp3 */,
+				61149CA8405D4E2392B7A735 /* voice_en_lvl_world_done.mp3 */,
 			);
 			name = Resources;
 			path = "";
@@ -2442,6 +2454,10 @@
 				7219914E5A35419F89192C8B /* voice_en_mem_intro.mp3 in Resources */,
 				8A797D0E1F3743A583CD0E02 /* voice_ro_world_divide_tower.mp3 in Resources */,
 				FC445342365447F3AAAB2484 /* voice_en_world_divide_tower.mp3 in Resources */,
+				2AB1D86797C842E3B9148C92 /* voice_en_lvl_next.mp3 in Resources */,
+				09AB7991367A4EC4911C6D2A /* voice_ro_lvl_world_done.mp3 in Resources */,
+				E499A5F1FD4346198AE71207 /* voice_ro_lvl_next.mp3 in Resources */,
+				DBC184DE1B60454FBBED701F /* voice_en_lvl_world_done.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

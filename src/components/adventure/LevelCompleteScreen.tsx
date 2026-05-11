@@ -1,4 +1,5 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
+import {useVoice} from '../../hooks/useVoice';
 import {View, Text, Pressable, StyleSheet} from 'react-native';
 import Animated, {
   FadeIn,
@@ -73,6 +74,18 @@ export function LevelCompleteScreen({
   onBackToMap,
 }: LevelCompleteScreenProps) {
   const {t} = useTranslation();
+  const voice = useVoice();
+  const voiceRef = useRef(voice);
+  voiceRef.current = voice;
+
+  // Play a transition cue ~2.5s after the screen mounts so the praise/stars
+  // animation finishes first. Last level in the world gets the world-done
+  // celebration; other levels get "let's go to the next level!".
+  useEffect(() => {
+    const id = hasNextLevel ? 'lvl_next' : 'lvl_world_done';
+    const t = setTimeout(() => voiceRef.current.play(id), 2500);
+    return () => clearTimeout(t);
+  }, [hasNextLevel]);
 
   const message =
     stars === 3
