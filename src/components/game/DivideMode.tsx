@@ -1,6 +1,12 @@
 import React, {useEffect, useRef} from 'react';
 import {View, Text, StyleSheet, ImageSourcePropType} from 'react-native';
-import {useTranslation} from 'react-i18next';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSequence,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
 import {TenFrame} from './TenFrame';
 import {AgeGroup, CellState, Problem, ThemeColors} from '../../types/game';
 
@@ -12,11 +18,16 @@ interface DivideModeProps {
   emoji: string;
   tokenImage?: ImageSourcePropType;
   ageGroup?: AgeGroup;
-  // Auto-submit when child reaches the target split exactly. Parent handles
-  // advancing to the next problem.
+  // Fires once child has split the total into two non-empty groups and lets
+  // the state settle. Parent then advances to the next problem.
   onMatch?: () => void;
 }
 
+// 4-6 year olds don't read math notation (=, +). Mechanic is exploratory:
+// child sees the total at top, taps cells to flip them between the two
+// colors, and the two arrows-and-counters track each group in real time.
+// Any non-empty split is valid — the screen auto-advances after the child
+// stops tapping for a moment (i.e., they've decided on a split).
 export function DivideMode({
   cells,
   onCellClick,
@@ -27,13 +38,25 @@ export function DivideMode({
   ageGroup = 'young',
   onMatch,
 }: DivideModeProps) {
-  const {t} = useTranslation();
-
   const color1Count = cells.filter(c => c === 'color1').length;
   const color2Count = cells.filter(c => c === 'color2').length;
+  const total = currentProblem?.answer ?? 0;
 
-  // Fire onMatch once when the split matches the target. Latch via ref so we
-  // don't double-fire on re-renders before the parent advances.
+  // Wiggle the total when problem changes so the eye is drawn to it.
+  const totalScale = useSharedValue(1);
+  useEffect(() => {
+    if (!currentProblem) return;
+    totalScale.value = withSequence(
+      withTiming(1.2, {duration: 220}),
+      withSpring(1, {damping: 4, stiffness: 200}),
+    );
+  }, [currentProblem, totalScale]);
+  const totalStyle = useAnimatedStyle(() => ({
+    transform: [{scale: totalScale.value}],
+  }));
+
+  // Settle timer: once child has made a valid split (both groups > 0), wait
+  // ~1.5s of no tapping before advancing. Resets on every tap.
   const matchedRef = useRef(false);
   const onMatchRef = useRef(onMatch);
   onMatchRef.current = onMatch;
@@ -42,25 +65,57 @@ export function DivideMode({
   }, [currentProblem]);
   useEffect(() => {
     if (!currentProblem || matchedRef.current) return;
-    if (
-      color1Count === currentProblem.num1 &&
-      color2Count === currentProblem.num2
-    ) {
+    if (color1Count === 0 || color2Count === 0) return;
+    const timer = setTimeout(() => {
+      if (matchedRef.current) return;
       matchedRef.current = true;
-      // Brief pause so child can see the final state before advancing.
-      const timer = setTimeout(() => onMatchRef.current?.(), 900);
-      return () => clearTimeout(timer);
-    }
+      onMatchRef.current?.();
+    }, 1500);
+    return () => clearTimeout(timer);
   }, [color1Count, color2Count, currentProblem]);
 
   if (!currentProblem) return null;
 
   return (
     <View style={styles.container}>
-      <View style={[styles.banner, {backgroundColor: colors.accent}]}>
-        <Text style={styles.bannerText}>
-          {currentProblem.answer} = {currentProblem.num1} + {currentProblem.num2}
-        </Text>
+      {/* Big total at top */}
+      <Animated.View
+        style={[
+          styles.totalBox,
+          totalStyle,
+          {backgroundColor: colors.accent, borderColor: '#FFFFFF'},
+        ]}>
+        <Text style={styles.totalText}>{total}</Text>
+      </Animated.View>
+
+      {/* Two arrows + counters */}
+      <View style={styles.splitRow}>
+        <View style={styles.armLeft}>
+          <Text style={styles.arrow}>↙</Text>
+          <View
+            style={[
+              styles.counter,
+              {
+                backgroundColor: colors.cellColor1,
+                borderColor: colors.cellColor1Border,
+              },
+            ]}>
+            <Text style={styles.counterText}>{color1Count}</Text>
+          </View>
+        </View>
+        <View style={styles.armRight}>
+          <Text style={styles.arrow}>↘</Text>
+          <View
+            style={[
+              styles.counter,
+              {
+                backgroundColor: colors.cellColor2,
+                borderColor: colors.cellColor2Border,
+              },
+            ]}>
+            <Text style={styles.counterText}>{color2Count}</Text>
+          </View>
+        </View>
       </View>
 
       <TenFrame
@@ -71,24 +126,6 @@ export function DivideMode({
         tokenImage={tokenImage}
         ageGroup={ageGroup}
       />
-
-      <View style={styles.countsRow}>
-        <View
-          style={[
-            styles.countBox,
-            {backgroundColor: colors.cellColor1, borderColor: colors.cellColor1Border},
-          ]}>
-          <Text style={styles.countText}>{color1Count}</Text>
-        </View>
-        <Text style={styles.plus}>+</Text>
-        <View
-          style={[
-            styles.countBox,
-            {backgroundColor: colors.cellColor2, borderColor: colors.cellColor2Border},
-          ]}>
-          <Text style={styles.countText}>{color2Count}</Text>
-        </View>
-      </View>
     </View>
   );
 }
@@ -96,50 +133,62 @@ export function DivideMode({
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    gap: 14,
+    gap: 6,
   },
-  banner: {
-    paddingHorizontal: 28,
-    paddingVertical: 12,
-    borderRadius: 16,
-    elevation: 4,
+  totalBox: {
+    width: 92,
+    height: 92,
+    borderRadius: 46,
+    borderWidth: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 6,
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
+    shadowOffset: {width: 0, height: 3},
+    shadowOpacity: 0.35,
+    shadowRadius: 5,
   },
-  bannerText: {
-    color: '#FFFFFF',
-    fontSize: 30,
+  totalText: {
+    fontSize: 58,
     fontWeight: '900',
-    textAlign: 'center',
+    color: '#FFFFFF',
+    lineHeight: 64,
+    includeFontPadding: false,
     textShadowColor: 'rgba(0,0,0,0.4)',
     textShadowOffset: {width: 0, height: 1},
     textShadowRadius: 2,
   },
-  countsRow: {
+  splitRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 14,
+    gap: 60,
+    marginVertical: 2,
   },
-  countBox: {
-    minWidth: 72,
-    paddingHorizontal: 18,
-    paddingVertical: 8,
+  armLeft: {
+    alignItems: 'center',
+    gap: 2,
+  },
+  armRight: {
+    alignItems: 'center',
+    gap: 2,
+  },
+  arrow: {
+    fontSize: 40,
+    color: '#FFFFFF',
+    textShadowColor: 'rgba(0,0,0,0.6)',
+    textShadowOffset: {width: 0, height: 1},
+    textShadowRadius: 3,
+  },
+  counter: {
+    minWidth: 68,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
     borderRadius: 14,
-    borderWidth: 2.5,
+    borderWidth: 3,
     alignItems: 'center',
   },
-  countText: {
-    fontSize: 38,
-    fontWeight: '900',
-    color: '#FFFFFF',
-    textShadowColor: 'rgba(0,0,0,0.5)',
-    textShadowOffset: {width: 0, height: 1},
-    textShadowRadius: 2,
-  },
-  plus: {
-    fontSize: 38,
+  counterText: {
+    fontSize: 34,
     fontWeight: '900',
     color: '#FFFFFF',
     textShadowColor: 'rgba(0,0,0,0.5)',
