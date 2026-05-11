@@ -32,6 +32,7 @@ import {ADVENTURE_WORLDS} from '../../config/adventureWorlds';
 import {Emoji} from '../common/Emoji';
 import {WrongFlash} from '../feedback/WrongFlash';
 import {TapHint} from '../feedback/TapHint';
+import {ProblemTransition} from '../feedback/ProblemTransition';
 
 interface AdventureLevelScreenProps {
   levelState: LevelPlayState;
@@ -558,6 +559,12 @@ export function AdventureLevelScreen({
     <View style={styles.modalRoot}>
     <ImageBackground source={bgImage} style={styles.background} resizeMode="cover">
       <WrongFlash visible={hasSubmitted && isCorrect === false} />
+      <ProblemTransition
+        trigger={problemIndex}
+        current={Math.min(problemIndex + 1, problemCount)}
+        total={problemCount}
+        colors={themeColors}
+      />
       <View style={styles.overlay}>
         {/* Back button + Progress header */}
         <View style={styles.header}>
@@ -571,24 +578,31 @@ export function AdventureLevelScreen({
             })}
           </Text>
           <View style={styles.dots}>
-            {Array.from({length: problemCount}).map((_, i) => (
-              <View
-                key={i}
-                style={[
-                  styles.dot,
-                  {
-                    backgroundColor:
-                      i < problemIndex
-                        ? levelState.results[i]
-                          ? '#22C55E'
-                          : '#EF4444'
-                        : i === problemIndex
-                        ? '#FFFFFF'
-                        : 'rgba(255,255,255,0.3)',
-                  },
-                ]}
-              />
-            ))}
+            {Array.from({length: problemCount}).map((_, i) => {
+              const isActive = i === problemIndex;
+              return (
+                <Animated.View
+                  // Force re-mount the active dot on each transition so the
+                  // pop-in animation fires when problemIndex advances.
+                  key={isActive ? `active-${problemIndex}` : `dot-${i}`}
+                  entering={isActive ? BounceIn.duration(450) : undefined}
+                  style={[
+                    styles.dot,
+                    isActive && styles.dotActive,
+                    {
+                      backgroundColor:
+                        i < problemIndex
+                          ? levelState.results[i]
+                            ? '#22C55E'
+                            : '#EF4444'
+                          : isActive
+                          ? '#FFFFFF'
+                          : 'rgba(255,255,255,0.3)',
+                    },
+                  ]}
+                />
+              );
+            })}
           </View>
         </View>
 
@@ -643,8 +657,11 @@ export function AdventureLevelScreen({
               );
             })()}
 
-            {/* Ten Frame */}
-            <View style={styles.gameArea}>
+            {/* Ten Frame — fade in on each new problem so the transition reads */}
+            <Animated.View
+              key={`problem-${problemIndex}`}
+              entering={FadeIn.duration(350)}
+              style={styles.gameArea}>
               <TenFrame
                 cells={cells}
                 onCellClick={handleCellPress}
@@ -653,7 +670,7 @@ export function AdventureLevelScreen({
                 tokenImage={worldTheme?.tokenImage}
               />
               <TapHint visible={showTapHint && !hasSubmitted} />
-            </View>
+            </Animated.View>
 
             {/* Count display */}
             <NumberDisplay
@@ -762,6 +779,13 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
+  },
+  dotActive: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.5)',
   },
   instructionBox: {
     backgroundColor: 'rgba(0,0,0,0.5)',
