@@ -152,31 +152,33 @@ export function AdventureMapScreen({
   if (!world) return null;
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
-      <ImageBackground
-        source={bgImage}
-        style={styles.background}
-        resizeMode="cover">
-        <View style={styles.overlay}>
-          <View style={styles.header}>
-            <Pressable onPress={() => setView('worlds')} style={styles.backBtn}>
-              <Text style={styles.backText}>←</Text>
-            </Pressable>
-            <Text style={styles.title}>
-              <Emoji>{world.emoji}</Emoji> {t(world.nameKey)}
-            </Text>
-            <Pressable onPress={onClose} style={styles.closeBtn}>
-              <Text style={styles.closeText}>✕</Text>
-            </Pressable>
-          </View>
+      <View style={styles.modalRoot}>
+        <ImageBackground
+          source={bgImage}
+          style={styles.background}
+          resizeMode="cover">
+          <View style={styles.overlay}>
+            <View style={styles.header}>
+              <Pressable onPress={() => setView('worlds')} style={styles.backBtn}>
+                <Text style={styles.backText}>←</Text>
+              </Pressable>
+              <Text style={styles.title}>
+                <Emoji>{world.emoji}</Emoji> {t(world.nameKey)}
+              </Text>
+              <Pressable onPress={onClose} style={styles.closeBtn}>
+                <Text style={styles.closeText}>✕</Text>
+              </Pressable>
+            </View>
 
-          <AdventureMapPath
-            world={world}
-            progress={progress}
-            colors={worldColors}
-            onLevelPress={onLevelPress}
-          />
-        </View>
-      </ImageBackground>
+            <AdventureMapPath
+              world={world}
+              progress={progress}
+              colors={worldColors}
+              onLevelPress={onLevelPress}
+            />
+          </View>
+        </ImageBackground>
+      </View>
     </Modal>
   );
 }
@@ -184,6 +186,10 @@ export function AdventureMapScreen({
 const styles = StyleSheet.create({
   background: {
     flex: 1,
+  },
+  modalRoot: {
+    flex: 1,
+    backgroundColor: '#1E1B4B',
   },
   worldsBackground: {
     flex: 1,

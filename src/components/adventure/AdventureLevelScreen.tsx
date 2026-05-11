@@ -243,8 +243,9 @@ export function AdventureLevelScreen({
 
     if (correct) {
       const wasFirstTry = attempts === 0;
-      // Announce success with a random praise + result count narration:
-      // "Awesome!" → "Great! You have 5 rockets!"  (or just num_N if out of range)
+      // Announce success with a random praise + result count narration.
+      // For puzzle (Make 10), skip the count — visible total is always 10
+      // and the visual is self-evident, so "ten!" feels redundant.
       if (level.gameMode !== 'memory') {
         const themeId = ADVENTURE_WORLDS.find(w => w.id === level.worldId)?.theme;
         const visible = cells.filter(c => c !== 'empty').length;
@@ -252,16 +253,20 @@ export function AdventureLevelScreen({
           VOICE_GROUPS.correct[
             Math.floor(Math.random() * VOICE_GROUPS.correct.length)
           ];
-        const resultId =
-          visible >= 1 && visible <= 5 && themeId
-            ? `post_great_${themeId}_${visible}`
-            : visible >= 0 && visible <= 10
-            ? `num_${visible}`
-            : null;
-        if (resultId) {
-          voiceRef.current.playSequence([praiseId, resultId], 800);
-        } else {
+        if (level.gameMode === 'puzzle') {
           voiceRef.current.play(praiseId);
+        } else {
+          const resultId =
+            visible >= 1 && visible <= 5 && themeId
+              ? `post_great_${themeId}_${visible}`
+              : visible >= 0 && visible <= 10
+              ? `num_${visible}`
+              : null;
+          if (resultId) {
+            voiceRef.current.playSequence([praiseId, resultId], 800);
+          } else {
+            voiceRef.current.play(praiseId);
+          }
         }
       }
       onRecordResult(wasFirstTry);
@@ -476,6 +481,7 @@ export function AdventureLevelScreen({
 
   return (
     <Modal visible animationType="fade" onRequestClose={onBackToMap}>
+    <View style={styles.modalRoot}>
     <ImageBackground source={bgImage} style={styles.background} resizeMode="cover">
       <View style={styles.overlay}>
         {/* Back button + Progress header */}
@@ -615,11 +621,18 @@ export function AdventureLevelScreen({
         )}
       </View>
     </ImageBackground>
+    </View>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
+  // Opaque dark root so we never see the underlying free-play UI flash
+  // while the theme ImageBackground is still loading on first entry.
+  modalRoot: {
+    flex: 1,
+    backgroundColor: '#1E1B4B',
+  },
   background: {
     flex: 1,
   },
