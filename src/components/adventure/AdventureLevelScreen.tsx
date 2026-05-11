@@ -294,31 +294,11 @@ export function AdventureLevelScreen({
 
     if (correct) {
       const wasFirstTry = attempts === 0;
-      // Announce success with a random praise + result count narration.
-      // For puzzle (Make 10), skip the count — visible total is always 10
-      // and the visual is self-evident, so "ten!" feels redundant.
+      // Short random praise only — the count is visually obvious from the
+      // ten frame, so "Great! Five!" feels redundant and the result clip
+      // was cutting into the next-problem instruction.
       if (level.gameMode !== 'memory') {
-        const themeId = ADVENTURE_WORLDS.find(w => w.id === level.worldId)?.theme;
-        const visible = cells.filter(c => c !== 'empty').length;
-        const praiseId =
-          VOICE_GROUPS.correct[
-            Math.floor(Math.random() * VOICE_GROUPS.correct.length)
-          ];
-        if (level.gameMode === 'puzzle') {
-          voiceRef.current.play(praiseId);
-        } else {
-          const resultId =
-            visible >= 1 && visible <= 5 && themeId
-              ? `post_great_${themeId}_${visible}`
-              : visible >= 0 && visible <= 10
-              ? `num_${visible}`
-              : null;
-          if (resultId) {
-            voiceRef.current.playSequence([praiseId, resultId], 800);
-          } else {
-            voiceRef.current.play(praiseId);
-          }
-        }
+        voiceRef.current.playRandom(VOICE_GROUPS.correct);
       }
       onRecordResult(wasFirstTry);
     } else {
@@ -469,10 +449,9 @@ export function AdventureLevelScreen({
     if (!action || key === prevVoiceKey.current) return;
     prevVoiceKey.current = key;
 
-    // Delay before narrating next problem so the previous "Awesome! You have N
-    // rockets!" sequence (praise ~0.7s + 800ms gap + count narration ~1.5s
-    // ≈ 3s total) can finish without being cut off mid-word.
-    const delay = isFirstProblemRef.current ? 400 : 2800;
+    // Delay before narrating next problem so the previous praise (~0.7s)
+    // can finish. No longer chained with a result clip, so 1200ms is plenty.
+    const delay = isFirstProblemRef.current ? 400 : 1200;
     isFirstProblemRef.current = false;
     const timer = setTimeout(action, delay);
     return () => clearTimeout(timer);
