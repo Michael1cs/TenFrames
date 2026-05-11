@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Text, Pressable, StyleSheet, Modal} from 'react-native';
+import {View, Text, Pressable, StyleSheet, Modal, ImageBackground, useWindowDimensions} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
   BounceIn,
@@ -114,11 +114,25 @@ export function ModeChoice({
     };
   }, [visible]);
 
+  const {width, height} = useWindowDimensions();
+  const isLandscape = width > height;
+  const spaceBg = isLandscape
+    ? require('../../../assets/backgrounds/space/space_landscape.jpg')
+    : require('../../../assets/backgrounds/space/space_portrait.jpg');
+
   return (
     <Modal visible={visible} animationType="fade" onRequestClose={() => {}}>
-      <LinearGradient
-        colors={['#1E1B4B', '#4338CA', '#7C3AED']}
-        style={styles.gradient}>
+      <ImageBackground source={spaceBg} style={styles.gradient} resizeMode="cover">
+        {/* Subtle dim so white card UI stays legible over the cosmic art. */}
+        <LinearGradient
+          colors={[
+            'rgba(0,0,0,0.35)',
+            'rgba(0,0,0,0.15)',
+            'rgba(0,0,0,0.45)',
+          ]}
+          locations={[0, 0.45, 1]}
+          style={StyleSheet.absoluteFill}
+        />
         <View style={styles.overlay}>
           {/* Decorative floating emojis */}
           <FloatingEmoji emoji="⭐" style={styles.bgEmoji1} />
@@ -216,7 +230,7 @@ export function ModeChoice({
           </Animated.View>
         </View>
         </View>
-      </LinearGradient>
+      </ImageBackground>
     </Modal>
   );
 }
