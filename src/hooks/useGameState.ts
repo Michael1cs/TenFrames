@@ -30,7 +30,7 @@ export function useGameState() {
   const [language, setLanguage] = useState<Language>('ro');
   const [ageGroup, setAgeGroup] = useState<AgeGroup>('young');
   const [playerName, setPlayerName] = useState('');
-  const [showSetup, setShowSetup] = useState(true);
+  const [showSetup, setShowSetup] = useState(false);
   const [isThemeChange, setIsThemeChange] = useState(false);
   // Track addition phase: 'first' = placing num1, 'second' = placing num2
   const [additionPhase, setAdditionPhase] = useState<'first' | 'second'>('first');

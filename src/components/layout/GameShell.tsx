@@ -106,6 +106,11 @@ function GameShellInner() {
         // Welcome voice for returning users (non-readers need an audible
         // confirmation that the app opened).
         setTimeout(() => voice.play('welcome'), 800);
+      } else {
+        // First-time user: skip PlayerSetup, surface the mode choice first.
+        // Theme/age picker only happens if they choose Free Play (Adventure
+        // uses per-world themes so a global pick adds nothing there).
+        setShowModeChoice(true);
       }
       const rewards = await loadRewardData();
       rewardSystem.loadRewards(rewards);
@@ -320,23 +325,18 @@ function GameShellInner() {
   const isFirstSetupRef = useRef(true);
 
   const handleSetupComplete = useCallback(() => {
-    const isFirstTime = isFirstSetupRef.current && !game.isThemeChange;
     game.setShowSetup(false);
     game.setIsThemeChange(false);
+    isFirstSetupRef.current = false;
     savePlayerData({
       name: game.playerName,
       theme: game.theme,
       language: game.language,
       ageGroup: game.ageGroup,
     });
-    // Show mode choice only on first setup, not theme changes
-    if (isFirstTime) {
-      isFirstSetupRef.current = false;
-      setShowModeChoice(true);
-      // Don't play zee_greeting here — ModeChoice has its own voice sequence
-      // (mode_question + per-card narration) and they'd overlap.
-    }
-  }, [game, savePlayerData, voice]);
+    // Mode choice runs before setup now, so completing setup goes straight
+    // into the chosen flow (free play). Nothing to show here.
+  }, [game, savePlayerData]);
 
   const handleModeChoice = useCallback((mode: 'adventure' | 'freeplay') => {
     setShowModeChoice(false);
@@ -344,8 +344,12 @@ function GameShellInner() {
     savePlayerData({lastMode: mode});
     if (mode === 'adventure') {
       setShowAdventureMap(true);
+    } else if (mode === 'freeplay' && !game.playerName) {
+      // First-time free-play: now ask for theme/name/age. Adventure can skip
+      // this because each world brings its own theme.
+      game.setShowSetup(true);
     }
-  }, [savePlayerData]);
+  }, [savePlayerData, game]);
 
   const handleSwitchMode = useCallback(() => {
     if (gameFlow === 'adventure') {
