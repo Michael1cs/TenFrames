@@ -78,6 +78,9 @@ function GameShellInner() {
   const [showAbout, setShowAbout] = useState(false);
   const [gameFlow, setGameFlow] = useState<'choice' | 'adventure' | 'freeplay'>('freeplay');
   const [showModeChoice, setShowModeChoice] = useState(false);
+  // Gate the main UI behind a one-frame loading state so the free-play
+  // screen doesn't flash before ModeChoice / AdventureMap take over.
+  const [bootLoaded, setBootLoaded] = useState(false);
   const [showAdventureMap, setShowAdventureMap] = useState(false);
   const [showAdventureLevel, setShowAdventureLevel] = useState(false);
   const [adventureStars, setAdventureStars] = useState<number | null>(null);
@@ -117,6 +120,7 @@ function GameShellInner() {
       rewardSystem.updateDailyStreak();
       const premiumData = await loadPremiumData();
       premium.loadPremiumData(premiumData);
+      setBootLoaded(true);
     })();
   }, []);
 
@@ -632,6 +636,21 @@ function GameShellInner() {
       />
     </View>
   );
+
+  // Hold a solid indigo splash until persistence finishes loading. Without
+  // this, free-play UI renders for one frame before ModeChoice (first-time)
+  // or AdventureMap (returning) can take over.
+  if (!bootLoaded) {
+    return (
+      <View style={[styles.container, styles.adventureBackdrop]}>
+        <StatusBar
+          barStyle="light-content"
+          translucent
+          backgroundColor="transparent"
+        />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>

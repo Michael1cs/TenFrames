@@ -83,17 +83,15 @@ export function PlayerSetup({
   voiceRef.current = voice;
   useEffect(() => {
     if (!visible) return;
-    // Guided narration sequence: welcome → choose theme → let's play.
-    // Then a longer-delay press-play hint as a nudge if child is idle.
-    const t1 = setTimeout(() => voiceRef.current.play('welcome'), 500);
-    const t2 = setTimeout(() => voiceRef.current.play('ask_theme'), 3500);
-    const t3 = setTimeout(() => voiceRef.current.play('lets_play'), 6500);
-    const t4 = setTimeout(() => voiceRef.current.play('press_play'), 15000);
+    // Welcome already played on ModeChoice; here jump straight to the theme
+    // prompt + a nudge to press play if the child idles.
+    const t1 = setTimeout(() => voiceRef.current.play('ask_theme'), 500);
+    const t2 = setTimeout(() => voiceRef.current.play('lets_play'), 3500);
+    const t3 = setTimeout(() => voiceRef.current.play('press_play'), 12000);
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
-      clearTimeout(t4);
     };
   }, [visible]);
 
