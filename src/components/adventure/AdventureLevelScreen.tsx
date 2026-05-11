@@ -294,13 +294,41 @@ export function AdventureLevelScreen({
 
     if (correct) {
       const wasFirstTry = attempts === 0;
-      // Short random praise only — the count is visually obvious from the
-      // ten frame, so "Great! Five!" feels redundant and the result clip
-      // was cutting into the next-problem instruction.
+      // Announce success with a random praise + result count narration.
+      // Then hold the screen on the correct state for the duration of the
+      // sequence before advancing — so the result voice finishes naturally
+      // and isn't clipped by the next problem's instruction voice.
+      let voiceDurationMs = 800; // bare praise floor
       if (level.gameMode !== 'memory') {
-        voiceRef.current.playRandom(VOICE_GROUPS.correct);
+        const themeId = ADVENTURE_WORLDS.find(w => w.id === level.worldId)?.theme;
+        const visible = cells.filter(c => c !== 'empty').length;
+        const praiseId =
+          VOICE_GROUPS.correct[
+            Math.floor(Math.random() * VOICE_GROUPS.correct.length)
+          ];
+        if (level.gameMode === 'puzzle') {
+          // Make 10! — visual total is always 10, count narration is redundant.
+          voiceRef.current.play(praiseId);
+          voiceDurationMs = 900;
+        } else {
+          const resultId =
+            visible >= 1 && visible <= 5 && themeId
+              ? `post_great_${themeId}_${visible}`
+              : visible >= 0 && visible <= 10
+              ? `num_${visible}`
+              : null;
+          if (resultId) {
+            voiceRef.current.playSequence([praiseId, resultId], 800);
+            // ~0.7s praise + 800ms gap + ~1.5s result ≈ 3.0s.
+            voiceDurationMs = 3000;
+          } else {
+            voiceRef.current.play(praiseId);
+            voiceDurationMs = 900;
+          }
+        }
       }
-      onRecordResult(wasFirstTry);
+      // Hold so the voice finishes cleanly before problemIndex advances.
+      setTimeout(() => onRecordResult(wasFirstTry), voiceDurationMs);
     } else {
       setAttempts(prev => prev + 1);
       voiceRef.current.playRandom(VOICE_GROUPS.tryAgain);
@@ -449,9 +477,10 @@ export function AdventureLevelScreen({
     if (!action || key === prevVoiceKey.current) return;
     prevVoiceKey.current = key;
 
-    // Delay before narrating next problem so the previous praise (~0.7s)
-    // can finish. No longer chained with a result clip, so 1200ms is plenty.
-    const delay = isFirstProblemRef.current ? 400 : 1200;
+    // Short gap between previous result voice and next-problem instruction.
+    // We already hold onRecordResult until the praise+result sequence finishes
+    // (in handleSubmit), so this is just breathing room.
+    const delay = isFirstProblemRef.current ? 400 : 500;
     isFirstProblemRef.current = false;
     const timer = setTimeout(action, delay);
     return () => clearTimeout(timer);
