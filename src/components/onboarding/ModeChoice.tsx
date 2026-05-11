@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {View, Text, Pressable, StyleSheet, Modal} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
   BounceIn,
   useSharedValue,
@@ -110,11 +111,20 @@ export function ModeChoice({
   }, [visible]);
 
   return (
-    <Modal visible={visible} transparent animationType="fade">
-      <View style={styles.overlay}>
-        <Animated.Text entering={BounceIn.delay(200)} style={styles.title}>
-          {t('modeChoice.title')}
-        </Animated.Text>
+    <Modal visible={visible} animationType="fade" onRequestClose={() => {}}>
+      <LinearGradient
+        colors={['#1E1B4B', '#4338CA', '#7C3AED']}
+        style={styles.gradient}>
+        <View style={styles.overlay}>
+          {/* Decorative floating emojis */}
+          <FloatingEmoji emoji="⭐" style={styles.bgEmoji1} />
+          <FloatingEmoji emoji="🌟" style={styles.bgEmoji2} />
+          <FloatingEmoji emoji="✨" style={styles.bgEmoji3} />
+          <FloatingEmoji emoji="💫" style={styles.bgEmoji4} />
+
+          <Animated.Text entering={BounceIn.delay(200)} style={styles.title}>
+            {t('modeChoice.title')}
+          </Animated.Text>
 
         <View style={styles.cardsColumn}>
           {/* Adventure Card */}
@@ -184,18 +194,49 @@ export function ModeChoice({
             </Pressable>
           </Animated.View>
         </View>
-      </View>
+        </View>
+      </LinearGradient>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
+  gradient: {
+    flex: 1,
+  },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.8)',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+  },
+  bgEmoji1: {
+    position: 'absolute',
+    top: '10%',
+    left: '8%',
+    fontSize: 36,
+    opacity: 0.4,
+  },
+  bgEmoji2: {
+    position: 'absolute',
+    top: '15%',
+    right: '12%',
+    fontSize: 28,
+    opacity: 0.35,
+  },
+  bgEmoji3: {
+    position: 'absolute',
+    bottom: '20%',
+    left: '15%',
+    fontSize: 32,
+    opacity: 0.4,
+  },
+  bgEmoji4: {
+    position: 'absolute',
+    bottom: '12%',
+    right: '10%',
+    fontSize: 26,
+    opacity: 0.3,
   },
   title: {
     fontSize: 26,

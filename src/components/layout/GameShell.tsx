@@ -311,8 +311,8 @@ function GameShellInner() {
     if (isFirstTime) {
       isFirstSetupRef.current = false;
       setShowModeChoice(true);
-      // Mascot greeting (silent fallback if voice asset missing).
-      voice.play('zee_greeting');
+      // Don't play zee_greeting here — ModeChoice has its own voice sequence
+      // (mode_question + per-card narration) and they'd overlap.
     }
   }, [game, savePlayerData, voice]);
 
