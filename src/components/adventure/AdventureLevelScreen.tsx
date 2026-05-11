@@ -564,7 +564,16 @@ export function AdventureLevelScreen({
                 voiceRef.current.playRandom(VOICE_GROUPS.tryAgain);
               }}
               onPhaseChange={(phase, targetCount) => {
-                if (phase === 'show') voiceRef.current.play('mem_watch');
+                if (phase === 'show') {
+                  // On the very first problem of the level, play the rules
+                  // intro before the short "watch carefully" cue — kids who
+                  // can't read need the game explained the first time.
+                  if (problemIndex === 0) {
+                    voiceRef.current.playSequence(['mem_intro', 'mem_watch'], 600);
+                  } else {
+                    voiceRef.current.play('mem_watch');
+                  }
+                }
                 else if (phase === 'input') voiceRef.current.play('mem_count');
                 else if (phase === 'reveal') {
                   const clamped = Math.min(7, Math.max(1, targetCount));

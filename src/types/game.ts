@@ -148,8 +148,7 @@ export type WorldId =
   | 'subtraction-mountain'
   | 'make-ten-beach'
   | 'doubles-castle'
-  | 'memory-garden'
-  | 'friends-of-ten';
+  | 'memory-garden';
 
 export interface AdventureProgress {
   version: number;

@@ -285,7 +285,6 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'world_make_ten_beach', ro: 'Fă zece!', en: 'Make ten!'},
   {id: 'world_doubles_castle', ro: 'Castelul dublurilor!', en: 'Doubles Castle!'},
   {id: 'world_memory_garden', ro: 'Grădina memoriei!', en: 'Memory Garden!'},
-  {id: 'world_friends_of_ten', ro: 'Prietenii lui zece!', en: 'Friends of ten!'},
 
   // ── Adventure level challenge intros ──
   {id: 'instr_top_row', ro: 'Umple rândul de sus!', en: 'Fill the top row!'},
@@ -297,6 +296,7 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   // Phase intros + per-count success announcements.
   {id: 'mem_watch', ro: 'Privește atent!', en: 'Watch carefully!'},
   {id: 'mem_count', ro: 'Acum tu!', en: 'Now your turn!'},
+  {id: 'mem_intro', ro: 'Îți arăt un model. Reține unde sunt punctele. Apoi atinge aceleași căsuțe!', en: 'I will show you a pattern. Remember where the dots are. Then tap the same cells!'},
   {id: 'mem_was_1', ro: 'A fost 1!', en: 'There was 1!'},
   {id: 'mem_was_2', ro: 'Au fost 2!', en: 'There were 2!'},
   {id: 'mem_was_3', ro: 'Au fost 3!', en: 'There were 3!'},

@@ -1,6 +1,6 @@
 import {AdventureWorld, AdventureProgress} from '../types/game';
 
-// v1.6 Adventure: 7 lumi cu progresie completa = 67 niveluri totale.
+// v1.6 Adventure: 6 lumi cu progresie completa = 59 niveluri totale.
 // Pentru 4-6 ani, mai multe niveluri = retention mai bun + justifica
 // pretul premium fata de o aplicatie cu doar 30 niveluri.
 //
@@ -8,10 +8,9 @@ import {AdventureWorld, AdventureProgress} from '../types/game';
 //   - Counting: 10 niveluri (cm1-cm8 + 2 bonus)
 //   - Addition: 12 niveluri (ai1-ai10 + 2 bonus)
 //   - Subtraction: 12 niveluri (sm1-sm10 + 2 bonus)
-//   - Make 10: 8 niveluri (6 progresive + 2 bonus)
+//   - Make 10: 11 niveluri (mtb1-mtb9 drill pe perechi 1+9...9+1 + 2 bonus mix)
 //   - Doubles: 7 niveluri (5 doubles individuale + 2 bonus mix)
 //   - Memory: 7 niveluri (5 progresive + 2 bonus la cels max)
-//   - Friends of 10: 11 niveluri (9 partners 1-9 + 2 bonus random mix)
 
 function unlockPrev(prev: string) {
   return {type: 'previous' as const, levelId: prev};
@@ -104,8 +103,11 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
       {id: 'mtb-4', worldId: 'make-ten-beach', order: 4, nameKey: 'adventure.levels.mtb4', emoji: '🍰', isBonus: false, gameMode: 'puzzle', modeLevel: 4, problemCount: 5, unlockCondition: unlockPrev('mtb-3')},
       {id: 'mtb-5', worldId: 'make-ten-beach', order: 5, nameKey: 'adventure.levels.mtb5', emoji: '🍩', isBonus: false, gameMode: 'puzzle', modeLevel: 5, problemCount: 5, unlockCondition: unlockPrev('mtb-4')},
       {id: 'mtb-6', worldId: 'make-ten-beach', order: 6, nameKey: 'adventure.levels.mtb6', emoji: '🍫', isBonus: false, gameMode: 'puzzle', modeLevel: 6, problemCount: 5, unlockCondition: unlockPrev('mtb-5')},
-      {id: 'mtb-bonus-a', worldId: 'make-ten-beach', order: 7, nameKey: 'adventure.levels.mtbBonusA', emoji: '⭐', isBonus: true, gameMode: 'puzzle', modeLevel: 7, problemCount: 5, unlockCondition: unlockStars('make-ten-beach', 12)},
-      {id: 'mtb-bonus-b', worldId: 'make-ten-beach', order: 8, nameKey: 'adventure.levels.mtbBonusB', emoji: '🏆', isBonus: true, gameMode: 'puzzle', modeLevel: 8, problemCount: 5, unlockCondition: unlockStars('make-ten-beach', 18)},
+      {id: 'mtb-7', worldId: 'make-ten-beach', order: 7, nameKey: 'adventure.levels.mtb7', emoji: '🍪', isBonus: false, gameMode: 'puzzle', modeLevel: 7, problemCount: 5, unlockCondition: unlockPrev('mtb-6')},
+      {id: 'mtb-8', worldId: 'make-ten-beach', order: 8, nameKey: 'adventure.levels.mtb8', emoji: '🍡', isBonus: false, gameMode: 'puzzle', modeLevel: 8, problemCount: 5, unlockCondition: unlockPrev('mtb-7')},
+      {id: 'mtb-9', worldId: 'make-ten-beach', order: 9, nameKey: 'adventure.levels.mtb9', emoji: '🍦', isBonus: false, gameMode: 'puzzle', modeLevel: 9, problemCount: 5, unlockCondition: unlockPrev('mtb-8')},
+      {id: 'mtb-bonus-a', worldId: 'make-ten-beach', order: 10, nameKey: 'adventure.levels.mtbBonusA', emoji: '⭐', isBonus: true, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, unlockCondition: unlockStars('make-ten-beach', 18)},
+      {id: 'mtb-bonus-b', worldId: 'make-ten-beach', order: 11, nameKey: 'adventure.levels.mtbBonusB', emoji: '🏆', isBonus: true, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, unlockCondition: unlockStars('make-ten-beach', 25)},
     ],
   },
 
@@ -147,30 +149,6 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     ],
   },
 
-  // === World 7: Friends of Ten ===
-  // Number-bond mastery: each level forces a specific pair that makes 10.
-  // Differs from Make 10! (random complements) by drilling one pair per level.
-  // 9 progressive levels + 2 bonus.
-  {
-    id: 'friends-of-ten',
-    nameKey: 'adventure.worlds.friendsOfTen',
-    emoji: '🤝',
-    theme: 'ocean',
-    freeLevels: 3,
-    levels: [
-      {id: 'fot-1', worldId: 'friends-of-ten', order: 1, nameKey: 'adventure.levels.fot1', emoji: '1️⃣', isBonus: false, gameMode: 'puzzle', modeLevel: 1, problemCount: 5, unlockCondition: {type: 'first'}},
-      {id: 'fot-2', worldId: 'friends-of-ten', order: 2, nameKey: 'adventure.levels.fot2', emoji: '2️⃣', isBonus: false, gameMode: 'puzzle', modeLevel: 2, problemCount: 5, unlockCondition: unlockPrev('fot-1')},
-      {id: 'fot-3', worldId: 'friends-of-ten', order: 3, nameKey: 'adventure.levels.fot3', emoji: '3️⃣', isBonus: false, gameMode: 'puzzle', modeLevel: 3, problemCount: 5, unlockCondition: unlockPrev('fot-2')},
-      {id: 'fot-4', worldId: 'friends-of-ten', order: 4, nameKey: 'adventure.levels.fot4', emoji: '4️⃣', isBonus: false, gameMode: 'puzzle', modeLevel: 4, problemCount: 5, unlockCondition: unlockPrev('fot-3')},
-      {id: 'fot-5', worldId: 'friends-of-ten', order: 5, nameKey: 'adventure.levels.fot5', emoji: '5️⃣', isBonus: false, gameMode: 'puzzle', modeLevel: 5, problemCount: 5, unlockCondition: unlockPrev('fot-4')},
-      {id: 'fot-6', worldId: 'friends-of-ten', order: 6, nameKey: 'adventure.levels.fot6', emoji: '6️⃣', isBonus: false, gameMode: 'puzzle', modeLevel: 6, problemCount: 5, unlockCondition: unlockPrev('fot-5')},
-      {id: 'fot-7', worldId: 'friends-of-ten', order: 7, nameKey: 'adventure.levels.fot7', emoji: '7️⃣', isBonus: false, gameMode: 'puzzle', modeLevel: 7, problemCount: 5, unlockCondition: unlockPrev('fot-6')},
-      {id: 'fot-8', worldId: 'friends-of-ten', order: 8, nameKey: 'adventure.levels.fot8', emoji: '8️⃣', isBonus: false, gameMode: 'puzzle', modeLevel: 8, problemCount: 5, unlockCondition: unlockPrev('fot-7')},
-      {id: 'fot-9', worldId: 'friends-of-ten', order: 9, nameKey: 'adventure.levels.fot9', emoji: '9️⃣', isBonus: false, gameMode: 'puzzle', modeLevel: 9, problemCount: 5, unlockCondition: unlockPrev('fot-8')},
-      {id: 'fot-bonus-a', worldId: 'friends-of-ten', order: 10, nameKey: 'adventure.levels.fotBonusA', emoji: '⭐', isBonus: true, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, unlockCondition: unlockStars('friends-of-ten', 18)},
-      {id: 'fot-bonus-b', worldId: 'friends-of-ten', order: 11, nameKey: 'adventure.levels.fotBonusB', emoji: '🏆', isBonus: true, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, unlockCondition: unlockStars('friends-of-ten', 25)},
-    ],
-  },
 ];
 
 export function getDefaultAdventureProgress(): AdventureProgress {
@@ -184,7 +162,6 @@ export function getDefaultAdventureProgress(): AdventureProgress {
       'make-ten-beach': {unlocked: true, levels: {}},
       'doubles-castle': {unlocked: true, levels: {}},
       'memory-garden': {unlocked: true, levels: {}},
-      'friends-of-ten': {unlocked: true, levels: {}},
     },
   };
 
