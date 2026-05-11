@@ -12,6 +12,7 @@ import Animated, {
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
 import {Emoji} from '../common/Emoji';
+import {useSound} from '../../hooks/useSound';
 
 interface ProblemTransitionProps {
   // Increments on each problem change. Used to retrigger the animation.
@@ -45,16 +46,16 @@ function ConfettiDrop({
     rot.value = 0;
     ty.value = withDelay(
       delay,
-      withTiming(280, {duration: 1100, easing: Easing.in(Easing.quad)}),
+      withTiming(360, {duration: 1800, easing: Easing.in(Easing.quad)}),
     );
     op.value = withDelay(
       delay,
       withSequence(
-        withTiming(1, {duration: 120}),
-        withDelay(700, withTiming(0, {duration: 250})),
+        withTiming(1, {duration: 150}),
+        withDelay(1300, withTiming(0, {duration: 350})),
       ),
     );
-    rot.value = withDelay(delay, withTiming(360, {duration: 1100}));
+    rot.value = withDelay(delay, withTiming(360, {duration: 1800}));
   }, [trigger, delay, ty, op, rot]);
 
   const style = useAnimatedStyle(() => ({
@@ -84,6 +85,7 @@ export function ProblemTransition({
   colors,
 }: ProblemTransitionProps) {
   const {t} = useTranslation();
+  const {play: playSound} = useSound();
   const [visible, setVisible] = useState(false);
 
   const scale = useSharedValue(0);
@@ -92,20 +94,21 @@ export function ProblemTransition({
   useEffect(() => {
     if (trigger <= 0) return;
     setVisible(true);
+    playSound('star');
     scale.value = 0;
     opacity.value = 0;
+    // Spring in (~300ms) → hold (~1500ms) → fade out (~400ms) ≈ 2.2s total.
     scale.value = withSequence(
       withSpring(1, {damping: 8, stiffness: 180}),
-      withDelay(900, withTiming(0.9, {duration: 250})),
+      withDelay(1500, withTiming(0.9, {duration: 400})),
     );
     opacity.value = withSequence(
-      withTiming(1, {duration: 200}),
-      withDelay(950, withTiming(0, {duration: 250})),
+      withTiming(1, {duration: 220}),
+      withDelay(1550, withTiming(0, {duration: 400})),
     );
-    // Hide pointer events / View after animation completes.
-    const t = setTimeout(() => setVisible(false), 1400);
+    const t = setTimeout(() => setVisible(false), 2200);
     return () => clearTimeout(t);
-  }, [trigger, scale, opacity]);
+  }, [trigger, scale, opacity, playSound]);
 
   const cardStyle = useAnimatedStyle(() => ({
     transform: [{scale: scale.value}],

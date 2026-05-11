@@ -485,10 +485,10 @@ export function AdventureLevelScreen({
     if (!action || key === prevVoiceKey.current) return;
     prevVoiceKey.current = key;
 
-    // Wait long enough for the ProblemTransition overlay (~1.3s) to play out
-    // before the next-problem instruction voice starts. Otherwise the voice
-    // narrates content the child can't yet see clearly.
-    const delay = isFirstProblemRef.current ? 400 : 1400;
+    // Wait for the ProblemTransition overlay (~2.2s) to play out before the
+    // next-problem instruction voice starts. Otherwise the voice narrates
+    // content the child can't yet see clearly.
+    const delay = isFirstProblemRef.current ? 400 : 2300;
     isFirstProblemRef.current = false;
     const timer = setTimeout(action, delay);
     return () => clearTimeout(timer);
