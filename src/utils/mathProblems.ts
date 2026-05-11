@@ -124,12 +124,15 @@ function generateSubtractionProblem(level: number): Problem {
 
 /**
  * Decomposition problem: child sees `answer` cells in color1, must flip
- * exactly `num2` of them to color2 so the split matches num1 + num2 = answer.
- * Level controls the total N (level 1 → total 4, level 7 → total 10).
+ * some of them to color2 so the two groups make a valid split.
+ * Each level has a small band of totals (±1 around level + 3) so the
+ * 5 problems in a level aren't identical numbers.
  */
 export function generateDivideProblem(level: number): Problem {
-  const total = Math.min(10, Math.max(3, level + 3));
-  // num2 = part to "flip" — exclude 0 and `total` so neither side is empty.
+  const center = Math.min(10, Math.max(3, level + 3));
+  const lo = Math.max(3, center - 1);
+  const hi = Math.min(10, center + 1);
+  const total = lo + Math.floor(Math.random() * (hi - lo + 1));
   const num2 = Math.floor(Math.random() * (total - 1)) + 1;
   const num1 = total - num2;
   return {num1, num2, answer: total};

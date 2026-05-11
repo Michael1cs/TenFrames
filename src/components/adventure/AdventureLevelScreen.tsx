@@ -464,11 +464,15 @@ export function AdventureLevelScreen({
     } else if (level.gameMode === 'divide' && currentProblem) {
       const total = currentProblem.answer;
       key = `dv-${problemIndex}-${total}`;
-      // First problem of the level: announce the number then explain ("Tap the
-      // dots to make two groups!"). Later problems: announce the number then a
-      // short nudge to try a different split.
+      // First problem: announce the number, then the rules intro. Later
+      // problems: announce the number, then a random "split it again" nudge
+      // (rotating prompts so the level doesn't feel monotone).
       const isFirst = problemIndex === 0;
-      const ids = [`num_${total}`, isFirst ? 'div_intro' : 'div_again'];
+      const againIds = ['div_again', 'div_again_2', 'div_again_3', 'div_again_4'];
+      const followUp = isFirst
+        ? 'div_intro'
+        : againIds[Math.floor(Math.random() * againIds.length)];
+      const ids = [`num_${total}`, followUp];
       action = () => voiceRef.current.playSequence(ids, 400);
     } else if (currentProblem && themeId) {
       const mode = level.gameMode;

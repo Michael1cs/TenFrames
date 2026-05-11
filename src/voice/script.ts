@@ -288,6 +288,9 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'world_divide_tower', ro: 'Turnul împărțirii!', en: 'Divide Tower!'},
   {id: 'div_intro', ro: 'Atinge punctele și fă două grupuri!', en: 'Tap the dots to make two groups!'},
   {id: 'div_again', ro: 'Acum împarte-l altfel!', en: 'Now split it a different way!'},
+  {id: 'div_again_2', ro: 'Încearcă o nouă împărțire!', en: 'Try a new split!'},
+  {id: 'div_again_3', ro: 'Amestecă punctele altfel!', en: 'Mix the dots a different way!'},
+  {id: 'div_again_4', ro: 'Câte poți pune în fiecare grup?', en: 'How many in each group?'},
 
   // ── Level transition cues (between adventure levels) ──
   {id: 'lvl_next', ro: 'Hai la următorul nivel!', en: "Let's go to the next level!"},
