@@ -282,7 +282,7 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'world_counting_meadow', ro: 'Lunca numerelor!', en: 'Counting Meadow!'},
   {id: 'world_addition_island', ro: 'Insula adunării!', en: 'Addition Island!'},
   {id: 'world_subtraction_mountain', ro: 'Muntele scăderii!', en: 'Subtraction Mountain!'},
-  {id: 'world_make_ten_beach', ro: 'Plaja lui zece!', en: 'Make 10 Beach!'},
+  {id: 'world_make_ten_beach', ro: 'Fă zece!', en: 'Make ten!'},
   {id: 'world_doubles_castle', ro: 'Castelul dublurilor!', en: 'Doubles Castle!'},
   {id: 'world_memory_garden', ro: 'Grădina memoriei!', en: 'Memory Garden!'},
 

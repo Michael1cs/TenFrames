@@ -231,7 +231,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
   {
     id: 'make-ten-beach',
     nameKey: 'adventure.worlds.makeTenBeach',
-    emoji: '🏖️',
+    emoji: '🍬',
     theme: 'candy',
     freeLevels: 5,
     levels: [
