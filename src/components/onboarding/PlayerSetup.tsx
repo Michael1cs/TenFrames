@@ -123,35 +123,42 @@ export function PlayerSetup({
             )}
             <Text style={styles.title}>
               {isSettings ? (
-                <><Emoji>⚙️</Emoji>{` ${t('setup.settings')}`}</>
+                <><Emoji>🎨</Emoji>{` ${t('setup.themeLabel')}`}</>
               ) : (
                 <><Emoji>🎮</Emoji>{` ${t('setup.welcome')} `}<Emoji>🌟</Emoji></>
               )}
             </Text>
 
-            <View style={styles.section}>
-              <Text style={styles.label}>{t('setup.nameLabel')}</Text>
-              <TextInput
-                value={playerName}
-                onChangeText={onNameChange}
-                placeholder={t('setup.namePlaceholder')}
-                style={styles.input}
-                placeholderTextColor="#9CA3AF"
-              />
-            </View>
+            {/* Name & language only on first-time onboarding (parent setup). */}
+            {!isSettings && (
+              <>
+                <View style={styles.section}>
+                  <Text style={styles.label}>{t('setup.nameLabel')}</Text>
+                  <TextInput
+                    value={playerName}
+                    onChangeText={onNameChange}
+                    placeholder={t('setup.namePlaceholder')}
+                    style={styles.input}
+                    placeholderTextColor="#9CA3AF"
+                  />
+                </View>
+
+                <View style={styles.section}>
+                  <Text style={styles.label}>{t('setup.languageLabel')}</Text>
+                  <View style={styles.languageRow}>
+                    <LanguageSwitcher
+                      language={language}
+                      onLanguageChange={onLanguageChange}
+                    />
+                  </View>
+                </View>
+              </>
+            )}
 
             <View style={styles.section}>
-              <Text style={styles.label}>{t('setup.languageLabel')}</Text>
-              <View style={styles.languageRow}>
-                <LanguageSwitcher
-                  language={language}
-                  onLanguageChange={onLanguageChange}
-                />
-              </View>
-            </View>
-
-            <View style={styles.section}>
-              <Text style={styles.label}>{t('setup.themeLabel')}</Text>
+              {!isSettings && (
+                <Text style={styles.label}>{t('setup.themeLabel')}</Text>
+              )}
               <View style={styles.themeGrid}>
                 {themes.map(themeConfig => {
                   const isSelected = theme === themeConfig.id;
@@ -159,9 +166,14 @@ export function PlayerSetup({
                   return (
                     <Pressable
                       key={themeConfig.id}
-                      onPress={() => onThemeChange(themeConfig.id)}
+                      onPress={() => {
+                        onThemeChange(themeConfig.id);
+                        // Settings (theme-only) mode: apply + close on tap.
+                        if (isSettings) onComplete();
+                      }}
                       style={[
                         styles.themeButton,
+                        isSettings && styles.themeButtonLarge,
                         {
                           backgroundColor: isSelected
                             ? gradientColor
@@ -171,12 +183,13 @@ export function PlayerSetup({
                             : '#E5E7EB',
                         },
                       ]}>
-                      <Emoji style={styles.themeEmoji}>
+                      <Emoji style={isSettings ? styles.themeEmojiLarge : styles.themeEmoji}>
                         {themeConfig.selectorEmoji}
                       </Emoji>
                       <Text
                         style={[
                           styles.themeName,
+                          isSettings && styles.themeNameLarge,
                           {color: isSelected ? '#FFFFFF' : '#374151'},
                         ]}>
                         {t(themeConfig.nameKey)} <Emoji>{themeConfig.emoji}</Emoji>
@@ -189,24 +202,26 @@ export function PlayerSetup({
 
           </ScrollView>
 
-          {/* Sticky bottom CTA — always visible without scroll. */}
+          {/* Sticky bottom CTA. In settings (theme-only) mode, just a close X. */}
           <View style={styles.ctaContainer}>
-            <Animated.View style={!isSettings ? pulseStyle : undefined}>
-              <Pressable onPress={onComplete} style={styles.startButton}>
-                {isSettings ? (
-                  <Text style={styles.startButtonText}>
-                    ✓ {t('setup.saveSettings')}
-                  </Text>
-                ) : (
+            {isSettings ? (
+              <Pressable
+                onPress={onComplete}
+                style={styles.closeSettingsBtn}>
+                <Text style={styles.closeSettingsText}>✕</Text>
+              </Pressable>
+            ) : (
+              <Animated.View style={pulseStyle}>
+                <Pressable onPress={onComplete} style={styles.startButton}>
                   <View style={styles.startButtonContent}>
                     <Text style={styles.startButtonIcon}><Emoji>▶️</Emoji></Text>
                     <Text style={styles.startButtonText}>
                       {t('setup.startAdventure')}
                     </Text>
                   </View>
-                )}
-              </Pressable>
-            </Animated.View>
+                </Pressable>
+              </Animated.View>
+            )}
           </View>
         </View>
       </View>
@@ -325,14 +340,42 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     alignItems: 'center',
   },
+  // Bigger theme cards in settings (theme-only) mode — kid-friendly tap target
+  themeButtonLarge: {
+    width: '30%',
+    padding: 14,
+    borderRadius: 18,
+  },
   themeEmoji: {
     fontSize: 26,
     marginBottom: 4,
+  },
+  themeEmojiLarge: {
+    fontSize: 40,
+    marginBottom: 8,
   },
   themeName: {
     fontSize: 12,
     fontWeight: '600',
     textAlign: 'center',
+  },
+  themeNameLarge: {
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  closeSettingsBtn: {
+    alignSelf: 'center',
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: '#E5E7EB',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  closeSettingsText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#374151',
   },
   startButton: {
     backgroundColor: '#8B5CF6',

@@ -10,7 +10,6 @@ import {useRewards} from '../../hooks/useRewards';
 import {Emoji} from '../common/Emoji';
 import {ModeSelector} from './ModeSelector';
 import {BackgroundEmojis} from './BackgroundEmojis';
-import {LanguageSwitcher} from './LanguageSwitcher';
 import {CountingMode} from '../game/CountingMode';
 import {AdditionMode} from '../game/AdditionMode';
 import {SubtractionMode} from '../game/SubtractionMode';
@@ -521,10 +520,6 @@ function GameShellInner() {
             <Emoji>{gameFlow === 'adventure' ? '🎮' : '🗺️'}</Emoji>
           </Text>
         </Pressable>
-        <LanguageSwitcher
-          language={game.language}
-          onLanguageChange={handleLanguageChange}
-        />
         {!premium.isPremium && (
           <Pressable
             onPress={() => setShowUpgrade(true)}
@@ -538,7 +533,7 @@ function GameShellInner() {
             game.setShowSetup(true);
           }}
           style={[styles.themeButton, {backgroundColor: colors.accentButton}]}>
-          <Text style={styles.themeButtonText}><Emoji>⚙️</Emoji> {t('game.changeTheme')}</Text>
+          <Text style={styles.themeButtonText}><Emoji>🎨</Emoji></Text>
         </Pressable>
       </View>
     </View>
@@ -874,14 +869,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   themeButton: {
-    borderRadius: 16,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   themeButtonText: {
-    color: '#FFFFFF',
-    fontSize: 15,
-    fontWeight: 'bold',
+    fontSize: 22,
   },
   gameArea: {
     flex: 1,
