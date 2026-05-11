@@ -22,6 +22,14 @@
       "sha1": "0896009a9b11ca520d0fd254c0718d5bb061c4d6"
     },
     {
+      "path": "assets/audio/voice_en_div_again.mp3",
+      "sha1": "042ad45953cddb0286e65e6c75f55fd63a19215a"
+    },
+    {
+      "path": "assets/audio/voice_en_div_intro.mp3",
+      "sha1": "9dde00f7ab0183254846d6929bc5ac9d66f57fee"
+    },
+    {
       "path": "assets/audio/voice_en_fb_again_1.mp3",
       "sha1": "4bf3345aa65e60dad9f752d8d161acb284356b8b"
     },
@@ -1152,6 +1160,14 @@
     {
       "path": "assets/audio/voice_ro_count_to_5.mp3",
       "sha1": "3e5db13be34169969fd6d0eb18d317d5a48713de"
+    },
+    {
+      "path": "assets/audio/voice_ro_div_again.mp3",
+      "sha1": "bc84af6d7e540908a39042224f8356e0f34c0049"
+    },
+    {
+      "path": "assets/audio/voice_ro_div_intro.mp3",
+      "sha1": "0237a4c5a1bfb9b1266a72222cf1928918cf1b04"
     },
     {
       "path": "assets/audio/voice_ro_fb_again_1.mp3",

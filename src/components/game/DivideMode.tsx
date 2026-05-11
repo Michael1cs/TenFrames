@@ -78,6 +78,14 @@ export function DivideMode({
 
   return (
     <View style={styles.container}>
+      {/* Tap hint above the total — visual cue that the child should
+          interact with the cells. Disappears once both groups are populated. */}
+      <View style={styles.hintRow}>
+        <Text style={styles.hintEmoji}>👆</Text>
+        <Text style={styles.hintText}>?</Text>
+        <Text style={styles.hintEmoji}>👆</Text>
+      </View>
+
       {/* Big total at top */}
       <Animated.View
         style={[
@@ -134,6 +142,25 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     gap: 6,
+  },
+  hintRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  hintEmoji: {
+    fontSize: 30,
+    textShadowColor: 'rgba(0,0,0,0.5)',
+    textShadowOffset: {width: 0, height: 1},
+    textShadowRadius: 3,
+  },
+  hintText: {
+    fontSize: 32,
+    fontWeight: '900',
+    color: '#FFFFFF',
+    textShadowColor: 'rgba(0,0,0,0.5)',
+    textShadowOffset: {width: 0, height: 1},
+    textShadowRadius: 3,
   },
   totalBox: {
     width: 92,

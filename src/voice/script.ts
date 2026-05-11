@@ -286,6 +286,8 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'world_doubles_castle', ro: 'Castelul dublurilor!', en: 'Doubles Castle!'},
   {id: 'world_memory_garden', ro: 'Grădina memoriei!', en: 'Memory Garden!'},
   {id: 'world_divide_tower', ro: 'Turnul împărțirii!', en: 'Divide Tower!'},
+  {id: 'div_intro', ro: 'Atinge punctele și fă două grupuri!', en: 'Tap the dots to make two groups!'},
+  {id: 'div_again', ro: 'Acum împarte-l altfel!', en: 'Now split it a different way!'},
 
   // ── Level transition cues (between adventure levels) ──
   {id: 'lvl_next', ro: 'Hai la următorul nivel!', en: "Let's go to the next level!"},

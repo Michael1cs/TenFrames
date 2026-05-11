@@ -441,9 +441,6 @@ export function AdventureLevelScreen({
   const isFirstProblemRef = useRef(true);
   useEffect(() => {
     if (finished || level.gameMode === 'memory') return;
-    // Divide mode is silent — banner "5 = 2 + 3" is unambiguous visually; per-
-    // equation voice would balloon the audio bundle and add little for kids.
-    if (level.gameMode === 'divide') return;
     const themeId = ADVENTURE_WORLDS.find(w => w.id === level.worldId)?.theme;
 
     let key = '';
@@ -464,6 +461,15 @@ export function AdventureLevelScreen({
     } else if (level.gameMode === 'puzzle' && currentProblem) {
       key = `p-${currentProblem.num1}`;
       action = () => voiceRef.current.play('instr_make_ten');
+    } else if (level.gameMode === 'divide' && currentProblem) {
+      const total = currentProblem.answer;
+      key = `dv-${problemIndex}-${total}`;
+      // First problem of the level: announce the number then explain ("Tap the
+      // dots to make two groups!"). Later problems: announce the number then a
+      // short nudge to try a different split.
+      const isFirst = problemIndex === 0;
+      const ids = [`num_${total}`, isFirst ? 'div_intro' : 'div_again'];
+      action = () => voiceRef.current.playSequence(ids, 400);
     } else if (currentProblem && themeId) {
       const mode = level.gameMode;
       key = `${mode}-${currentProblem.num1}-${currentProblem.num2}`;
