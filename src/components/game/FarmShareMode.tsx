@@ -116,10 +116,27 @@ export function FarmShareMode({
     matchedRef.current = false;
   }, [problem]);
 
-  if (!problem) return null;
-
+  // Derived values — safe to compute even when `problem` is null so all hooks
+  // below run in the same order on every render (React's hooks rules).
   const distributed = baskets.reduce((a, b) => a + b, 0);
-  const remaining = Math.max(0, problem.total - distributed);
+  const remaining = problem ? Math.max(0, problem.total - distributed) : 0;
+
+  // Auto-validate when pool empties. Equal split = onMatch; otherwise nudge.
+  useEffect(() => {
+    if (!problem) return;
+    if (remaining > 0 || matchedRef.current) return;
+    if (distributed !== problem.total) return; // nothing distributed yet
+    const equal = baskets.every(c => c === problem.target);
+    if (equal) {
+      matchedRef.current = true;
+      const t = setTimeout(() => onMatchRef.current?.(), 900);
+      return () => clearTimeout(t);
+    } else {
+      onUnfairRef.current?.();
+    }
+  }, [remaining, distributed, baskets, problem]);
+
+  if (!problem) return null;
 
   // Pool ten-frame cells: first `remaining` are color1, rest empty.
   const cells: CellState[] = Array(10)
@@ -133,20 +150,6 @@ export function FarmShareMode({
   const removeFrom = (i: number) => {
     setBaskets(prev => prev.map((c, j) => (j === i && c > 0 ? c - 1 : c)));
   };
-
-  // Auto-validate when pool empties. Equal split = onMatch; otherwise nudge.
-  useEffect(() => {
-    if (remaining > 0 || matchedRef.current) return;
-    if (distributed !== problem.total) return; // nothing distributed yet
-    const equal = baskets.every(c => c === problem.target);
-    if (equal) {
-      matchedRef.current = true;
-      const t = setTimeout(() => onMatchRef.current?.(), 900);
-      return () => clearTimeout(t);
-    } else {
-      onUnfairRef.current?.();
-    }
-  }, [remaining, distributed, baskets, problem]);
 
   return (
     <View style={styles.container}>
