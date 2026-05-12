@@ -396,9 +396,16 @@ export function AdventureLevelScreen({
         voiceRef.current.play(praiseId, advance);
       } else {
         const themeId = ADVENTURE_WORLDS.find(w => w.id === level.worldId)?.theme;
+        const noun = LEVEL_NOUN[level.id];
         const visible = cells.filter(c => c !== 'empty').length;
+        // Prefer per-level noun praise ("Great! You have 5 octopuses!") so
+        // the result matches the cells on screen. Fall back to world-themed
+        // praise for levels without a mapped noun, and bare num_N as the
+        // final fallback.
         const resultId =
-          visible >= 1 && visible <= 5 && themeId
+          visible >= 1 && visible <= 10 && noun
+            ? `post_great_${noun}_${visible}`
+            : visible >= 1 && visible <= 5 && themeId
             ? `post_great_${themeId}_${visible}`
             : visible >= 0 && visible <= 10
             ? `num_${visible}`
