@@ -83,6 +83,10 @@ function GameShellInner() {
   // screen doesn't flash before ModeChoice / AdventureMap take over.
   const [bootLoaded, setBootLoaded] = useState(false);
   const [showAdventureMap, setShowAdventureMap] = useState(false);
+  // Bumped only when the map should reset to the worlds grid (entering
+  // Adventure from outside). Returning from a level leaves this alone so
+  // the levels view persists — one step back, not all the way out.
+  const [adventureMapResetVersion, setAdventureMapResetVersion] = useState(0);
   const [showAdventureLevel, setShowAdventureLevel] = useState(false);
   const [adventureStars, setAdventureStars] = useState<number | null>(null);
   const [adventureIsNewBest, setAdventureIsNewBest] = useState(false);
@@ -348,6 +352,7 @@ function GameShellInner() {
     setGameFlow(mode);
     savePlayerData({lastMode: mode});
     if (mode === 'adventure') {
+      setAdventureMapResetVersion(v => v + 1);
       setShowAdventureMap(true);
     } else if (mode === 'freeplay' && !game.playerName) {
       // First-time free-play: now ask for theme/name/age. Adventure can skip
@@ -363,6 +368,7 @@ function GameShellInner() {
       savePlayerData({lastMode: 'freeplay'});
     } else {
       setGameFlow('adventure');
+      setAdventureMapResetVersion(v => v + 1);
       setShowAdventureMap(true);
       savePlayerData({lastMode: 'adventure'});
     }
@@ -496,6 +502,7 @@ function GameShellInner() {
   // Adventure handlers
   const handleAdventurePress = useCallback(() => {
     setGameFlow('adventure');
+    setAdventureMapResetVersion(v => v + 1);
     setShowAdventureMap(true);
     savePlayerData({lastMode: 'adventure'});
   }, [savePlayerData]);
@@ -836,6 +843,7 @@ function GameShellInner() {
         selectedWorld={adventure.selectedWorld}
         colors={colors}
         isPremium={premium.isPremium}
+        resetVersion={adventureMapResetVersion}
         onSelectWorld={adventure.setSelectedWorld}
         onLevelPress={handleAdventureLevelPress}
         onClose={() => {

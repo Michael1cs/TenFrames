@@ -42,6 +42,11 @@ interface AdventureMapScreenProps {
   selectedWorld: WorldId;
   colors: ThemeColors;
   isPremium: boolean;
+  // Incremented by the parent when the modal is being opened FRESH (from
+  // ModeChoice or free play) — that triggers a reset to the worlds grid.
+  // When returning from a level, the parent leaves this alone so the
+  // already-open levels view persists ("back one step", not "back to top").
+  resetVersion?: number;
   onSelectWorld: (worldId: WorldId) => void;
   onLevelPress: (levelId: string) => void;
   onClose: () => void;
@@ -55,6 +60,7 @@ export function AdventureMapScreen({
   selectedWorld,
   colors,
   isPremium,
+  resetVersion = 0,
   onSelectWorld,
   onLevelPress,
   onClose,
@@ -67,10 +73,11 @@ export function AdventureMapScreen({
   // 2-step navigation: worlds grid first, then levels for selected world.
   const [view, setView] = useState<ScreenView>('worlds');
 
-  // Reset to worlds grid each time the modal opens.
+  // Reset to worlds grid only when the parent signals a fresh open
+  // (resetVersion bumps). Returning from a level keeps the levels view.
   useEffect(() => {
-    if (visible) setView('worlds');
-  }, [visible]);
+    setView('worlds');
+  }, [resetVersion]);
 
   // Play "Choose a world!" intro when worlds grid appears.
   useEffect(() => {
