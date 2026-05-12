@@ -222,9 +222,10 @@ export function AdventureLevelScreen({
     }
   }, [problemIndex, finished, level]);
 
-  // Hint timer: arm on every new problem. At 4s show the 👆 visual; at 5s
-  // replay the instruction voice so a child who froze hears the prompt
-  // again. Memory mode runs its own state machine, so skip it there.
+  // Hint timer: arm on every new problem. At 4s show the 👆 visual.
+  // The inactivity voice REPLAY is scheduled separately from the voice
+  // useEffect below — it fires only after the first instruction voice
+  // finishes playing, so the reminder never cuts the original off.
   const reminderTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {
     if (level.gameMode === 'memory' || finished) {
@@ -235,9 +236,6 @@ export function AdventureLevelScreen({
     if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
     if (reminderTimerRef.current) clearTimeout(reminderTimerRef.current);
     hintTimerRef.current = setTimeout(() => setShowTapHint(true), 4000);
-    reminderTimerRef.current = setTimeout(() => {
-      lastInstructionVoiceRef.current?.();
-    }, 5000);
     return () => {
       if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
       if (reminderTimerRef.current) clearTimeout(reminderTimerRef.current);
@@ -549,8 +547,20 @@ export function AdventureLevelScreen({
     // content the child can't yet see clearly.
     const delay = isFirstProblemRef.current ? 400 : 2300;
     isFirstProblemRef.current = false;
-    const timer = setTimeout(action, delay);
-    return () => clearTimeout(timer);
+    const timer = setTimeout(() => {
+      action!();
+      // Schedule the inactivity replay AFTER the first voice has started
+      // playing, with enough margin (10s) to outlast even the longest
+      // chained sentence. Otherwise the reminder cut the original off.
+      if (reminderTimerRef.current) clearTimeout(reminderTimerRef.current);
+      reminderTimerRef.current = setTimeout(() => {
+        lastInstructionVoiceRef.current?.();
+      }, 10000);
+    }, delay);
+    return () => {
+      clearTimeout(timer);
+      if (reminderTimerRef.current) clearTimeout(reminderTimerRef.current);
+    };
   }, [currentProblem, countingChallenge, shareProblem, level, finished]);
 
   // Stores the last per-problem voice action; tapped by the inactivity timer
