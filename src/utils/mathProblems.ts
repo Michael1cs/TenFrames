@@ -71,9 +71,15 @@ function generateAdditionProblem(level: number): Problem {
   if (level === 20) {
     return DOUBLES_POOL[Math.floor(Math.random() * DOUBLES_POOL.length)];
   }
-  // Levels 21-25: specific double N+N (21 = 1+1, 22 = 2+2, …, 25 = 5+5).
+  // Levels 21-25: doubles drill, but each level picks a double from a small
+  // band around its center (±1, clamped 1..5). Five identical doubles in a
+  // row felt repetitive; mixing 2-3 nearby doubles keeps the level engaging
+  // while staying focused.
   if (level >= 21 && level <= 25) {
-    const n = level - 20;
+    const center = level - 20;
+    const lo = Math.max(1, center - 1);
+    const hi = Math.min(5, center + 1);
+    const n = lo + Math.floor(Math.random() * (hi - lo + 1));
     return {num1: n, num2: n, answer: n + n};
   }
 
@@ -166,10 +172,13 @@ export function generateShareProblem(level: number): ShareProblem {
 }
 
 export function generatePuzzleNumber(level?: number): number {
-  // Friends-of-10 progression: levels 1-9 force the partner (e.g. level 3 →
-  // puzzleNumber 3 → child must fill 7). Anything else: random 1-8.
+  // Each level picks the start number from a small band around its modeLevel
+  // (±1) so the 5 problems in a level mix 2-3 different partners — drilling
+  // one pair 5x straight was too repetitive. Level 0 / 10+ is fully random.
   if (level !== undefined && level >= 1 && level <= 9) {
-    return level;
+    const lo = Math.max(1, level - 1);
+    const hi = Math.min(9, level + 1);
+    return lo + Math.floor(Math.random() * (hi - lo + 1));
   }
   return Math.floor(Math.random() * 8) + 1;
 }
