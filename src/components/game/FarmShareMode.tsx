@@ -34,16 +34,16 @@ function Basket({
   animalEmoji,
   foodEmoji,
   count,
-  active,
-  onTap,
+  poolEmpty,
+  onAdd,
   onRemove,
   colors,
 }: {
   animalEmoji: string;
   foodEmoji: string;
   count: number;
-  active: boolean;
-  onTap: () => void;
+  poolEmpty: boolean;
+  onAdd: () => void;
   onRemove: () => void;
   colors: ThemeColors;
 }) {
@@ -56,39 +56,46 @@ function Basket({
   }, [count, scale]);
   const style = useAnimatedStyle(() => ({transform: [{scale: scale.value}]}));
 
-  // Render food in a small horizontal row, wrapping if more than 5 items.
   const filled = Math.max(0, Math.min(10, count));
   return (
-    <Pressable onPress={onTap} style={({pressed}) => [{opacity: pressed ? 0.85 : 1}]}>
-      <Animated.View
-        style={[
-          styles.basket,
-          style,
-          {
-            borderColor: active ? '#F59E0B' : colors.cellEmptyBorder,
-            backgroundColor: active
-              ? 'rgba(245,158,11,0.18)'
-              : 'rgba(255,255,255,0.12)',
-          },
-        ]}>
-        <Text style={styles.animal}>
-          <Emoji>{animalEmoji}</Emoji>
-        </Text>
-        <View style={styles.basketContents}>
-          {Array.from({length: filled}).map((_, i) => (
-            <Pressable key={i} onPress={onRemove} hitSlop={6}>
-              <Text style={styles.basketFood}>
-                <Emoji>{foodEmoji}</Emoji>
-              </Text>
-            </Pressable>
-          ))}
-          {filled === 0 && (
-            <Text style={styles.basketEmpty}>＋</Text>
-          )}
-        </View>
-        <Text style={styles.basketCount}>{filled}</Text>
-      </Animated.View>
-    </Pressable>
+    <Animated.View
+      style={[
+        styles.basket,
+        style,
+        {
+          borderColor: poolEmpty ? '#22C55E' : '#F59E0B',
+          backgroundColor: poolEmpty
+            ? 'rgba(34,197,94,0.18)'
+            : 'rgba(245,158,11,0.18)',
+        },
+      ]}>
+      <Text style={styles.animal}>
+        <Emoji>{animalEmoji}</Emoji>
+      </Text>
+      {/* Big + button — visible whenever the pool still has food. Always
+          available even when the basket already has items, fixing the bug
+          where adding stopped working after the first tap. */}
+      {!poolEmpty && (
+        <Pressable
+          onPress={onAdd}
+          style={({pressed}) => [
+            styles.addBtn,
+            {opacity: pressed ? 0.7 : 1},
+          ]}>
+          <Text style={styles.addBtnText}>＋</Text>
+        </Pressable>
+      )}
+      <View style={styles.basketContents}>
+        {Array.from({length: filled}).map((_, i) => (
+          <Pressable key={i} onPress={onRemove} hitSlop={4}>
+            <Text style={styles.basketFood}>
+              <Emoji>{foodEmoji}</Emoji>
+            </Text>
+          </Pressable>
+        ))}
+      </View>
+      <Text style={styles.basketCount}>{filled}</Text>
+    </Animated.View>
   );
 }
 
@@ -150,6 +157,16 @@ export function FarmShareMode({
   const removeFrom = (i: number) => {
     setBaskets(prev => prev.map((c, j) => (j === i && c > 0 ? c - 1 : c)));
   };
+  // Tap on a food cell in the ten frame: route it to the basket with the
+  // fewest items so the child can blast through with one-finger taps.
+  const sendToBalancedBasket = () => {
+    if (remaining <= 0) return;
+    setBaskets(prev => {
+      const minVal = Math.min(...prev);
+      const target = prev.indexOf(minVal);
+      return prev.map((c, j) => (j === target ? c + 1 : c));
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -162,8 +179,10 @@ export function FarmShareMode({
       </View>
       <TenFrame
         cells={cells}
-        onCellClick={() => {}}
-        disabled
+        onCellClick={(i) => {
+          // Only food cells respond — empty cells (already shared) do nothing.
+          if (cells[i] === 'color1') sendToBalancedBasket();
+        }}
         colors={colors}
         emoji={foodEmoji}
         tokenImage={tokenImage}
@@ -181,8 +200,8 @@ export function FarmShareMode({
             animalEmoji={animalEmoji}
             foodEmoji={foodEmoji}
             count={count}
-            active={remaining > 0}
-            onTap={() => addTo(i)}
+            poolEmpty={remaining <= 0}
+            onAdd={() => addTo(i)}
             onRemove={() => removeFrom(i)}
             colors={colors}
           />
@@ -239,6 +258,28 @@ const styles = StyleSheet.create({
   },
   animal: {
     fontSize: 38,
+  },
+  addBtn: {
+    width: 44,
+    height: 36,
+    borderRadius: 12,
+    backgroundColor: '#22C55E',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.5)',
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+  },
+  addBtnText: {
+    fontSize: 26,
+    fontWeight: '900',
+    color: '#FFFFFF',
+    lineHeight: 30,
+    includeFontPadding: false,
   },
   basketContents: {
     flexDirection: 'row',
