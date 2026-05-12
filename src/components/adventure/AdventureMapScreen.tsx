@@ -116,7 +116,11 @@ export function AdventureMapScreen({
               </Pressable>
             </View>
 
-            <ScrollView contentContainerStyle={styles.worldsGrid}>
+            <ScrollView
+              style={styles.worldsScroll}
+              contentContainerStyle={styles.worldsGrid}
+              showsVerticalScrollIndicator={false}
+              contentInsetAdjustmentBehavior="never">
               {ADVENTURE_WORLDS.map(w => {
                 const isUnlocked = progress.worlds[w.id]?.unlocked;
                 const stars = getWorldStars(w.id, progress);
@@ -253,12 +257,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   // ── World grid layout (like theme picker) ──
+  worldsScroll: {
+    flex: 1,
+  },
   worldsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingBottom: 24,
+    // Generous bottom padding so the orphan card on the last row clears
+    // the home-indicator safe area and is comfortably tappable.
+    paddingBottom: 96,
     gap: 12,
   },
   worldCard: {
