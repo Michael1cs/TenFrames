@@ -105,7 +105,10 @@ export function AdventureMapScreen({
   if (view === 'worlds') {
     return (
       <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
-        <View style={styles.worldsBackground}>
+        <ImageBackground
+          source={require('../../../assets/backgrounds/pixel/pixel_portrait.jpg')}
+          style={styles.worldsBackground}
+          resizeMode="cover">
           <View style={styles.overlay}>
             <View style={styles.header}>
               <Text style={styles.title}>
@@ -155,7 +158,7 @@ export function AdventureMapScreen({
               })}
             </ScrollView>
           </View>
-        </View>
+        </ImageBackground>
       </Modal>
     );
   }
@@ -205,11 +208,13 @@ const styles = StyleSheet.create({
   },
   worldsBackground: {
     flex: 1,
+    // Fallback color if the image fails to load — kept dark to match the
+    // pixel theme's vibe.
     backgroundColor: '#1E1B4B',
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.35)',
+    backgroundColor: 'rgba(0,0,0,0.45)',
   },
   header: {
     flexDirection: 'row',
