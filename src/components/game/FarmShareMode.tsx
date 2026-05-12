@@ -93,13 +93,13 @@ function Basket({
       <Animated.View
         style={[
           styles.basket,
+          density === 'compact' && styles.basketCompact,
+          density === 'tiny' && styles.basketTiny,
           style,
           {borderColor, backgroundColor: bgColor},
         ]}>
-        {/* Add (＋) sits with the animal at the top. At "tiny" density (4+
-            baskets) it stacks underneath the animal so each card is narrow
-            enough to fit on one row. */}
-        <View style={[styles.basketHeader, tiny && styles.basketHeaderTiny]}>
+        {/* Add (＋) sits with the animal at the top of each basket. */}
+        <View style={styles.basketHeader}>
           <Text
             style={[
               styles.animal,
@@ -337,27 +337,33 @@ const styles = StyleSheet.create({
   },
   basketsRow: {
     flexDirection: 'row',
-    gap: 6,
+    flexWrap: 'wrap',
+    gap: 10,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    // No wrap — for 3+ baskets the basket width shrinks via minWidth=0
-    // below so they always sit on one row.
-    maxWidth: '100%',
     paddingHorizontal: 4,
   },
   basketWrap: {
     alignItems: 'center',
     gap: 6,
-    flexShrink: 1,
   },
+  // Each density tier uses a FIXED width so the basket never resizes when
+  // food is added/removed. Wrap on the row places extra baskets on a new
+  // row (e.g. 3 baskets → 2 on top + 1 below).
   basket: {
-    paddingHorizontal: 6,
-    paddingVertical: 8,
-    borderRadius: 16,
+    width: 140,
+    paddingHorizontal: 8,
+    paddingVertical: 10,
+    borderRadius: 18,
     borderWidth: 3,
     alignItems: 'center',
     gap: 4,
-    minWidth: 0,
+  },
+  basketCompact: {
+    width: 130,
+  },
+  basketTiny: {
+    width: 110,
   },
   basketHeader: {
     flexDirection: 'row',
@@ -365,9 +371,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   basketHeaderTiny: {
-    // Stack vertically when 4+ baskets so the card stays narrow.
-    flexDirection: 'column',
-    gap: 2,
+    // unused — kept harmless; could be removed if/when we collapse styles.
   },
   animal: {
     fontSize: 38,
@@ -441,7 +445,9 @@ const styles = StyleSheet.create({
     minHeight: 28,
     alignItems: 'center',
     gap: 2,
-    maxWidth: 90,
+    // Span the full interior width so we never push the basket wider when
+    // a child adds food. The basket itself has a fixed width per density.
+    alignSelf: 'stretch',
   },
   basketFood: {
     fontSize: 22,
@@ -453,7 +459,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   basketContentsTiny: {
-    maxWidth: 56,
     minHeight: 22,
   },
   basketEmpty: {
