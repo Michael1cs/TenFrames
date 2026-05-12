@@ -78,6 +78,13 @@ export function AdventureLevelScreen({
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [attempts, setAttempts] = useState(0);
   const [completedStars, setCompletedStars] = useState<number | null>(stars);
+  // Sync with parent: when Replay zeroes the stars prop, drop our internal
+  // completed state too so the LevelCompleteScreen overlay closes and the
+  // fresh problem grid renders. Otherwise the overlay sits on top while a
+  // new pattern plays underneath.
+  useEffect(() => {
+    if (stars === null && completedStars !== null) setCompletedStars(null);
+  }, [stars, completedStars]);
   // Hint when the child stalls. Shown after a few seconds of inactivity on a
   // new problem; auto-hides as soon as they tap any cell.
   const [showTapHint, setShowTapHint] = useState(false);
