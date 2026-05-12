@@ -21,6 +21,10 @@ interface FarmShareModeProps {
   colors: ThemeColors;
   tokenImage?: ImageSourcePropType;
   ageGroup?: AgeGroup;
+  // Training-wheel hint: when true and the pool empties unfairly, the
+  // baskets with too many items turn red so the child sees what to fix.
+  // Off on harder levels so the child has to figure it out from voice alone.
+  showOverflowHint?: boolean;
   // Fires once the pool empties and every basket has the same count.
   onMatch?: () => void;
   // Fires when the pool empties but the split is unfair, so the parent can
@@ -36,6 +40,7 @@ function Basket({
   count,
   target,
   poolEmpty,
+  showOverflowHint,
   onAdd,
   onRemove,
   colors,
@@ -45,6 +50,7 @@ function Basket({
   count: number;
   target: number;
   poolEmpty: boolean;
+  showOverflowHint: boolean;
   onAdd: () => void;
   onRemove: () => void;
   colors: ThemeColors;
@@ -59,69 +65,73 @@ function Basket({
   const style = useAnimatedStyle(() => ({transform: [{scale: scale.value}]}));
 
   const filled = Math.max(0, Math.min(10, count));
-  // Three visual states once the pool empties: correct (green), too many
-  // (red), or too few (still amber so it reads as "needs more" without
-  // looking like a rejection).
+  // Three visual states once the pool empties: correct (green); too many
+  // with overflow hint on (red — "this one has too much, remove some");
+  // otherwise amber. Baskets with too few stay amber so the child reads
+  // them as "still hungry" rather than "wrong".
   let borderColor = '#F59E0B';
   let bgColor = 'rgba(245,158,11,0.18)';
   if (poolEmpty) {
     if (count === target) {
       borderColor = '#22C55E';
       bgColor = 'rgba(34,197,94,0.22)';
-    } else if (count !== target) {
+    } else if (showOverflowHint && count > target) {
       borderColor = '#EF4444';
       bgColor = 'rgba(239,68,68,0.22)';
     }
   }
   return (
-    <Animated.View
-      style={[
-        styles.basket,
-        style,
-        {borderColor, backgroundColor: bgColor},
-      ]}>
-      <Text style={styles.animal}>
-        <Emoji>{animalEmoji}</Emoji>
-      </Text>
-      {/* +/− controls. + adds from the pool (hidden when pool empty); −
-          removes back to the pool (hidden when basket empty). Both visible
-          while child is mid-distribution, so add and remove are
-          unambiguous actions instead of "tap the right thing". */}
-      <View style={styles.controlsRow}>
-        {!poolEmpty && (
-          <Pressable
-            onPress={onAdd}
-            style={({pressed}) => [
-              styles.ctrlBtn,
-              styles.addBtn,
-              {opacity: pressed ? 0.7 : 1},
-            ]}>
-            <Text style={styles.ctrlBtnText}>＋</Text>
-          </Pressable>
-        )}
-        {count > 0 && (
-          <Pressable
-            onPress={onRemove}
-            style={({pressed}) => [
-              styles.ctrlBtn,
-              styles.removeBtn,
-              {opacity: pressed ? 0.7 : 1},
-            ]}>
-            <Text style={styles.ctrlBtnText}>−</Text>
-          </Pressable>
-        )}
-      </View>
-      <View style={styles.basketContents}>
-        {Array.from({length: filled}).map((_, i) => (
-          <Pressable key={i} onPress={onRemove} hitSlop={4}>
-            <Text style={styles.basketFood}>
+    <View style={styles.basketWrap}>
+      <Animated.View
+        style={[
+          styles.basket,
+          style,
+          {borderColor, backgroundColor: bgColor},
+        ]}>
+        {/* Add (＋) sits at the top with the animal so it reads as "give
+            food to this one". */}
+        <View style={styles.basketHeader}>
+          <Text style={styles.animal}>
+            <Emoji>{animalEmoji}</Emoji>
+          </Text>
+          {!poolEmpty && (
+            <Pressable
+              onPress={onAdd}
+              style={({pressed}) => [
+                styles.ctrlBtn,
+                styles.addBtn,
+                {opacity: pressed ? 0.7 : 1},
+              ]}>
+              <Text style={styles.ctrlBtnText}>＋</Text>
+            </Pressable>
+          )}
+        </View>
+        <View style={styles.basketContents}>
+          {Array.from({length: filled}).map((_, i) => (
+            <Text key={i} style={styles.basketFood}>
               <Emoji>{foodEmoji}</Emoji>
             </Text>
-          </Pressable>
-        ))}
-      </View>
-      <Text style={styles.basketCount}>{filled}</Text>
-    </Animated.View>
+          ))}
+        </View>
+        <Text style={styles.basketCount}>{filled}</Text>
+      </Animated.View>
+      {/* Remove (−) lives BELOW the basket so add and remove read as
+          distinct gestures (give above, take below). Hidden when empty. */}
+      {count > 0 ? (
+        <Pressable
+          onPress={onRemove}
+          style={({pressed}) => [
+            styles.ctrlBtn,
+            styles.removeBtnBelow,
+            {opacity: pressed ? 0.7 : 1},
+          ]}>
+          <Text style={styles.ctrlBtnText}>−</Text>
+        </Pressable>
+      ) : (
+        // Reserve the space so the basket grid doesn't shift when − appears.
+        <View style={styles.removeBtnSpacer} />
+      )}
+    </View>
   );
 }
 
@@ -132,6 +142,7 @@ export function FarmShareMode({
   colors,
   tokenImage,
   ageGroup = 'young',
+  showOverflowHint = false,
   onMatch,
   onUnfair,
 }: FarmShareModeProps) {
@@ -228,6 +239,7 @@ export function FarmShareMode({
             count={count}
             target={problem.target}
             poolEmpty={remaining <= 0}
+            showOverflowHint={showOverflowHint}
             onAdd={() => addTo(i)}
             onRemove={() => removeFrom(i)}
             colors={colors}
@@ -274,6 +286,10 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     maxWidth: 380,
   },
+  basketWrap: {
+    alignItems: 'center',
+    gap: 6,
+  },
   basket: {
     minWidth: 110,
     paddingHorizontal: 10,
@@ -283,14 +299,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 4,
   },
+  basketHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
   animal: {
     fontSize: 38,
-  },
-  controlsRow: {
-    flexDirection: 'row',
-    gap: 8,
-    minHeight: 38,
-    alignItems: 'center',
   },
   ctrlBtn: {
     width: 44,
@@ -309,8 +324,13 @@ const styles = StyleSheet.create({
   addBtn: {
     backgroundColor: '#22C55E',
   },
-  removeBtn: {
+  removeBtnBelow: {
     backgroundColor: '#EF4444',
+    marginTop: 2,
+  },
+  removeBtnSpacer: {
+    height: 36,
+    marginTop: 2,
   },
   ctrlBtnText: {
     fontSize: 26,

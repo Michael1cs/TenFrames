@@ -669,6 +669,9 @@ export function AdventureLevelScreen({
                 animalEmoji={pair.animal}
                 colors={themeColors}
                 ageGroup="young"
+                // Training-wheels: highlight overflowing baskets in red on
+                // the first two levels; later levels rely on voice alone.
+                showOverflowHint={level.modeLevel <= 2}
                 onMatch={() => onRecordResult(attempts === 0)}
                 onUnfair={() => {
                   setAttempts(prev => prev + 1);
