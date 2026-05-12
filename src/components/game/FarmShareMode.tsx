@@ -41,6 +41,7 @@ function Basket({
   target,
   poolEmpty,
   showOverflowHint,
+  compact,
   onAdd,
   onRemove,
   colors,
@@ -51,6 +52,9 @@ function Basket({
   target: number;
   poolEmpty: boolean;
   showOverflowHint: boolean;
+  // True when ≥3 baskets are on screen — scales down internals so they
+  // all fit on one row without wrapping.
+  compact: boolean;
   onAdd: () => void;
   onRemove: () => void;
   colors: ThemeColors;
@@ -91,7 +95,7 @@ function Basket({
         {/* Add (＋) sits at the top with the animal so it reads as "give
             food to this one". */}
         <View style={styles.basketHeader}>
-          <Text style={styles.animal}>
+          <Text style={[styles.animal, compact && styles.animalCompact]}>
             <Emoji>{animalEmoji}</Emoji>
           </Text>
           {!poolEmpty && (
@@ -99,21 +103,22 @@ function Basket({
               onPress={onAdd}
               style={({pressed}) => [
                 styles.ctrlBtn,
+                compact && styles.ctrlBtnCompact,
                 styles.addBtn,
                 {opacity: pressed ? 0.7 : 1},
               ]}>
-              <Text style={styles.ctrlBtnText}>＋</Text>
+              <Text style={[styles.ctrlBtnText, compact && styles.ctrlBtnTextCompact]}>＋</Text>
             </Pressable>
           )}
         </View>
         <View style={styles.basketContents}>
           {Array.from({length: filled}).map((_, i) => (
-            <Text key={i} style={styles.basketFood}>
+            <Text key={i} style={[styles.basketFood, compact && styles.basketFoodCompact]}>
               <Emoji>{foodEmoji}</Emoji>
             </Text>
           ))}
         </View>
-        <Text style={styles.basketCount}>{filled}</Text>
+        <Text style={[styles.basketCount, compact && styles.basketCountCompact]}>{filled}</Text>
       </Animated.View>
       {/* Remove (−) lives BELOW the basket so add and remove read as
           distinct gestures (give above, take below). Hidden when empty. */}
@@ -122,14 +127,15 @@ function Basket({
           onPress={onRemove}
           style={({pressed}) => [
             styles.ctrlBtn,
+            compact && styles.ctrlBtnCompact,
             styles.removeBtnBelow,
             {opacity: pressed ? 0.7 : 1},
           ]}>
-          <Text style={styles.ctrlBtnText}>−</Text>
+          <Text style={[styles.ctrlBtnText, compact && styles.ctrlBtnTextCompact]}>−</Text>
         </Pressable>
       ) : (
         // Reserve the space so the basket grid doesn't shift when − appears.
-        <View style={styles.removeBtnSpacer} />
+        <View style={[styles.removeBtnSpacer, compact && styles.removeBtnSpacerCompact]} />
       )}
     </View>
   );
@@ -241,6 +247,7 @@ export function FarmShareMode({
             target={problem.target}
             poolEmpty={remaining <= 0}
             showOverflowHint={showOverflowHint}
+            compact={baskets.length >= 3}
             onAdd={() => addTo(i)}
             onRemove={() => removeFrom(i)}
             colors={colors}
@@ -282,23 +289,27 @@ const styles = StyleSheet.create({
   },
   basketsRow: {
     flexDirection: 'row',
-    gap: 12,
+    gap: 8,
     justifyContent: 'center',
-    flexWrap: 'wrap',
-    maxWidth: 380,
+    alignItems: 'flex-start',
+    // No wrap — for 3+ baskets the basket width shrinks via minWidth=0
+    // below so they always sit on one row.
+    maxWidth: '100%',
+    paddingHorizontal: 4,
   },
   basketWrap: {
     alignItems: 'center',
     gap: 6,
+    flexShrink: 1,
   },
   basket: {
-    minWidth: 110,
-    paddingHorizontal: 10,
+    paddingHorizontal: 8,
     paddingVertical: 10,
     borderRadius: 18,
     borderWidth: 3,
     alignItems: 'center',
     gap: 4,
+    minWidth: 0,
   },
   basketHeader: {
     flexDirection: 'row',
@@ -307,6 +318,9 @@ const styles = StyleSheet.create({
   },
   animal: {
     fontSize: 38,
+  },
+  animalCompact: {
+    fontSize: 26,
   },
   ctrlBtn: {
     width: 44,
@@ -322,6 +336,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 3,
   },
+  ctrlBtnCompact: {
+    width: 32,
+    height: 28,
+    borderRadius: 9,
+  },
   addBtn: {
     backgroundColor: '#22C55E',
   },
@@ -333,6 +352,9 @@ const styles = StyleSheet.create({
     height: 36,
     marginTop: 2,
   },
+  removeBtnSpacerCompact: {
+    height: 28,
+  },
   ctrlBtnText: {
     fontSize: 26,
     fontWeight: '900',
@@ -340,17 +362,24 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     includeFontPadding: false,
   },
+  ctrlBtnTextCompact: {
+    fontSize: 18,
+    lineHeight: 22,
+  },
   basketContents: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    minHeight: 32,
+    minHeight: 28,
     alignItems: 'center',
     gap: 2,
-    maxWidth: 100,
+    maxWidth: 90,
   },
   basketFood: {
     fontSize: 22,
+  },
+  basketFoodCompact: {
+    fontSize: 16,
   },
   basketEmpty: {
     fontSize: 28,
@@ -364,5 +393,8 @@ const styles = StyleSheet.create({
     textShadowColor: 'rgba(0,0,0,0.5)',
     textShadowOffset: {width: 0, height: 1},
     textShadowRadius: 2,
+  },
+  basketCountCompact: {
+    fontSize: 18,
   },
 });
