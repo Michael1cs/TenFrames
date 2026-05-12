@@ -69,6 +69,25 @@ const LEVEL_NOUN: Record<string, string> = {
   'sm-10': 'star',
   'sm-bonus-a': 'star',
   'sm-bonus-b': 'trophy',
+  // Counting Meadow
+  'cm-1': 'mushroom',
+  'cm-2': 'butterfly',
+  'cm-3': 'flower',
+  'cm-4': 'caterpillar',
+  'cm-5': 'sunflower',
+  'cm-6': 'fox',
+  'cm-7': 'owl',
+  'cm-8': 'tree',
+  'cm-bonus-a': 'star',
+  'cm-bonus-b': 'trophy',
+  // Doubles Castle (post-correct only — instruction voice is doubles_N)
+  'dc-1': 'sparkle',
+  'dc-2': 'rainbow',
+  'dc-3': 'unicorn',
+  'dc-4': 'crown',
+  'dc-5': 'gem',
+  'dc-bonus-a': 'star',
+  'dc-bonus-b': 'trophy',
 };
 
 interface AdventureLevelScreenProps {
