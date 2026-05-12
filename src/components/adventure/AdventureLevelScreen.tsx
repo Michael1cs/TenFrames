@@ -155,9 +155,16 @@ export function AdventureLevelScreen({
     if (level.gameMode === 'memory') {
       const challenge = pregenMemoryRef.current[problemIndex]
         ?? generateMemoryChallenge(level.modeLevel);
-      setMemoryChallenge(challenge);
+      // Clear the previous challenge so MemoryMode unmounts during the
+      // ProblemTransition overlay (~2.2s). Otherwise the next pattern is
+      // already lighting up cells behind the badge. First problem skips the
+      // transition (badge only shows for problemIndex>0) so we mount fast.
+      setMemoryChallenge(null);
       setCurrentProblem(null);
       setCountingChallenge(null);
+      const delay = problemIndex === 0 ? 0 : 2300;
+      const t = setTimeout(() => setMemoryChallenge(challenge), delay);
+      return () => clearTimeout(t);
     } else if (level.gameMode === 'counting') {
       const challenge = pregenCountingRef.current[problemIndex]
         ?? generateCountingChallenge(level.modeLevel);
