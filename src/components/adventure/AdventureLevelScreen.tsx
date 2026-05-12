@@ -652,16 +652,21 @@ export function AdventureLevelScreen({
 
         {level.gameMode === 'share' ? (
           (() => {
-            // Pick a food/animal pair per problem so each level varies a bit.
-            // Rotating by problemIndex keeps it deterministic per problem.
-            const pairs = [
-              {food: '🥕', animal: '🐰'},
-              {food: '🌽', animal: '🐔'},
-              {food: '🍎', animal: '🐷'},
-              {food: '🌾', animal: '🐄'},
-              {food: '🥚', animal: '🐔'},
-            ];
-            const pair = pairs[problemIndex % pairs.length];
+            // One consistent food/animal pair per level so the story holds
+            // ("Bunnies & Carrots" really shows bunnies and carrots all 5
+            // problems, not random animals mid-level). Default fallback for
+            // anything not mapped.
+            const LEVEL_PAIRS: Record<string, {food: string; animal: string}> = {
+              'fs-1': {food: '🥕', animal: '🐰'},
+              'fs-2': {food: '🌽', animal: '🐔'},
+              'fs-3': {food: '🍎', animal: '🐷'},
+              'fs-4': {food: '🌾', animal: '🐄'},
+              'fs-5': {food: '🌽', animal: '🐔'},
+              'fs-6': {food: '🥕', animal: '🐰'},
+              'fs-bonus-a': {food: '🍎', animal: '🐷'},
+              'fs-bonus-b': {food: '🌾', animal: '🐄'},
+            };
+            const pair = LEVEL_PAIRS[level.id] ?? {food: '🥕', animal: '🐰'};
             return (
               <FarmShareMode
                 problem={shareProblem}

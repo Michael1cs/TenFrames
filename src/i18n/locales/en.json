@@ -289,12 +289,12 @@
       "mgBonusB": "Memory Master",
       "fs1": "Bunnies & Carrots",
       "fs2": "Hungry Chickens",
-      "fs3": "Piggy Picnic",
-      "fs4": "Cow Snack",
-      "fs5": "Three Buddies",
-      "fs6": "Five Friends",
-      "fsBonusA": "Mixed Share",
-      "fsBonusB": "Share Master"
+      "fs3": "Piggy Apples",
+      "fs4": "Cows & Hay",
+      "fs5": "Three Chickens",
+      "fs6": "Five Bunnies",
+      "fsBonusA": "Pigs Picnic",
+      "fsBonusB": "Cows Feast"
     },
     "level": "Level",
     "stars": "Stars",
