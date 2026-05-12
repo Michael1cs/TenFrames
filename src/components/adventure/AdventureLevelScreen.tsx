@@ -396,23 +396,17 @@ export function AdventureLevelScreen({
   // Auto-submit: when child reaches the correct answer, fire submit after
   // 350ms (positive). When they overshoot, fire after 1.8s grace (wrong).
   // This replaces the manual ✓ button — 4-6 ages don't need to confirm.
+  // Cleanup-based: every cells change cancels the prior pending timer and
+  // re-evaluates from scratch, so the child can over- then under-shoot
+  // freely without locking the level up. hasSubmitted gates the effect
+  // entirely once a submit has actually fired.
   const handleSubmitRef = useRef(handleSubmit);
   handleSubmitRef.current = handleSubmit;
-  const autoSubmitFiredRef = useRef(false);
-  useEffect(() => {
-    autoSubmitFiredRef.current = false;
-  }, [problemIndex, level]);
-  // Reset the latch when child unlocks for a retry by tapping a cell
-  // (handleCellPress sets hasSubmitted=false on wrong answer retry).
-  useEffect(() => {
-    if (!hasSubmitted) autoSubmitFiredRef.current = false;
-  }, [hasSubmitted]);
   useEffect(() => {
     if (finished || hasSubmitted || level.gameMode === 'memory') return;
     // Divide/Share modes own their own match detection so skip the
     // count-based auto-submit logic here.
     if (level.gameMode === 'divide' || level.gameMode === 'share') return;
-    if (autoSubmitFiredRef.current) return;
 
     const topFilled = cells.slice(0, 5).filter(c => c !== 'empty').length;
     const bottomFilled = cells.slice(5, 10).filter(c => c !== 'empty').length;
@@ -455,16 +449,11 @@ export function AdventureLevelScreen({
     }
 
     if (isMatch) {
-      autoSubmitFiredRef.current = true;
       const t = setTimeout(() => handleSubmitRef.current(), 350);
       return () => clearTimeout(t);
     }
     if (isOvershoot) {
-      const t = setTimeout(() => {
-        if (autoSubmitFiredRef.current) return;
-        autoSubmitFiredRef.current = true;
-        handleSubmitRef.current();
-      }, 1800);
+      const t = setTimeout(() => handleSubmitRef.current(), 1800);
       return () => clearTimeout(t);
     }
   }, [cells, currentProblem, countingChallenge, level, hasSubmitted, finished, problemIndex]);
