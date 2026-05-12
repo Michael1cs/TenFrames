@@ -182,10 +182,12 @@ export function FarmShareMode({
 
   if (!problem) return null;
 
-  // Pool ten-frame cells: first `remaining` are color1, rest empty.
+  // Pool ten-frame cells: first `remaining` are 'filled' (so the cell falls
+  // through to rendering the food emoji we pass below, instead of the
+  // theme's color1 marble like the red dot).
   const cells: CellState[] = Array(10)
     .fill('empty')
-    .map((_, i) => (i < remaining ? 'color1' : 'empty')) as CellState[];
+    .map((_, i) => (i < remaining ? 'filled' : 'empty')) as CellState[];
 
   const addTo = (i: number) => {
     if (remaining <= 0) return;
@@ -218,11 +220,10 @@ export function FarmShareMode({
         cells={cells}
         onCellClick={(i) => {
           // Only food cells respond — empty cells (already shared) do nothing.
-          if (cells[i] === 'color1') sendToBalancedBasket();
+          if (cells[i] === 'filled') sendToBalancedBasket();
         }}
         colors={colors}
         emoji={foodEmoji}
-        tokenImage={tokenImage}
         ageGroup={ageGroup}
       />
 
