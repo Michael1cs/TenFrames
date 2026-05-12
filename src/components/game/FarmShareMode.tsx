@@ -72,19 +72,34 @@ function Basket({
       <Text style={styles.animal}>
         <Emoji>{animalEmoji}</Emoji>
       </Text>
-      {/* Big + button — visible whenever the pool still has food. Always
-          available even when the basket already has items, fixing the bug
-          where adding stopped working after the first tap. */}
-      {!poolEmpty && (
-        <Pressable
-          onPress={onAdd}
-          style={({pressed}) => [
-            styles.addBtn,
-            {opacity: pressed ? 0.7 : 1},
-          ]}>
-          <Text style={styles.addBtnText}>＋</Text>
-        </Pressable>
-      )}
+      {/* +/− controls. + adds from the pool (hidden when pool empty); −
+          removes back to the pool (hidden when basket empty). Both visible
+          while child is mid-distribution, so add and remove are
+          unambiguous actions instead of "tap the right thing". */}
+      <View style={styles.controlsRow}>
+        {!poolEmpty && (
+          <Pressable
+            onPress={onAdd}
+            style={({pressed}) => [
+              styles.ctrlBtn,
+              styles.addBtn,
+              {opacity: pressed ? 0.7 : 1},
+            ]}>
+            <Text style={styles.ctrlBtnText}>＋</Text>
+          </Pressable>
+        )}
+        {count > 0 && (
+          <Pressable
+            onPress={onRemove}
+            style={({pressed}) => [
+              styles.ctrlBtn,
+              styles.removeBtn,
+              {opacity: pressed ? 0.7 : 1},
+            ]}>
+            <Text style={styles.ctrlBtnText}>−</Text>
+          </Pressable>
+        )}
+      </View>
       <View style={styles.basketContents}>
         {Array.from({length: filled}).map((_, i) => (
           <Pressable key={i} onPress={onRemove} hitSlop={4}>
@@ -259,11 +274,16 @@ const styles = StyleSheet.create({
   animal: {
     fontSize: 38,
   },
-  addBtn: {
+  controlsRow: {
+    flexDirection: 'row',
+    gap: 8,
+    minHeight: 38,
+    alignItems: 'center',
+  },
+  ctrlBtn: {
     width: 44,
     height: 36,
     borderRadius: 12,
-    backgroundColor: '#22C55E',
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
@@ -274,7 +294,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 3,
   },
-  addBtnText: {
+  addBtn: {
+    backgroundColor: '#22C55E',
+  },
+  removeBtn: {
+    backgroundColor: '#EF4444',
+  },
+  ctrlBtnText: {
     fontSize: 26,
     fontWeight: '900',
     color: '#FFFFFF',
