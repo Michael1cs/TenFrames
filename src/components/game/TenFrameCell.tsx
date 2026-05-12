@@ -18,6 +18,10 @@ interface TenFrameCellProps {
   emoji: string;
   cellSize: number;
   tokenImage?: ImageSourcePropType;
+  // If set, this emoji is rendered for every filled cell regardless of
+  // state (color1/color2/filled), overriding the theme's marble emoji.
+  // Used in adventure levels so the cells match the level's icon.
+  overrideEmoji?: string;
 }
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -63,6 +67,7 @@ export function TenFrameCell({
   emoji,
   cellSize,
   tokenImage,
+  overrideEmoji,
 }: TenFrameCellProps) {
   const scale = useSharedValue(1);
   const isFilled = state !== 'empty';
@@ -122,7 +127,11 @@ export function TenFrameCell({
               justifyContent: 'center',
             },
           ]}>
-          {tokenImage ? (
+          {overrideEmoji ? (
+            <Text style={{fontSize: cellSize * 0.5}}>
+              <Emoji>{overrideEmoji}</Emoji>
+            </Text>
+          ) : tokenImage ? (
             <Image
               source={tokenImage}
               style={{width: tokenSize, height: tokenSize}}

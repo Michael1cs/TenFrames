@@ -12,6 +12,9 @@ interface TenFrameProps {
   emoji: string;
   tokenImage?: ImageSourcePropType;
   ageGroup?: AgeGroup;
+  // Override the per-cell emoji (used in adventure to make filled cells
+  // show the level's icon instead of the theme's generic marble).
+  overrideEmoji?: string;
 }
 
 export function TenFrame({
@@ -22,6 +25,7 @@ export function TenFrame({
   emoji,
   tokenImage,
   ageGroup = 'older',
+  overrideEmoji,
 }: TenFrameProps) {
   const {cellSize} = useLayout(ageGroup);
 
@@ -45,6 +49,7 @@ export function TenFrame({
             emoji={emoji}
             cellSize={cellSize}
             tokenImage={tokenImage}
+            overrideEmoji={overrideEmoji}
           />
         ))}
       </View>

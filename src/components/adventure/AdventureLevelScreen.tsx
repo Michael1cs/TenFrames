@@ -37,6 +37,40 @@ import {WrongFlash} from '../feedback/WrongFlash';
 import {TapHint} from '../feedback/TapHint';
 import {ProblemTransition} from '../feedback/ProblemTransition';
 
+// Per-level noun for voice narration. When set, the addition/subtraction
+// voice uses have_<noun>_<N> / add_more_<noun>_<N> / take_<noun>_<N> so the
+// spoken phrase matches the level's emoji ("3 octopuses", "5 stars") instead
+// of the generic world-theme noun. Unmapped levels fall back to world-themed
+// clips.
+const LEVEL_NOUN: Record<string, string> = {
+  // Addition Island
+  'ai-1': 'shell',
+  'ai-2': 'fish',
+  'ai-3': 'crab',
+  'ai-4': 'fish',
+  'ai-5': 'octopus',
+  'ai-6': 'lobster',
+  'ai-7': 'dolphin',
+  'ai-8': 'whale',
+  'ai-9': 'squid',
+  'ai-10': 'island',
+  'ai-bonus-a': 'star',
+  'ai-bonus-b': 'trophy',
+  // Subtraction Mountain
+  'sm-1': 'moon',
+  'sm-2': 'rocket',
+  'sm-3': 'planet',
+  'sm-4': 'comet',
+  'sm-5': 'ufo',
+  'sm-6': 'planet',
+  'sm-7': 'alien',
+  'sm-8': 'telescope',
+  'sm-9': 'galaxy',
+  'sm-10': 'star',
+  'sm-bonus-a': 'star',
+  'sm-bonus-b': 'trophy',
+};
+
 interface AdventureLevelScreenProps {
   levelState: LevelPlayState;
   colors: ThemeColors;
@@ -522,14 +556,30 @@ export function AdventureLevelScreen({
     } else if (currentProblem && themeId) {
       const mode = level.gameMode;
       key = `${mode}-${currentProblem.num1}-${currentProblem.num2}`;
-      const act = mode === 'addition' ? 'add' : 'sub';
-      // Always use the themed sentence ("You have N rockets" + "Add M more
-      // rockets!"). Extension clips cover num1 6-10 and num2 5-9.
-      const ids = [
-        `pre_have_${themeId}_${currentProblem.num1}`,
-        `instr_${act}_${themeId}_${currentProblem.num2}`,
-      ];
-      action = () => voiceRef.current.playSequence(ids, 350);
+      // Doubles Castle: generic "N plus N!" clip (level emoji varies).
+      const isDoubles = mode === 'addition' && level.modeLevel >= 20 && level.modeLevel <= 25;
+      // Other levels: voice the level emoji's noun ("3 octopuses", "2 stars")
+      // so the narrator matches the cells the child sees.
+      const noun = LEVEL_NOUN[level.id];
+      if (isDoubles && currentProblem.num1 >= 1 && currentProblem.num1 <= 5) {
+        action = () => voiceRef.current.play(`doubles_${currentProblem.num1}`);
+      } else if (noun) {
+        const verb = mode === 'addition' ? 'add_more' : 'take';
+        const ids = [
+          `have_${noun}_${currentProblem.num1}`,
+          `${verb}_${noun}_${currentProblem.num2}`,
+        ];
+        action = () => voiceRef.current.playSequence(ids, 350);
+      } else {
+        const act = mode === 'addition' ? 'add' : 'sub';
+        // Fallback: themed world-noun sentence (kept for backward compat
+        // until per-level noun clips are added for every world).
+        const ids = [
+          `pre_have_${themeId}_${currentProblem.num1}`,
+          `instr_${act}_${themeId}_${currentProblem.num2}`,
+        ];
+        action = () => voiceRef.current.playSequence(ids, 350);
+      }
     }
 
     if (!action || key === prevVoiceKey.current) return;
@@ -772,7 +822,7 @@ export function AdventureLevelScreen({
                 onCellClick={handleCellPress}
                 colors={themeColors}
                 emoji={worldTheme?.colors?.emojiColor1 ?? '🔵'}
-                tokenImage={worldTheme?.tokenImage}
+                overrideEmoji={level.emoji}
               />
               <TapHint visible={showTapHint && !hasSubmitted} />
             </Animated.View>
