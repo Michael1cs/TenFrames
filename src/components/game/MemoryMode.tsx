@@ -85,6 +85,34 @@ export function MemoryMode({
     }
   }, [challenge]);
 
+  // Inactivity guard: if the child stares at the input phase without
+  // touching anything for ~8s, re-show the pattern automatically. Otherwise
+  // a child who forgot the sequence has no way out — the level would just
+  // sit there waiting. Resets every time filledCount changes so it only
+  // fires when there's no progress.
+  useEffect(() => {
+    if (phase !== 'input') return;
+    if (correctFiredRef.current) return;
+    if (filledCount === challenge.targetCount && patternMatches) return;
+
+    const timer = setTimeout(() => {
+      if (correctFiredRef.current) return;
+      if (!hadWrongRef.current) {
+        hadWrongRef.current = true;
+        onWrongRef.current();
+      }
+      setUserCells(Array(10).fill('empty'));
+      setPhase('show');
+      onPhaseChangeRef.current?.('show', challenge.targetCount);
+      const retryShow = setTimeout(() => {
+        setPhase('input');
+        onPhaseChangeRef.current?.('input', challenge.targetCount);
+      }, challenge.showDurationMs);
+      retryTimerRef.current = retryShow;
+    }, 8000);
+    return () => clearTimeout(timer);
+  }, [phase, filledCount, challenge, patternMatches]);
+
   useEffect(() => {
     if (phase !== 'input') return;
     if (correctFiredRef.current) return;
