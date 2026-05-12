@@ -222,8 +222,10 @@ export function AdventureLevelScreen({
     }
   }, [problemIndex, finished, level]);
 
-  // Hint timer: arm on every new problem, fire after 4s if still untouched.
-  // Memory mode runs its own state machine, so skip it there.
+  // Hint timer: arm on every new problem. At 4s show the 👆 visual; at 5s
+  // replay the instruction voice so a child who froze hears the prompt
+  // again. Memory mode runs its own state machine, so skip it there.
+  const reminderTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {
     if (level.gameMode === 'memory' || finished) {
       setShowTapHint(false);
@@ -231,9 +233,14 @@ export function AdventureLevelScreen({
     }
     setShowTapHint(false);
     if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
+    if (reminderTimerRef.current) clearTimeout(reminderTimerRef.current);
     hintTimerRef.current = setTimeout(() => setShowTapHint(true), 4000);
+    reminderTimerRef.current = setTimeout(() => {
+      lastInstructionVoiceRef.current?.();
+    }, 5000);
     return () => {
       if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
+      if (reminderTimerRef.current) clearTimeout(reminderTimerRef.current);
     };
   }, [problemIndex, level.gameMode, finished]);
 
@@ -241,6 +248,10 @@ export function AdventureLevelScreen({
     if (hintTimerRef.current) {
       clearTimeout(hintTimerRef.current);
       hintTimerRef.current = null;
+    }
+    if (reminderTimerRef.current) {
+      clearTimeout(reminderTimerRef.current);
+      reminderTimerRef.current = null;
     }
     setShowTapHint(false);
   }, []);
@@ -518,22 +529,20 @@ export function AdventureLevelScreen({
       const mode = level.gameMode;
       key = `${mode}-${currentProblem.num1}-${currentProblem.num2}`;
       const act = mode === 'addition' ? 'add' : 'sub';
-      const ids: string[] = [];
-      if (currentProblem.num1 <= 5) {
-        ids.push(`pre_have_${themeId}_${currentProblem.num1}`);
-      } else {
-        ids.push(`num_${currentProblem.num1}`);
-      }
-      if (currentProblem.num2 <= 4) {
-        ids.push(`instr_${act}_${themeId}_${currentProblem.num2}`);
-      } else {
-        ids.push(`num_${currentProblem.num2}`);
-      }
+      // Always use the themed sentence ("You have N rockets" + "Add M more
+      // rockets!"). Extension clips cover num1 6-10 and num2 5-9.
+      const ids = [
+        `pre_have_${themeId}_${currentProblem.num1}`,
+        `instr_${act}_${themeId}_${currentProblem.num2}`,
+      ];
       action = () => voiceRef.current.playSequence(ids, 350);
     }
 
     if (!action || key === prevVoiceKey.current) return;
     prevVoiceKey.current = key;
+    // Remember the current problem's instruction so the inactivity nudge
+    // (5s without a tap) can replay it instead of speaking generic text.
+    lastInstructionVoiceRef.current = action;
 
     // Wait for the ProblemTransition overlay (~2.2s) to play out before the
     // next-problem instruction voice starts. Otherwise the voice narrates
@@ -543,6 +552,10 @@ export function AdventureLevelScreen({
     const timer = setTimeout(action, delay);
     return () => clearTimeout(timer);
   }, [currentProblem, countingChallenge, shareProblem, level, finished]);
+
+  // Stores the last per-problem voice action; tapped by the inactivity timer
+  // below to replay the instruction when the child stalls.
+  const lastInstructionVoiceRef = useRef<(() => void) | null>(null);
 
   // Reset first-problem flag when the level itself changes.
   useEffect(() => {
