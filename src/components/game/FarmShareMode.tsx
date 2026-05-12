@@ -90,45 +90,51 @@ function Basket({
   }
   return (
     <View style={styles.basketWrap}>
-      <Animated.View
-        style={[
-          styles.basket,
-          density === 'compact' && styles.basketCompact,
-          density === 'tiny' && styles.basketTiny,
-          style,
-          {borderColor, backgroundColor: bgColor},
-        ]}>
-        {/* Add (＋) sits with the animal at the top of each basket. */}
-        <View style={styles.basketHeader}>
-          <Text
-            style={[
-              styles.animal,
-              compact && styles.animalCompact,
-              tiny && styles.animalTiny,
-            ]}>
-            <Emoji>{animalEmoji}</Emoji>
-          </Text>
-          {!poolEmpty && (
-            <Pressable
-              onPress={onAdd}
-              style={({pressed}) => [
-                styles.ctrlBtn,
-                compact && styles.ctrlBtnCompact,
-                tiny && styles.ctrlBtnTiny,
-                styles.addBtn,
-                {opacity: pressed ? 0.7 : 1},
+      {/* Whole basket card is the add tap target — easier than aiming at the
+          small ＋ chip. The chip stays as a visual cue. − sits outside the
+          basket below so add/remove never share the same hit area. */}
+      <Pressable
+        onPress={() => {
+          if (!poolEmpty) onAdd();
+        }}
+        disabled={poolEmpty}>
+        <Animated.View
+          style={[
+            styles.basket,
+            density === 'compact' && styles.basketCompact,
+            density === 'tiny' && styles.basketTiny,
+            style,
+            {borderColor, backgroundColor: bgColor},
+          ]}>
+          <View style={styles.basketHeader}>
+            <Text
+              style={[
+                styles.animal,
+                compact && styles.animalCompact,
+                tiny && styles.animalTiny,
               ]}>
-              <Text
+              <Emoji>{animalEmoji}</Emoji>
+            </Text>
+            {!poolEmpty && (
+              <View
                 style={[
-                  styles.ctrlBtnText,
-                  compact && styles.ctrlBtnTextCompact,
-                  tiny && styles.ctrlBtnTextTiny,
-                ]}>
-                ＋
-              </Text>
-            </Pressable>
-          )}
-        </View>
+                  styles.ctrlBtn,
+                  compact && styles.ctrlBtnCompact,
+                  tiny && styles.ctrlBtnTiny,
+                  styles.addBtn,
+                ]}
+                pointerEvents="none">
+                <Text
+                  style={[
+                    styles.ctrlBtnText,
+                    compact && styles.ctrlBtnTextCompact,
+                    tiny && styles.ctrlBtnTextTiny,
+                  ]}>
+                  ＋
+                </Text>
+              </View>
+            )}
+          </View>
         <View style={[styles.basketContents, tiny && styles.basketContentsTiny]}>
           {Array.from({length: filled}).map((_, i) => (
             <Text
@@ -142,15 +148,16 @@ function Basket({
             </Text>
           ))}
         </View>
-        <Text
-          style={[
-            styles.basketCount,
-            compact && styles.basketCountCompact,
-            tiny && styles.basketCountTiny,
-          ]}>
-          {filled}
-        </Text>
-      </Animated.View>
+          <Text
+            style={[
+              styles.basketCount,
+              compact && styles.basketCountCompact,
+              tiny && styles.basketCountTiny,
+            ]}>
+            {filled}
+          </Text>
+        </Animated.View>
+      </Pressable>
       {/* Remove (−) lives BELOW the basket so add and remove read as
           distinct gestures (give above, take below). Hidden when empty. */}
       {count > 0 ? (
