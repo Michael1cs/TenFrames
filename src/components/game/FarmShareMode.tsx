@@ -34,6 +34,7 @@ function Basket({
   animalEmoji,
   foodEmoji,
   count,
+  target,
   poolEmpty,
   onAdd,
   onRemove,
@@ -42,6 +43,7 @@ function Basket({
   animalEmoji: string;
   foodEmoji: string;
   count: number;
+  target: number;
   poolEmpty: boolean;
   onAdd: () => void;
   onRemove: () => void;
@@ -57,17 +59,26 @@ function Basket({
   const style = useAnimatedStyle(() => ({transform: [{scale: scale.value}]}));
 
   const filled = Math.max(0, Math.min(10, count));
+  // Three visual states once the pool empties: correct (green), too many
+  // (red), or too few (still amber so it reads as "needs more" without
+  // looking like a rejection).
+  let borderColor = '#F59E0B';
+  let bgColor = 'rgba(245,158,11,0.18)';
+  if (poolEmpty) {
+    if (count === target) {
+      borderColor = '#22C55E';
+      bgColor = 'rgba(34,197,94,0.22)';
+    } else if (count !== target) {
+      borderColor = '#EF4444';
+      bgColor = 'rgba(239,68,68,0.22)';
+    }
+  }
   return (
     <Animated.View
       style={[
         styles.basket,
         style,
-        {
-          borderColor: poolEmpty ? '#22C55E' : '#F59E0B',
-          backgroundColor: poolEmpty
-            ? 'rgba(34,197,94,0.18)'
-            : 'rgba(245,158,11,0.18)',
-        },
+        {borderColor, backgroundColor: bgColor},
       ]}>
       <Text style={styles.animal}>
         <Emoji>{animalEmoji}</Emoji>
@@ -215,6 +226,7 @@ export function FarmShareMode({
             animalEmoji={animalEmoji}
             foodEmoji={foodEmoji}
             count={count}
+            target={problem.target}
             poolEmpty={remaining <= 0}
             onAdd={() => addTo(i)}
             onRemove={() => removeFrom(i)}
