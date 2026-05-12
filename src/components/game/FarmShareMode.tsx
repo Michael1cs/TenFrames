@@ -34,6 +34,8 @@ interface FarmShareModeProps {
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
+type Density = 'roomy' | 'compact' | 'tiny';
+
 function Basket({
   animalEmoji,
   foodEmoji,
@@ -41,7 +43,7 @@ function Basket({
   target,
   poolEmpty,
   showOverflowHint,
-  compact,
+  density,
   onAdd,
   onRemove,
   colors,
@@ -52,13 +54,15 @@ function Basket({
   target: number;
   poolEmpty: boolean;
   showOverflowHint: boolean;
-  // True when ≥3 baskets are on screen — scales down internals so they
-  // all fit on one row without wrapping.
-  compact: boolean;
+  // roomy = 2 baskets, compact = 3, tiny = 4+ (stacks the animal over the
+  // + button vertically so each card stays narrow enough to fit on one row).
+  density: Density;
   onAdd: () => void;
   onRemove: () => void;
   colors: ThemeColors;
 }) {
+  const compact = density !== 'roomy';
+  const tiny = density === 'tiny';
   const scale = useSharedValue(1);
   useEffect(() => {
     scale.value = withSequence(
@@ -92,10 +96,16 @@ function Basket({
           style,
           {borderColor, backgroundColor: bgColor},
         ]}>
-        {/* Add (＋) sits at the top with the animal so it reads as "give
-            food to this one". */}
-        <View style={styles.basketHeader}>
-          <Text style={[styles.animal, compact && styles.animalCompact]}>
+        {/* Add (＋) sits with the animal at the top. At "tiny" density (4+
+            baskets) it stacks underneath the animal so each card is narrow
+            enough to fit on one row. */}
+        <View style={[styles.basketHeader, tiny && styles.basketHeaderTiny]}>
+          <Text
+            style={[
+              styles.animal,
+              compact && styles.animalCompact,
+              tiny && styles.animalTiny,
+            ]}>
             <Emoji>{animalEmoji}</Emoji>
           </Text>
           {!poolEmpty && (
@@ -104,21 +114,42 @@ function Basket({
               style={({pressed}) => [
                 styles.ctrlBtn,
                 compact && styles.ctrlBtnCompact,
+                tiny && styles.ctrlBtnTiny,
                 styles.addBtn,
                 {opacity: pressed ? 0.7 : 1},
               ]}>
-              <Text style={[styles.ctrlBtnText, compact && styles.ctrlBtnTextCompact]}>＋</Text>
+              <Text
+                style={[
+                  styles.ctrlBtnText,
+                  compact && styles.ctrlBtnTextCompact,
+                  tiny && styles.ctrlBtnTextTiny,
+                ]}>
+                ＋
+              </Text>
             </Pressable>
           )}
         </View>
-        <View style={styles.basketContents}>
+        <View style={[styles.basketContents, tiny && styles.basketContentsTiny]}>
           {Array.from({length: filled}).map((_, i) => (
-            <Text key={i} style={[styles.basketFood, compact && styles.basketFoodCompact]}>
+            <Text
+              key={i}
+              style={[
+                styles.basketFood,
+                compact && styles.basketFoodCompact,
+                tiny && styles.basketFoodTiny,
+              ]}>
               <Emoji>{foodEmoji}</Emoji>
             </Text>
           ))}
         </View>
-        <Text style={[styles.basketCount, compact && styles.basketCountCompact]}>{filled}</Text>
+        <Text
+          style={[
+            styles.basketCount,
+            compact && styles.basketCountCompact,
+            tiny && styles.basketCountTiny,
+          ]}>
+          {filled}
+        </Text>
       </Animated.View>
       {/* Remove (−) lives BELOW the basket so add and remove read as
           distinct gestures (give above, take below). Hidden when empty. */}
@@ -128,14 +159,27 @@ function Basket({
           style={({pressed}) => [
             styles.ctrlBtn,
             compact && styles.ctrlBtnCompact,
+            tiny && styles.ctrlBtnTiny,
             styles.removeBtnBelow,
             {opacity: pressed ? 0.7 : 1},
           ]}>
-          <Text style={[styles.ctrlBtnText, compact && styles.ctrlBtnTextCompact]}>−</Text>
+          <Text
+            style={[
+              styles.ctrlBtnText,
+              compact && styles.ctrlBtnTextCompact,
+              tiny && styles.ctrlBtnTextTiny,
+            ]}>
+            −
+          </Text>
         </Pressable>
       ) : (
-        // Reserve the space so the basket grid doesn't shift when − appears.
-        <View style={[styles.removeBtnSpacer, compact && styles.removeBtnSpacerCompact]} />
+        <View
+          style={[
+            styles.removeBtnSpacer,
+            compact && styles.removeBtnSpacerCompact,
+            tiny && styles.removeBtnSpacerTiny,
+          ]}
+        />
       )}
     </View>
   );
@@ -238,21 +282,25 @@ export function FarmShareMode({
 
       {/* Baskets — tap to add one from pool, tap a food item to take back */}
       <View style={styles.basketsRow}>
-        {baskets.map((count, i) => (
-          <Basket
-            key={i}
-            animalEmoji={animalEmoji}
-            foodEmoji={foodEmoji}
-            count={count}
-            target={problem.target}
-            poolEmpty={remaining <= 0}
-            showOverflowHint={showOverflowHint}
-            compact={baskets.length >= 3}
-            onAdd={() => addTo(i)}
-            onRemove={() => removeFrom(i)}
-            colors={colors}
-          />
-        ))}
+        {baskets.map((count, i) => {
+          const density: Density =
+            baskets.length >= 4 ? 'tiny' : baskets.length === 3 ? 'compact' : 'roomy';
+          return (
+            <Basket
+              key={i}
+              animalEmoji={animalEmoji}
+              foodEmoji={foodEmoji}
+              count={count}
+              target={problem.target}
+              poolEmpty={remaining <= 0}
+              showOverflowHint={showOverflowHint}
+              density={density}
+              onAdd={() => addTo(i)}
+              onRemove={() => removeFrom(i)}
+              colors={colors}
+            />
+          );
+        })}
       </View>
     </View>
   );
@@ -289,7 +337,7 @@ const styles = StyleSheet.create({
   },
   basketsRow: {
     flexDirection: 'row',
-    gap: 8,
+    gap: 6,
     justifyContent: 'center',
     alignItems: 'flex-start',
     // No wrap — for 3+ baskets the basket width shrinks via minWidth=0
@@ -303,9 +351,9 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   basket: {
-    paddingHorizontal: 8,
-    paddingVertical: 10,
-    borderRadius: 18,
+    paddingHorizontal: 6,
+    paddingVertical: 8,
+    borderRadius: 16,
     borderWidth: 3,
     alignItems: 'center',
     gap: 4,
@@ -316,11 +364,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
   },
+  basketHeaderTiny: {
+    // Stack vertically when 4+ baskets so the card stays narrow.
+    flexDirection: 'column',
+    gap: 2,
+  },
   animal: {
     fontSize: 38,
   },
   animalCompact: {
     fontSize: 26,
+  },
+  animalTiny: {
+    fontSize: 22,
   },
   ctrlBtn: {
     width: 44,
@@ -341,6 +397,11 @@ const styles = StyleSheet.create({
     height: 28,
     borderRadius: 9,
   },
+  ctrlBtnTiny: {
+    width: 28,
+    height: 24,
+    borderRadius: 8,
+  },
   addBtn: {
     backgroundColor: '#22C55E',
   },
@@ -355,6 +416,9 @@ const styles = StyleSheet.create({
   removeBtnSpacerCompact: {
     height: 28,
   },
+  removeBtnSpacerTiny: {
+    height: 24,
+  },
   ctrlBtnText: {
     fontSize: 26,
     fontWeight: '900',
@@ -365,6 +429,10 @@ const styles = StyleSheet.create({
   ctrlBtnTextCompact: {
     fontSize: 18,
     lineHeight: 22,
+  },
+  ctrlBtnTextTiny: {
+    fontSize: 15,
+    lineHeight: 18,
   },
   basketContents: {
     flexDirection: 'row',
@@ -381,6 +449,13 @@ const styles = StyleSheet.create({
   basketFoodCompact: {
     fontSize: 16,
   },
+  basketFoodTiny: {
+    fontSize: 14,
+  },
+  basketContentsTiny: {
+    maxWidth: 56,
+    minHeight: 22,
+  },
   basketEmpty: {
     fontSize: 28,
     color: 'rgba(255,255,255,0.4)',
@@ -396,5 +471,8 @@ const styles = StyleSheet.create({
   },
   basketCountCompact: {
     fontSize: 18,
+  },
+  basketCountTiny: {
+    fontSize: 15,
   },
 });
