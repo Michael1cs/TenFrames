@@ -645,11 +645,13 @@ export function AdventureLevelScreen({
     prevVoiceKey.current = null;
   }, [level]);
 
-  // Get world theme background
+  // Theme background — prefer the level's own theme override (Memory Garden
+  // varies per level for visual variety), else the world's theme.
   const world = ADVENTURE_WORLDS.find(w => w.id === level.worldId);
   const allThemes = getAllThemes();
+  const activeThemeId = level.theme ?? world?.theme;
   const worldTheme = allThemes.find(
-    (th: ThemeConfig) => th.id === world?.theme,
+    (th: ThemeConfig) => th.id === activeThemeId,
   );
   const bgImage = worldTheme?.backgroundPortrait;
   const themeColors = worldTheme?.colors ?? colors;

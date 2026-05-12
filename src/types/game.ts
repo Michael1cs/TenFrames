@@ -186,6 +186,10 @@ export interface AdventureLevel {
   modeLevel: number;
   problemCount: number;
   unlockCondition: UnlockCondition;
+  // Optional per-level theme override. When set, the level uses this theme's
+  // background + colors instead of the world's theme. Useful for "variety"
+  // worlds like Memory Garden where each level visits a different theme.
+  theme?: Theme;
 }
 
 export interface AdventureWorld {
