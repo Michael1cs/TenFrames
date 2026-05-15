@@ -16,7 +16,6 @@ import {
   generateCountingChallenge,
   generateMemoryChallenge,
   generatePuzzleNumber,
-  generateDivideProblem,
   generateShareProblem,
   ShareProblem,
   checkAnswer,
@@ -25,7 +24,6 @@ import {
 import {TenFrame} from '../game/TenFrame';
 import {NumberDisplay} from '../game/NumberDisplay';
 import {MemoryMode} from '../game/MemoryMode';
-import {DivideMode} from '../game/DivideMode';
 import {FarmShareMode} from '../game/FarmShareMode';
 import {useVoice, VOICE_GROUPS} from '../../hooks/useVoice';
 import {LevelCompleteScreen} from './LevelCompleteScreen';
@@ -190,8 +188,6 @@ export function AdventureLevelScreen({
       while (problems.length < problemCount && tries < 50) {
         const p = level.gameMode === 'puzzle'
           ? (() => { const n = generatePuzzleNumber(level.modeLevel); return {num1: n, num2: 10 - n, answer: 10}; })()
-          : level.gameMode === 'divide'
-          ? generateDivideProblem(level.modeLevel)
           : generateProblem(level.gameMode, level.modeLevel);
         const key = `${p.num1}-${p.num2}`;
         if (!seen.has(key) || tries > 30) {
@@ -241,18 +237,6 @@ export function AdventureLevelScreen({
       setCells(prefilled);
       setCurrentProblem(problem);
       setCountingChallenge(null);
-    } else if (level.gameMode === 'divide') {
-      const problem = pregenProblemsRef.current[problemIndex]
-        ?? generateDivideProblem(level.modeLevel);
-      // Pre-fill ALL `answer` cells in color1; child flips num2 of them to color2.
-      const prefilled = Array(10).fill('empty') as CellState[];
-      for (let i = 0; i < problem.answer; i++) {
-        prefilled[i] = 'color1';
-      }
-      setCells(prefilled);
-      setCurrentProblem(problem);
-      setCountingChallenge(null);
-      setMemoryChallenge(null);
     } else if (level.gameMode === 'share') {
       const sp = pregenShareRef.current[problemIndex]
         ?? generateShareProblem(level.modeLevel);
@@ -334,11 +318,6 @@ export function AdventureLevelScreen({
           } else if (currentState === 'empty') {
             newCells[index] = 'color1';
           }
-        } else if (level.gameMode === 'divide') {
-          // Toggle between the two colors; empty cells stay empty (outside split).
-          if (currentState === 'color1') newCells[index] = 'color2';
-          else if (currentState === 'color2') newCells[index] = 'color1';
-          else return prev;
         }
         return newCells;
       });
@@ -471,9 +450,9 @@ export function AdventureLevelScreen({
   handleSubmitRef.current = handleSubmit;
   useEffect(() => {
     if (finished || hasSubmitted || level.gameMode === 'memory') return;
-    // Divide/Share modes own their own match detection so skip the
+    // Share mode owns its own match detection so skip the
     // count-based auto-submit logic here.
-    if (level.gameMode === 'divide' || level.gameMode === 'share') return;
+    if (level.gameMode === 'share') return;
 
     const topFilled = cells.slice(0, 5).filter(c => c !== 'empty').length;
     const bottomFilled = cells.slice(5, 10).filter(c => c !== 'empty').length;
@@ -565,19 +544,6 @@ export function AdventureLevelScreen({
       // Announce the total, then either the rules intro (first problem) or
       // a "make it fair" nudge (later problems).
       const ids = [`num_${shareProblem.total}`, isFirst ? 'share_intro' : 'share_again'];
-      action = () => voiceRef.current.playSequence(ids, 400);
-    } else if (level.gameMode === 'divide' && currentProblem) {
-      const total = currentProblem.answer;
-      key = `dv-${problemIndex}-${total}`;
-      // First problem: announce the number, then the rules intro. Later
-      // problems: announce the number, then a random "split it again" nudge
-      // (rotating prompts so the level doesn't feel monotone).
-      const isFirst = problemIndex === 0;
-      const againIds = ['div_again', 'div_again_2', 'div_again_3', 'div_again_4'];
-      const followUp = isFirst
-        ? 'div_intro'
-        : againIds[Math.floor(Math.random() * againIds.length)];
-      const ids = [`num_${total}`, followUp];
       action = () => voiceRef.current.playSequence(ids, 400);
     } else if (currentProblem && themeId) {
       const mode = level.gameMode;
@@ -789,16 +755,6 @@ export function AdventureLevelScreen({
               />
             );
           })()
-        ) : level.gameMode === 'divide' ? (
-          <DivideMode
-            cells={cells}
-            onCellClick={handleCellPress}
-            currentProblem={currentProblem}
-            colors={themeColors}
-            emoji={worldTheme?.colors?.emojiColor1 ?? '🔵'}
-            tokenImage={worldTheme?.tokenImage}
-            onMatch={() => onRecordResult(attempts === 0)}
-          />
         ) : level.gameMode === 'memory' ? (
           memoryChallenge && (
             <MemoryMode

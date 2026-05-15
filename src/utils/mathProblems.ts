@@ -129,22 +129,6 @@ function generateSubtractionProblem(level: number): Problem {
 }
 
 /**
- * Decomposition problem: child sees `answer` cells in color1, must flip
- * some of them to color2 so the two groups make a valid split.
- * Each level has a small band of totals (±1 around level + 3) so the
- * 5 problems in a level aren't identical numbers.
- */
-export function generateDivideProblem(level: number): Problem {
-  const center = Math.min(10, Math.max(3, level + 3));
-  const lo = Math.max(3, center - 1);
-  const hi = Math.min(10, center + 1);
-  const total = lo + Math.floor(Math.random() * (hi - lo + 1));
-  const num2 = Math.floor(Math.random() * (total - 1)) + 1;
-  const num1 = total - num2;
-  return {num1, num2, answer: total};
-}
-
-/**
  * Fair-share problem: child shares `total` items equally between `buckets`
  * baskets so each basket gets `target = total / buckets`. Levels progress
  * from ÷2 with small totals (4, 6) up to ÷3 (6, 9) and ÷5 (10).
