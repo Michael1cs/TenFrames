@@ -5178,6 +5178,690 @@
       "sha1": "4d71b5ea9d5ee6154403708d5c5f542bece14352"
     },
     {
+      "path": "assets/audio/voice_ro_add_more_alien_1.mp3",
+      "sha1": "7e8a94961b6618d5a204ca9b78ac7f5703901ceb"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_alien_2.mp3",
+      "sha1": "2f4774c90a2b9e97ad09d9af328632f7ab184a8a"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_alien_3.mp3",
+      "sha1": "9844a1716f32b16c06d807c8a3a90f789b61ca5d"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_alien_4.mp3",
+      "sha1": "cdb72af61177e9b8b8a795b887b21ca7903d967c"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_alien_5.mp3",
+      "sha1": "03f7f6ba99137175968eef160efb980216f60e2e"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_alien_6.mp3",
+      "sha1": "aa6dd32f47b7bc2b8dc68d1f2bc0ad41e71ab58f"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_alien_7.mp3",
+      "sha1": "24300f78189639b6543ba293fb170c6256aef4c9"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_alien_8.mp3",
+      "sha1": "2841bbcace91d32bf4e08b86a3638c72b8d9085e"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_alien_9.mp3",
+      "sha1": "779137a14cd5fec0d095128733863223f1d95907"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_comet_1.mp3",
+      "sha1": "40dfd25521ebdcb1bf5f6add932f158e29cc4d15"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_comet_2.mp3",
+      "sha1": "3f8eedc7d8cebca4af590d940de6e0731fda2e51"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_comet_3.mp3",
+      "sha1": "84c3b2542e7bc1bd908d10522513cbbf2faded12"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_comet_4.mp3",
+      "sha1": "e499443aadee7f3cf975a3c921e7eeed723f55b8"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_comet_5.mp3",
+      "sha1": "eed1ce008918fb931ba18af8fb000673e1766191"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_comet_6.mp3",
+      "sha1": "daf1447e3364a41868ffc8176f942794dc1f898e"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_comet_7.mp3",
+      "sha1": "aae305d770e7841819e41460b072f89257982dd3"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_comet_8.mp3",
+      "sha1": "81c3919fc080c53aa68a45ef7bce2067f9f7d9b5"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_comet_9.mp3",
+      "sha1": "460f3f2b798ae1795bfce49dbd08f7d89dbb9f71"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_crab_1.mp3",
+      "sha1": "957ebc65a5df160e04de6588932273d69bd0b522"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_crab_2.mp3",
+      "sha1": "259b2003213d8907e673f3c880671af9c8273c9c"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_crab_3.mp3",
+      "sha1": "d02ab68f225aee991bd8fce292f2ada164834959"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_crab_4.mp3",
+      "sha1": "eb3d2e13a4cccbb80645a42ec143311ccdddfa88"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_crab_5.mp3",
+      "sha1": "fba7ffd715b1521c6cfc9f0343284c7ffdecdac3"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_crab_6.mp3",
+      "sha1": "ef36e1ac72177d052a095181299cc26aa0e8c378"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_crab_7.mp3",
+      "sha1": "d55f1c6c9c3681b19a3313eed4990a7294334404"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_crab_8.mp3",
+      "sha1": "13ce78d7c852fd974a5b0831b6b6cac8d31f5db2"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_crab_9.mp3",
+      "sha1": "757900a95075564b7cf677ff7bbaccbec6e5e9ff"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_dolphin_1.mp3",
+      "sha1": "70c1ba3ee05e58035282bb3ad5509cb679142bef"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_dolphin_2.mp3",
+      "sha1": "6a20bdd3dfb40bca6097a143fcfaafe9b8990fd4"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_dolphin_3.mp3",
+      "sha1": "b464092e748edaa2239a0df331a42e592d423a0c"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_dolphin_4.mp3",
+      "sha1": "6850d5b57938fb537c3588c73efee6add76f4aa9"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_dolphin_5.mp3",
+      "sha1": "14ec15bbd095280dec9d3288524340c7ea3e6f80"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_dolphin_6.mp3",
+      "sha1": "18797450c444e4f2f43c650be9192388fee40aaf"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_dolphin_7.mp3",
+      "sha1": "50786224b22250b3448f928dbe562defc9badbda"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_dolphin_8.mp3",
+      "sha1": "3ab83568c2aab08eea53d7beb6e8962ab87d8447"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_dolphin_9.mp3",
+      "sha1": "fbe46feb4aca7b34d4d0c404a57748eb92aa87d3"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_fish_1.mp3",
+      "sha1": "d58c64fcc7acfdc355679638094081f25868c0f1"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_fish_2.mp3",
+      "sha1": "1ae0dec387bdc8e680b21e568ea9670b1ec52506"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_fish_3.mp3",
+      "sha1": "e216e57291ceb81f19ed49b7188a865f4341971d"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_fish_4.mp3",
+      "sha1": "3088fed47d5368357d47ab6cf9664ddefc64d9b6"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_fish_5.mp3",
+      "sha1": "fc79eeebb748364d73a01e52e4589184c52af49e"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_fish_6.mp3",
+      "sha1": "ee81875a92e6f4f187c10704982f0318c3495a79"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_fish_7.mp3",
+      "sha1": "d1f99799ca92003982f8727038121c6d2e5a2c59"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_fish_8.mp3",
+      "sha1": "f6de4c754ce8b0a4ee89c07c6bbccd7da39302da"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_fish_9.mp3",
+      "sha1": "3cbdc1731faaf15793a004765486ebe84aa4f3f5"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_galaxy_1.mp3",
+      "sha1": "0503bdb2781c305b8619dbcf698276e8b3533de4"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_galaxy_2.mp3",
+      "sha1": "d16cfa057b09b8d2c904ed449824810a29aabdd7"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_galaxy_3.mp3",
+      "sha1": "754391f5ae3da5de65db5d91bbfaae68f38d68b0"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_galaxy_4.mp3",
+      "sha1": "ca19e5dc83d24f886b244c10f6587fa311524ddc"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_galaxy_5.mp3",
+      "sha1": "c5cf0424b7be4eb371e7a142e8a343415200f51e"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_galaxy_6.mp3",
+      "sha1": "ad7c924af37ff38a55a51c8c770625487a8c2abe"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_galaxy_7.mp3",
+      "sha1": "b4cda2bf57925f5114df6c518abc195e45092f7c"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_galaxy_8.mp3",
+      "sha1": "4fc85a059e32c6696bf597c83e1d6264c1632f52"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_galaxy_9.mp3",
+      "sha1": "29c5b35258bde650cf133f04869fbc55fe7884b4"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_island_1.mp3",
+      "sha1": "f2c6c852e6abb71dee111398a8d769b9a3147803"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_island_2.mp3",
+      "sha1": "c508db07daaff6a31f033f442d0ecce32a0fd235"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_island_3.mp3",
+      "sha1": "1d89da616d583b2ebe85178dc3ae5dd0468c4fee"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_island_4.mp3",
+      "sha1": "9b60c42680c7d53b85487cb31503c570e3c7d97b"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_island_5.mp3",
+      "sha1": "6d007a0360c2755f065f1149794389ca19d9a736"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_island_6.mp3",
+      "sha1": "47accc46082a5ff1eafcf04a5047f0e8638e60f5"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_island_7.mp3",
+      "sha1": "3ed983537f44e191331ab6fcc68bfda4f1dedef4"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_island_8.mp3",
+      "sha1": "a9d81e16bfdb6bab38f1199cf1de76cdd7f74f16"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_island_9.mp3",
+      "sha1": "050ca0f12a1901c573a4d4b50aca394d00e4ce2a"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_lobster_1.mp3",
+      "sha1": "1c368dd44eeb20a714793d85ddec3593d7396f4f"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_lobster_2.mp3",
+      "sha1": "1f9e086d4679eae2b331d23cd1c4f93d8bd01aff"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_lobster_3.mp3",
+      "sha1": "955d1eb70b38435c6a31d95e919a0fa2efb2e753"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_lobster_4.mp3",
+      "sha1": "279e7dac83f4efb1c2bae22e43ed0072cf486c22"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_lobster_5.mp3",
+      "sha1": "37dbac2f37baf6084ee2a094f5e61d8c05c69819"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_lobster_6.mp3",
+      "sha1": "2b4e925526ef3e9b333e3ba99f07dbf75ba5f9b3"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_lobster_7.mp3",
+      "sha1": "e58436880d7b075696a7b0d4fef5513a05d87854"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_lobster_8.mp3",
+      "sha1": "ff0e58c19fa976d7ea9721abc5316c7b284478e5"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_lobster_9.mp3",
+      "sha1": "125d383974949450b44a243d97f2dc4020f0c5ac"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_moon_1.mp3",
+      "sha1": "e4a946d09919cd29343ddf562c6e7d1911ad2b5c"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_moon_2.mp3",
+      "sha1": "cadc1aa496ff443b01a4c66609b06b3f70e3fe81"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_moon_3.mp3",
+      "sha1": "c805560ff9564bbfe99e11ef91c4ef9ba78562e9"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_moon_4.mp3",
+      "sha1": "873b28eee3149436fc75f155c868eb50c324a4ab"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_moon_5.mp3",
+      "sha1": "43e359d63832ad6009cf60dd0add1953bbd7f5a5"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_moon_6.mp3",
+      "sha1": "309bbb9e50039c4ef3d717ea9697e877e5dcef26"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_moon_7.mp3",
+      "sha1": "b6485a5787c9a1f0ae0a8a7c899f4ae7f1bba1a8"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_moon_8.mp3",
+      "sha1": "8b4e750380883301d6355f56f35c4f079eab05e0"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_moon_9.mp3",
+      "sha1": "e2f447a688ad30641ce1a0c6f386326a6f62fc7b"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_octopus_1.mp3",
+      "sha1": "adbd6273c59cb6adc0b4d57dad843020569c96f0"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_octopus_2.mp3",
+      "sha1": "eebeb36b0988b8e95aafeb5fb2b49fa997c9eacd"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_octopus_3.mp3",
+      "sha1": "cc3e03782b05ea67060d5099706a33d59a9f6367"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_octopus_4.mp3",
+      "sha1": "d7b0fabd8549838707cd93ea5c14ecc68c0ad2a7"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_octopus_5.mp3",
+      "sha1": "f389d2497bb8ea1be976b575b6e66eed64dadfea"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_octopus_6.mp3",
+      "sha1": "874569020f1f4126748439c6e64a95858d5590f8"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_octopus_7.mp3",
+      "sha1": "cb0f8e098a1c3a6ed75fea201618bb4f0852609f"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_octopus_8.mp3",
+      "sha1": "098b9137810a528dd03f67a341a95620819efcc1"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_octopus_9.mp3",
+      "sha1": "aa01ea50573ac45af1179a879d46f66c1cab51ff"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_planet_1.mp3",
+      "sha1": "4aea34f3bcfff76aa89ce2c8f2e04cb6e23b1d3d"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_planet_2.mp3",
+      "sha1": "b5a9e92a7e274cadd4e7b9b6190c5a4e835cba35"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_planet_3.mp3",
+      "sha1": "e629515e9c251f165dd76a4a162e1e5c125b1036"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_planet_4.mp3",
+      "sha1": "d6878a96121506f14450afaec0c3258f3b746efc"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_planet_5.mp3",
+      "sha1": "4eeebef4ab5ef3ada3b75b33105405c7b0e318d4"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_planet_6.mp3",
+      "sha1": "0ac09fcbf35972c0666ebc71725344871bb8afbf"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_planet_7.mp3",
+      "sha1": "095d844f01d8a5a4738b284ed0d1ea2e32824a26"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_planet_8.mp3",
+      "sha1": "0986a6053a19678bfb7dba1c41dbe3e4c1fc9a1e"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_planet_9.mp3",
+      "sha1": "39b08d9a39db5fae278daf688248bc03e9d2b09b"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_rocket_1.mp3",
+      "sha1": "e1b46b832a55ccf9b9a0c0272586d004b4f0cbc0"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_rocket_2.mp3",
+      "sha1": "89a99225798e667a5a66df2bd7fc6801d57dc666"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_rocket_3.mp3",
+      "sha1": "e7baf16c81fbc1d6b3c56f5ccfc2a71370d2c02a"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_rocket_4.mp3",
+      "sha1": "0099b50892caf920b7a82e5ea4723dd58ee9332a"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_rocket_5.mp3",
+      "sha1": "d0fbe9673bf83f3aa12455fd4f638da57019efe5"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_rocket_6.mp3",
+      "sha1": "d8156114c11a5bb01c4c52c4ab6c2c88b24dd055"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_rocket_7.mp3",
+      "sha1": "b8b81175cbd12e7a78f6ac20cf208be90da290d2"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_rocket_8.mp3",
+      "sha1": "18e10d3bd5c74e56dd0632dc953c5241af6301a4"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_rocket_9.mp3",
+      "sha1": "2c7693e029b855aba1defb4c9b0bbcc2c1c55fc5"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_shell_1.mp3",
+      "sha1": "f63e138ec941e700a97aa6c9b10743af50060ee3"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_shell_2.mp3",
+      "sha1": "5c476a91d0585785cd702835eda40443c962fcfe"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_shell_3.mp3",
+      "sha1": "03b20796306d40269424f29392672164c4a1bc2e"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_shell_4.mp3",
+      "sha1": "6486a2afee638c163b4dcabed422a2a09b703563"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_shell_5.mp3",
+      "sha1": "b39034bbc45effeb32de315f215822b35fdfbbe8"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_shell_6.mp3",
+      "sha1": "37975693a3e2100db5baa89b0b58ef22235cbab2"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_shell_7.mp3",
+      "sha1": "ced1b00c325b9de4d1e7c0c6eea899ff138ad3f6"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_shell_8.mp3",
+      "sha1": "d4a11cc2e4e26cb97857b99b64b53652d6cf06e8"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_shell_9.mp3",
+      "sha1": "4705ccbedcfe7b6eb92277e0b5e47a2db9ee60fc"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_squid_1.mp3",
+      "sha1": "e7a17042c9c5450ac7337182addaf0160a717bb3"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_squid_2.mp3",
+      "sha1": "f30ace5195d48fb92829208691e125f7c26597b7"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_squid_3.mp3",
+      "sha1": "887694be6f627e4d7b04a85fec916bd6e5b562e0"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_squid_4.mp3",
+      "sha1": "c7b004f688f4cea0115265649d6b4f86c319a09d"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_squid_5.mp3",
+      "sha1": "b590bf741694b7cb49ca770cdd3418b05d68b5a1"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_squid_6.mp3",
+      "sha1": "59d7ab062996f8c020215236b845ba1488e978eb"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_squid_7.mp3",
+      "sha1": "990f6668a46b81b959090c95968fa0fd2dd26677"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_squid_8.mp3",
+      "sha1": "a4728f665f27c279916bfe5fbd8951689f2b43f7"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_squid_9.mp3",
+      "sha1": "40fdc711c593635aeffa4ba7bdb347da8aca2244"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_star_1.mp3",
+      "sha1": "57da9cd9a0e514a0a4eccf26edbf35222d2f494a"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_star_2.mp3",
+      "sha1": "d0abc268f354380656742cbbaf11267dbdb0da5a"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_star_3.mp3",
+      "sha1": "a4039b9c69460f2fc659d35807f4f24a0a510c38"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_star_4.mp3",
+      "sha1": "16648d66074f3a7d8b1560bad7d6e3384da60964"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_star_5.mp3",
+      "sha1": "ab7418d16519b3268a2239c0f812f1ec337aab8a"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_star_6.mp3",
+      "sha1": "a010e8e8d054531aebf410e84a5277c8beae6d16"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_star_7.mp3",
+      "sha1": "999d7af6ebce2a96bc650521b88f1ce32a29a9fb"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_star_8.mp3",
+      "sha1": "e63606ea1e0c69bf81bb75c293c8689b6765cc3d"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_star_9.mp3",
+      "sha1": "e64a552288dfce485e60d7514b8a519c9a931d42"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_telescope_1.mp3",
+      "sha1": "4a137dacd37248ee2ef7fe561cd5c8e35d7dd089"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_telescope_2.mp3",
+      "sha1": "df7d84870da7e88d17f1fd677ba8321348e1a9f8"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_telescope_3.mp3",
+      "sha1": "a4a8b2a31d7aec4c465c4b16b05ea8e4b6cc7b43"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_telescope_4.mp3",
+      "sha1": "ff0de5c02d9b6e7f1b8c89c59ed0923064280828"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_telescope_5.mp3",
+      "sha1": "3f299699559b1aaaab73361f43aa365bee081a5a"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_telescope_6.mp3",
+      "sha1": "7a801379f5d916765ad231967a18afdd67a6ef1c"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_telescope_7.mp3",
+      "sha1": "bdf5bbe424b638a8da776de4784e626204d806b6"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_telescope_8.mp3",
+      "sha1": "03d8248040658b51e0637a542d7e1990d220fb0d"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_telescope_9.mp3",
+      "sha1": "75c54780062258e322f142f84daef390c3bb0fe1"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_trophy_1.mp3",
+      "sha1": "31e5b8ab79c90c33991642950bcc650109076a79"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_trophy_2.mp3",
+      "sha1": "33580be9e92aa8b31ddf555d6d7836cc3c4420ed"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_trophy_3.mp3",
+      "sha1": "244b18ef2b0522c3bbfe046e38c7e3b005882983"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_trophy_4.mp3",
+      "sha1": "f40a8bffc56158772096c7479378006ad4e0e2f2"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_trophy_5.mp3",
+      "sha1": "e3000dc62ff9b4fc81961f781b18d0e8af680827"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_trophy_6.mp3",
+      "sha1": "4e0de47f0acd8e75090ef3d99ce61c332178b108"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_trophy_7.mp3",
+      "sha1": "f0d7a40ca4b9a550e5d8d1a7e5c82cbd8ad199c9"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_trophy_8.mp3",
+      "sha1": "8d9142850a1f0065be133deb7e245d0f8ba43860"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_trophy_9.mp3",
+      "sha1": "a81046ae3b030ba98d87ecfee4c297b3e5f735c4"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_ufo_1.mp3",
+      "sha1": "1005ff6e56de6afc0d3b84e57c69c85754dfa726"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_ufo_2.mp3",
+      "sha1": "f751bd0532969c0d6078af73c809779ec2845646"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_ufo_3.mp3",
+      "sha1": "c935d8b6a11a9ce1c568055a9189764bccdd0e5b"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_ufo_4.mp3",
+      "sha1": "5b7c9ce14e4c7afa0deb7debff521260cdcce470"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_ufo_5.mp3",
+      "sha1": "f80d8b400c0f8dd28972af763636b7c76888c879"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_ufo_6.mp3",
+      "sha1": "d1ddc9e73473636f14f121629dfcf048b6f34c1d"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_ufo_7.mp3",
+      "sha1": "457451a50a73603d77c58976ad7f924970bc717d"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_ufo_8.mp3",
+      "sha1": "0aa8dd3d08b64be7bbbeb24b57aa2588d2249aee"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_ufo_9.mp3",
+      "sha1": "00949d7359a78a0081f7e21ab11bdb80d5555aca"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_whale_1.mp3",
+      "sha1": "c3c19cd1dceff37b78eba524107f672f4091ec96"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_whale_2.mp3",
+      "sha1": "26928f2000e14dd28fdf798e824347ee7cd88833"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_whale_3.mp3",
+      "sha1": "6ee7f54eca62155d41daacafcc7c14ab2d5f4e15"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_whale_4.mp3",
+      "sha1": "c8bdbb4bd26279276b5cc9925ee84079a39650b8"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_whale_5.mp3",
+      "sha1": "e463599db97faa0613805c8104565293d6e76899"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_whale_6.mp3",
+      "sha1": "b982749e80b6e46b7557db20982db555a6765cf4"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_whale_7.mp3",
+      "sha1": "12a5ec030e5955a4cdfeacf25abc3c9537b4f235"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_whale_8.mp3",
+      "sha1": "5e59ec7b9190540d0c8ab1d65979d100ce0bb1d7"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_more_whale_9.mp3",
+      "sha1": "8e29b0c6aa2a3d88e21a544d64deb9476b8e4126"
+    },
+    {
       "path": "assets/audio/voice_ro_ask_age.mp3",
       "sha1": "e2a1a3f6ea23f7702378163027770d3088371654"
     },
@@ -5216,6 +5900,26 @@
     {
       "path": "assets/audio/voice_ro_div_intro.mp3",
       "sha1": "0237a4c5a1bfb9b1266a72222cf1928918cf1b04"
+    },
+    {
+      "path": "assets/audio/voice_ro_doubles_1.mp3",
+      "sha1": "68ab82286ccc6e2c873279c7f81d6d9ddf14b05e"
+    },
+    {
+      "path": "assets/audio/voice_ro_doubles_2.mp3",
+      "sha1": "c967cf3580e901d351616f6150d80fea888652dd"
+    },
+    {
+      "path": "assets/audio/voice_ro_doubles_3.mp3",
+      "sha1": "56621859a307171fa122c75e61040c24d28cea66"
+    },
+    {
+      "path": "assets/audio/voice_ro_doubles_4.mp3",
+      "sha1": "b2dc4764dc40bf69f60c04eecf5e8e2f950137f7"
+    },
+    {
+      "path": "assets/audio/voice_ro_doubles_5.mp3",
+      "sha1": "dc2af04620736b52d0eefb480db1b894e3e1cfe7"
     },
     {
       "path": "assets/audio/voice_ro_fb_again_1.mp3",
@@ -5268,6 +5972,766 @@
     {
       "path": "assets/audio/voice_ro_fb_correct_8.mp3",
       "sha1": "381c6ccb19e5bddb6ed576b4cef48e9b2f9e02ec"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_alien_1.mp3",
+      "sha1": "ab76eb6622b119733a1166e4a44742e8ffe05063"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_alien_10.mp3",
+      "sha1": "6d5090144887a06bc3c2ec63a871852020ca7435"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_alien_2.mp3",
+      "sha1": "23da5788ab45e2d55cc512d416bbb83aea1e626d"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_alien_3.mp3",
+      "sha1": "8bcf4a15d1b2a8203fc442140f123cdf9e52d04b"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_alien_4.mp3",
+      "sha1": "921931d008f4375801a8461b9bc8124c1d2a6f19"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_alien_5.mp3",
+      "sha1": "418b7891fb8b6bedccb31b9c6c5c83bf60328031"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_alien_6.mp3",
+      "sha1": "a436d9e4dca0e5ac9b0d65ffd14453ddc6f321d5"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_alien_7.mp3",
+      "sha1": "9deaa62e34fc3c387416551ad168c8aed06d5f42"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_alien_8.mp3",
+      "sha1": "c8e9b7e880ec8413e44c50239dca34c5685a0746"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_alien_9.mp3",
+      "sha1": "d409555efb5c83ebbb388b08621f2c8a0714d342"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_comet_1.mp3",
+      "sha1": "27cfac2f1409c130efe6ab7bd6c365f8a914e5e7"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_comet_10.mp3",
+      "sha1": "d40388885a3caa69a576f5d747106b712c59b2a1"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_comet_2.mp3",
+      "sha1": "a739e882f6bd07624d53fce4cbbbe4db2c541def"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_comet_3.mp3",
+      "sha1": "c3f1d19b16d681e40a67fb371477046cd2c01333"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_comet_4.mp3",
+      "sha1": "bd54d47dcfbd5dda1ed4c4a63d71f3f118d17fa3"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_comet_5.mp3",
+      "sha1": "6268e1b42d84d4a36544b6b555f83f2085b8c886"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_comet_6.mp3",
+      "sha1": "8ed54a64f9da06b4cdcf55f5080bd8e875abc755"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_comet_7.mp3",
+      "sha1": "1bb9c40ac668e02e139c662c1da89551b0c358c9"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_comet_8.mp3",
+      "sha1": "f7411a491bb2560b691d130afcecf3cd6e80ffa8"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_comet_9.mp3",
+      "sha1": "02901b9a0d602cd575cc63b02489219ffff698fb"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_crab_1.mp3",
+      "sha1": "c7b1fd8efdb39162e756b16a2e575e730d0376f7"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_crab_10.mp3",
+      "sha1": "2e357413d3879092a35007ad6468ffaed8ea0cdf"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_crab_2.mp3",
+      "sha1": "ecd71cce2be34acc196c93b3d07c0704735f09fb"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_crab_3.mp3",
+      "sha1": "76507f68a4baec8913795f2a10ea68dbd33ac2b0"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_crab_4.mp3",
+      "sha1": "c4a8c3efcad6e1a76bace36fcd838a9de3f3a088"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_crab_5.mp3",
+      "sha1": "a7a239cae3d878568f78c831bfacbc298f46cce6"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_crab_6.mp3",
+      "sha1": "fb9ef2284ecff65b4bf7d2912b6f8a06d62ca278"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_crab_7.mp3",
+      "sha1": "d2ca1353887dcde657ff86a688770cecf61356dc"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_crab_8.mp3",
+      "sha1": "944cde89a93d74303d764f06d0bf783b5c07dcca"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_crab_9.mp3",
+      "sha1": "3f50d3ff3a622661ed4fe5a3bc855f2518680423"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_dolphin_1.mp3",
+      "sha1": "b008e8c56caac51991328db2fb48a05847bacee5"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_dolphin_10.mp3",
+      "sha1": "9bcff80f8a951be0fa249771858784cbb79da0c5"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_dolphin_2.mp3",
+      "sha1": "a4aa77a8d4aa856387fb6e4fc0357a8ebff5eb16"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_dolphin_3.mp3",
+      "sha1": "fe7823820c8a20c01ef1f647709171f7da8e16b4"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_dolphin_4.mp3",
+      "sha1": "f1bf062c814787972f19509fc49dd35842e3c9d7"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_dolphin_5.mp3",
+      "sha1": "143fa96d99a5d5347178d51545995286d145e1f8"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_dolphin_6.mp3",
+      "sha1": "0d8a37dd4837aba6770d00f5e15627ad5b57ebc4"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_dolphin_7.mp3",
+      "sha1": "8d55afd7b9d4cd01981d3ed16af4417713cfe7dd"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_dolphin_8.mp3",
+      "sha1": "993df8368c15bb4964bfb473d8427cfc518fc633"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_dolphin_9.mp3",
+      "sha1": "8d8be25c4fb166c038df1687fc0e85200403ff96"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_fish_1.mp3",
+      "sha1": "f6cd6c0c7ae3288ec78710f51d3141f2b956e629"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_fish_10.mp3",
+      "sha1": "5c19f44be12a0df8d36b9d5bf5ae22942e9921cd"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_fish_2.mp3",
+      "sha1": "e8e64d45fbf5e89ded7d21d5b66ddb1ec9bd2e1b"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_fish_3.mp3",
+      "sha1": "12001539063ff96bd86da206cdf7115815c47420"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_fish_4.mp3",
+      "sha1": "e2f888f51b776bd2454aa54fcb157e05963d17ef"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_fish_5.mp3",
+      "sha1": "10106d139b901db6187deb2d803bc2f039af9e86"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_fish_6.mp3",
+      "sha1": "b89052735c32c0862b8aa550b2a04428f98be9c8"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_fish_7.mp3",
+      "sha1": "299a67de8d51f6960d8261a25b6f7816a6618b3c"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_fish_8.mp3",
+      "sha1": "dd0b9823144f5bfa071a004f88a47cbac4e4e102"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_fish_9.mp3",
+      "sha1": "d8334cb4a2c62b1950e78439fe5a8ede9440280b"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_galaxy_1.mp3",
+      "sha1": "114dc207110cfb1d7f31fb51481b9ef679425c28"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_galaxy_10.mp3",
+      "sha1": "1165d4b56cc76a1f8995849d32662f3a0ecc2e8a"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_galaxy_2.mp3",
+      "sha1": "7dc379ed0d1c65757f912546c1b2043d1aac7224"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_galaxy_3.mp3",
+      "sha1": "2667d495f7bd49eb459f5c67d7d1ba1f3ab1b3d5"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_galaxy_4.mp3",
+      "sha1": "cefebb762d0e2e49f3e7d63022c9d0c1ed402774"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_galaxy_5.mp3",
+      "sha1": "d688f7e7c1e80d0593c0a4b604e97ad194ee6dde"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_galaxy_6.mp3",
+      "sha1": "ec21fc6e10de498b46b4be75ffaedd47a0c5cfd1"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_galaxy_7.mp3",
+      "sha1": "2b6a4d07c5c0d9f0ab2383776d7bfc3cc090e58c"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_galaxy_8.mp3",
+      "sha1": "39e8e0d8aafdff0902440aa3b091deda53fd39f6"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_galaxy_9.mp3",
+      "sha1": "7c63848b9c3a21c44cf3de574d26e70dcaca6ccf"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_island_1.mp3",
+      "sha1": "b0ec65b6e0e0a791f44d6d4aca119474130193b2"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_island_10.mp3",
+      "sha1": "96b21bccae38b11f3c5aaa02bfc5e4f7e8bbccc8"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_island_2.mp3",
+      "sha1": "fa0adba4fec632a3799823d0d3ff9e768fda4c87"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_island_3.mp3",
+      "sha1": "eed30f5d4368f16bc3983759c0a7226cfcd08c95"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_island_4.mp3",
+      "sha1": "ac0c2566b0f000e7e21203447230333d6f9e0a46"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_island_5.mp3",
+      "sha1": "2501bf6f0489543354f42d2646b9f5ae913752ed"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_island_6.mp3",
+      "sha1": "3e16e0d370efd7c58974faabb6289f6cefb7016d"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_island_7.mp3",
+      "sha1": "ab8425258df0c42dcdb755a69c1ef9c739f86aac"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_island_8.mp3",
+      "sha1": "e661bdaa1c947264ed9b8ea0612da9f940f3b851"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_island_9.mp3",
+      "sha1": "79e86bc5d45bec1ad92247181ecdc4a81bc13d61"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_lobster_1.mp3",
+      "sha1": "08b8f119ef261be53a8ea3fc6a4e1f9fedeaf309"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_lobster_10.mp3",
+      "sha1": "7436359f338e3aa5282342356e5398a4442aabb7"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_lobster_2.mp3",
+      "sha1": "d0a74b0dc067010a6ca4c80b444cbe164449bb2d"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_lobster_3.mp3",
+      "sha1": "23f843f49e0a5a515407696bb9b2603c7dfba858"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_lobster_4.mp3",
+      "sha1": "a1bce5c1b9080714efa25fdc147a817fe9cc78b6"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_lobster_5.mp3",
+      "sha1": "41983ccde283a04d3c3f7d1806a71ce13be1fcc6"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_lobster_6.mp3",
+      "sha1": "32fd533ec8fa557455fe961250aad4ac6e0b1ec9"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_lobster_7.mp3",
+      "sha1": "5e52e5c9190d787f9ce98bb02d4ed8374f0dfa4e"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_lobster_8.mp3",
+      "sha1": "adff547bd53cd535c54414f18084e7b073dc7bb8"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_lobster_9.mp3",
+      "sha1": "6f6b2d34febcee706694545740d80169826e08ee"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_moon_1.mp3",
+      "sha1": "721a3c64734d22077faa4f5933d553cd0eedda06"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_moon_10.mp3",
+      "sha1": "598b5d4020bf14c9b34c34cedc154badeed56f5a"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_moon_2.mp3",
+      "sha1": "75ba4b1e89acb68f309c5634d5b9e9f3155bf813"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_moon_3.mp3",
+      "sha1": "d62a5412701695b132274f7a8f019b65a5fa9763"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_moon_4.mp3",
+      "sha1": "62caea7bbe4ccc343fa7523e3535a306fa94a08d"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_moon_5.mp3",
+      "sha1": "bae0f5f284698459df5f2521c36814f5e9cf98ae"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_moon_6.mp3",
+      "sha1": "07a5edd63df64312b2f296283ab3d4c295b7ae73"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_moon_7.mp3",
+      "sha1": "e9befae8bd3d9f24d464d3cecf332463df2c25cd"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_moon_8.mp3",
+      "sha1": "4a29380f40585cde7da3a4034c3fd142d830c3aa"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_moon_9.mp3",
+      "sha1": "4ad147a299dfe9d5cac568969f68805e061891a0"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_octopus_1.mp3",
+      "sha1": "77db4dedaae035f21fbeaac2b96ed2fb2df78ede"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_octopus_10.mp3",
+      "sha1": "bbcd28b21ade93a4df7e66370bed36b653f688ce"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_octopus_2.mp3",
+      "sha1": "20396e3633e31d7b21a02b7e1be67b0d77c0be87"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_octopus_3.mp3",
+      "sha1": "f1db20dc0e64edc09a51c2e407795f86c0894285"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_octopus_4.mp3",
+      "sha1": "c004f140c99435e8069340d5e5fcc4c1b6a01d12"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_octopus_5.mp3",
+      "sha1": "2e366afd75c73b8a4d7a09c9f13f0f853f6bc822"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_octopus_6.mp3",
+      "sha1": "3e200e5269485a246625d828cb232eef935fe618"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_octopus_7.mp3",
+      "sha1": "37200470d3a01c26dd2d16b18a485e1df0f51010"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_octopus_8.mp3",
+      "sha1": "1a74579e94c02617828d6156c29055c7bf4dd74c"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_octopus_9.mp3",
+      "sha1": "55257cbbaacab570f6822849feebdc3aff3accb0"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_planet_1.mp3",
+      "sha1": "79ffaa13327145e0de65126d0984871964b778b2"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_planet_10.mp3",
+      "sha1": "067952daf372c5a51160d58ba2c6bc68b344bc85"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_planet_2.mp3",
+      "sha1": "4dfb9e9387874b9d091b431b3f23bfabdcfe4fc1"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_planet_3.mp3",
+      "sha1": "5779ece277b7a9965c6a23111a0973462f893901"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_planet_4.mp3",
+      "sha1": "97fb54d67994fb7599f498941913ff7cf9152103"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_planet_5.mp3",
+      "sha1": "1552b5cfa667b2b31f4ccb242c64829535ea3a97"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_planet_6.mp3",
+      "sha1": "a086bff8e57770a216d2a2d6b4571ec58a636db0"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_planet_7.mp3",
+      "sha1": "453b23a7770b35e8cfb0b3b2304d0ae9d00caaff"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_planet_8.mp3",
+      "sha1": "141f3eb9f18a622e831c7279ef24461259ee7044"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_planet_9.mp3",
+      "sha1": "79fea62017e6d281f3fc3cda52ca6055dfa8981f"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_rocket_1.mp3",
+      "sha1": "03d9fe7720d2d0c5dc8bf3b4d75e4032d76b22bc"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_rocket_10.mp3",
+      "sha1": "5920cfb9c4cf2c5d836a5e3edcc1d7b81b037c48"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_rocket_2.mp3",
+      "sha1": "d70c092f27b917ef94ce726fe6d4c0b6d9de50ec"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_rocket_3.mp3",
+      "sha1": "19289bb565f1cdd7aec277b2e27b852a3cc679bd"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_rocket_4.mp3",
+      "sha1": "2477bcbada4d49cd7869df2723448c111a967511"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_rocket_5.mp3",
+      "sha1": "f416ace68352fc3cd70788cb726200cdcd0cbfe0"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_rocket_6.mp3",
+      "sha1": "1b46710796b954e6da5c9b71d99d4db9835ed309"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_rocket_7.mp3",
+      "sha1": "d5f62cb90cd40ea54231af1f09f8c1ce5d2a1393"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_rocket_8.mp3",
+      "sha1": "681383b2099355048fc30ae6b02a1622631bd9ba"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_rocket_9.mp3",
+      "sha1": "380e6d33b55e462260bbcd51d1fc8210667b3405"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_shell_1.mp3",
+      "sha1": "aedb8df9bddaa38a1d33be67ea3fc9f9498d416b"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_shell_10.mp3",
+      "sha1": "9a6025dfaafcfddbcbc696c7f1fe2c8cef215091"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_shell_2.mp3",
+      "sha1": "9c7817c2ed32a693ffeb7c0cfddbc8db53d52ae0"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_shell_3.mp3",
+      "sha1": "5f2705618205368fd0bb7268ca832069eaecc3e4"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_shell_4.mp3",
+      "sha1": "80d9a2b4cca2d94b0cbcc45674a790fc9ede0241"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_shell_5.mp3",
+      "sha1": "d42a7012c8d25b2f3e5353b6bd9d93165e2cfd02"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_shell_6.mp3",
+      "sha1": "db62d4b11a94a8ed6b4b00f7f71139ad1a59cefc"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_shell_7.mp3",
+      "sha1": "a3ae7dc309878025e7fcb1348c63acdf4b3581df"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_shell_8.mp3",
+      "sha1": "7141136e3072046b92ae4d3da478d47399fe39b0"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_shell_9.mp3",
+      "sha1": "66410042d4fdbb0eca62f975ff89af1880103e2a"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_squid_1.mp3",
+      "sha1": "3069fd8baf140fbadaeb18e1becb1b46b2d4e767"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_squid_10.mp3",
+      "sha1": "6b9e5ffa555a33baf7831a34b546b3b69cee83f2"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_squid_2.mp3",
+      "sha1": "e4ca123eabfcdc4095c88b2a56bb8df164c9af46"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_squid_3.mp3",
+      "sha1": "652c718a18efc3699f0aa9990d14c00c9dc00c6c"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_squid_4.mp3",
+      "sha1": "fc2109852c82dca7f47eb3befc2f4100af4c86e1"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_squid_5.mp3",
+      "sha1": "697ad0c6f93238a64e7a3d51779a40c7569066b0"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_squid_6.mp3",
+      "sha1": "626ed453dafa0300d47255f72f0620fcf66a8210"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_squid_7.mp3",
+      "sha1": "a9049f7e63980bda5cad1d727167207f23722bf0"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_squid_8.mp3",
+      "sha1": "2c6cfb03e8256978821cf93970ab2b67e3198f23"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_squid_9.mp3",
+      "sha1": "ea650dbfed1bb3d98a493037d0ac8b9106e46196"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_star_1.mp3",
+      "sha1": "94b7ec5e84623f2d930d237005a97ea4286bc111"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_star_10.mp3",
+      "sha1": "a7f819b330d320b972bb23ba7bdf2bd61127822b"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_star_2.mp3",
+      "sha1": "89ccac6362b4b8976553ef49000fa730cb77cc6c"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_star_3.mp3",
+      "sha1": "a15b98e8c97e2481a384db128255faba3b1cd8f5"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_star_4.mp3",
+      "sha1": "3bf6220336fccd83c1b32d4f403ec183bdc3e898"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_star_5.mp3",
+      "sha1": "c570718e9e455b590a0cf06d8e006decb226e861"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_star_6.mp3",
+      "sha1": "c8723c491285fce1c36b86589761c73bd8ac5480"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_star_7.mp3",
+      "sha1": "53ad733db23bf4da7deda226f1d3213cc1a4fea7"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_star_8.mp3",
+      "sha1": "2086765ddcfbd26e6dc15560832ffd50d75f6840"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_star_9.mp3",
+      "sha1": "4be886b07e4f0e0c73dde84340af0fe224220804"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_telescope_1.mp3",
+      "sha1": "da437f28839a542e987970be0226b7546f97db03"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_telescope_10.mp3",
+      "sha1": "6f31e327863c81bbee2f6df5cde737c2ee918401"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_telescope_2.mp3",
+      "sha1": "1df963fe00e3f267fbd31226438e93e50ee31ea2"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_telescope_3.mp3",
+      "sha1": "425a522f95a870494bf424a9ba14eb14cbd41b45"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_telescope_4.mp3",
+      "sha1": "aab7d531c31168c0458103d03c88c4fa0d74c7f1"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_telescope_5.mp3",
+      "sha1": "9ae54f58148c1f56be60d7cc5e6f2eb9036933e4"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_telescope_6.mp3",
+      "sha1": "368654523054d4b3f6b21a5b4674a31d53729939"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_telescope_7.mp3",
+      "sha1": "3c4173afe96b52fde323142f02caf6e2387bef66"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_telescope_8.mp3",
+      "sha1": "4ccd9652d0fba793515bd6d3bcefb27800093ea5"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_telescope_9.mp3",
+      "sha1": "45f6b8fca0d6b8fb08e296fe510c477abe5fbf93"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_trophy_1.mp3",
+      "sha1": "7349c3547d0687e237d1410b68de88927e7e663b"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_trophy_10.mp3",
+      "sha1": "701e12f5fd60f1f17b91d4ee1be342562a089e69"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_trophy_2.mp3",
+      "sha1": "0da3175a9ab8cb07892b057ec1cf7b939482a2b9"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_trophy_3.mp3",
+      "sha1": "853b505d4e01bfb0719363290fb37c5eb49f0641"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_trophy_4.mp3",
+      "sha1": "bc0d5ab11d8f16a12e31bde1b5f72b2020cb7315"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_trophy_5.mp3",
+      "sha1": "eaa8f1ad8c2e036139ed30f476e521d72bbd5580"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_trophy_6.mp3",
+      "sha1": "79952dc7c6684cb72d8d5023f6d4790edc729241"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_trophy_7.mp3",
+      "sha1": "c02c98bd50c7686ceb047cc6a2409c15b34d4936"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_trophy_8.mp3",
+      "sha1": "626a1ff05774e52b43c31b1682e28dcb0564d4fe"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_trophy_9.mp3",
+      "sha1": "c6fe9f0970f969bd566f7f7546acd10dde2c28c5"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_ufo_1.mp3",
+      "sha1": "2c65cbf0a0e7e10457c9b0f97233d061d61c1403"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_ufo_10.mp3",
+      "sha1": "1c00a6c1ad7dcd946f4e7c3344144be13be2f547"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_ufo_2.mp3",
+      "sha1": "77f803d9d66708e14e4d2ab168b57101e46d9f6e"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_ufo_3.mp3",
+      "sha1": "cef6b3435aaad7250b299d273ad432dbb4b831a1"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_ufo_4.mp3",
+      "sha1": "dbc9000a1d1ff7200bb97249e3c2561752e7c73c"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_ufo_5.mp3",
+      "sha1": "0f0502557aa8f189a54aed6f23da642da11581a9"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_ufo_6.mp3",
+      "sha1": "2c8c99e2ddc46fd9bf686a771209dd2cfa697b73"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_ufo_7.mp3",
+      "sha1": "b280a0fbab587def8a6d936a6be049374f2c1f10"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_ufo_8.mp3",
+      "sha1": "7e80ac87819c0043c4eff30ba2d039128ae43afe"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_ufo_9.mp3",
+      "sha1": "5383233f5027c339462e95a1d53e54f5a18f243e"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_whale_1.mp3",
+      "sha1": "6f8cb1f3c95e1b53f752f4f24a1e735f830b0af7"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_whale_10.mp3",
+      "sha1": "5aa4b30cacbacd86f9dd8380ac2b8c2efdeac170"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_whale_2.mp3",
+      "sha1": "b9749c6f1039c8df80b7d77b5360ef93ae056f49"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_whale_3.mp3",
+      "sha1": "b44112e3ab8e500d0eb1034c558ae7b525907dcc"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_whale_4.mp3",
+      "sha1": "2a547d42dc599bb379844fdeff5086d4d20d99ac"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_whale_5.mp3",
+      "sha1": "9c06e19b21004054a1fc0adcb39295deedc2ff9e"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_whale_6.mp3",
+      "sha1": "6393eb16661f2cf46a1128a5c43458044681d87e"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_whale_7.mp3",
+      "sha1": "d80b99bfdb137bb78c5cefce31b30f1a2b666f08"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_whale_8.mp3",
+      "sha1": "f7f710b8292d471bf988f317b7e2b57677444eb2"
+    },
+    {
+      "path": "assets/audio/voice_ro_have_whale_9.mp3",
+      "sha1": "2c56779098b5f234146f76dfe92b7c83a7dbd690"
     },
     {
       "path": "assets/audio/voice_ro_instr_add_candy_1.mp3",
@@ -6218,6 +7682,86 @@
       "sha1": "ac263c8668034476ea112d72804b12421c99a167"
     },
     {
+      "path": "assets/audio/voice_ro_post_great_alien_1.mp3",
+      "sha1": "25fbb70f3471793a01f95c6d9227a08ccee0b929"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_alien_10.mp3",
+      "sha1": "1aac4d670f137e23f725bdc34b514b3c3ad69d23"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_alien_2.mp3",
+      "sha1": "a0affb5a630c621f83ef1b9fe7070b8023092323"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_alien_3.mp3",
+      "sha1": "55509a57335bcf7a55f63d40d61f2f08343b9230"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_alien_4.mp3",
+      "sha1": "8e659bc57094f88ade0a1a6bdacb8a9320cbd062"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_alien_5.mp3",
+      "sha1": "55b284a555da75d9a5ed590798c6174bab9c869b"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_alien_6.mp3",
+      "sha1": "1036f77514bff7a9055f4d16bf90c699c8ae6b05"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_alien_7.mp3",
+      "sha1": "b2b2d8e099b6297a98ff04cff4b0464c8cef903b"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_alien_8.mp3",
+      "sha1": "bad0c6629071ab04eb456517e57b080d540356cb"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_alien_9.mp3",
+      "sha1": "c3da2bdb01ee0d4c7eaefb841055f0bb1f85b9d6"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_butterfly_1.mp3",
+      "sha1": "d648082b90090be4d209f0c2a28c8bf39a66660c"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_butterfly_10.mp3",
+      "sha1": "38e8ba9dea34316781c6d8437b6f1fb1256b567b"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_butterfly_2.mp3",
+      "sha1": "e8d0a8756a46d82501c17dda815f8b06542035a2"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_butterfly_3.mp3",
+      "sha1": "02cf3717691965b840024fab39008f269841b1fc"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_butterfly_4.mp3",
+      "sha1": "e02d9ebc715344a988d49d0eaa919dbc3d518073"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_butterfly_5.mp3",
+      "sha1": "be247d3c2b8c67819b501be74f53fbaa017b8f29"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_butterfly_6.mp3",
+      "sha1": "70e1f0ad5a5cca2fe7425744ec1082cade8079e0"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_butterfly_7.mp3",
+      "sha1": "29ecd3c1da928fa592f8ffe262d276c80ad6baa1"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_butterfly_8.mp3",
+      "sha1": "9253c5437cd25c0198010c2ddde472773e2035ab"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_butterfly_9.mp3",
+      "sha1": "cd0221a07ded5647cf10ec4041278509da146fb2"
+    },
+    {
       "path": "assets/audio/voice_ro_post_great_candy_1.mp3",
       "sha1": "688f47eb66d325be7d9787916dc3b076f9fdd653"
     },
@@ -6236,6 +7780,206 @@
     {
       "path": "assets/audio/voice_ro_post_great_candy_5.mp3",
       "sha1": "472413cba4f1d9a9a91ace76a3d1a4fb56d4f606"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_caterpillar_1.mp3",
+      "sha1": "1d2fa0efa72ba22ca0ea76b82cf4615c69f147c8"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_caterpillar_10.mp3",
+      "sha1": "39287ea8b0d3c700caae9b15f5b6f2ccf009e8bf"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_caterpillar_2.mp3",
+      "sha1": "cbb293663418877ca3920dd098713efc2b8e8ed5"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_caterpillar_3.mp3",
+      "sha1": "4d135ca9995ca2fb4aa66c6ae11cccc8afe3652d"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_caterpillar_4.mp3",
+      "sha1": "74ac37326a553378c9b51437a633eb966b33872a"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_caterpillar_5.mp3",
+      "sha1": "29bf91aadd1402c8c4f643658b29ad360073658a"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_caterpillar_6.mp3",
+      "sha1": "c34d1d6ecaf4737453c1bcebc7a22f142e8c519b"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_caterpillar_7.mp3",
+      "sha1": "2c167dc3f4c555149886154fe64a84973279c536"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_caterpillar_8.mp3",
+      "sha1": "6212b8e2c045ccf61de87862390c2e9477d2e065"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_caterpillar_9.mp3",
+      "sha1": "81af8d2598481faeee1c0a25f88fa26c3cc71df3"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_comet_1.mp3",
+      "sha1": "cd54f38f60d1dac20dddb6c6f9396b883c0c5ad6"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_comet_10.mp3",
+      "sha1": "40e68921d437289ff6768df7e1afdee0e62b21f5"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_comet_2.mp3",
+      "sha1": "8afa2b621e64c2e361678db7436abb7d0cfd2aa1"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_comet_3.mp3",
+      "sha1": "bb67c588560cfe4095e3ad14f0abbd99f707b805"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_comet_4.mp3",
+      "sha1": "a94d9e6428bbbea9ef407d3f7fa02ce68d4c1eff"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_comet_5.mp3",
+      "sha1": "3726dcb79536471eb0c57c62551d2e846abc3604"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_comet_6.mp3",
+      "sha1": "de38c7caf1627155a2984d6883cd69cbbd9bed9d"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_comet_7.mp3",
+      "sha1": "7d6b8b3132447458163c5565638e1eedee52607e"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_comet_8.mp3",
+      "sha1": "1d6dabbedb2b2ec9d990261e4d4f7d5dbbfd938e"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_comet_9.mp3",
+      "sha1": "c96e10fd791deed266c9215b6ef8f03f1e7086d1"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crab_1.mp3",
+      "sha1": "c8ce3a36fd8eb9e2724f3e3b3b4ffd9c6c06f396"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crab_10.mp3",
+      "sha1": "e3bf233f1b21b5d99df461bb98172f8a189c0363"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crab_2.mp3",
+      "sha1": "71a5d338b2275c750c17e0bb352ef0c0805189cd"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crab_3.mp3",
+      "sha1": "4e9c03bededee7f203765f14060a14fbb04fe2c6"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crab_4.mp3",
+      "sha1": "0aa7ad0ee73f9b64344cd74c132f99360ccabb87"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crab_5.mp3",
+      "sha1": "bb4d3d7259d9795e14b92aa115cf842a7d2bcd44"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crab_6.mp3",
+      "sha1": "b1ba59ae9bdcb789a2517df1358d84fbf05dd7b9"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crab_7.mp3",
+      "sha1": "e5c12381a5fa72a34c3993a5087e47723e6fb8e0"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crab_8.mp3",
+      "sha1": "9d3d9ec9d3c4f38cceff7b3b52b8c09924a27662"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crab_9.mp3",
+      "sha1": "ffe9fde55f35b49def242ff672c3fa8fb372e004"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crown_1.mp3",
+      "sha1": "392db12000cea96c94ce550451538515a5eaefa0"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crown_10.mp3",
+      "sha1": "2f032280c818cdfa5a527e17ddf55e5eae8571f5"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crown_2.mp3",
+      "sha1": "d0bda13c6d9ef10baa3fdf0c0a35f82ef757df58"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crown_3.mp3",
+      "sha1": "18b622455c124e153440c0339c4a0b8a3f435dfb"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crown_4.mp3",
+      "sha1": "bc0245521a1d5526064c5f6d0209fe3e88e58665"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crown_5.mp3",
+      "sha1": "be24b77494e630b57ff277b28429036573ce2ca1"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crown_6.mp3",
+      "sha1": "33538d97a2eb1a0bdae5b857623b6e787201602a"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crown_7.mp3",
+      "sha1": "c6c83821953b5c15db1adf0f9ec244563854be87"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crown_8.mp3",
+      "sha1": "13bb895268c022c5c1b44c298b23a2f42738bc92"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_crown_9.mp3",
+      "sha1": "9725e53689ff7b731a13e6e1cf43def487d420b8"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_dolphin_1.mp3",
+      "sha1": "35777c6a0f0e87ff07547ecf260efa2d0bff1ff4"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_dolphin_10.mp3",
+      "sha1": "3de3447b0e2a5c486608e8f81cf1aa6120680254"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_dolphin_2.mp3",
+      "sha1": "7a528f2041e25e9242eab0a62b846ba261c6331a"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_dolphin_3.mp3",
+      "sha1": "e6e4309614714c627486efbc3b269d38a9370765"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_dolphin_4.mp3",
+      "sha1": "a120281c04a1dd1b4d0188f58127ab8b524595d6"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_dolphin_5.mp3",
+      "sha1": "4cb96d86ce2d08adc821effb2f8bb29c8e14ebe3"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_dolphin_6.mp3",
+      "sha1": "46df12100cb123bb38829e081f1cb75926b4a040"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_dolphin_7.mp3",
+      "sha1": "995595eedae45e4060d0d87a11154c9725279307"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_dolphin_8.mp3",
+      "sha1": "eb8a0ee22ea4ed531fa13c925f4942b54993cb06"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_dolphin_9.mp3",
+      "sha1": "4a151ffc58baa23895bb240023fc86fdd9d531b9"
     },
     {
       "path": "assets/audio/voice_ro_post_great_farm_1.mp3",
@@ -6258,6 +8002,86 @@
       "sha1": "41e3e089d66e8564d4714374413958df3aed3c88"
     },
     {
+      "path": "assets/audio/voice_ro_post_great_fish_1.mp3",
+      "sha1": "acb91b1b7f334f2d71fc7b7c49823fcbb8895087"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_fish_10.mp3",
+      "sha1": "6a8b773bf764c9eeed2e962f4e0889613d1d11e9"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_fish_2.mp3",
+      "sha1": "631a0ff66d5f1a53d8309925cef842afc3bac354"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_fish_3.mp3",
+      "sha1": "2bf5f9a527ee093c83e87feaaf814eb0fca5557e"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_fish_4.mp3",
+      "sha1": "a788978e895563d0a1a3b39d50940f846d636a35"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_fish_5.mp3",
+      "sha1": "6fabe23c779fa1d3ed6e9014ae32f818ec9a5c49"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_fish_6.mp3",
+      "sha1": "d01ec5aa96c73dbed1161e24a677c96405f1157f"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_fish_7.mp3",
+      "sha1": "7793af7c98c3a203d485de83ad104cd919d0e7db"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_fish_8.mp3",
+      "sha1": "bcae774bdaee0f3400d3b50dc494bd1f5d1ca8ea"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_fish_9.mp3",
+      "sha1": "1bef027c6ef3f76f4e10345131e5a7589d8b3c80"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_flower_1.mp3",
+      "sha1": "500c26715ee3ab1d49275c94c7688e0b1e9dd209"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_flower_10.mp3",
+      "sha1": "dcd2e8e710178964977a00915d8e2066c927071a"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_flower_2.mp3",
+      "sha1": "7d50bcb4e78fb8edb3042b60d3205c3f0e92fc3d"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_flower_3.mp3",
+      "sha1": "e198ec65b3a780304644ff9d4661dfc31ffc5f2e"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_flower_4.mp3",
+      "sha1": "9982044ea5ef152f3ba64115fbe3f0b2bf7b2901"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_flower_5.mp3",
+      "sha1": "2b5bb831c9c89501d12ae2c1d07a187e9504414a"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_flower_6.mp3",
+      "sha1": "7b5862f036c00a19fb1240b21b227993b2b87ae8"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_flower_7.mp3",
+      "sha1": "37be4305bcdf56721294573f52232b933027d32d"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_flower_8.mp3",
+      "sha1": "933c97f7e195ad95160c105de7d1eb7ed5ad41d6"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_flower_9.mp3",
+      "sha1": "3918fc91a0b953e607d5ce98859dd1e6403dd946"
+    },
+    {
       "path": "assets/audio/voice_ro_post_great_forest_1.mp3",
       "sha1": "626f8e7492609ba4ec5f2f6f1fccf2b41236581c"
     },
@@ -6276,6 +8100,166 @@
     {
       "path": "assets/audio/voice_ro_post_great_forest_5.mp3",
       "sha1": "a711703aa2c021f41d556701ce750f7d15ca7ba3"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_fox_1.mp3",
+      "sha1": "13b47bb33494f59a2bff024a368cfc3853a6b533"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_fox_10.mp3",
+      "sha1": "f7e348857234a9d9ddb452d1ab83497f1959a9ec"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_fox_2.mp3",
+      "sha1": "19f1c2a559a8180d48be46cf217c8d7857d7b7e6"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_fox_3.mp3",
+      "sha1": "e5d3b20243f8357fc6390bfda2b05012835563d8"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_fox_4.mp3",
+      "sha1": "bcedb7feece2e936c5d01d02887427060f0da3a8"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_fox_5.mp3",
+      "sha1": "12fb758b1c98129032abc63e07c0708b8d78ed4d"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_fox_6.mp3",
+      "sha1": "42beeb9d6cc642e81c57847313056d0fed167eef"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_fox_7.mp3",
+      "sha1": "cd4e83d71b0d2e93cc7abb9ed5368da1ebc62f94"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_fox_8.mp3",
+      "sha1": "9c619712a5d1effde318595983eb4838c5c3d0b3"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_fox_9.mp3",
+      "sha1": "e1ce0dbc1eaa2b8f149a9f127e005faf48796b0a"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_galaxy_1.mp3",
+      "sha1": "7752c3c4b23915f96c8963646c8188bc9a7f126e"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_galaxy_10.mp3",
+      "sha1": "72084b6cd97737607f7b5fe2ab0a0163429b42dc"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_galaxy_2.mp3",
+      "sha1": "69182d7a1a1c2ce48e10db135649be244b2b41a6"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_galaxy_3.mp3",
+      "sha1": "5125c9e715275fee2ee46eb536783c9a92fcd67f"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_galaxy_4.mp3",
+      "sha1": "1f650e059517082d13a14de05174b659c383f8e5"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_galaxy_5.mp3",
+      "sha1": "a4cbe35ab392b16dd83aa6718fcdeb1467504b6c"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_galaxy_6.mp3",
+      "sha1": "9e340e6d846f5698283511aace2ad4d1d2d11e5e"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_galaxy_7.mp3",
+      "sha1": "445fe6a91a347b9d3f891c0a71a12fe3395d3f86"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_galaxy_8.mp3",
+      "sha1": "ea9ddb1c542b955537d9f690a21ccd3bde7dfa4b"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_galaxy_9.mp3",
+      "sha1": "1d8206fd4e72cc1b12c76bb86abef950eee3a086"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_gem_1.mp3",
+      "sha1": "802d8e62b077a7afcaefa391f6eab20834eea01c"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_gem_10.mp3",
+      "sha1": "14fe394c33d306ae8dbf0afc25e48f74aa4a0820"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_gem_2.mp3",
+      "sha1": "6ddd2fa4bd4f2e2d7a253f43e3ead95c4ece0b28"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_gem_3.mp3",
+      "sha1": "370907be35000fe6ba1620bbba0a0f21e03080b1"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_gem_4.mp3",
+      "sha1": "fa7665160183cd335919d328cf56bb064faf5389"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_gem_5.mp3",
+      "sha1": "e803b5cb6123d46f70303206428f1edd649f874f"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_gem_6.mp3",
+      "sha1": "01f9ad9e2a0021fcb1a1c9a0459b937374262bcd"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_gem_7.mp3",
+      "sha1": "997c02d7570ba6a366caa13e0a858c83ac1d107b"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_gem_8.mp3",
+      "sha1": "f931aecc936158a78b1e407d8d62c33a8f046f76"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_gem_9.mp3",
+      "sha1": "7bc18197ea2a16f4b4a1864ba0099e18c2e8fcfd"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_island_1.mp3",
+      "sha1": "5b01534934248fdeebc1f32dec4f77092d03d7df"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_island_10.mp3",
+      "sha1": "5c420d7f1b0a54e999ad8e440b6cf90e8662f60d"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_island_2.mp3",
+      "sha1": "97dcadb5655bd3c0818cd02d510fe56c5b3c6dd5"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_island_3.mp3",
+      "sha1": "6ef35d80adca3412fea9a0d685da25a6cdf595aa"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_island_4.mp3",
+      "sha1": "307cf0ea95b8550fe3a582e3c640a1d5d951f279"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_island_5.mp3",
+      "sha1": "e641661549f0f4bec08e9d50c0b49847cf94a95b"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_island_6.mp3",
+      "sha1": "1c43c1c3febddfecc9dcc7e6c8080cf074a4a264"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_island_7.mp3",
+      "sha1": "6762ee126dde2e7fe5b5474c7a8800848a00355a"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_island_8.mp3",
+      "sha1": "3f3821de85f0babf31d68733716a6931f5910d81"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_island_9.mp3",
+      "sha1": "b914694d56937cc37829e29cb378c9481edfd6da"
     },
     {
       "path": "assets/audio/voice_ro_post_great_kpop_1.mp3",
@@ -6298,6 +8282,46 @@
       "sha1": "1df1c1c3850a70bdf26e0045ffab45fd83c52a9f"
     },
     {
+      "path": "assets/audio/voice_ro_post_great_lobster_1.mp3",
+      "sha1": "eff3147ec477c6acc6c53abd14561e008d5fa5fb"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_lobster_10.mp3",
+      "sha1": "b9042b8b0ff64b2560f3239ab95988da3944e2dc"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_lobster_2.mp3",
+      "sha1": "1d9be749eed83c2a6a6bd257749f2d379226c5a7"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_lobster_3.mp3",
+      "sha1": "337b184eb796e5fecc3c32e46a7c1e280ad82650"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_lobster_4.mp3",
+      "sha1": "c05800407e382ba002c324f08392bc994ef119d5"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_lobster_5.mp3",
+      "sha1": "ec2b26d5a076b903f89faf5c957ea8d6b18b1d57"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_lobster_6.mp3",
+      "sha1": "c4ca3ffae8afedeb06bff0774eefd750e2c8dc9a"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_lobster_7.mp3",
+      "sha1": "30974887114cdb1be6a4461e4732d0aa38e6d1d5"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_lobster_8.mp3",
+      "sha1": "c104e2cde36ea24238bd2c327ea9badce9f0e0bd"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_lobster_9.mp3",
+      "sha1": "616957bfae54293a2686b4af52da3aa70462a8da"
+    },
+    {
       "path": "assets/audio/voice_ro_post_great_monsters_1.mp3",
       "sha1": "15934f9980b4ac8c0ae31625965850e101dbe192"
     },
@@ -6316,6 +8340,86 @@
     {
       "path": "assets/audio/voice_ro_post_great_monsters_5.mp3",
       "sha1": "733102b82e33bf5353956c898bac9b2198ec98e7"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_moon_1.mp3",
+      "sha1": "35d52a15904e407b666d69458b6d55fd6d9718df"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_moon_10.mp3",
+      "sha1": "38538c2d4131c23e2840aa688d1878fecfe5906d"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_moon_2.mp3",
+      "sha1": "d210cde066614c9331d3f4ca368961f453f968bd"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_moon_3.mp3",
+      "sha1": "6e3d44a768921811e134f25189a5609713743670"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_moon_4.mp3",
+      "sha1": "640cd915d494fe8831cb7f5e8decec5c13a82bd8"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_moon_5.mp3",
+      "sha1": "9afd1125c1d46c73dae7dee49a902db90113c0b9"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_moon_6.mp3",
+      "sha1": "96bdd52d29908ef74b2c770f6f8363d9a6bcda81"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_moon_7.mp3",
+      "sha1": "b9e07962f831556320f61dc0b8ce700f995db2d9"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_moon_8.mp3",
+      "sha1": "f06749e1fd098891e77e56fe6ebd901164c0a74a"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_moon_9.mp3",
+      "sha1": "477fd030413d143c8118f27254fe32ba2bda8612"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_mushroom_1.mp3",
+      "sha1": "d759a68d9a042b09157d01622d6266585e094519"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_mushroom_10.mp3",
+      "sha1": "64f074077360aa1db211160802a983ecb5a06f5a"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_mushroom_2.mp3",
+      "sha1": "00c690b75512fce4f2219a206d9e9d29fe15ae5b"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_mushroom_3.mp3",
+      "sha1": "dee0ecd90dade036d33efc3d71a97d93e7f62d15"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_mushroom_4.mp3",
+      "sha1": "280c00a894f848c48f04980e45e0897931280642"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_mushroom_5.mp3",
+      "sha1": "7231b192d83ecc65189145ccf441036f1d0e8bbf"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_mushroom_6.mp3",
+      "sha1": "863eabaeceb450a705dcbe26eeb5e61ce726bd9a"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_mushroom_7.mp3",
+      "sha1": "146702d769fb984076cd582d6ae952d37d5556c0"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_mushroom_8.mp3",
+      "sha1": "1079a8d563d8934d25d29a6ad5c8bc3b51c69fa1"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_mushroom_9.mp3",
+      "sha1": "e85ef4b4024a3cde2b90c8f30072bd8ae5e9f8c0"
     },
     {
       "path": "assets/audio/voice_ro_post_great_ocean_1.mp3",
@@ -6338,6 +8442,86 @@
       "sha1": "e67b80bfb5f05e7be114674c110251561e95fefd"
     },
     {
+      "path": "assets/audio/voice_ro_post_great_octopus_1.mp3",
+      "sha1": "5ce93cacbc395b130f01a3cc797835438982dae2"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_octopus_10.mp3",
+      "sha1": "becfda49fb2534baa6a71625746482ac6dd6bf67"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_octopus_2.mp3",
+      "sha1": "f225b389f6355d8d47b39d96d8dbc690ed303e67"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_octopus_3.mp3",
+      "sha1": "afd46574ecf361eb23b3968f4b73443a0c04cbba"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_octopus_4.mp3",
+      "sha1": "606dc025dd8b0e858ab84009dd6cf7b6726d49c4"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_octopus_5.mp3",
+      "sha1": "5fd95cb32a601cf846c445ae27645ec32d027dc2"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_octopus_6.mp3",
+      "sha1": "2bcd6d48db4c81ca0e224dad6b4a6c72bed30bd8"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_octopus_7.mp3",
+      "sha1": "71d2036f76b4fac2d4ac3f92fd349bc0f0069e93"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_octopus_8.mp3",
+      "sha1": "f634120d8af44d770f8042adb8bca6351885be05"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_octopus_9.mp3",
+      "sha1": "be7c1abecdb83a985f978c4913aaf6c308711ed6"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_owl_1.mp3",
+      "sha1": "a3d08fbfbe07d09be1f768d428982dc3a9c4660d"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_owl_10.mp3",
+      "sha1": "8f79df25dad47f828a8d57bff290a761081599c3"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_owl_2.mp3",
+      "sha1": "422a67edb4b35a56dbd22bb0f276f8f7fdf9a324"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_owl_3.mp3",
+      "sha1": "9a8df4fd89f6b695b53dd5ccea6539ca3f58904c"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_owl_4.mp3",
+      "sha1": "c9d40d28b2e49963e69ea852122a691574aac682"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_owl_5.mp3",
+      "sha1": "9a889fbfd787c505594f03f9667f31b8fdd1d613"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_owl_6.mp3",
+      "sha1": "1cacc671a6fa1def0521de136928fe4942a489ef"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_owl_7.mp3",
+      "sha1": "fed4eb77e1b2e0edf26c9d6c988c3797bb656489"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_owl_8.mp3",
+      "sha1": "f234a4a5ba85976567ab21832b66c5c7e91c87b5"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_owl_9.mp3",
+      "sha1": "046f991bbd941300a81b135dc089c1166e263a2f"
+    },
+    {
       "path": "assets/audio/voice_ro_post_great_pixel_1.mp3",
       "sha1": "dc1eb02a624220853e91b450bac28e68a072e175"
     },
@@ -6356,6 +8540,166 @@
     {
       "path": "assets/audio/voice_ro_post_great_pixel_5.mp3",
       "sha1": "ddd61ea7b7dd4b4d3713b80148a33c4f30d8a99c"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_planet_1.mp3",
+      "sha1": "6b1bef5f3ebca593ce6e0d70abf9ca3bfdb7633e"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_planet_10.mp3",
+      "sha1": "e7f4a0e37b3ca9cb3bd9193d1c10fe0a24bbb256"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_planet_2.mp3",
+      "sha1": "0697bf78d7b8815b7c47a2d2853757d9a2109892"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_planet_3.mp3",
+      "sha1": "bb5a182cac1af4b128805ce7f290463f3099493e"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_planet_4.mp3",
+      "sha1": "3a5485b081b78a4839baca7f59e89e9511a3dbc9"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_planet_5.mp3",
+      "sha1": "fbbb362193643a562f964156322c0ac98662caab"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_planet_6.mp3",
+      "sha1": "842772c17a621ae8ffffa2158541d4fe10a674b7"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_planet_7.mp3",
+      "sha1": "acc9f85ae7ff3bdcba9bdd2f2f33449450bb63c2"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_planet_8.mp3",
+      "sha1": "08a7dcfe874852a3871a659aaba899d44f9547a7"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_planet_9.mp3",
+      "sha1": "e58678b0509ea63b6f4021cfe50ddf78c91d5f1e"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rainbow_1.mp3",
+      "sha1": "7f4dc885fb41e3822e182b93e9adc14ff31bdb4e"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rainbow_10.mp3",
+      "sha1": "2e8a4ba8bc981088a7f3e6801b90af1c538afe30"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rainbow_2.mp3",
+      "sha1": "739736610093d75b72062f6ec4fb6f0daf15cfe4"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rainbow_3.mp3",
+      "sha1": "f4b6095f5084b2727d89c91b23afcbf5ce992f8f"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rainbow_4.mp3",
+      "sha1": "40e96713fdee046ea0e16ed1b7ce639c734caa05"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rainbow_5.mp3",
+      "sha1": "8976e3d25bbd9b404e3dc5431b517f7865afe0c5"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rainbow_6.mp3",
+      "sha1": "034d8593743d1311ed11815bdfc46a44c36950a3"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rainbow_7.mp3",
+      "sha1": "82f1a54b2f8ea84e156c8680ebb7ed3c949c654e"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rainbow_8.mp3",
+      "sha1": "fb937a09b16374a62627923a3e651c1d6c6b9d21"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rainbow_9.mp3",
+      "sha1": "2312ea1f9e383609bd55861c4b1a36b9d974f6c8"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rocket_1.mp3",
+      "sha1": "eef533e15b3ce1a3963b6ad212ce894af67ba028"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rocket_10.mp3",
+      "sha1": "762afc049aabc2eaf4ee5bc00dbea413c7f5f16d"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rocket_2.mp3",
+      "sha1": "fa96816b3a179f8aad8b7c965af044f6e0609fac"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rocket_3.mp3",
+      "sha1": "05956d1272590cd9123bbe2f06728117f657339f"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rocket_4.mp3",
+      "sha1": "9270f5efc785b7a58eb03be3a047d767b37e0353"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rocket_5.mp3",
+      "sha1": "03f84064bd7043c0317a87dcbc562fe8acbc04b0"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rocket_6.mp3",
+      "sha1": "362ed9b0cbfb91f72bdafab1923814ac6eca0eb6"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rocket_7.mp3",
+      "sha1": "bc0dfdfa70e00297bd92b9499bf346e5a76dce1f"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rocket_8.mp3",
+      "sha1": "3964bb683fc160def54e5572bc94e86c90df70a6"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_rocket_9.mp3",
+      "sha1": "0f65019539295b73fabe6f8b6f0a5bd60127c369"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_shell_1.mp3",
+      "sha1": "ac8ac91d5a1cbd344c5ecdc2e5163b6922020ca8"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_shell_10.mp3",
+      "sha1": "9290f162760a4159cd8913509cdb0308e7a6b74e"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_shell_2.mp3",
+      "sha1": "5d655e933083929c6124fe64611d8b7b2e3f6fa8"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_shell_3.mp3",
+      "sha1": "e0512f466255b381f3e8de5ec15c8be3ea79e51d"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_shell_4.mp3",
+      "sha1": "7aa8216f7355fdf17d469d8e13455952a66bd2e9"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_shell_5.mp3",
+      "sha1": "ce3fb401118978e8c759327c1a26f6946613d89c"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_shell_6.mp3",
+      "sha1": "1fc7f0a9e49f9b88c90a84bfefdce2b486440fa8"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_shell_7.mp3",
+      "sha1": "33e84ee5594f63a0fe2495bec1feb383629aa25c"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_shell_8.mp3",
+      "sha1": "1836e2b26dbd4828c9022e40f1eebbc78e1b13bc"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_shell_9.mp3",
+      "sha1": "b00fba56ae82a6068e74772d8a2f1f81b2e683bd"
     },
     {
       "path": "assets/audio/voice_ro_post_great_slime_1.mp3",
@@ -6398,8 +8742,332 @@
       "sha1": "688f24f1ccda0eae11ae6fe8a2c4e32dc0064652"
     },
     {
+      "path": "assets/audio/voice_ro_post_great_sparkle_1.mp3",
+      "sha1": "22faf27b793fae26a71ffd6f89f77369fc924979"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_sparkle_10.mp3",
+      "sha1": "3e6136a3bd865df4e57496b1f4a706e7d237d232"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_sparkle_2.mp3",
+      "sha1": "17f414750cc5ab262356d8264bbb0fdb9a7af469"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_sparkle_3.mp3",
+      "sha1": "a1443e6e4febcadfeffa9fe5984b998853c787fd"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_sparkle_4.mp3",
+      "sha1": "89b1745c8f086d6dc4edecb25cd5cb3eadb41550"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_sparkle_5.mp3",
+      "sha1": "22c3616a7bd291aaf5ca7b3e0d302beb1100a645"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_sparkle_6.mp3",
+      "sha1": "1d1c76bf344c9fc578584d55e504ac6f4acf0682"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_sparkle_7.mp3",
+      "sha1": "0f78bacaea7adde88cf09076f33319ac42dc01aa"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_sparkle_8.mp3",
+      "sha1": "76b2f7ed3d1fa3ca76fef4b45075960d0698640e"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_sparkle_9.mp3",
+      "sha1": "3d4d5f5cb241e20fa806e8bed19f97881c03dd98"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_squid_1.mp3",
+      "sha1": "77a65ec69f78eec6a72d53d0f758c08840dd6be1"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_squid_10.mp3",
+      "sha1": "b5cd3c387d937cfc66ca326e3a044f130eb385c5"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_squid_2.mp3",
+      "sha1": "99395d08a38fd220dd34bb4363c84165e4f97d1e"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_squid_3.mp3",
+      "sha1": "8455c416c52a6c526d04cb5161b0c9f75804fc39"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_squid_4.mp3",
+      "sha1": "6085e41229d3258ea0cd471183c7b1d07291e2b1"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_squid_5.mp3",
+      "sha1": "c15d74c104cd35d7ba97b3840461135a3dd5ece8"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_squid_6.mp3",
+      "sha1": "1bf2d006461d81c26d4105ce686616a56af32485"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_squid_7.mp3",
+      "sha1": "bc9c33dd46597c2e2f8bd67bc5d6db723b883bd9"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_squid_8.mp3",
+      "sha1": "753a2cc36312a171066e4dac0268aed1f30b4681"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_squid_9.mp3",
+      "sha1": "517b141736a924d9ed7e0ebb5b0a3d8188fc6187"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_star_1.mp3",
+      "sha1": "edc6ec25bb93dab0f838a114936119467d668bc9"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_star_10.mp3",
+      "sha1": "15c1b17eefac8112d29cbe6e3abb720eada9f04a"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_star_2.mp3",
+      "sha1": "caf420faac7215e6175735d2a5a9777ef757376a"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_star_3.mp3",
+      "sha1": "afac48deee4f3c0f49c4e1ee719e0e26eb14a2d5"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_star_4.mp3",
+      "sha1": "ec0c7b6dae904e0a5fedb8deb4c6a6d8a9e472c7"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_star_5.mp3",
+      "sha1": "de6e61ea9c24909d4dd2112ac54fa8e7348614c6"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_star_6.mp3",
+      "sha1": "2e26071853823b0e745d85cbdd9316f687ba4f9d"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_star_7.mp3",
+      "sha1": "eecd95086cd07da34729cccb163824f58523e6d6"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_star_8.mp3",
+      "sha1": "32bd4ee9c0c8459035e005e785b3400d30d89ae7"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_star_9.mp3",
+      "sha1": "01d0ebf2df33c4f2e2839899d1c7518e2fdd1dae"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_sunflower_1.mp3",
+      "sha1": "c71991608c0151d08932e64d369bd3cc8b155a6b"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_sunflower_10.mp3",
+      "sha1": "759c5e374935ce8b4a69048876e2f04db547b263"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_sunflower_2.mp3",
+      "sha1": "d27215998f1172705e9cd3f99e34975547341af0"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_sunflower_3.mp3",
+      "sha1": "748018f70f3339a2550f64801b5f548b2495fb15"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_sunflower_4.mp3",
+      "sha1": "2f2ff1f1ba9da896c1d0c5fc0dabb48257c6a9a5"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_sunflower_5.mp3",
+      "sha1": "8e55cd3d30fb93e8e5d691e58e69c29c1633a0db"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_sunflower_6.mp3",
+      "sha1": "50610c3192f149cfb8a48bdab8685f67e5cdf87c"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_sunflower_7.mp3",
+      "sha1": "78702681b27d483db7741d44fa90c2a456c81719"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_sunflower_8.mp3",
+      "sha1": "28368cc96c34a5c2cf5933eaa2ba05b9253d6e2f"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_sunflower_9.mp3",
+      "sha1": "fc8f5a360ae428d29e943270484a37a10bce7d2b"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_telescope_1.mp3",
+      "sha1": "4dde5e40fad4adf773cfed9babdb72fea01f5424"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_telescope_10.mp3",
+      "sha1": "d27ea45740f7f97e84b2fc01658074d4b86ea294"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_telescope_2.mp3",
+      "sha1": "9ec526e631a95d23a16825c6a1f4ad4173243724"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_telescope_3.mp3",
+      "sha1": "d11819f74a8212a8dc286b3137e09c927e63971f"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_telescope_4.mp3",
+      "sha1": "132d8f262d22997be4f321011f284928cf041007"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_telescope_5.mp3",
+      "sha1": "434d1b1db4222b331dbd267a1be58777ac0d73c7"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_telescope_6.mp3",
+      "sha1": "22a88279b3d0ca02ab64ca03b64e4d8cb72bab83"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_telescope_7.mp3",
+      "sha1": "f21462a31c974db0a3eee97fc39bb656cd87fe2c"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_telescope_8.mp3",
+      "sha1": "0abe0e9228d5aa2c7f45cd0715910accbfc5c46c"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_telescope_9.mp3",
+      "sha1": "e0dd67ae019d1860dae0c3f4f6627b8249f3abcb"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_tree_1.mp3",
+      "sha1": "88cfe8e9745765f0fc388cac45344177408d8e00"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_tree_10.mp3",
+      "sha1": "8a3c1bae4f9d785b7414ba08838eb3f7eb41dadc"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_tree_2.mp3",
+      "sha1": "eb047e693efe123cbb065e9399b3ea6c8f1e057e"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_tree_3.mp3",
+      "sha1": "15a2e7ae679f06421097ed35a72c15e6c84c561f"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_tree_4.mp3",
+      "sha1": "e79e6ce2ec5bffffa881203465b4ccae0af79d7a"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_tree_5.mp3",
+      "sha1": "65772d7af50936a0d893b58e34fc00d5921bd046"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_tree_6.mp3",
+      "sha1": "d57e39874f1e380fad7ec00cc1b6dfa0f73720ce"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_tree_7.mp3",
+      "sha1": "89e13bfa69b6fb3ede3302cfa4cd8cc96981abef"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_tree_8.mp3",
+      "sha1": "36464183b4bea3ddf069285a080d53abdbc7be58"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_tree_9.mp3",
+      "sha1": "91d8b56d75ac51da09a7f10d56635881e2a489d5"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_trophy_1.mp3",
+      "sha1": "b0bb469138fd095122bf8c49d21fec21138d03c0"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_trophy_10.mp3",
+      "sha1": "3bdaca12c96192413cd2e793d158cfe74a500b1a"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_trophy_2.mp3",
+      "sha1": "7ae8f6d7f4f2ea3246ee8d777b69d14abe6b16e7"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_trophy_3.mp3",
+      "sha1": "6fafca70bd2e188c47890a91b8aa6f826f51e153"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_trophy_4.mp3",
+      "sha1": "3d094980837709529e93c4501163f475e3b384ad"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_trophy_5.mp3",
+      "sha1": "06aa6b67d11240461a584e98109683563623154a"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_trophy_6.mp3",
+      "sha1": "74bd6bb43ecb1284d99b0a9683e349bc0524c6a1"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_trophy_7.mp3",
+      "sha1": "1457d11dde6e71bb4287217dbdde13c0bc020292"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_trophy_8.mp3",
+      "sha1": "9c051b0a2dc0fdce1a086818c164bf119a89342d"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_trophy_9.mp3",
+      "sha1": "d150ec1ffabc4bf0581d77bc02eb55b5c1d121b4"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_ufo_1.mp3",
+      "sha1": "133dc4812e1bfd1491877c3cef849f31ef74fca3"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_ufo_10.mp3",
+      "sha1": "d05dee22bcf2652216acdff15700de576ac90226"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_ufo_2.mp3",
+      "sha1": "5875bdd53ca3c493256301a56a67bb2effe67025"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_ufo_3.mp3",
+      "sha1": "30996827498c17395635a462b2b7bb896e4d3329"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_ufo_4.mp3",
+      "sha1": "35df3f19d4a40de61df61731bd32eb98d0f5aaa3"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_ufo_5.mp3",
+      "sha1": "ad672c7ff169e45f94edbe932d3cbea48d116ed7"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_ufo_6.mp3",
+      "sha1": "dfe24e8a2464f1d91b2aa0fcebdc08b6528609a4"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_ufo_7.mp3",
+      "sha1": "b8426a5d6531bfc284d78d46db35eab1f2680899"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_ufo_8.mp3",
+      "sha1": "2d011653785dd1ff9d47c34fcb8f850965926794"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_ufo_9.mp3",
+      "sha1": "98d0a7cb4b02c163980ac3a85f4bbdb34e48c03d"
+    },
+    {
       "path": "assets/audio/voice_ro_post_great_unicorn_1.mp3",
       "sha1": "38bedbb3aabc497b2ff9c6fd26a5c9492cc63cde"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_unicorn_10.mp3",
+      "sha1": "eb5b4499674544d9e2a77ff4519f7fdafaeecc85"
     },
     {
       "path": "assets/audio/voice_ro_post_great_unicorn_2.mp3",
@@ -6416,6 +9084,62 @@
     {
       "path": "assets/audio/voice_ro_post_great_unicorn_5.mp3",
       "sha1": "344d7a196ce6a38d742c6c279c0fbada6fa6e6c6"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_unicorn_6.mp3",
+      "sha1": "8132d0fc14be237c4036bcee302a305ef0ccfdb8"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_unicorn_7.mp3",
+      "sha1": "ffe5dd717fdc304831cc9530b7ef689bebe7a4a1"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_unicorn_8.mp3",
+      "sha1": "2874d9b521ddd5c180bae9da83f53e8a03e0a3ca"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_unicorn_9.mp3",
+      "sha1": "482754d484d84c18414fd5c10deb056a9153ce22"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_whale_1.mp3",
+      "sha1": "4272881cd7661fd64b7c41b0ed5031296b41eac4"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_whale_10.mp3",
+      "sha1": "12549a652812a5477613a8e3e90436cf606c7fe3"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_whale_2.mp3",
+      "sha1": "1688259a4da44ad9919eabe42891224a4781e529"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_whale_3.mp3",
+      "sha1": "52f09e4042db01e40d9562926ac3cf6f4f9178d2"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_whale_4.mp3",
+      "sha1": "ceff4a2974e7c69f1453ba3d26363ab242145fd1"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_whale_5.mp3",
+      "sha1": "d2464d50164f418a0fe76bfa9736550802c19bab"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_whale_6.mp3",
+      "sha1": "1f1ae8163c53e968624e3a0e077e02df61077655"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_whale_7.mp3",
+      "sha1": "f24a6f1e45fb1f770c877c544b2e5ab39882adfa"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_whale_8.mp3",
+      "sha1": "acf273f85cab68950c4056a63bd846a7ece2ea73"
+    },
+    {
+      "path": "assets/audio/voice_ro_post_great_whale_9.mp3",
+      "sha1": "4f57c84c8cc5b0b4644102b316146a5f25b69122"
     },
     {
       "path": "assets/audio/voice_ro_pre_have_candy_1.mp3",
@@ -6872,6 +9596,690 @@
     {
       "path": "assets/audio/voice_ro_share_unfair.mp3",
       "sha1": "f21375fd5a0c74d3a26121308ef2f6f8737c944a"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_alien_1.mp3",
+      "sha1": "509b8f85e37efc772e067e4752d8d47bc5a946d3"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_alien_2.mp3",
+      "sha1": "02ccb4370ef466a3129e21e9856e87608b0e52f3"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_alien_3.mp3",
+      "sha1": "b547ab0b2de688ccb5f0bf9e4e192a26ba511c5a"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_alien_4.mp3",
+      "sha1": "bbd096af87581a6e74bc1b80521c4719836e22a9"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_alien_5.mp3",
+      "sha1": "41a6d689079d5d2d410fd96848be3d4ef1a150ea"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_alien_6.mp3",
+      "sha1": "1fa760a0326eb5281e0301efd66ef258f5a68d50"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_alien_7.mp3",
+      "sha1": "1a87f87e52a079546b8c1bb8531a873981e0cb95"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_alien_8.mp3",
+      "sha1": "a671d2e4a94ce7f7726ce5db61f4de33d5840f54"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_alien_9.mp3",
+      "sha1": "0e516c0a15def4ed03194018e762137218d3428d"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_comet_1.mp3",
+      "sha1": "205982a89093940d857b9a9e0aa8d87b783ec8aa"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_comet_2.mp3",
+      "sha1": "a4df0bc4408726af779773a100e491843512a688"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_comet_3.mp3",
+      "sha1": "09b06d5e737f24f8889c8fb943642da6e72ede54"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_comet_4.mp3",
+      "sha1": "99884c91297a00d0df998a2b737e95b27680fe5d"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_comet_5.mp3",
+      "sha1": "af2e82213d1f19bcb0c80e5fc55dacadb8fffa47"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_comet_6.mp3",
+      "sha1": "54f411824eb48523085071a5878ec5501e3fc3a0"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_comet_7.mp3",
+      "sha1": "af3326821a9e090ab89aef53a27e468c7c9c42f2"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_comet_8.mp3",
+      "sha1": "71c7c81261af5b83ccf3082c914b408e709c190e"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_comet_9.mp3",
+      "sha1": "bfb0a5de3fa61205c54e84c46559b9263d8b8650"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_crab_1.mp3",
+      "sha1": "0f1613865467bb2e8d84bc10572c0d1749d40c3b"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_crab_2.mp3",
+      "sha1": "23a20d94c7bc0c56c90053d06d1dc4066174e0bf"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_crab_3.mp3",
+      "sha1": "10ecc7c4333cf99e15622d2b15c40da5b0abb800"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_crab_4.mp3",
+      "sha1": "37923752bc22f02a875f9869e4445808ded24b3b"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_crab_5.mp3",
+      "sha1": "abe992b823e5e209b907678dd6f950d10bd9af55"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_crab_6.mp3",
+      "sha1": "e7ae55df4fa56ff5a201a96b76bfc772b8378f9f"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_crab_7.mp3",
+      "sha1": "501d8e20d4627dbbb751bdd0de21242f188a8da5"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_crab_8.mp3",
+      "sha1": "a9c4099f53370aa4e4f1c49ecae9fb6ba67eb5f7"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_crab_9.mp3",
+      "sha1": "907d4e97dbb2597a38bce97b2145ba0e90a4c6cf"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_dolphin_1.mp3",
+      "sha1": "265c361948d3654cc3feed997199d993480121fb"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_dolphin_2.mp3",
+      "sha1": "811357a130f013109035a7130dd12be9da1a9b17"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_dolphin_3.mp3",
+      "sha1": "66debe8d7ac746dce4b2d1b08d8d068f5e7064ac"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_dolphin_4.mp3",
+      "sha1": "f1e0775028cbfa32fc7daa9b4f73090cbb1c11a1"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_dolphin_5.mp3",
+      "sha1": "be3889672ceb804d6b4ec2ed94f9630c391c27e0"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_dolphin_6.mp3",
+      "sha1": "ce1d46699153472a3a699b29526ac0a9abcebf3f"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_dolphin_7.mp3",
+      "sha1": "1c0611fb787c33c4e8ddd0d89763fdb6dfd06bfa"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_dolphin_8.mp3",
+      "sha1": "d8b04e73529c532f888f37a836943e96d5919c9c"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_dolphin_9.mp3",
+      "sha1": "1424001b3338e4e56965ab34a425d2a1d627d07d"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_fish_1.mp3",
+      "sha1": "30ca09474ce3bf761f22f642a9112cfb4f2d79bd"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_fish_2.mp3",
+      "sha1": "97fac9f4166d6d4c02d64d62500fb76df57ef574"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_fish_3.mp3",
+      "sha1": "862b7bfcb7fc1aaad97e461312b56f25bde59516"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_fish_4.mp3",
+      "sha1": "dc24ac644120ddd861ca1aabcb1577f4b98627a3"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_fish_5.mp3",
+      "sha1": "8f0e5d3b17f75312a4870d29141f70c63ef9e872"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_fish_6.mp3",
+      "sha1": "b1bde086256e12f93adf3b18800ae2f129ac5909"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_fish_7.mp3",
+      "sha1": "6b96806f16068763f331adf4701d740368ec03d0"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_fish_8.mp3",
+      "sha1": "ad84ead2faf00de1fd3537f9b35cab98574b30fd"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_fish_9.mp3",
+      "sha1": "fe4a5b86884a1aaffcb8e8651651989d122edbb2"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_galaxy_1.mp3",
+      "sha1": "1618ac6d315db9be69ae538d4cdb21543cc59118"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_galaxy_2.mp3",
+      "sha1": "17cd2501e2c66a2bbb4d7a123933bd48e91a0bf4"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_galaxy_3.mp3",
+      "sha1": "656a151cfad3cefc3e35b953984a3455baba8c9a"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_galaxy_4.mp3",
+      "sha1": "804aa545f95789e5a7ad43cd2a5c097978f64ad3"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_galaxy_5.mp3",
+      "sha1": "a41cdbf3b071b0c2900a1da139d25dcf20fbe5ae"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_galaxy_6.mp3",
+      "sha1": "0d64ca523d1913cf7901c77bd4c38f081eddb18f"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_galaxy_7.mp3",
+      "sha1": "818668d9c4ffa37a06b197be0354dc7391d9bcfc"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_galaxy_8.mp3",
+      "sha1": "26d38390407f22637706d3cbdf6d9af3a884b07b"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_galaxy_9.mp3",
+      "sha1": "3cdf321a47bcbb05ebc6703344e7ab9b60eae4a0"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_island_1.mp3",
+      "sha1": "d0b63ca72c548ab1774c3fb3bbcc73c89e92192d"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_island_2.mp3",
+      "sha1": "463134e4f8e1f4cb11fd55c6f1f7a22983ecd199"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_island_3.mp3",
+      "sha1": "be8740084e81a7934e6dc4085514270741c34ca2"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_island_4.mp3",
+      "sha1": "eaad379d08839ce41d1693b46a9b75eb726457ee"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_island_5.mp3",
+      "sha1": "7a252b599c8446f2a03a9c36874913267345e02e"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_island_6.mp3",
+      "sha1": "d797f71c855d571f5959765e62bc1fe9ef40f1d9"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_island_7.mp3",
+      "sha1": "6d4eff9adb0f9cdefd6add3f3108fc26d768e417"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_island_8.mp3",
+      "sha1": "5030e03331ce3dd08203f5e57e8e03d9a2c65d16"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_island_9.mp3",
+      "sha1": "ece50dcc654d118b5685e90cc1810742f35a9dfd"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_lobster_1.mp3",
+      "sha1": "3bdcc1e25916874c56c14f490628d7a54c602d53"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_lobster_2.mp3",
+      "sha1": "aa1af524e8465f10101152be3904c0e0a0c0236e"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_lobster_3.mp3",
+      "sha1": "de56246d9011e6b9c42e0337eda9dce38a86e488"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_lobster_4.mp3",
+      "sha1": "77fe950aa238e17179c13239ab27092ba6cae3c5"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_lobster_5.mp3",
+      "sha1": "7fbb8ef72af285add1798ea8d7b8745fa767fd87"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_lobster_6.mp3",
+      "sha1": "3f812974be10b6e712aad4c38492fc6bbb017e3f"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_lobster_7.mp3",
+      "sha1": "75c6b7f9204cd8938cd6ab88baf64c6b8f2aac5e"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_lobster_8.mp3",
+      "sha1": "ab0dfe55a9c725ae03b9375aa3df5add9184a28b"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_lobster_9.mp3",
+      "sha1": "016fc3b4618f7e9357191083fea6baf25d7df3f3"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_moon_1.mp3",
+      "sha1": "644544c46ffde329937bc29b624444e20f86d0e4"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_moon_2.mp3",
+      "sha1": "640b0625511115165f691ee4b49c20741daccd8d"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_moon_3.mp3",
+      "sha1": "8886c1d5c876b4c8f14de4e1bd3d7b71ed7a22ef"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_moon_4.mp3",
+      "sha1": "1bc374e8365c842a2e25f013eca39b29f742a127"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_moon_5.mp3",
+      "sha1": "c27dd256668eb9b41bf3682bb24b7060e1fb7fcb"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_moon_6.mp3",
+      "sha1": "d5fd62170585a11add899772325d7e06d76f2426"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_moon_7.mp3",
+      "sha1": "411c412575ee8d65b79fc9346a9d6893f9c5a901"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_moon_8.mp3",
+      "sha1": "3ce3154b4000040ce00d66ee72a8f99a2af9dd94"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_moon_9.mp3",
+      "sha1": "16cbf941a8fe781ea6b8868ffef4180ce2b7ad61"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_octopus_1.mp3",
+      "sha1": "417a4664ad90a27785a4b3382d2b935279ab2bca"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_octopus_2.mp3",
+      "sha1": "a935c582556cdb87eb78991a4379a8a80e461af3"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_octopus_3.mp3",
+      "sha1": "3ca8913a181d5ddb7ffd61172cbaa8f9d0bb04f1"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_octopus_4.mp3",
+      "sha1": "6d0c81ae5c6675a24dd758d5abad47eabb77dca4"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_octopus_5.mp3",
+      "sha1": "b7216923f858360ed0e32a1abc818200109c4471"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_octopus_6.mp3",
+      "sha1": "37dec3d2263bc477236ca2e2249e4e6ead762622"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_octopus_7.mp3",
+      "sha1": "f2005e31329518fafe7e0b98bd6fd8b386500eea"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_octopus_8.mp3",
+      "sha1": "c0c6b834d8d75ed578a6075bb622ed112c3d0905"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_octopus_9.mp3",
+      "sha1": "6571762b01f0759fd6469ad07784bbc91899e274"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_planet_1.mp3",
+      "sha1": "990049564c7101a99da204dd844ece0c9364ce75"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_planet_2.mp3",
+      "sha1": "be82a64d4bdf6fe3eddb4485f75144d1aad222ce"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_planet_3.mp3",
+      "sha1": "d5e1a74ead9d0da934f8da0baf22c97096fa7204"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_planet_4.mp3",
+      "sha1": "cd0f9b71bb12729f752fdb5ef8b6babc5395fd97"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_planet_5.mp3",
+      "sha1": "f9c5f5395c5dd3cfece570ec0f3057e84be02176"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_planet_6.mp3",
+      "sha1": "8e01398f162da514d91fa6a3f368e4669e7f13ae"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_planet_7.mp3",
+      "sha1": "a77ac18db060b24c2e3f1fae4e79f1f4e746fe10"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_planet_8.mp3",
+      "sha1": "224b6d94b01e11310c3fc679ecfece95453e637f"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_planet_9.mp3",
+      "sha1": "b7913d5d2728f254a1036253be63a0894149ce84"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_rocket_1.mp3",
+      "sha1": "8b0abd20cba8c7f06d3a619652198b44cfc8f2f9"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_rocket_2.mp3",
+      "sha1": "5545c230e750ba9c850b7184228ab4ced160c1dc"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_rocket_3.mp3",
+      "sha1": "dae84d3d03a3701296fbd764218b235336fcb738"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_rocket_4.mp3",
+      "sha1": "40ff1787808e4416eae02043182ea3e8a7b959c0"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_rocket_5.mp3",
+      "sha1": "c9d528a4f91884fbbd67bf7e5a3c3e4ba5167fe7"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_rocket_6.mp3",
+      "sha1": "1c422929b53935be6099b0d92e08b524226895ab"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_rocket_7.mp3",
+      "sha1": "5703cf32ea959b98cf288d563cc718e1e1e8e315"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_rocket_8.mp3",
+      "sha1": "fd5631f90143dafec1759bc214801d2a8518ced6"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_rocket_9.mp3",
+      "sha1": "709357429645da97c9825b53a2ee487788420215"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_shell_1.mp3",
+      "sha1": "e2f7919b344b5f04d9ee9742a5f7881289f87e79"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_shell_2.mp3",
+      "sha1": "cb9624ff00f3e187ebf77f7a753199608017b182"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_shell_3.mp3",
+      "sha1": "9f839e7f25eae1c1d245e56fece0b3ad530c61af"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_shell_4.mp3",
+      "sha1": "3f0657945d495bc741d06b9ac1eb9e172d96e544"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_shell_5.mp3",
+      "sha1": "54e4859135a60eca9025a99bda125af3b9e39f63"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_shell_6.mp3",
+      "sha1": "cbf81c7d0c3b8d226d93f7e9fff5a0ad49fab634"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_shell_7.mp3",
+      "sha1": "6d82735571d00b803f1b36e1b59c834dd634e703"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_shell_8.mp3",
+      "sha1": "6cf894275050d791e5523d5ea92ad61aa3920088"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_shell_9.mp3",
+      "sha1": "7020fe8f7c047842cb47082a7e9d9e4338644bf1"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_squid_1.mp3",
+      "sha1": "9170923ddace7736d87d1bd2ab17935a64377c31"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_squid_2.mp3",
+      "sha1": "30e9b624891dbc952d4529821299d029d401848d"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_squid_3.mp3",
+      "sha1": "606da350da4c13eecdf912d1df1603bc5079b5e4"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_squid_4.mp3",
+      "sha1": "66064adc043ffce8490139c0424058a27ab1efbd"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_squid_5.mp3",
+      "sha1": "960269b3b6f4adf30c2a82682773d698100aef42"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_squid_6.mp3",
+      "sha1": "d319732d5f54476bb2ece0140a07a1f1a6ef036e"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_squid_7.mp3",
+      "sha1": "74eff5dab615bdc4b39b8e17ab2083d9662f7858"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_squid_8.mp3",
+      "sha1": "80eca6c5ad60d7ceac612155f7c116f3477be23d"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_squid_9.mp3",
+      "sha1": "da4e2866e3e4e1cdaf5182645a7bf382b63a69c4"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_star_1.mp3",
+      "sha1": "55a746e70d4ab7f9ee7f7ed677e3b813bc536a02"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_star_2.mp3",
+      "sha1": "658238b8b5b26f68926e1281203fe3e762b06a3b"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_star_3.mp3",
+      "sha1": "e619bd7bdf3ee4760b6d8466d51899f1c93e6172"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_star_4.mp3",
+      "sha1": "b1b5c7313099260bb08c392568f001cf601f1017"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_star_5.mp3",
+      "sha1": "4264afa63847694e2a4e4e07e7d3fd905088d32e"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_star_6.mp3",
+      "sha1": "ee2e62a81b3b9ba46d79caea93427912ac7e7010"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_star_7.mp3",
+      "sha1": "278f5456999c8c7a8a7aed988481085e77b4b1db"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_star_8.mp3",
+      "sha1": "e1a3ddaff30b7d5d58951db3ef4c2caada237e07"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_star_9.mp3",
+      "sha1": "b531fd1301c869d9e9ccf7ec78ac4f786c5ea000"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_telescope_1.mp3",
+      "sha1": "73972ee596bce5e25016c18a7df827a5ae37830b"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_telescope_2.mp3",
+      "sha1": "a3e35a040ef178ca504151a4ed7609fe489fe5aa"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_telescope_3.mp3",
+      "sha1": "854122a569a35efec2cf0634c248ea9234b53fb7"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_telescope_4.mp3",
+      "sha1": "53ebc19774522689b369179115ac229de2877865"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_telescope_5.mp3",
+      "sha1": "9145a1bc5bbd5d238a56e6dea81037c8c7712723"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_telescope_6.mp3",
+      "sha1": "1cdbde9b1286aa2bf72dd437bd88f157333fef68"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_telescope_7.mp3",
+      "sha1": "94047302d5d1b3dc60cbe32027c0110ba4dbf6b5"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_telescope_8.mp3",
+      "sha1": "c6c50dc67c141d1adfbcf50d811847479ff0b218"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_telescope_9.mp3",
+      "sha1": "cfcd50d5e5b48942fa3e0e8886f4511577796f29"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_trophy_1.mp3",
+      "sha1": "76928dc6a080955999a4338ee66e28b89adfefcf"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_trophy_2.mp3",
+      "sha1": "6ef726450ec3906294348529582e492a71abdebf"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_trophy_3.mp3",
+      "sha1": "a536761f1aee38c46fec580c4da23d9f7a344017"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_trophy_4.mp3",
+      "sha1": "befc2c4625d14f1de6f5a24ad13b5cd92d6498bd"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_trophy_5.mp3",
+      "sha1": "5d9665d99274095d366148f582126eeeaab6cb50"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_trophy_6.mp3",
+      "sha1": "83abc1281bc3727ab56d6528caeb04644d3021f5"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_trophy_7.mp3",
+      "sha1": "c8cd562d70c1101ec7c0384fe312b10c36dc4d68"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_trophy_8.mp3",
+      "sha1": "de5b906997e9d3563992878bacbea126801e219f"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_trophy_9.mp3",
+      "sha1": "1572afbd7fb75e41ad22187ad9e79a05fd587f12"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_ufo_1.mp3",
+      "sha1": "8b4ff4a3fcdcac41ff133a3a83f1cd55c9b3f9b4"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_ufo_2.mp3",
+      "sha1": "9813ec0853a363a77d316a9fa9bfe1733e231791"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_ufo_3.mp3",
+      "sha1": "f6e6ce7deea90bf31ec45b4fc173fac389b644e8"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_ufo_4.mp3",
+      "sha1": "bf9328ce9e710859b612c83664e698f6d13653f4"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_ufo_5.mp3",
+      "sha1": "29535ff4f3686a108731f65dcffcee39f60ceea3"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_ufo_6.mp3",
+      "sha1": "9d5fe35ef0cea0bd7b9e2059bf3f7360d341a7b6"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_ufo_7.mp3",
+      "sha1": "a8fda40b30d111b1f860c8a5dbe7a7c6b098b83b"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_ufo_8.mp3",
+      "sha1": "5b8cb9104cf01dd7daa23f018823965fd76e1b09"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_ufo_9.mp3",
+      "sha1": "48edbb4348bcd2c9276b691b1474c93207041ce1"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_whale_1.mp3",
+      "sha1": "5348415943d17c32c1b397fa0357cb336fca6af1"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_whale_2.mp3",
+      "sha1": "0a6ccbe1d2471e18fbf10eee20a38220f145646e"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_whale_3.mp3",
+      "sha1": "ceab0ad571530d3f96cd682b3a94666d6eb6be75"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_whale_4.mp3",
+      "sha1": "5c2ef30a612b866d1e0e3dc2802334d08b0c3fbf"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_whale_5.mp3",
+      "sha1": "7f020b7fdc9f47a0ad052f0b2cd357430089a615"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_whale_6.mp3",
+      "sha1": "1b223e06760963211deab30003c0023922d7a9d6"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_whale_7.mp3",
+      "sha1": "1a25bfd863d1a683970f9e5600cef93fc18450f3"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_whale_8.mp3",
+      "sha1": "683759d5c97033b2fcd294640adfd801bfbe2361"
+    },
+    {
+      "path": "assets/audio/voice_ro_take_whale_9.mp3",
+      "sha1": "cac87ed06f2702b76410422d586f490190a262d1"
     },
     {
       "path": "assets/audio/voice_ro_welcome.mp3",
