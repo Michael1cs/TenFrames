@@ -10,6 +10,7 @@ import {
 } from '../types/game';
 import {generateProblem, generatePuzzleNumber, generateShareProblem, ShareProblem} from '../utils/mathProblems';
 import {shouldLevelUp} from '../utils/scoring';
+import i18n from '../i18n';
 
 export function useGameState() {
   const [gameMode, setGameMode] = useState<GameMode>('counting');
@@ -28,7 +29,13 @@ export function useGameState() {
   const [showPuzzleAnswer, setShowPuzzleAnswer] = useState(false);
   const [feedback, setFeedback] = useState<string>('');
   const [theme, setTheme] = useState<Theme>('space');
-  const [language, setLanguage] = useState<Language>('ro');
+  // Initialize from i18n's resolved language (which picks the device locale,
+  // RO if Romanian, EN otherwise). Without this, language defaulted to 'ro'
+  // while the UI text already followed i18n and rendered in EN — the language
+  // picker then showed RO highlighted on an EN screen.
+  const [language, setLanguage] = useState<Language>(
+    i18n.language === 'ro' ? 'ro' : 'en',
+  );
   const [ageGroup, setAgeGroup] = useState<AgeGroup>('young');
   const [playerName, setPlayerName] = useState('');
   const [showSetup, setShowSetup] = useState(false);
