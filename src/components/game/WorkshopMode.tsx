@@ -13,6 +13,7 @@ import {Emoji} from '../common/Emoji';
 import {AgeGroup, BackgroundEmoji, ThemeColors} from '../../types/game';
 import {useLayout} from '../../hooks/useLayout';
 import {getAllThemes} from '../../hooks/useTheme';
+import {useVoice} from '../../hooks/useVoice';
 
 interface WorkshopModeProps {
   paletteEmojis: BackgroundEmoji[];
@@ -169,6 +170,19 @@ export function WorkshopMode({
 
   const filledCount = cells.filter(c => c !== null).length;
 
+  // Speak the number every time the count changes (paint-and-count) so
+  // Workshop doubles as a counting reinforcement instead of being silent.
+  const voice = useVoice();
+  const voiceRef = useRef(voice);
+  voiceRef.current = voice;
+  const prevCountRef = useRef(filledCount);
+  useEffect(() => {
+    if (filledCount !== prevCountRef.current && filledCount >= 1 && filledCount <= 10) {
+      voiceRef.current.play(`num_${filledCount}`);
+    }
+    prevCountRef.current = filledCount;
+  }, [filledCount]);
+
   const handleCellPress = (idx: number) => {
     setCells(prev => {
       const next = [...prev];
@@ -186,8 +200,20 @@ export function WorkshopMode({
 
   return (
     <View style={styles.container}>
-      <View style={[styles.banner, {backgroundColor: colors.accent}]}>
-        <Text style={styles.bannerText}>🎨 {t('workshop.title')}</Text>
+      {/* Header: title + live count + reset button inline. Cleaner than the
+          previous "counter+button footer block" that competed visually with
+          the palette and celebration banner. */}
+      <View style={styles.headerRow}>
+        <View style={[styles.banner, {backgroundColor: colors.accent}]}>
+          <Text style={styles.bannerText}>
+            🎨 {filledCount}/10
+          </Text>
+        </View>
+        <Pressable
+          onPress={handleClearAll}
+          style={[styles.headerResetBtn, {backgroundColor: colors.primaryButton}]}>
+          <Text style={styles.headerResetText}>↻</Text>
+        </Pressable>
       </View>
 
       {/* Mini celebration when the child fills the whole ten frame. */}
@@ -276,18 +302,6 @@ export function WorkshopMode({
         </View>
       </Modal>
 
-      <View style={styles.footerRow}>
-        <View style={[styles.counter, {borderColor: colors.accent}]}>
-          <Text style={[styles.counterText, {color: colors.numberText}]}>
-            {filledCount}/10
-          </Text>
-        </View>
-        <Pressable
-          onPress={handleClearAll}
-          style={[styles.clearBtn, {backgroundColor: colors.primaryButton}]}>
-          <Text style={styles.clearBtnText}>↻</Text>
-        </Pressable>
-      </View>
     </View>
   );
 }
@@ -296,6 +310,32 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     gap: 14,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  headerResetBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.4)',
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+  },
+  headerResetText: {
+    fontSize: 26,
+    color: '#FFFFFF',
+    fontWeight: '900',
+    lineHeight: 30,
+    includeFontPadding: false,
   },
   banner: {
     paddingHorizontal: 24,
