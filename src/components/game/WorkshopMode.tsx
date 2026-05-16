@@ -13,7 +13,8 @@ import {Emoji} from '../common/Emoji';
 import {AgeGroup, BackgroundEmoji, ThemeColors} from '../../types/game';
 import {useLayout} from '../../hooks/useLayout';
 import {getAllThemes} from '../../hooks/useTheme';
-import {useVoice} from '../../hooks/useVoice';
+import {useVoice, VOICE_GROUPS} from '../../hooks/useVoice';
+import {useSound} from '../../hooks/useSound';
 
 interface WorkshopModeProps {
   paletteEmojis: BackgroundEmoji[];
@@ -67,19 +68,61 @@ interface WorkshopCellProps {
   colors: ThemeColors;
 }
 
+// Tag each emoji with a category so the entry animation can feel right —
+// rockets "lift off", stars sparkle-rotate, hearts/candies pop, rest bounce.
+function emojiCategory(e: string | null): 'space' | 'star' | 'pop' | 'default' {
+  if (!e) return 'default';
+  if (['🚀', '🛸', '☄️', '👽', '🌠'].includes(e)) return 'space';
+  if (['⭐', '🌟', '✨', '💫', '🌈'].includes(e)) return 'star';
+  if (['❤️', '💖', '🍬', '🍭', '🧁', '🦄', '👑', '💎', '🎉'].includes(e)) return 'pop';
+  return 'default';
+}
+
 function WorkshopCell({emoji, onPress, cellSize, colors}: WorkshopCellProps) {
   const scale = useSharedValue(1);
   const fill = useSharedValue(emoji ? 1 : 0);
+  const ty = useSharedValue(0);
+  const rot = useSharedValue(0);
+
   useEffect(() => {
-    fill.value = withSpring(emoji ? 1 : 0, {damping: 8, stiffness: 150});
-  }, [emoji, fill]);
+    const cat = emojiCategory(emoji);
+    if (emoji) {
+      fill.value = withSpring(1, {damping: 8, stiffness: 150});
+      if (cat === 'space') {
+        // "Lift off" — start from below, settle up
+        ty.value = 12;
+        ty.value = withSpring(0, {damping: 6, stiffness: 220});
+      } else if (cat === 'star') {
+        // Sparkle: small rotation + scale pulse
+        rot.value = -25;
+        rot.value = withSequence(
+          withTiming(15, {duration: 200}),
+          withSpring(0, {damping: 5, stiffness: 180}),
+        );
+      } else if (cat === 'pop') {
+        // Big pop using scale only — handled by fill spring being bouncier
+        fill.value = withSequence(
+          withTiming(1.25, {duration: 140}),
+          withSpring(1, {damping: 4, stiffness: 200}),
+        );
+      }
+    } else {
+      fill.value = withSpring(0, {damping: 8, stiffness: 150});
+      ty.value = 0;
+      rot.value = 0;
+    }
+  }, [emoji, fill, ty, rot]);
 
   const cellStyle = useAnimatedStyle(() => ({
     transform: [{scale: scale.value}],
   }));
   const tokenStyle = useAnimatedStyle(() => ({
-    transform: [{scale: fill.value}],
-    opacity: fill.value,
+    transform: [
+      {scale: fill.value},
+      {translateY: ty.value},
+      {rotate: `${rot.value}deg`},
+    ],
+    opacity: Math.min(1, fill.value),
   }));
 
   const handle = () => {
@@ -172,13 +215,28 @@ export function WorkshopMode({
 
   // Speak the number every time the count changes (paint-and-count) so
   // Workshop doubles as a counting reinforcement instead of being silent.
+  // Praise milestones at 5 and 10 (filling half / filling full).
   const voice = useVoice();
   const voiceRef = useRef(voice);
   voiceRef.current = voice;
+  const {play: playSound} = useSound();
+  const playSoundRef = useRef(playSound);
+  playSoundRef.current = playSound;
   const prevCountRef = useRef(filledCount);
   useEffect(() => {
-    if (filledCount !== prevCountRef.current && filledCount >= 1 && filledCount <= 10) {
-      voiceRef.current.play(`num_${filledCount}`);
+    const prev = prevCountRef.current;
+    if (filledCount !== prev) {
+      if (filledCount > prev) playSoundRef.current('tap');
+      if (filledCount >= 1 && filledCount <= 10) {
+        voiceRef.current.play(`num_${filledCount}`);
+      }
+      if (filledCount > prev && (filledCount === 5 || filledCount === 10)) {
+        // Brief celebratory praise on milestones; star sound for full.
+        setTimeout(() => {
+          voiceRef.current.playRandom(VOICE_GROUPS.correct);
+          if (filledCount === 10) playSoundRef.current('star');
+        }, 700);
+      }
     }
     prevCountRef.current = filledCount;
   }, [filledCount]);
