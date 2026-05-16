@@ -12,9 +12,13 @@ import Animated, {
 import {useTranslation} from 'react-i18next';
 import {Emoji} from '../common/Emoji';
 import {useVoice} from '../../hooks/useVoice';
+import {LanguageSwitcher} from '../layout/LanguageSwitcher';
+import {Language} from '../../types/game';
 
 interface ModeChoiceProps {
   visible: boolean;
+  language: Language;
+  onLanguageChange: (lang: Language) => void;
   onAdventure: () => void;
   onFreeplay: () => void;
 }
@@ -43,6 +47,8 @@ function FloatingEmoji({emoji, style}: {emoji: string; style: any}) {
 
 export function ModeChoice({
   visible,
+  language,
+  onLanguageChange,
   onAdventure,
   onFreeplay,
 }: ModeChoiceProps) {
@@ -133,6 +139,15 @@ export function ModeChoice({
           locations={[0, 0.45, 1]}
           style={StyleSheet.absoluteFill}
         />
+        {/* Language picker (top-right). Lets the parent flip the app
+            language even when the device locale doesn't match the
+            preferred reading. Tiny, doesn't compete with the cards. */}
+        <View style={styles.langPicker} pointerEvents="box-none">
+          <LanguageSwitcher
+            language={language}
+            onLanguageChange={onLanguageChange}
+          />
+        </View>
         <View style={styles.overlay}>
           {/* Decorative floating emojis */}
           <FloatingEmoji emoji="⭐" style={styles.bgEmoji1} />
@@ -238,6 +253,12 @@ export function ModeChoice({
 const styles = StyleSheet.create({
   gradient: {
     flex: 1,
+  },
+  langPicker: {
+    position: 'absolute',
+    top: 50,
+    right: 16,
+    zIndex: 10,
   },
   overlay: {
     flex: 1,

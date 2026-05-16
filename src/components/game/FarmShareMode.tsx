@@ -225,7 +225,15 @@ export function FarmShareMode({
   // Auto-validate when pool empties. Equal split = onMatch; otherwise nudge.
   useEffect(() => {
     if (!problem) return;
-    if (remaining > 0 || matchedRef.current) return;
+    // Child rearranged the pool — clear the match latch so a fresh equal
+    // split below re-triggers the timer. Without this, a kid who reaches
+    // 4+4, has second thoughts mid-grace, and returns to 4+4 stays frozen
+    // because matchedRef would still be true while the timer was cleared.
+    if (remaining > 0) {
+      matchedRef.current = false;
+      return;
+    }
+    if (matchedRef.current) return;
     if (distributed !== problem.total) return; // nothing distributed yet
     const equal = baskets.every(c => c === problem.target);
     if (equal) {

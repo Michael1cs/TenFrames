@@ -761,6 +761,8 @@ function GameShellInner() {
 
         <ModeChoice
           visible={showModeChoice}
+          language={game.language}
+          onLanguageChange={handleLanguageChange}
           onAdventure={() => handleModeChoice('adventure')}
           onFreeplay={() => handleModeChoice('freeplay')}
         />

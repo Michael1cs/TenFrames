@@ -79,11 +79,16 @@ export function LevelCompleteScreen({
   voiceRef.current = voice;
 
   // Play a transition cue ~2.5s after the screen mounts so the praise/stars
-  // animation finishes first. Last level in the world gets the world-done
-  // celebration; other levels get "let's go to the next level!".
+  // animation finishes first. Stop any in-flight voice first — opening this
+  // screen triggers a cascade of reward-system voices (sticker, achievement,
+  // milestone) from the 5 batched awardStars calls; without the stop the
+  // transition cue overlaps mid-word with whichever reward voice is current.
   useEffect(() => {
     const id = hasNextLevel ? 'lvl_next' : 'lvl_world_done';
-    const t = setTimeout(() => voiceRef.current.play(id), 2500);
+    const t = setTimeout(() => {
+      voiceRef.current.stop();
+      voiceRef.current.play(id);
+    }, 2500);
     return () => clearTimeout(t);
   }, [hasNextLevel]);
 
