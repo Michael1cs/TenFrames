@@ -159,9 +159,11 @@ function GameShellInner() {
         game.currentProblem &&
         (game.gameMode === 'addition' || game.gameMode === 'subtraction')
       ) {
-        voice.play(`post_great_${game.theme}_${game.currentProblem.answer}`);
+        queueVoice(`post_great_${game.theme}_${game.currentProblem.answer}`);
       } else {
-        voice.playRandom(VOICE_GROUPS.correct);
+        // Random praise via the queue so reward voices don't interrupt it.
+        const ids = VOICE_GROUPS.correct;
+        queueVoice(ids[Math.floor(Math.random() * ids.length)]);
       }
       const wasFirstTry = game.streak > 0;
       const stars = rewardSystem.awardStars(game.gameMode, wasFirstTry);
@@ -237,46 +239,73 @@ function GameShellInner() {
     );
   }, [game.currentProblem, game.gameMode, game.ageGroup, game.theme, voice]);
 
+  // Voice queue — serializes reward + praise voices so they never overlap.
+  // On a correct answer, handleSubmit and three reward useEffects can each
+  // fire a voice within milliseconds of each other; without a queue they
+  // interrupted each other mid-word. Each queued clip waits for the
+  // previous one's onDone before starting, with a small gap.
+  const voiceQueueRef = useRef<string[]>([]);
+  const voiceQueueBusyRef = useRef(false);
+  const drainVoiceQueue = useCallback(() => {
+    if (voiceQueueBusyRef.current) return;
+    const next = voiceQueueRef.current.shift();
+    if (!next) return;
+    voiceQueueBusyRef.current = true;
+    voice.play(next, () => {
+      voiceQueueBusyRef.current = false;
+      setTimeout(() => drainVoiceQueue(), 300);
+    });
+  }, [voice]);
+  const queueVoice = useCallback(
+    (id: string) => {
+      voiceQueueRef.current.push(id);
+      drainVoiceQueue();
+    },
+    [drainVoiceQueue],
+  );
+
   // Reward voices: sticker, achievement, milestone — fire on edge transitions.
+  // All queued so they play AFTER any praise voice, one at a time.
   const prevStickerCount = useRef(0);
   useEffect(() => {
     if (rewardSystem.newStickers.length > prevStickerCount.current) {
-      voice.play('reward_sticker');
+      queueVoice('reward_sticker');
     }
     prevStickerCount.current = rewardSystem.newStickers.length;
-  }, [rewardSystem.newStickers.length, voice]);
+  }, [rewardSystem.newStickers.length, queueVoice]);
 
   const prevAchievement = useRef<string | null>(null);
   useEffect(() => {
     if (rewardSystem.newAchievement && rewardSystem.newAchievement !== prevAchievement.current) {
-      voice.play('reward_achievement');
+      queueVoice('reward_achievement');
     }
     prevAchievement.current = rewardSystem.newAchievement;
-  }, [rewardSystem.newAchievement, voice]);
+  }, [rewardSystem.newAchievement, queueVoice]);
 
   const prevMilestone = useRef<string | null>(null);
   useEffect(() => {
     if (rewardSystem.showMilestone && rewardSystem.showMilestone !== prevMilestone.current) {
-      // showMilestone is a string id like 'star10', 'star25', etc.
       const id = rewardSystem.showMilestone;
-      if (id.includes('100')) voice.play('reward_milestone_100');
-      else if (id.includes('50')) voice.play('reward_milestone_50');
-      else if (id.includes('25')) voice.play('reward_milestone_25');
-      else voice.play('reward_milestone_10');
+      if (id.includes('100')) queueVoice('reward_milestone_100');
+      else if (id.includes('50')) queueVoice('reward_milestone_50');
+      else if (id.includes('25')) queueVoice('reward_milestone_25');
+      else queueVoice('reward_milestone_10');
     }
     prevMilestone.current = rewardSystem.showMilestone;
-  }, [rewardSystem.showMilestone, voice]);
+  }, [rewardSystem.showMilestone, queueVoice]);
 
-  // Level complete in adventure: voice based on stars earned.
+  // Level complete in adventure: voice based on stars earned. Queued so it
+  // chains after any pending praise/sticker/milestone voice instead of
+  // interrupting them.
   const prevAdventureStars = useRef<number | null>(null);
   useEffect(() => {
     if (adventureStars !== null && adventureStars !== prevAdventureStars.current) {
-      if (adventureStars === 3) voice.play('reward_level_perfect');
-      else if (adventureStars === 2) voice.play('reward_level_great');
-      else if (adventureStars === 1) voice.play('reward_level_good');
+      if (adventureStars === 3) queueVoice('reward_level_perfect');
+      else if (adventureStars === 2) queueVoice('reward_level_great');
+      else if (adventureStars === 1) queueVoice('reward_level_good');
     }
     prevAdventureStars.current = adventureStars;
-  }, [adventureStars, voice]);
+  }, [adventureStars, queueVoice]);
 
   // Sound on level-up
   const prevAddLevel = useRef(game.additionLevel);
