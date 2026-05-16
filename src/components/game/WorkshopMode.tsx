@@ -1,7 +1,8 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet, Pressable, Modal, ScrollView} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import Animated, {
+  BounceIn,
   useAnimatedStyle,
   useSharedValue,
   withSequence,
@@ -11,6 +12,7 @@ import Animated, {
 import {Emoji} from '../common/Emoji';
 import {AgeGroup, BackgroundEmoji, ThemeColors} from '../../types/game';
 import {useLayout} from '../../hooks/useLayout';
+import {getAllThemes} from '../../hooks/useTheme';
 
 interface WorkshopModeProps {
   paletteEmojis: BackgroundEmoji[];
@@ -138,6 +140,23 @@ export function WorkshopMode({
   const [cells, setCells] = useState<(string | null)[]>(() =>
     Array(10).fill(null),
   );
+  const [showAllEmoji, setShowAllEmoji] = useState(false);
+
+  // All unique emojis across every theme — used by the "More" modal so the
+  // child isn't locked to the current theme's palette.
+  const allEmojis = useMemo(() => {
+    const seen = new Set<string>();
+    const out: string[] = [];
+    for (const th of getAllThemes()) {
+      for (const item of th.backgroundEmojis) {
+        if (!seen.has(item.emoji)) {
+          seen.add(item.emoji);
+          out.push(item.emoji);
+        }
+      }
+    }
+    return out;
+  }, []);
 
   // Reset selection if theme palette changes (e.g., theme switch mid-session).
   const lastPaletteRef = useRef(palette);
@@ -153,20 +172,32 @@ export function WorkshopMode({
   const handleCellPress = (idx: number) => {
     setCells(prev => {
       const next = [...prev];
-      // Tapping a cell with the same emoji clears it; otherwise stamp the
-      // currently selected emoji (works for empty cells and overwrites).
-      next[idx] = next[idx] === selected ? null : selected;
+      // Tap on a filled cell always clears it (regardless of what emoji is
+      // selected) — simpler mental model than the previous "tap same to
+      // clear, tap different to overwrite". Tap empty stamps the selected.
+      next[idx] = next[idx] === null ? selected : null;
       return next;
     });
   };
 
   const handleClearAll = () => setCells(Array(10).fill(null));
 
+  const isFull = filledCount === 10;
+
   return (
     <View style={styles.container}>
       <View style={[styles.banner, {backgroundColor: colors.accent}]}>
         <Text style={styles.bannerText}>🎨 {t('workshop.title')}</Text>
       </View>
+
+      {/* Mini celebration when the child fills the whole ten frame. */}
+      {isFull && (
+        <Animated.View
+          entering={BounceIn.duration(500)}
+          style={[styles.celebration, {backgroundColor: colors.accent}]}>
+          <Text style={styles.celebrationText}>🎉 🌟 🎉</Text>
+        </Animated.View>
+      )}
 
       <View
         style={[
@@ -196,7 +227,54 @@ export function WorkshopMode({
             colors={colors}
           />
         ))}
+        <PaletteButton
+          emoji="🌈"
+          active={false}
+          onPress={() => setShowAllEmoji(true)}
+          colors={colors}
+        />
       </View>
+
+      {/* "All emojis" picker — pulls one of every emoji used by every theme,
+          so the child isn't locked to the current theme's tiny palette. */}
+      <Modal
+        visible={showAllEmoji}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setShowAllEmoji(false)}>
+        <View style={styles.allEmojiBackdrop}>
+          <View style={[styles.allEmojiSheet, {backgroundColor: colors.accent}]}>
+            <View style={styles.allEmojiHeader}>
+              <Text style={styles.allEmojiTitle}>🌈</Text>
+              <Pressable
+                onPress={() => setShowAllEmoji(false)}
+                style={styles.allEmojiClose}>
+                <Text style={styles.allEmojiCloseText}>✕</Text>
+              </Pressable>
+            </View>
+            <ScrollView contentContainerStyle={styles.allEmojiGrid}>
+              {allEmojis.map(e => (
+                <Pressable
+                  key={e}
+                  onPress={() => {
+                    setSelected(e);
+                    setShowAllEmoji(false);
+                  }}
+                  style={[
+                    styles.allEmojiCell,
+                    selected === e && {
+                      backgroundColor: 'rgba(255,255,255,0.35)',
+                    },
+                  ]}>
+                  <Text style={styles.allEmojiText}>
+                    <Emoji>{e}</Emoji>
+                  </Text>
+                </Pressable>
+              ))}
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
 
       <View style={styles.footerRow}>
         <View style={[styles.counter, {borderColor: colors.accent}]}>
@@ -324,5 +402,68 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     lineHeight: 42,
     includeFontPadding: false,
+  },
+  celebration: {
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.5)',
+  },
+  celebrationText: {
+    fontSize: 28,
+    textAlign: 'center',
+  },
+  allEmojiBackdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.55)',
+    justifyContent: 'flex-end',
+  },
+  allEmojiSheet: {
+    maxHeight: '70%',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    padding: 16,
+  },
+  allEmojiHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 4,
+    marginBottom: 12,
+  },
+  allEmojiTitle: {
+    fontSize: 32,
+  },
+  allEmojiClose: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(0,0,0,0.35)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  allEmojiCloseText: {
+    fontSize: 20,
+    color: '#FFFFFF',
+    fontWeight: '800',
+  },
+  allEmojiGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: 8,
+    paddingBottom: 32,
+  },
+  allEmojiCell: {
+    width: 56,
+    height: 56,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255,255,255,0.18)',
+  },
+  allEmojiText: {
+    fontSize: 32,
   },
 });
