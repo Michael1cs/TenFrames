@@ -198,10 +198,37 @@ function GameShellInner() {
   // Also resync state trackers so we don't re-narrate stale values.
   useEffect(() => {
     voice.stop();
+    voiceQueueRef.current = [];
+    voiceQueueBusyRef.current = false;
     lastProblemKey.current = null;
     prevFilledCount.current = game.filledCount;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [game.gameMode]);
+
+  // Voice queue — serializes reward + praise + next-problem instruction so
+  // they never overlap. On a correct answer, handleSubmit and three reward
+  // useEffects can each fire a voice within milliseconds of each other;
+  // without a queue they interrupted each other mid-word. Each queued clip
+  // waits for the previous one's onDone before starting, with a 300ms gap.
+  const voiceQueueRef = useRef<string[]>([]);
+  const voiceQueueBusyRef = useRef(false);
+  const drainVoiceQueue = useCallback(() => {
+    if (voiceQueueBusyRef.current) return;
+    const next = voiceQueueRef.current.shift();
+    if (!next) return;
+    voiceQueueBusyRef.current = true;
+    voice.play(next, () => {
+      voiceQueueBusyRef.current = false;
+      setTimeout(() => drainVoiceQueue(), 300);
+    });
+  }, [voice]);
+  const queueVoice = useCallback(
+    (id: string) => {
+      voiceQueueRef.current.push(id);
+      drainVoiceQueue();
+    },
+    [drainVoiceQueue],
+  );
 
   // Young profile: speak the number whenever it changes in counting mode.
   useEffect(() => {
@@ -230,39 +257,11 @@ function GameShellInner() {
     const n2 = game.currentProblem.num2;
     const action = game.gameMode === 'addition' ? 'add' : 'sub';
     // Sequence: "You have 1 rocket." → brief pause → "Add 2 more!"
-    voice.playSequence(
-      [
-        `pre_have_${game.theme}_${n1}`,
-        `instr_${action}_${game.theme}_${n2}`,
-      ],
-      350,
-    );
-  }, [game.currentProblem, game.gameMode, game.ageGroup, game.theme, voice]);
-
-  // Voice queue — serializes reward + praise voices so they never overlap.
-  // On a correct answer, handleSubmit and three reward useEffects can each
-  // fire a voice within milliseconds of each other; without a queue they
-  // interrupted each other mid-word. Each queued clip waits for the
-  // previous one's onDone before starting, with a small gap.
-  const voiceQueueRef = useRef<string[]>([]);
-  const voiceQueueBusyRef = useRef(false);
-  const drainVoiceQueue = useCallback(() => {
-    if (voiceQueueBusyRef.current) return;
-    const next = voiceQueueRef.current.shift();
-    if (!next) return;
-    voiceQueueBusyRef.current = true;
-    voice.play(next, () => {
-      voiceQueueBusyRef.current = false;
-      setTimeout(() => drainVoiceQueue(), 300);
-    });
-  }, [voice]);
-  const queueVoice = useCallback(
-    (id: string) => {
-      voiceQueueRef.current.push(id);
-      drainVoiceQueue();
-    },
-    [drainVoiceQueue],
-  );
+    // Route through the queue so reward/praise voices from the previous
+    // problem finish first instead of being cut by the new instruction.
+    queueVoice(`pre_have_${game.theme}_${n1}`);
+    queueVoice(`instr_${action}_${game.theme}_${n2}`);
+  }, [game.currentProblem, game.gameMode, game.ageGroup, game.theme, queueVoice]);
 
   // Reward voices: sticker, achievement, milestone — fire on edge transitions.
   // All queued so they play AFTER any praise voice, one at a time.
