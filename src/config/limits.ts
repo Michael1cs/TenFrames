@@ -5,7 +5,7 @@ export const FREE_DAILY_LIMIT = 5;
 export const FREE_MODES = ['counting', 'workshop'] as const;
 
 // Modes with daily limit for free users
-export const LIMITED_MODES = ['addition', 'subtraction', 'puzzle', 'share'] as const;
+export const LIMITED_MODES = ['addition', 'subtraction', 'puzzle'] as const;
 
 // Free themes (available without purchase)
 export const FREE_THEMES = ['space', 'forest'] as const;

@@ -20,7 +20,6 @@ const allModes: {id: GameMode; emoji: string; key: string; emojiColor?: string}[
   {id: 'addition', emoji: '+', key: 'modes.addition', emojiColor: '#4ADE80'},
   {id: 'subtraction', emoji: '−', key: 'modes.subtraction', emojiColor: '#F87171'},
   {id: 'puzzle', emoji: '🧩', key: 'modes.puzzle'},
-  {id: 'share', emoji: '🐰', key: 'modes.share'},
   {id: 'workshop', emoji: '🎨', key: 'modes.workshop'},
 ];
 
