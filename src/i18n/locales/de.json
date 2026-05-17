@@ -91,7 +91,8 @@
     "saveTheme": "Speichern",
     "saveSettings": "Einstellungen speichern",
     "settings": "Einstellungen",
-    "startAdventure": "Abenteuer starten!"
+    "startAdventure": "Abenteuer starten!",
+    "play": "Spielen!"
   },
   "themes": {
     "space": "Weltraum",
@@ -187,10 +188,12 @@
     "comeBackTomorrow": "Bis morgen!",
     "upgradeTitle": "Mathe mit Lächeln Premium",
     "upgradeSubtitle": "Lerne ohne Grenzen!",
-    "featureUnlimitedModes": "Unbegrenzt Plus, Minus & Rätsel",
+    "featureAllWorlds": "Alle 7 Abenteuer-Welten, jedes Level",
+    "featureUnlimitedModes": "Kein Tageslimit für irgendein Spiel",
     "featureAllThemes": "Alle 10 visuellen Themen",
-    "featureStickerBook": "Komplettes Sticker-Album",
-    "featureAchievements": "Alle Erfolge",
+    "featureStickerBook": "Komplettes Album (36 Sticker)",
+    "featureParentDashboard": "Lernfortschritt deines Kindes verfolgen",
+    "featureAchievements": "Alle 14 Erfolge",
     "oneTimePurchase": "Einmaliger Kauf",
     "buyNow": "Jetzt freischalten",
     "maybeLater": "Vielleicht später",
@@ -351,5 +354,16 @@
     "adventureDesc": "Folge dem Weg und sammle Sterne!",
     "freeplayTitle": "Freies Spielen",
     "freeplayDesc": "Wähle, was du spielen möchtest!"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "voice": "Sprachausgabe",
+    "voiceSub": "Gesprochene Zahlen, Lob und Anweisungen",
+    "unlockTitle": "Premium freischalten",
+    "unlockSub": "Alle Welten, Themen und das ganze Album",
+    "premiumActive": "Premium aktiv",
+    "premiumActiveSub": "Danke für deine Unterstützung!",
+    "about": "Über Ten Frames",
+    "aboutSub": "So funktioniert die Methode"
   }
 }

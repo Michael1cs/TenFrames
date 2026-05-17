@@ -91,7 +91,8 @@
     "saveTheme": "Salvează",
     "saveSettings": "Salvează setările",
     "settings": "Setări",
-    "startAdventure": "Începe aventura!"
+    "startAdventure": "Începe aventura!",
+    "play": "Joacă!"
   },
   "themes": {
     "space": "Spațiu",
@@ -187,10 +188,12 @@
     "comeBackTomorrow": "Ne vedem mâine!",
     "upgradeTitle": "Matematica cu Zâmbete Premium",
     "upgradeSubtitle": "Învață fără limite!",
-    "featureUnlimitedModes": "Adunare, scădere și puzzle nelimitate",
+    "featureAllWorlds": "Toate cele 7 lumi Aventură, toate nivelele",
+    "featureUnlimitedModes": "Fără limită zilnică la niciun joc",
     "featureAllThemes": "Toate cele 10 teme vizuale",
-    "featureStickerBook": "Album de stickere complet",
-    "featureAchievements": "Toate realizările",
+    "featureStickerBook": "Album complet (36 stickere)",
+    "featureParentDashboard": "Urmărește evoluția copilului în joc",
+    "featureAchievements": "Toate cele 14 realizări",
     "oneTimePurchase": "Plată unică",
     "buyNow": "Deblochează acum",
     "maybeLater": "Poate mai târziu",
@@ -351,5 +354,16 @@
     "adventureDesc": "Mergi pe hartă și câștigă stele!",
     "freeplayTitle": "Joacă liber",
     "freeplayDesc": "Alege ce vrei să joci!"
+  },
+  "settings": {
+    "title": "Setări",
+    "voice": "Narațiune vocală",
+    "voiceSub": "Numere, laude și instrucțiuni vorbite",
+    "unlockTitle": "Deblochează Premium",
+    "unlockSub": "Toate lumile, temele și albumul complet",
+    "premiumActive": "Premium activ",
+    "premiumActiveSub": "Mulțumim pentru suport!",
+    "about": "Despre Ten Frames",
+    "aboutSub": "Cum funcționează metoda"
   }
 }

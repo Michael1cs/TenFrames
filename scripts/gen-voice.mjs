@@ -37,10 +37,30 @@ if (!API_KEY) {
   process.exit(1);
 }
 
-const VOICE_ID_RO = process.env.VOICE_ID_RO || 'XB0fDUnXU5powFXDhCwa'; // Charlotte
-const VOICE_ID_EN = process.env.VOICE_ID_EN || 'EXAVITQu4vr4xnSDxMaL'; // Bella
+// ──────────────────────────────────────────────────────────────────────
+// VOICE LIBRARY MAP — match the existing on-disk recordings exactly so any
+// single-clip regen doesn't drift in timbre from the rest of the library.
+// Per-language voice id AND model. Override with VOICE_ID_<LANG> /
+// ELEVENLABS_MODEL_<LANG> env vars when experimenting.
+//
+//   RO: native-Romanian voice + eleven_v3
+//        (Charlotte EXAVITQu... sounds English; do NOT revert without
+//        regenerating the whole library.)
+//   EN: lively female voice + eleven_multilingual_v2
+//        (Bella EXAVITQu... sounds toned-down and doesn't match the rest.)
+//   DE: native-German voice + eleven_v3
+// ──────────────────────────────────────────────────────────────────────
+const VOICE_ID_RO = process.env.VOICE_ID_RO || 'gCte8DU5EgI3W1KcuLSA';
+const VOICE_ID_EN = process.env.VOICE_ID_EN || 'tapn1QwocNXk3viVSowa';
 const VOICE_ID_DE = process.env.VOICE_ID_DE || '7eVMgwCnXydb3CikjV7a';
-const MODEL_ID = process.env.ELEVENLABS_MODEL || 'eleven_multilingual_v2';
+
+const MODEL_PER_LANG = {
+  ro: process.env.ELEVENLABS_MODEL_RO || 'eleven_v3',
+  en: process.env.ELEVENLABS_MODEL_EN || 'eleven_multilingual_v2',
+  de: process.env.ELEVENLABS_MODEL_DE || 'eleven_v3',
+};
+// Single-model override (back-compat). When set, applies to all langs.
+const MODEL_ID = process.env.ELEVENLABS_MODEL || null;
 
 const args = new Set(process.argv.slice(2));
 const lang = [...args].find(a => a.startsWith('--lang='))?.split('=')[1] || 'both';
@@ -98,7 +118,7 @@ console.log(`Parsed ${entries.length} entries; will generate ${selectedEntries.l
 
 if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, {recursive: true});
 
-async function tts(voiceId, text) {
+async function tts(voiceId, text, modelId) {
   const url = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_64`;
   const res = await fetch(url, {
     method: 'POST',
@@ -109,7 +129,7 @@ async function tts(voiceId, text) {
     },
     body: JSON.stringify({
       text,
-      model_id: MODEL_ID,
+      model_id: modelId,
       voice_settings: {stability: 0.55, similarity_boost: 0.75, style: 0.4, use_speaker_boost: true},
     }),
   });
@@ -127,6 +147,8 @@ async function generateAll() {
       language === 'ro' ? VOICE_ID_RO :
       language === 'de' ? VOICE_ID_DE :
       VOICE_ID_EN;
+    const modelId = MODEL_ID || MODEL_PER_LANG[language];
+    console.log(`[${language}] voice=${voiceId} model=${modelId}`);
     for (const entry of selectedEntries) {
       const text = entry[language];
       const filename = `voice_${language}_${entry.id}.mp3`;
@@ -137,7 +159,7 @@ async function generateAll() {
       }
       try {
         process.stdout.write(`[${language}] ${entry.id}: ${text.slice(0, 50)}... `);
-        const buf = await tts(voiceId, text);
+        const buf = await tts(voiceId, text, modelId);
         fs.writeFileSync(outPath, buf);
         console.log(`✓ ${(buf.length / 1024).toFixed(1)}KB`);
         total++;

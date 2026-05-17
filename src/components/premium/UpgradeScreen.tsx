@@ -69,9 +69,11 @@ export function UpgradeScreen({
   }, []);
 
   const features = [
-    {emoji: '🎈', key: 'premium.featureUnlimitedModes'},
+    {emoji: '🗺️', key: 'premium.featureAllWorlds'},
+    {emoji: '♾️', key: 'premium.featureUnlimitedModes'},
     {emoji: '🎨', key: 'premium.featureAllThemes'},
     {emoji: '📖', key: 'premium.featureStickerBook'},
+    {emoji: '📊', key: 'premium.featureParentDashboard'},
     {emoji: '🏆', key: 'premium.featureAchievements'},
   ];
 

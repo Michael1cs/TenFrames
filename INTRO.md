@@ -26,11 +26,37 @@ freeLevels = 3 per world (gated to 3 free, the rest behind premium).
 - Workshop (free) — theme-emoji palette + ten frame as a sandbox
 - Addition / Subtraction / Make 10 / Share — gated 5/day for free users
 
+### Navigation & screens
+- React Navigation native-stack (`@react-navigation/native-stack`) with
+  iOS swipe-from-left back gesture on every screen. Stack lives in
+  `GameShell.tsx`; routes: `Home` → `FreePlay` | `AdventureWorlds` →
+  `AdventureLevels` → `AdventureLevel`.
+- `Home` is the landing page — two cards (Adventure / Free Play), a 🏆
+  badge top-left for the Parent Dashboard, and a ⚙️ Settings entry
+  top-right alongside the language switcher.
+- Settings panel: voice on/off, Premium upgrade row, About link. The
+  Premium row stays visible even when `isPremium=true` (dev) so the
+  upgrade UI is always discoverable.
+- Premium offer screen now lists 6 features incl. all Adventure worlds,
+  parent dashboard ("track your child's progress"), unlimited daily play.
+
 ### Voice
-- 1294 EN audio clips, voice id `tapn1QwocNXk3viVSowa`
-  (gen-voice default override). Model: `eleven_multilingual_v2`.
-- 1294 RO audio clips, voice id `gCte8DU5EgI3W1KcuLSA`,
-  model: `eleven_v3` (newer alpha — better pronunciation for Romanian).
+- 1268 EN audio clips, voice id `tapn1QwocNXk3viVSowa`,
+  model: `eleven_multilingual_v2`.
+- 1268 RO audio clips, voice id `gCte8DU5EgI3W1KcuLSA`,
+  model: `eleven_v3`. Digits in RO text are written as gender-correct
+  words ("Ai două rachete", "Ai cinci comete") to stop the TTS reading
+  numbers in Italian/French (was: "doi rachete", "cinquo").
+- 1268 DE audio clips, voice id `7eVMgwCnXydb3CikjV7a`,
+  model: `eleven_v3`. Device locale German auto-selects DE.
+- Voice ID + model defaults are pinned per-language in
+  `scripts/gen-voice.mjs`. Do NOT regen a single clip with different
+  settings without regenerating the whole language — the timbre drift
+  is audible.
+- Global voice queue lives at module level in `src/hooks/useVoice.ts`.
+  All `play` / `playRandom` / `playSequence` calls from every screen
+  serialize through one FIFO with a 250 ms gap between clips, so
+  Adventure narration never overlaps GameShell's reward/praise chain.
 - Per-level emoji noun narration ("Great! You have 5 octopuses!") for
   Addition Island, Subtraction Mountain, Counting Meadow, Doubles
   Castle praise.
@@ -38,6 +64,7 @@ freeLevels = 3 per world (gated to 3 free, the rest behind premium).
   instruction.
 - Result-then-praise ordering ("Five fish! → Awesome!") with ~40%
   praise frequency.
+- Voice on/off toggle in Settings (⚙️ on Home) persists in PlayerData.
 
 ### Other
 - 56 → 68 levels across the run.

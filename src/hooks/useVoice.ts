@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import Sound from 'react-native-sound';
 import {useTranslation} from 'react-i18next';
 import {VOICE_BY_ID} from '../voice/script';
@@ -15,6 +15,18 @@ const FILES_PER_LANG: Record<Lang, Record<string, Sound | null | undefined>> = {
 
 let globalEnabled = true;
 let currentlyPlaying: Sound | null = null;
+
+// Module-level setter so any component (Settings, GameShell) can flip the
+// global voice on/off without needing the same useVoice instance.
+export function setVoiceEnabled(enabled: boolean) {
+  globalEnabled = enabled;
+  if (!enabled) {
+    queue.length = 0;
+    currentlyPlaying?.stop();
+    currentlyPlaying = null;
+    busy = false;
+  }
+}
 
 function buildPath(lang: Lang, id: string) {
   // react-native-sound looks up file in MAIN_BUNDLE (iOS) or res/raw (Android).
@@ -42,6 +54,77 @@ function loadFile(lang: Lang, id: string): Promise<Sound | null> {
   });
 }
 
+// ─────────────────────────────────────────────────────────────────────
+// Module-level voice queue. Every play / playRandom / playSequence call
+// pushes into this single FIFO so clips never overlap, even when they
+// originate from different useVoice instances (GameShell, Adventure
+// screens, ModeChoice — each previously had its own queue). The gap is
+// inserted AFTER each clip finishes; tweak via DEFAULT_GAP_MS.
+// ─────────────────────────────────────────────────────────────────────
+const DEFAULT_GAP_MS = 250;
+
+type Job = {
+  lang: Lang;
+  id: string;
+  onDone?: () => void;
+  gapMs: number;
+};
+const queue: Job[] = [];
+let busy = false;
+let drainTimer: ReturnType<typeof setTimeout> | null = null;
+
+function drain() {
+  if (busy) return;
+  if (drainTimer) {
+    clearTimeout(drainTimer);
+    drainTimer = null;
+  }
+  const next = queue.shift();
+  if (!next) return;
+  busy = true;
+  void loadFile(next.lang, next.id).then(sound => {
+    if (!sound || !globalEnabled) {
+      busy = false;
+      next.onDone?.();
+      drainTimer = setTimeout(drain, next.gapMs);
+      return;
+    }
+    if (currentlyPlaying && currentlyPlaying !== sound) {
+      currentlyPlaying.stop();
+    }
+    currentlyPlaying = sound;
+    sound.stop(() => {
+      sound.setCurrentTime(0);
+      sound.play(() => {
+        if (currentlyPlaying === sound) currentlyPlaying = null;
+        busy = false;
+        next.onDone?.();
+        drainTimer = setTimeout(drain, next.gapMs);
+      });
+    });
+  });
+}
+
+function enqueue(lang: Lang, id: string, onDone?: () => void, gapMs = DEFAULT_GAP_MS) {
+  if (!globalEnabled) {
+    onDone?.();
+    return;
+  }
+  queue.push({lang, id, onDone, gapMs});
+  drain();
+}
+
+export function clearVoiceQueue() {
+  queue.length = 0;
+  if (drainTimer) {
+    clearTimeout(drainTimer);
+    drainTimer = null;
+  }
+  currentlyPlaying?.stop();
+  currentlyPlaying = null;
+  busy = false;
+}
+
 export interface UseVoiceOptions {
   enabled?: boolean;
 }
@@ -49,58 +132,44 @@ export interface UseVoiceOptions {
 export function useVoice(opts: UseVoiceOptions = {}) {
   const {i18n} = useTranslation();
   const [ready, setReady] = useState(false);
-  const enabledRef = useRef(opts.enabled ?? true);
-  enabledRef.current = opts.enabled ?? true;
 
+  // When an explicit `enabled` prop is supplied, drive the module-level
+  // flag from it. Hooks called without opts (most components) just observe
+  // whatever the latest explicit setter wrote — that's how the global voice
+  // toggle in Settings reaches every consumer.
   useEffect(() => {
-    globalEnabled = enabledRef.current;
+    if (opts.enabled !== undefined) {
+      setVoiceEnabled(opts.enabled);
+    }
   }, [opts.enabled]);
 
   useEffect(() => {
     setReady(true);
     return () => {
-      currentlyPlaying?.stop();
-      currentlyPlaying = null;
+      // Don't tear down the shared queue when a single consumer unmounts —
+      // other screens may still be using it. Only stop the in-flight clip.
     };
   }, []);
 
+  const langOf = useCallback((): Lang => {
+    return (i18n.language === 'ro'
+      ? 'ro'
+      : i18n.language === 'de'
+      ? 'de'
+      : 'en') as Lang;
+  }, [i18n.language]);
+
   const play = useCallback(
-    async (id: string, onDone?: () => void) => {
-      if (!globalEnabled) {
-        onDone?.();
-        return;
-      }
+    (id: string, onDone?: () => void) => {
       const entry = VOICE_BY_ID[id];
       if (!entry) {
         console.warn(`[useVoice] Unknown voice id: ${id}`);
         onDone?.();
         return;
       }
-      const lang = (
-        i18n.language === 'ro' ? 'ro' :
-        i18n.language === 'de' ? 'de' :
-        'en'
-      ) as Lang;
-      const sound = await loadFile(lang, id);
-      if (!sound) {
-        onDone?.();
-        return; // file not yet generated — silent fallback
-      }
-
-      // Interrupt previous clip
-      if (currentlyPlaying && currentlyPlaying !== sound) {
-        currentlyPlaying.stop();
-      }
-      currentlyPlaying = sound;
-      sound.stop(() => {
-        sound.setCurrentTime(0);
-        sound.play(() => {
-          if (currentlyPlaying === sound) currentlyPlaying = null;
-          onDone?.();
-        });
-      });
+      enqueue(langOf(), id, onDone);
     },
-    [i18n.language],
+    [langOf],
   );
 
   const playRandom = useCallback(
@@ -111,49 +180,25 @@ export function useVoice(opts: UseVoiceOptions = {}) {
     [play],
   );
 
-  const queueTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const cancelQueue = () => {
-    if (queueTimerRef.current) {
-      clearTimeout(queueTimerRef.current);
-      queueTimerRef.current = null;
-    }
-  };
-
-  // Chain via completion callback so the next clip never interrupts the
-  // previous one, regardless of clip length. gapAfterMs is the silence
-  // inserted between the end of one clip and the start of the next.
-  // onAllDone fires after the last clip's playback (+ no trailing gap) finishes.
+  // playSequence is now just N enqueue calls — the global FIFO handles
+  // ordering and the gap between them.
   const playSequence = useCallback(
-    (ids: string[], gapAfterMs = 300, onAllDone?: () => void) => {
-      cancelQueue();
+    (ids: string[], gapAfterMs = DEFAULT_GAP_MS, onAllDone?: () => void) => {
       if (!ids.length) {
         onAllDone?.();
         return;
       }
-      let i = 0;
-      const next = () => {
-        if (i >= ids.length) {
-          onAllDone?.();
-          return;
-        }
-        const id = ids[i++];
-        play(id, () => {
-          if (i < ids.length) {
-            queueTimerRef.current = setTimeout(next, gapAfterMs);
-          } else {
-            onAllDone?.();
-          }
-        });
-      };
-      next();
+      const lang = langOf();
+      ids.forEach((id, i) => {
+        const isLast = i === ids.length - 1;
+        enqueue(lang, id, isLast ? onAllDone : undefined, gapAfterMs);
+      });
     },
-    [play],
+    [langOf],
   );
 
   const stop = useCallback(() => {
-    cancelQueue();
-    currentlyPlaying?.stop();
-    currentlyPlaying = null;
+    clearVoiceQueue();
   }, []);
 
   return {play, playRandom, playSequence, stop, ready};

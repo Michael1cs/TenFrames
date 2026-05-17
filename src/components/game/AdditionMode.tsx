@@ -50,12 +50,18 @@ export function AdditionMode({
   //   - exact answer       → submit immediately (fast positive feedback)
   //   - overshoot (>answer) → submit after 2s grace (wrong feedback)
   //   - undershoot         → wait, child is still working
+  // Reset the "already submitted" guard whenever a new problem arrives —
+  // otherwise round 2 stays locked because compact mode hides the submit
+  // button and auto-submit bails on the stale ref.
   const autoSubmittedRef = useRef(false);
+  const problemKey = currentProblem
+    ? `${currentProblem.num1}-${currentProblem.num2}`
+    : null;
   useEffect(() => {
-    if (!compact || !currentProblem || hasSubmitted) {
-      autoSubmittedRef.current = false;
-      return;
-    }
+    autoSubmittedRef.current = false;
+  }, [problemKey]);
+  useEffect(() => {
+    if (!compact || !currentProblem || hasSubmitted) return;
     if (autoSubmittedRef.current) return;
     if (userAnswer === currentProblem.answer) {
       autoSubmittedRef.current = true;

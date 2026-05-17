@@ -36,6 +36,7 @@ export interface PlayerData {
   highScore: number;
   level: number;
   lastMode?: 'adventure' | 'freeplay';
+  voiceEnabled?: boolean;
 }
 
 // === Reward System Types ===

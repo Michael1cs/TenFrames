@@ -50,12 +50,18 @@ export function SubtractionMode({
   //   - exact answer        → submit immediately (fast positive feedback)
   //   - removed too many     → submit after 2s grace (wrong feedback)
   //   - hasn't removed enough → wait, child is still working
+  // Reset the "already submitted" guard whenever a new problem arrives,
+  // otherwise round 2 stays locked (auto-submit bails, and compact mode
+  // hides the manual submit button).
   const autoSubmittedRef = useRef(false);
+  const problemKey = currentProblem
+    ? `${currentProblem.num1}-${currentProblem.num2}`
+    : null;
   useEffect(() => {
-    if (!compact || !currentProblem || hasSubmitted) {
-      autoSubmittedRef.current = false;
-      return;
-    }
+    autoSubmittedRef.current = false;
+  }, [problemKey]);
+  useEffect(() => {
+    if (!compact || !currentProblem || hasSubmitted) return;
     if (autoSubmittedRef.current) return;
     if (userAnswer === currentProblem.answer) {
       autoSubmittedRef.current = true;

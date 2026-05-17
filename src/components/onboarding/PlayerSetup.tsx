@@ -205,7 +205,7 @@ export function PlayerSetup({
                   <View style={styles.startButtonContent}>
                     <Text style={styles.startButtonIcon}><Emoji>▶️</Emoji></Text>
                     <Text style={styles.startButtonText}>
-                      {t('setup.startAdventure')}
+                      {t('setup.play')}
                     </Text>
                   </View>
                 </Pressable>

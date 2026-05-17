@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Text, Pressable, StyleSheet, Modal, ImageBackground, useWindowDimensions} from 'react-native';
+import {View, Text, Pressable, StyleSheet, ImageBackground, useWindowDimensions} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
   BounceIn,
@@ -16,11 +16,17 @@ import {LanguageSwitcher} from '../layout/LanguageSwitcher';
 import {Language} from '../../types/game';
 
 interface ModeChoiceProps {
-  visible: boolean;
   language: Language;
   onLanguageChange: (lang: Language) => void;
   onAdventure: () => void;
   onFreeplay: () => void;
+  // Optional home bar — when present, ModeChoice renders the landing-page
+  // chrome (dashboard left, language + settings right). Omit on first-run
+  // pickers so the screen stays absolutely minimal.
+  homeBar?: {
+    onDashboard: () => void;
+    onSettings: () => void;
+  };
 }
 
 function FloatingEmoji({emoji, style}: {emoji: string; style: any}) {
@@ -46,11 +52,11 @@ function FloatingEmoji({emoji, style}: {emoji: string; style: any}) {
 }
 
 export function ModeChoice({
-  visible,
   language,
   onLanguageChange,
   onAdventure,
   onFreeplay,
+  homeBar,
 }: ModeChoiceProps) {
   const {t} = useTranslation();
 
@@ -94,10 +100,6 @@ export function ModeChoice({
   }));
 
   useEffect(() => {
-    if (!visible) {
-      setActiveCard(null);
-      return;
-    }
     // Welcome lands first so the child knows the app heard them; then the
     // mode prompt and per-card narration follow on the existing cadence.
     const t0 = setTimeout(() => voiceRef.current.play('welcome'), 400);
@@ -118,7 +120,7 @@ export function ModeChoice({
       clearTimeout(t3);
       clearTimeout(t4);
     };
-  }, [visible]);
+  }, []);
 
   const {width, height} = useWindowDimensions();
   const isLandscape = width > height;
@@ -127,7 +129,7 @@ export function ModeChoice({
     : require('../../../assets/backgrounds/space/space_portrait.jpg');
 
   return (
-    <Modal visible={visible} animationType="fade" onRequestClose={() => {}}>
+    <View style={styles.root}>
       <ImageBackground source={spaceBg} style={styles.gradient} resizeMode="cover">
         {/* Subtle dim so white card UI stays legible over the cosmic art. */}
         <LinearGradient
@@ -139,15 +141,37 @@ export function ModeChoice({
           locations={[0, 0.45, 1]}
           style={StyleSheet.absoluteFill}
         />
-        {/* Language picker (top-right). Lets the parent flip the app
-            language even when the device locale doesn't match the
-            preferred reading. Tiny, doesn't compete with the cards. */}
-        <View style={styles.langPicker} pointerEvents="box-none">
-          <LanguageSwitcher
-            language={language}
-            onLanguageChange={onLanguageChange}
-          />
-        </View>
+        {/* Home top bar: 🏆 dashboard on the left, language + ⚙️ settings
+            on the right, both sides inside a translucent pill so the chrome
+            reads cleanly against the cosmic art. On first-run pickers (no
+            homeBar) the screen renders without any chrome. */}
+        {homeBar ? (
+          <View style={styles.topBar} pointerEvents="box-none">
+            <Pressable
+              onPress={homeBar.onDashboard}
+              style={styles.topPillSingle}>
+              <Text style={styles.iconButtonText}><Emoji>🏆</Emoji></Text>
+            </Pressable>
+            <View style={styles.topPillGroup}>
+              <LanguageSwitcher
+                language={language}
+                onLanguageChange={onLanguageChange}
+              />
+              <Pressable
+                onPress={homeBar.onSettings}
+                style={styles.settingsButton}>
+                <Text style={styles.iconButtonText}><Emoji>⚙️</Emoji></Text>
+              </Pressable>
+            </View>
+          </View>
+        ) : (
+          <View style={styles.langPicker} pointerEvents="box-none">
+            <LanguageSwitcher
+              language={language}
+              onLanguageChange={onLanguageChange}
+            />
+          </View>
+        )}
         <View style={styles.overlay}>
           {/* Decorative floating emojis */}
           <FloatingEmoji emoji="⭐" style={styles.bgEmoji1} />
@@ -155,19 +179,30 @@ export function ModeChoice({
           <FloatingEmoji emoji="✨" style={styles.bgEmoji3} />
           <FloatingEmoji emoji="💫" style={styles.bgEmoji4} />
 
-          {/* Ten Frames brand mark — a stylized mini ten-frame above the
-              question so the first screen actually announces the app. */}
+          {/* Brand mark — a mini ten-frame that mirrors the in-game cells:
+              filled cells carry the space theme's rocket emoji, empties show
+              a faint plus so the grid reads as "fillable" at a glance. */}
           <Animated.View entering={BounceIn.delay(100)} style={styles.brandWrap}>
             <View style={styles.miniFrame}>
-              {Array.from({length: 10}).map((_, i) => (
-                <View
-                  key={i}
-                  style={[
-                    styles.miniCell,
-                    i < 7 && styles.miniCellFilled,
-                  ]}
-                />
-              ))}
+              {Array.from({length: 10}).map((_, i) => {
+                const filled = i < 7;
+                return (
+                  <View
+                    key={i}
+                    style={[
+                      styles.miniCell,
+                      filled ? styles.miniCellFilled : styles.miniCellEmpty,
+                    ]}>
+                    {filled ? (
+                      <Text style={styles.miniCellEmoji}>
+                        <Emoji>🚀</Emoji>
+                      </Text>
+                    ) : (
+                      <Text style={styles.miniCellPlus}>+</Text>
+                    )}
+                  </View>
+                );
+              })}
             </View>
             <Text style={styles.brandText}>TEN FRAMES</Text>
           </Animated.View>
@@ -246,11 +281,12 @@ export function ModeChoice({
         </View>
         </View>
       </ImageBackground>
-    </Modal>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  root: {flex: 1},
   gradient: {
     flex: 1,
   },
@@ -259,6 +295,44 @@ const styles = StyleSheet.create({
     top: 50,
     right: 16,
     zIndex: 10,
+  },
+  topBar: {
+    position: 'absolute',
+    top: 50,
+    left: 12,
+    right: 12,
+    zIndex: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  topPillSingle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  topPillGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    paddingVertical: 4,
+    paddingHorizontal: 6,
+    borderRadius: 22,
+  },
+  settingsButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  iconButtonText: {
+    fontSize: 18,
   },
   overlay: {
     flex: 1,
@@ -300,30 +374,47 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   miniFrame: {
+    // 5 columns × 2 rows. Each cell is 28px wide + 1.5px border on each
+    // side (≈31px outer); 4 inter-cell gaps of 4px and 6px container
+    // padding on each side keeps everything on two rows.
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: 5 * 26 + 4 * 6 + 12, // 5 cells × 26px + 4 gaps × 6px + padding
+    width: 5 * 31 + 4 * 4 + 12,
     padding: 6,
     backgroundColor: 'rgba(255,255,255,0.08)',
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: 'rgba(255,255,255,0.35)',
+    borderRadius: 16,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,255,255,0.45)',
     justifyContent: 'center',
     gap: 4,
   },
   miniCell: {
-    width: 24,
-    height: 24,
-    borderRadius: 6,
+    width: 28,
+    height: 28,
+    borderRadius: 7,
     borderWidth: 1.5,
-    borderColor: 'rgba(255,255,255,0.4)',
-    backgroundColor: 'rgba(255,255,255,0.06)',
-    marginRight: 2,
-    marginBottom: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   miniCellFilled: {
-    backgroundColor: '#F59E0B',
-    borderColor: '#F59E0B',
+    backgroundColor: '#3B82F6',
+    borderColor: '#93C5FD',
+    shadowColor: '#3B82F6',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
+  },
+  miniCellEmpty: {
+    backgroundColor: 'rgba(255,255,255,0.92)',
+    borderColor: 'rgba(255,255,255,0.6)',
+  },
+  miniCellEmoji: {
+    fontSize: 16,
+  },
+  miniCellPlus: {
+    color: '#A5B4FC',
+    fontSize: 13,
+    fontWeight: '600',
   },
   brandText: {
     fontSize: 22,

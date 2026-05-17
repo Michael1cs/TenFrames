@@ -91,7 +91,8 @@
     "saveTheme": "Save",
     "saveSettings": "Save settings",
     "settings": "Settings",
-    "startAdventure": "Start adventure!"
+    "startAdventure": "Start adventure!",
+    "play": "Play!"
   },
   "themes": {
     "space": "Space",
@@ -187,10 +188,12 @@
     "comeBackTomorrow": "See you tomorrow!",
     "upgradeTitle": "Math with Smiles Premium",
     "upgradeSubtitle": "Learn without limits!",
-    "featureUnlimitedModes": "Unlimited addition, subtraction & puzzle",
+    "featureAllWorlds": "All 7 Adventure worlds, every level",
+    "featureUnlimitedModes": "No daily limit on any game mode",
     "featureAllThemes": "All 10 visual themes",
-    "featureStickerBook": "Complete sticker book",
-    "featureAchievements": "All achievements",
+    "featureStickerBook": "Complete sticker book (36 stickers)",
+    "featureParentDashboard": "Track your child's progress",
+    "featureAchievements": "All 14 achievements",
     "oneTimePurchase": "One-time purchase",
     "buyNow": "Unlock now",
     "maybeLater": "Maybe later",
@@ -351,5 +354,16 @@
     "adventureDesc": "Follow the path and earn stars!",
     "freeplayTitle": "Free Play",
     "freeplayDesc": "Choose what you want to play!"
+  },
+  "settings": {
+    "title": "Settings",
+    "voice": "Voice narration",
+    "voiceSub": "Spoken numbers, praise, and instructions",
+    "unlockTitle": "Unlock Premium",
+    "unlockSub": "All worlds, themes, and the full sticker book",
+    "premiumActive": "Premium active",
+    "premiumActiveSub": "Thanks for supporting Ten Frames!",
+    "about": "About Ten Frames",
+    "aboutSub": "How the method works"
   }
 }
