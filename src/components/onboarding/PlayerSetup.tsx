@@ -127,20 +127,11 @@ export function PlayerSetup({
               )}
             </Text>
 
-            {/* Name & language only on first-time onboarding (parent setup). */}
+            {/* Language only on first-time onboarding (parent setup). Name
+                input was removed — child can't write yet, parents skip it,
+                and the value was only used as a vanity greeting. */}
             {!isSettings && (
               <>
-                <View style={styles.section}>
-                  <Text style={styles.label}>{t('setup.nameLabel')}</Text>
-                  <TextInput
-                    value={playerName}
-                    onChangeText={onNameChange}
-                    placeholder={t('setup.namePlaceholder')}
-                    style={styles.input}
-                    placeholderTextColor="#9CA3AF"
-                  />
-                </View>
-
                 <View style={styles.section}>
                   <Text style={styles.label}>{t('setup.languageLabel')}</Text>
                   <View style={styles.languageRow}>

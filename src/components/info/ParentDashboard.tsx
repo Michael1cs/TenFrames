@@ -8,6 +8,7 @@ import {
   ThemeColors,
 } from '../../types/game';
 import {ADVENTURE_WORLDS} from '../../config/adventureWorlds';
+import {ALL_ACHIEVEMENTS} from '../../utils/rewardData';
 
 interface ParentDashboardProps {
   visible: boolean;
@@ -239,6 +240,40 @@ export function ParentDashboard({
                 </View>
               ))}
 
+              {/* Achievements list — moved here from the old AchievementsScreen
+                  so the trophy entry surfaces both progress + unlocked
+                  achievements in one place. */}
+              <Text style={[styles.sectionHeader, {color: colors.accent}]}>
+                🏆 {t('rewards.achievements', {defaultValue: 'Achievements'})}{' '}
+                ({rewards.achievements.length}/{ALL_ACHIEVEMENTS.length})
+              </Text>
+              {ALL_ACHIEVEMENTS.map(ach => {
+                const isUnlocked = rewards.achievements.includes(ach.id);
+                return (
+                  <View
+                    key={ach.id}
+                    style={[
+                      styles.achievementRow,
+                      !isUnlocked && {opacity: 0.45},
+                    ]}>
+                    <Text style={styles.achievementEmoji}>
+                      <Emoji>{isUnlocked ? ach.emoji : '🔒'}</Emoji>
+                    </Text>
+                    <View style={styles.achievementInfo}>
+                      <Text style={[styles.achievementName, {color: colors.text}]}>
+                        {isUnlocked ? t(ach.nameKey) : '???'}
+                      </Text>
+                      <Text style={[styles.achievementDesc, {color: colors.text}]}>
+                        {t(ach.descKey)}
+                      </Text>
+                    </View>
+                    {isUnlocked && (
+                      <Text style={styles.achievementCheck}>✅</Text>
+                    )}
+                  </View>
+                );
+              })}
+
               <Text style={[styles.footnote, {color: colors.text}]}>
                 {t('parentDash.privacy', {
                   defaultValue: 'All data stays on this device. Nothing is sent online.',
@@ -469,6 +504,35 @@ const styles = StyleSheet.create({
   worldStars: {
     fontSize: 13,
     fontWeight: '700',
+  },
+  achievementRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+  },
+  achievementEmoji: {
+    fontSize: 24,
+    width: 28,
+    textAlign: 'center',
+  },
+  achievementInfo: {
+    flex: 1,
+    gap: 2,
+  },
+  achievementName: {
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  achievementDesc: {
+    fontSize: 12,
+    opacity: 0.7,
+  },
+  achievementCheck: {
+    fontSize: 18,
   },
   footnote: {
     fontSize: 11,
