@@ -647,7 +647,7 @@ function GameShellInner() {
         </Text>
       </Pressable>
       <Pressable
-        onPress={() => setShowAchievements(true)}
+        onPress={() => setShowParentDash(true)}
         style={[styles.statBadge, {borderColor: '#EAB308'}]}>
         <Text style={styles.statBadgeText}>
           <Emoji>🏆</Emoji> {rewardSystem.rewards.achievements.length}
@@ -773,12 +773,6 @@ function GameShellInner() {
           language={game.language}
           onLanguageChange={handleLanguageChange}
           onClose={() => setShowAbout(false)}
-          onOpenProgress={() => {
-            setShowAbout(false);
-            // Defer so AboutTenFrames modal can finish its slide-out before
-            // ParentDashboard slides in (iOS doesn't like two modals at once).
-            setTimeout(() => setShowParentDash(true), 350);
-          }}
         />
 
         <ParentDashboard
