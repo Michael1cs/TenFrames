@@ -34,7 +34,9 @@ export function useGameState() {
   // while the UI text already followed i18n and rendered in EN — the language
   // picker then showed RO highlighted on an EN screen.
   const [language, setLanguage] = useState<Language>(
-    i18n.language === 'ro' ? 'ro' : 'en',
+    i18n.language === 'ro' ? 'ro' :
+    i18n.language === 'de' ? 'de' :
+    'en',
   );
   const [ageGroup, setAgeGroup] = useState<AgeGroup>('young');
   const [playerName, setPlayerName] = useState('');

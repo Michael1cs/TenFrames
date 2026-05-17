@@ -5,11 +5,12 @@ import {VOICE_BY_ID} from '../voice/script';
 
 Sound.setCategory('Playback', true); // mix with music
 
-type Lang = 'ro' | 'en';
+type Lang = 'ro' | 'en' | 'de';
 
 const FILES_PER_LANG: Record<Lang, Record<string, Sound | null | undefined>> = {
   ro: {},
   en: {},
+  de: {},
 };
 
 let globalEnabled = true;
@@ -75,7 +76,11 @@ export function useVoice(opts: UseVoiceOptions = {}) {
         onDone?.();
         return;
       }
-      const lang = (i18n.language === 'ro' ? 'ro' : 'en') as Lang;
+      const lang = (
+        i18n.language === 'ro' ? 'ro' :
+        i18n.language === 'de' ? 'de' :
+        'en'
+      ) as Lang;
       const sound = await loadFile(lang, id);
       if (!sound) {
         onDone?.();

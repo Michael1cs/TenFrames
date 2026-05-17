@@ -39,6 +39,7 @@ if (!API_KEY) {
 
 const VOICE_ID_RO = process.env.VOICE_ID_RO || 'XB0fDUnXU5powFXDhCwa'; // Charlotte
 const VOICE_ID_EN = process.env.VOICE_ID_EN || 'EXAVITQu4vr4xnSDxMaL'; // Bella
+const VOICE_ID_DE = process.env.VOICE_ID_DE || '7eVMgwCnXydb3CikjV7a';
 const MODEL_ID = process.env.ELEVENLABS_MODEL || 'eleven_multilingual_v2';
 
 const args = new Set(process.argv.slice(2));
@@ -47,7 +48,7 @@ const force = args.has('--force');
 const sample = args.has('--sample');
 const limitArg = [...args].find(a => a.startsWith('--limit='))?.split('=')[1];
 const idsArg = [...args].find(a => a.startsWith('--ids='))?.split('=')[1];
-const langs = lang === 'both' ? ['ro', 'en'] : [lang];
+const langs = lang === 'both' ? ['ro', 'en', 'de'] : [lang];
 
 // Curated 10-entry diverse subset for quality QA pass.
 // Covers: short words with diacritics, longer numbers, exclamations,
@@ -73,12 +74,13 @@ if (!arrMatch) {
   process.exit(1);
 }
 const entries = [];
-const entryRe = /\{\s*id:\s*'([^']+)'\s*,\s*ro:\s*(?:'([^']*(?:\\.[^']*)*)'|"([^"]*(?:\\.[^"]*)*)")\s*,\s*en:\s*(?:'([^']*(?:\\.[^']*)*)'|"([^"]*(?:\\.[^"]*)*)")/g;
+const entryRe = /\{\s*id:\s*'([^']+)'\s*,\s*ro:\s*(?:'([^']*(?:\\.[^']*)*)'|"([^"]*(?:\\.[^"]*)*)")\s*,\s*en:\s*(?:'([^']*(?:\\.[^']*)*)'|"([^"]*(?:\\.[^"]*)*)")(?:\s*,\s*de:\s*(?:'([^']*(?:\\.[^']*)*)'|"([^"]*(?:\\.[^"]*)*)"))?/g;
 let m;
 while ((m = entryRe.exec(arrMatch[1])) !== null) {
   const ro = (m[2] ?? m[3] ?? '').replace(/\\'/g, "'").replace(/\\"/g, '"');
   const en = (m[4] ?? m[5] ?? '').replace(/\\'/g, "'").replace(/\\"/g, '"');
-  entries.push({id: m[1], ro, en});
+  const de = (m[6] ?? m[7] ?? '').replace(/\\'/g, "'").replace(/\\"/g, '"');
+  entries.push({id: m[1], ro, en, de});
 }
 // Apply selection filters
 let selectedEntries = entries;
@@ -121,7 +123,10 @@ async function tts(voiceId, text) {
 async function generateAll() {
   let total = 0, skipped = 0, errors = 0;
   for (const language of langs) {
-    const voiceId = language === 'ro' ? VOICE_ID_RO : VOICE_ID_EN;
+    const voiceId =
+      language === 'ro' ? VOICE_ID_RO :
+      language === 'de' ? VOICE_ID_DE :
+      VOICE_ID_EN;
     for (const entry of selectedEntries) {
       const text = entry[language];
       const filename = `voice_${language}_${entry.id}.mp3`;

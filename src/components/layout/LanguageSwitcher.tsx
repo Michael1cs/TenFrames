@@ -16,19 +16,18 @@ export function LanguageSwitcher({
     <View style={styles.container}>
       <Pressable
         onPress={() => onLanguageChange('ro')}
-        style={[
-          styles.flag,
-          language === 'ro' && styles.activeFlag,
-        ]}>
+        style={[styles.flag, language === 'ro' && styles.activeFlag]}>
         <Emoji style={styles.flagText}>🇷🇴</Emoji>
       </Pressable>
       <Pressable
         onPress={() => onLanguageChange('en')}
-        style={[
-          styles.flag,
-          language === 'en' && styles.activeFlag,
-        ]}>
+        style={[styles.flag, language === 'en' && styles.activeFlag]}>
         <Emoji style={styles.flagText}>🇬🇧</Emoji>
+      </Pressable>
+      <Pressable
+        onPress={() => onLanguageChange('de')}
+        style={[styles.flag, language === 'de' && styles.activeFlag]}>
+        <Emoji style={styles.flagText}>🇩🇪</Emoji>
       </Pressable>
     </View>
   );

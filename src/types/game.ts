@@ -5,7 +5,7 @@ export type GameMode = 'counting' | 'addition' | 'subtraction' | 'puzzle' | 'mem
 export type CellState = 'empty' | 'filled' | 'color1' | 'color2';
 export type Theme = 'space' | 'forest' | 'ocean' | 'farm' | 'candy' | 'unicorn' | 'pixel' | 'slime' | 'kpop' | 'monsters';
 export type MascotMood = 'happy' | 'excited' | 'thinking' | 'celebrating';
-export type Language = 'ro' | 'en';
+export type Language = 'ro' | 'en' | 'de';
 export type AgeGroup = 'young' | 'older';
 
 export interface Problem {
