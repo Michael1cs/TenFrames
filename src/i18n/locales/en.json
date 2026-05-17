@@ -9,7 +9,24 @@
     "subtraction": "Subtraction",
     "puzzle": "Puzzle",
     "share": "Share",
+    "memory": "Memory",
     "workshop": "Create"
+  },
+  "parentDash": {
+    "title": "Parent Progress",
+    "totalStars": "total stars",
+    "streakDays": "day streak",
+    "lastActivity": "Last activity",
+    "today": "today",
+    "yesterday": "yesterday",
+    "daysAgo_one": "{{count}} day ago",
+    "daysAgo_other": "{{count}} days ago",
+    "never": "—",
+    "byMode": "By game mode",
+    "strongAt": "Doing well at",
+    "practice": "Practice more",
+    "adventureSummary": "Adventure",
+    "privacy": "All data stays on this device. Nothing is sent online."
   },
   "workshop": {
     "title": "Create!",
@@ -101,6 +118,7 @@
       "puzzleDesc": "How many dots more to fill it all?"
     },
     "parents": {
+      "viewProgress": "See child progress",
       "what": "What Are Ten Frames?",
       "whatDesc": "A Ten Frame is a simple yet powerful visual tool: a rectangular frame divided into two rows of five cells, making ten cells in total. Developed as a teaching aid in the 1980s and rooted in mathematics education research, Ten Frames are now a cornerstone of early numeracy programs worldwide — including Common Core (US), the Australian and Canadian Curricula, UK Early Years Foundation Stage, New Zealand's Numeracy Project, and Singapore Math.",
       "howHelp": "How Do They Help Children Learn?",

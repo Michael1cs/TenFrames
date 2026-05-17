@@ -9,7 +9,24 @@
     "subtraction": "Scădere",
     "puzzle": "Puzzle",
     "share": "Împarte la fel",
+    "memory": "Memorie",
     "workshop": "Creează"
+  },
+  "parentDash": {
+    "title": "Progres copil",
+    "totalStars": "stele în total",
+    "streakDays": "zile la rând",
+    "lastActivity": "Ultima activitate",
+    "today": "azi",
+    "yesterday": "ieri",
+    "daysAgo_one": "acum {{count}} zi",
+    "daysAgo_other": "acum {{count}} zile",
+    "never": "—",
+    "byMode": "Pe mod de joc",
+    "strongAt": "Se descurcă la",
+    "practice": "De exersat",
+    "adventureSummary": "Aventură",
+    "privacy": "Toate datele rămân pe acest dispozitiv. Nimic nu se trimite online."
   },
   "workshop": {
     "title": "Creează!",
@@ -101,6 +118,7 @@
       "puzzleDesc": "Câte bile mai trebuie ca să umpli tot?"
     },
     "parents": {
+      "viewProgress": "Vezi progresul copilului",
       "what": "Ce sunt Ten Frames?",
       "whatDesc": "Un Ten Frame este un instrument vizual simplu, dar foarte eficient: un dreptunghi împărțit în două rânduri a câte cinci celule, formând zece celule în total. Dezvoltat ca material didactic în anii 1980, Ten Frames este astăzi un element central al programelor de inițiere în aritmetică din întreaga lume — incluzând Common Core (SUA), Curriculumul Australian și Canadian, UK Early Years Foundation Stage, Proiectul de Numerație din Noua Zeelandă și metoda Singapore Math.",
       "howHelp": "Cum ajută copiii să învețe?",

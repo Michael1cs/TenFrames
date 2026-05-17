@@ -30,6 +30,7 @@ import {UpgradeScreen} from '../premium/UpgradeScreen';
 import {PlayerSetup} from '../onboarding/PlayerSetup';
 import {ModeChoice} from '../onboarding/ModeChoice';
 import {AboutTenFrames} from '../info/AboutTenFrames';
+import {ParentDashboard} from '../info/ParentDashboard';
 import {usePremium} from '../../hooks/usePremium';
 import {useSound} from '../../hooks/useSound';
 import {useVoice, VOICE_GROUPS} from '../../hooks/useVoice';
@@ -76,6 +77,7 @@ function GameShellInner() {
   const [showDailyLimit, setShowDailyLimit] = useState(false);
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
+  const [showParentDash, setShowParentDash] = useState(false);
   const [gameFlow, setGameFlow] = useState<'choice' | 'adventure' | 'freeplay'>('freeplay');
   const [showModeChoice, setShowModeChoice] = useState(false);
   // Gate the main UI behind a one-frame loading state so the free-play
@@ -771,6 +773,21 @@ function GameShellInner() {
           language={game.language}
           onLanguageChange={handleLanguageChange}
           onClose={() => setShowAbout(false)}
+          onOpenProgress={() => {
+            setShowAbout(false);
+            // Defer so AboutTenFrames modal can finish its slide-out before
+            // ParentDashboard slides in (iOS doesn't like two modals at once).
+            setTimeout(() => setShowParentDash(true), 350);
+          }}
+        />
+
+        <ParentDashboard
+          visible={showParentDash}
+          colors={colors}
+          rewards={rewardSystem.rewards}
+          adventure={adventure.progress}
+          playerName={game.playerName}
+          onClose={() => setShowParentDash(false)}
         />
 
         <PlayerSetup

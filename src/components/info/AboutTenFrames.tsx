@@ -11,6 +11,7 @@ interface AboutTenFramesProps {
   language: Language;
   onLanguageChange: (lang: Language) => void;
   onClose: () => void;
+  onOpenProgress?: () => void;
 }
 
 type Tab = 'kids' | 'parents';
@@ -21,6 +22,7 @@ export function AboutTenFrames({
   language,
   onLanguageChange,
   onClose,
+  onOpenProgress,
 }: AboutTenFramesProps) {
   const {t} = useTranslation();
   const [tab, setTab] = useState<Tab>('kids');
@@ -156,6 +158,24 @@ export function AboutTenFrames({
               </>
             ) : (
               <>
+                {/* Progress dashboard entry — gated by ParentalGate inside
+                    the dashboard so the child can't peek. */}
+                {onOpenProgress && (
+                  <Pressable
+                    onPress={onOpenProgress}
+                    style={[
+                      styles.progressBtn,
+                      {backgroundColor: colors.accent},
+                    ]}>
+                    <Text style={styles.progressBtnText}>
+                      <Emoji>📊</Emoji>{' '}
+                      {t('info.parents.viewProgress', {
+                        defaultValue: 'See child progress',
+                      })}
+                    </Text>
+                  </Pressable>
+                )}
+
                 <View style={styles.section}>
                   <Text style={[styles.sectionTitle, {color: colors.accent}]}>
                     <Emoji>📐</Emoji> {t('info.parents.what')}
@@ -373,5 +393,21 @@ const styles = StyleSheet.create({
     fontSize: 17,
     lineHeight: 25,
     color: '#E5E7EB',
+  },
+  progressBtn: {
+    paddingVertical: 14,
+    paddingHorizontal: 18,
+    borderRadius: 14,
+    alignItems: 'center',
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+  },
+  progressBtnText: {
+    fontSize: 17,
+    fontWeight: '800',
+    color: '#FFFFFF',
   },
 });
