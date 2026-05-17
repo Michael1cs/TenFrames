@@ -787,7 +787,9 @@ function GameShellInner() {
           rewards={rewardSystem.rewards}
           adventure={adventure.progress}
           playerName={game.playerName}
+          isPremium={premium.isPremium}
           onClose={() => setShowParentDash(false)}
+          onUpgrade={() => setShowUpgrade(true)}
         />
 
         <PlayerSetup

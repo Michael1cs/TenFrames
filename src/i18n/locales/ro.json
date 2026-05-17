@@ -26,7 +26,10 @@
     "strongAt": "Se descurcă la",
     "practice": "De exersat",
     "adventureSummary": "Aventură",
-    "privacy": "Toate datele rămân pe acest dispozitiv. Nimic nu se trimite online."
+    "privacy": "Toate datele rămân pe acest dispozitiv. Nimic nu se trimite online.",
+    "premiumOnly": "Funcție Premium",
+    "premiumDesc": "Vezi stele, zile la rând și progres pe fiecare joc cu Premium.",
+    "unlock": "Deblochează Premium"
   },
   "workshop": {
     "title": "Creează!",

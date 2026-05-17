@@ -2,7 +2,6 @@ import React, {useMemo, useState} from 'react';
 import {View, Text, StyleSheet, Pressable, ScrollView, Modal} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {Emoji} from '../common/Emoji';
-import {ParentalGate} from '../premium/ParentalGate';
 import {
   AdventureProgress,
   RewardData,
@@ -16,7 +15,9 @@ interface ParentDashboardProps {
   rewards: RewardData;
   adventure: AdventureProgress;
   playerName: string;
+  isPremium: boolean;
   onClose: () => void;
+  onUpgrade: () => void;
 }
 
 // Per-mode display order + emoji + nameKey.
@@ -44,21 +45,13 @@ export function ParentDashboard({
   rewards,
   adventure,
   playerName,
+  isPremium,
   onClose,
+  onUpgrade,
 }: ParentDashboardProps) {
   const {t} = useTranslation();
-  // Gate keeps the dashboard private from the child. Asks once per modal open.
-  const [unlocked, setUnlocked] = useState(false);
-  const [showGate, setShowGate] = useState(false);
-
-  // When the dashboard opens, immediately offer the gate; child shouldn't see
-  // partially rendered private data.
-  React.useEffect(() => {
-    if (visible) {
-      setUnlocked(false);
-      setShowGate(true);
-    }
-  }, [visible]);
+  // Dashboard is a premium feature — free users see a paywall card.
+  const unlocked = isPremium;
 
   const ageDays = daysSince(rewards.streak.lastPlayedDate);
   const lastPlayedLabel = useMemo(() => {
@@ -253,28 +246,31 @@ export function ParentDashboard({
               </Text>
             </ScrollView>
           ) : (
-            // Gate placeholder while ParentalGate modal is up
-            <View style={styles.gatePending}>
-              <Text style={[styles.gatePendingText, {color: colors.text}]}>
-                🔒
+            // Free users see a paywall — dashboard is a premium feature.
+            <View style={styles.paywall}>
+              <Text style={styles.paywallLock}>🔒</Text>
+              <Text style={[styles.paywallTitle, {color: colors.text}]}>
+                {t('parentDash.premiumOnly', {defaultValue: 'Premium feature'})}
               </Text>
+              <Text style={[styles.paywallDesc, {color: colors.text}]}>
+                {t('parentDash.premiumDesc', {
+                  defaultValue:
+                    'Track stars, streaks, and per-mode progress with the premium unlock.',
+                })}
+              </Text>
+              <Pressable
+                onPress={() => {
+                  onClose();
+                  setTimeout(() => onUpgrade(), 350);
+                }}
+                style={[styles.paywallBtn, {backgroundColor: colors.accent}]}>
+                <Text style={styles.paywallBtnText}>
+                  {t('parentDash.unlock', {defaultValue: 'Unlock premium'})}
+                </Text>
+              </Pressable>
             </View>
           )}
         </View>
-
-        <ParentalGate
-          visible={showGate}
-          colors={colors}
-          onSuccess={() => {
-            setUnlocked(true);
-            setShowGate(false);
-          }}
-          onCancel={() => {
-            setShowGate(false);
-            // If parent bailed out without solving, close the whole dashboard.
-            if (!unlocked) onClose();
-          }}
-        />
       </View>
     </Modal>
   );
@@ -321,14 +317,43 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  gatePending: {
+  paywall: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 32,
+    gap: 14,
   },
-  gatePendingText: {
+  paywallLock: {
     fontSize: 64,
-    opacity: 0.3,
+    opacity: 0.6,
+  },
+  paywallTitle: {
+    fontSize: 22,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
+  paywallDesc: {
+    fontSize: 15,
+    textAlign: 'center',
+    opacity: 0.85,
+    lineHeight: 22,
+  },
+  paywallBtn: {
+    paddingHorizontal: 28,
+    paddingVertical: 14,
+    borderRadius: 16,
+    marginTop: 8,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  paywallBtnText: {
+    fontSize: 17,
+    fontWeight: '800',
+    color: '#FFFFFF',
   },
   scrollContent: {
     padding: 20,

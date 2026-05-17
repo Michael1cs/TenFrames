@@ -26,7 +26,10 @@
     "strongAt": "Doing well at",
     "practice": "Practice more",
     "adventureSummary": "Adventure",
-    "privacy": "All data stays on this device. Nothing is sent online."
+    "privacy": "All data stays on this device. Nothing is sent online.",
+    "premiumOnly": "Premium feature",
+    "premiumDesc": "Track stars, streaks, and per-mode progress with the premium unlock.",
+    "unlock": "Unlock premium"
   },
   "workshop": {
     "title": "Create!",
