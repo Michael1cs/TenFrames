@@ -1,5 +1,5 @@
 import React, {useState, useCallback, useRef, useEffect} from 'react';
-import {View, Text, Pressable, StyleSheet, ImageBackground, Modal} from 'react-native';
+import {View, Text, Pressable, StyleSheet, ImageBackground} from 'react-native';
 import Animated, {BounceIn, FadeIn} from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
 import {
@@ -669,7 +669,6 @@ export function AdventureLevelScreen({
   const filledCount = cells.filter(c => c !== 'empty').length;
 
   return (
-    <Modal visible animationType="fade" onRequestClose={onBackToMap}>
     <View style={styles.modalRoot}>
     <ImageBackground source={bgImage} style={styles.background} resizeMode="cover">
       <WrongFlash visible={hasSubmitted && isCorrect === false} />
@@ -858,7 +857,6 @@ export function AdventureLevelScreen({
       </View>
     </ImageBackground>
     </View>
-    </Modal>
   );
 }
 

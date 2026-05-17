@@ -40,8 +40,7 @@ import {FREE_DAILY_LIMIT} from '../../config/limits';
 import {Language, GameMode} from '../../types/game';
 import {ADVENTURE_WORLDS} from '../../config/adventureWorlds';
 import {useAdventure} from '../../hooks/useAdventure';
-import {AdventureMapScreen} from '../adventure/AdventureMapScreen';
-import {AdventureLevelScreen} from '../adventure/AdventureLevelScreen';
+import {AdventureFlow} from '../adventure/AdventureFlow';
 import i18n from '../../i18n';
 
 function GameShellInner() {
@@ -83,12 +82,12 @@ function GameShellInner() {
   // Gate the main UI behind a one-frame loading state so the free-play
   // screen doesn't flash before ModeChoice / AdventureMap take over.
   const [bootLoaded, setBootLoaded] = useState(false);
-  const [showAdventureMap, setShowAdventureMap] = useState(false);
-  // Bumped only when the map should reset to the worlds grid (entering
+  const [inAdventure, setInAdventure] = useState(false);
+  // Bumped only when the modal should reset to the worlds grid (entering
   // Adventure from outside). Returning from a level leaves this alone so
-  // the levels view persists — one step back, not all the way out.
+  // the levels view persists in the nested stack — one step back, not all
+  // the way out.
   const [adventureMapResetVersion, setAdventureMapResetVersion] = useState(0);
-  const [showAdventureLevel, setShowAdventureLevel] = useState(false);
   const [adventureStars, setAdventureStars] = useState<number | null>(null);
   const [adventureIsNewBest, setAdventureIsNewBest] = useState(false);
   const adventure = useAdventure();
@@ -109,7 +108,7 @@ function GameShellInner() {
         if (data.lastMode) {
           setGameFlow(data.lastMode);
           if (data.lastMode === 'adventure') {
-            setShowAdventureMap(true);
+            setInAdventure(true);
           }
         }
         // Returning users skip ModeChoice (which now hosts the welcome cue),
@@ -382,7 +381,7 @@ function GameShellInner() {
     savePlayerData({lastMode: mode});
     if (mode === 'adventure') {
       setAdventureMapResetVersion(v => v + 1);
-      setShowAdventureMap(true);
+      setInAdventure(true);
     } else if (mode === 'freeplay' && !game.playerName) {
       // First-time free-play: now ask for theme/name/age. Adventure can skip
       // this because each world brings its own theme.
@@ -393,12 +392,12 @@ function GameShellInner() {
   const handleSwitchMode = useCallback(() => {
     if (gameFlow === 'adventure') {
       setGameFlow('freeplay');
-      setShowAdventureMap(false);
+      setInAdventure(false);
       savePlayerData({lastMode: 'freeplay'});
     } else {
       setGameFlow('adventure');
       setAdventureMapResetVersion(v => v + 1);
-      setShowAdventureMap(true);
+      setInAdventure(true);
       savePlayerData({lastMode: 'adventure'});
     }
   }, [gameFlow, savePlayerData]);
@@ -515,37 +514,34 @@ function GameShellInner() {
   const handleAdventurePress = useCallback(() => {
     setGameFlow('adventure');
     setAdventureMapResetVersion(v => v + 1);
-    setShowAdventureMap(true);
+    setInAdventure(true);
     savePlayerData({lastMode: 'adventure'});
   }, [savePlayerData]);
 
+  // Returns true if the level may be played (push into the stack).
+  // Returns false if blocked by premium — the upgrade screen takes over.
   const handleAdventureLevelPress = useCallback(
-    (levelId: string) => {
+    (levelId: string): boolean => {
       const world = ADVENTURE_WORLDS.find(
         w => w.id === adventure.selectedWorld,
       );
       const level = world?.levels.find(l => l.id === levelId);
-      if (!level) return;
+      if (!level) return false;
 
-      // Check premium: levels beyond freeLevels require premium
       const freeLevels = world?.freeLevels ?? 2;
-      if (level.order > freeLevels && !level.isBonus && !premium.isPremium) {
-        setShowAdventureMap(false);
+      const premiumLocked =
+        (level.order > freeLevels && !level.isBonus && !premium.isPremium) ||
+        (level.isBonus && !premium.isPremium);
+      if (premiumLocked) {
+        setInAdventure(false);
         setShowUpgrade(true);
-        return;
-      }
-      // Bonus levels always require premium
-      if (level.isBonus && !premium.isPremium) {
-        setShowAdventureMap(false);
-        setShowUpgrade(true);
-        return;
+        return false;
       }
 
       adventure.startLevel(level);
       setAdventureStars(null);
       setAdventureIsNewBest(false);
-      setShowAdventureMap(false);
-      setShowAdventureLevel(true);
+      return true;
     },
     [adventure, premium.isPremium],
   );
@@ -581,10 +577,8 @@ function GameShellInner() {
     }
   }, [adventure]);
 
-  const handleAdventureBackToMap = useCallback(() => {
+  const handleAdventureExitLevel = useCallback(() => {
     adventure.exitLevel();
-    setShowAdventureLevel(false);
-    setShowAdventureMap(true);
     setAdventureStars(null);
   }, [adventure]);
 
@@ -861,41 +855,33 @@ function GameShellInner() {
         )}
       </ImageBackground>
 
-      {/* Adventure Map */}
-      <AdventureMapScreen
-        visible={showAdventureMap}
+      {/* Adventure flow: native-stack with swipe-back inside a slide modal */}
+      <AdventureFlow
+        visible={inAdventure}
         progress={adventure.progress}
         selectedWorld={adventure.selectedWorld}
         colors={colors}
         isPremium={premium.isPremium}
+        activeLevel={adventure.activeLevel}
+        stars={adventureStars}
+        isNewBest={adventureIsNewBest}
+        hasNextLevel={
+          !!adventure.getNextPlayableLevel(adventure.selectedWorld)
+        }
         resetVersion={adventureMapResetVersion}
         onSelectWorld={adventure.setSelectedWorld}
         onLevelPress={handleAdventureLevelPress}
+        onRecordResult={adventure.recordProblemResult}
+        onComplete={handleAdventureLevelComplete}
+        onNextLevel={handleAdventureNextLevel}
+        onReplay={handleAdventureReplay}
+        onExitLevel={handleAdventureExitLevel}
         onClose={() => {
-          setShowAdventureMap(false);
+          setInAdventure(false);
           setGameFlow('freeplay');
           savePlayerData({lastMode: 'freeplay'});
         }}
       />
-
-      {/* Adventure Level */}
-      {showAdventureLevel && adventure.activeLevel && (
-        <AdventureLevelScreen
-          key={adventure.activeLevel.level.id + '-' + adventure.activeLevel.level.order}
-          levelState={adventure.activeLevel}
-          colors={colors}
-          stars={adventureStars}
-          isNewBest={adventureIsNewBest}
-          hasNextLevel={
-            !!adventure.getNextPlayableLevel(adventure.selectedWorld)
-          }
-          onRecordResult={adventure.recordProblemResult}
-          onComplete={handleAdventureLevelComplete}
-          onNextLevel={handleAdventureNextLevel}
-          onReplay={handleAdventureReplay}
-          onBackToMap={handleAdventureBackToMap}
-        />
-      )}
     </View>
   );
 }
