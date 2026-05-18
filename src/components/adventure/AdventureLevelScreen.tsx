@@ -186,8 +186,20 @@ export function AdventureLevelScreen({
       const seen = new Set<string>();
       let tries = 0;
       while (problems.length < problemCount && tries < 50) {
+        const rawTarget = level.puzzleTarget ?? 10;
+        const target = rawTarget === 'mixed'
+          ? 3 + Math.floor(Math.random() * 7) // 3..9 per problem
+          : rawTarget;
         const p = level.gameMode === 'puzzle'
-          ? (() => { const n = generatePuzzleNumber(level.modeLevel); return {num1: n, num2: 10 - n, answer: 10}; })()
+          ? (() => {
+              // Pick a start number 0..target-1 (so child has at least one
+              // cell to add). For target=10 keep the previous level-aware
+              // band logic; for smaller targets just go uniform.
+              const n = target === 10
+                ? Math.min(target - 1, Math.max(0, generatePuzzleNumber(level.modeLevel)))
+                : Math.floor(Math.random() * target);
+              return {num1: n, num2: target - n, answer: target};
+            })()
           : generateProblem(level.gameMode, level.modeLevel);
         const key = `${p.num1}-${p.num2}`;
         if (!seen.has(key) || tries > 30) {
@@ -228,8 +240,15 @@ export function AdventureLevelScreen({
       setCurrentProblem(null);
       setMemoryChallenge(null);
     } else if (level.gameMode === 'puzzle') {
+      const rawTarget = level.puzzleTarget ?? 10;
+      const fallbackTarget = rawTarget === 'mixed'
+        ? 3 + Math.floor(Math.random() * 7)
+        : rawTarget;
       const problem = pregenProblemsRef.current[problemIndex]
-        ?? (() => { const n = generatePuzzleNumber(level.modeLevel); return {num1: n, num2: 10 - n, answer: 10}; })();
+        ?? (() => {
+            const n = Math.floor(Math.random() * fallbackTarget);
+            return {num1: n, num2: fallbackTarget - n, answer: fallbackTarget};
+          })();
       const prefilled = Array(10).fill('empty') as CellState[];
       for (let i = 0; i < problem.num1; i++) {
         prefilled[i] = 'color1';
@@ -358,7 +377,9 @@ export function AdventureLevelScreen({
       }
     } else if (level.gameMode === 'puzzle' && currentProblem) {
       const color2Count = cells.filter(c => c === 'color2').length;
-      correct = checkPuzzleAnswer(color2Count, currentProblem.num1);
+      // currentProblem.num2 is the gap (target - start), which is exactly
+      // what the child needs to fill. Works for any target, not just 10.
+      correct = color2Count === currentProblem.num2;
     } else if (currentProblem) {
       if (level.gameMode === 'addition') {
         const color2Count = cells.filter(c => c === 'color2').length;
@@ -480,8 +501,8 @@ export function AdventureLevelScreen({
       }
     } else if (level.gameMode === 'puzzle' && currentProblem) {
       const color2Count = cells.filter(c => c === 'color2').length;
-      isMatch = color2Count === 10 - currentProblem.num1;
-      isOvershoot = color2Count > 10 - currentProblem.num1;
+      isMatch = color2Count === currentProblem.num2;
+      isOvershoot = color2Count > currentProblem.num2;
     } else if (currentProblem) {
       if (level.gameMode === 'addition') {
         const color2Count = cells.filter(c => c === 'color2').length;
@@ -536,8 +557,15 @@ export function AdventureLevelScreen({
         action = () => voiceRef.current.play(`num_${targetNumber}`);
       }
     } else if (level.gameMode === 'puzzle' && currentProblem) {
-      key = `p-${currentProblem.num1}`;
-      action = () => voiceRef.current.play('instr_make_ten');
+      key = `p-${currentProblem.answer}-${currentProblem.num1}`;
+      // Voice the target ("Make 7!" / "Fă 6!") — the answer is the puzzle's
+      // total. For target=10 use the legacy generic clip; for everything
+      // else use the per-target `make_N` clips.
+      const target = currentProblem.answer;
+      action = () =>
+        voiceRef.current.play(
+          target === 10 ? 'instr_make_ten' : `make_${target}`,
+        );
     } else if (level.gameMode === 'share' && shareProblem) {
       key = `sh-${problemIndex}-${shareProblem.total}-${shareProblem.buckets}`;
       const isFirst = problemIndex === 0;
@@ -654,10 +682,16 @@ export function AdventureLevelScreen({
       };
     }
     if (level.gameMode === 'puzzle' && currentProblem) {
-      const remaining = 10 - currentProblem.num1;
+      // currentProblem.answer is the level's target (10 for legacy Make 10
+      // levels, 3..9 for Make N levels). num2 is the gap (target - num1).
+      // The "Fill exactly N cells" hint kicks in only on the first three
+      // levels of a world — after that, the equation alone is enough.
+      const target = currentProblem.answer;
+      const remaining = currentProblem.num2;
+      const showHint = level.order <= 3;
       return {
-        visual: `${currentProblem.num1} + ? = 10`,
-        text: t('adventure.fillExactly', {count: remaining}),
+        visual: `${currentProblem.num1} + ? = ${target}`,
+        text: showHint ? t('adventure.fillExactly', {count: remaining}) : '',
       };
     }
     return {visual: '', text: ''};

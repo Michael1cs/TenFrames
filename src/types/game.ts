@@ -148,6 +148,7 @@ export type WorldId =
   | 'addition-island'
   | 'subtraction-mountain'
   | 'make-ten-beach'
+  | 'mixed-targets'
   | 'doubles-castle'
   | 'memory-garden'
   | 'farm-share';
@@ -191,6 +192,10 @@ export interface AdventureLevel {
   // background + colors instead of the world's theme. Useful for "variety"
   // worlds like Memory Garden where each level visits a different theme.
   theme?: Theme;
+  // Puzzle-only: the number the child must fill to. Defaults to 10. Set to
+  // a number for a single-target drill (Make 6 only), or `'mixed'` to pick
+  // a random target (3..9) per problem within the level.
+  puzzleTarget?: number | 'mixed';
 }
 
 export interface AdventureWorld {

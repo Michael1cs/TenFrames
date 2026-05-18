@@ -18,6 +18,7 @@ const WORLD_VOICE: Record<WorldId, string> = {
   'addition-island': 'world_addition_island',
   'subtraction-mountain': 'world_subtraction_mountain',
   'make-ten-beach': 'world_make_ten_beach',
+  'mixed-targets': 'world_mixed_targets',
   'doubles-castle': 'world_doubles_castle',
   'memory-garden': 'world_memory_garden',
   'farm-share': 'world_farm_share',

@@ -5,13 +5,16 @@ Currently shipping iOS first; Android is a port target.
 
 ## v1.6.0 — what's in this release
 
-### Adventure (7 worlds, 68 levels)
+### Adventure (7 worlds, 65 levels)
 - **Counting Meadow** — fill rows / fill-exactly, 10 levels
 - **Addition Island** — themed ocean creatures, 12 levels with per-emoji
   voice nouns (shells, crabs, octopuses, …)
 - **Subtraction Mountain** — themed space objects, 12 levels with
   per-emoji voice nouns (moons, rockets, planets, comets, aliens, …)
-- **Make 10!** — number-bond drill (puzzle mode), 11 levels
+- **Make 10!** — number-bond drill (puzzle mode), 8 levels:
+  progressive partner pairs 1+9 → 3+7 → 5+5 → 7+3 → 9+1, then mixed,
+  plus 2 bonus levels. Shorter and less repetitive than 9 same-target
+  levels in a row.
 - **Doubles Castle** — N+N drill (1+1 through 5+5) with rotating ±1
   band per level, 7 levels, generic `doubles_N` narration
 - **Memory Garden** — 7 levels, each themed from a different free-play
@@ -67,7 +70,7 @@ freeLevels = 3 per world (gated to 3 free, the rest behind premium).
 - Voice on/off toggle in Settings (⚙️ on Home) persists in PlayerData.
 
 ### Other
-- 56 → 68 levels across the run.
+- 56 → 65 levels across the run.
 - ProblemTransition badge between problems (~2.2s with sparkle confetti +
   star sound).
 - Wrong-flash + tap-hint visual cues.

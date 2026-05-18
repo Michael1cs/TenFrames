@@ -99,16 +99,35 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     freeLevels: 3,
     levels: [
       {id: 'mtb-1', worldId: 'make-ten-beach', order: 1, nameKey: 'adventure.levels.mtb1', emoji: '🍬', isBonus: false, gameMode: 'puzzle', modeLevel: 1, problemCount: 5, unlockCondition: {type: 'first'}},
-      {id: 'mtb-2', worldId: 'make-ten-beach', order: 2, nameKey: 'adventure.levels.mtb2', emoji: '🍭', isBonus: false, gameMode: 'puzzle', modeLevel: 2, problemCount: 5, unlockCondition: unlockPrev('mtb-1')},
-      {id: 'mtb-3', worldId: 'make-ten-beach', order: 3, nameKey: 'adventure.levels.mtb3', emoji: '🧁', isBonus: false, gameMode: 'puzzle', modeLevel: 3, problemCount: 5, unlockCondition: unlockPrev('mtb-2')},
-      {id: 'mtb-4', worldId: 'make-ten-beach', order: 4, nameKey: 'adventure.levels.mtb4', emoji: '🍰', isBonus: false, gameMode: 'puzzle', modeLevel: 4, problemCount: 5, unlockCondition: unlockPrev('mtb-3')},
-      {id: 'mtb-5', worldId: 'make-ten-beach', order: 5, nameKey: 'adventure.levels.mtb5', emoji: '🍩', isBonus: false, gameMode: 'puzzle', modeLevel: 5, problemCount: 5, unlockCondition: unlockPrev('mtb-4')},
-      {id: 'mtb-6', worldId: 'make-ten-beach', order: 6, nameKey: 'adventure.levels.mtb6', emoji: '🍫', isBonus: false, gameMode: 'puzzle', modeLevel: 6, problemCount: 5, unlockCondition: unlockPrev('mtb-5')},
-      {id: 'mtb-7', worldId: 'make-ten-beach', order: 7, nameKey: 'adventure.levels.mtb7', emoji: '🍪', isBonus: false, gameMode: 'puzzle', modeLevel: 7, problemCount: 5, unlockCondition: unlockPrev('mtb-6')},
-      {id: 'mtb-8', worldId: 'make-ten-beach', order: 8, nameKey: 'adventure.levels.mtb8', emoji: '🍡', isBonus: false, gameMode: 'puzzle', modeLevel: 8, problemCount: 5, unlockCondition: unlockPrev('mtb-7')},
-      {id: 'mtb-9', worldId: 'make-ten-beach', order: 9, nameKey: 'adventure.levels.mtb9', emoji: '🍦', isBonus: false, gameMode: 'puzzle', modeLevel: 9, problemCount: 5, unlockCondition: unlockPrev('mtb-8')},
-      {id: 'mtb-bonus-a', worldId: 'make-ten-beach', order: 10, nameKey: 'adventure.levels.mtbBonusA', emoji: '⭐', isBonus: true, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, unlockCondition: unlockStars('make-ten-beach', 18)},
-      {id: 'mtb-bonus-b', worldId: 'make-ten-beach', order: 11, nameKey: 'adventure.levels.mtbBonusB', emoji: '🏆', isBonus: true, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, unlockCondition: unlockStars('make-ten-beach', 25)},
+      {id: 'mtb-2', worldId: 'make-ten-beach', order: 2, nameKey: 'adventure.levels.mtb2', emoji: '🍭', isBonus: false, gameMode: 'puzzle', modeLevel: 3, problemCount: 5, unlockCondition: unlockPrev('mtb-1')},
+      {id: 'mtb-3', worldId: 'make-ten-beach', order: 3, nameKey: 'adventure.levels.mtb3', emoji: '🧁', isBonus: false, gameMode: 'puzzle', modeLevel: 5, problemCount: 5, unlockCondition: unlockPrev('mtb-2')},
+      {id: 'mtb-4', worldId: 'make-ten-beach', order: 4, nameKey: 'adventure.levels.mtb4', emoji: '🍩', isBonus: false, gameMode: 'puzzle', modeLevel: 7, problemCount: 5, unlockCondition: unlockPrev('mtb-3')},
+      {id: 'mtb-5', worldId: 'make-ten-beach', order: 5, nameKey: 'adventure.levels.mtb5', emoji: '🍫', isBonus: false, gameMode: 'puzzle', modeLevel: 9, problemCount: 5, unlockCondition: unlockPrev('mtb-4')},
+      {id: 'mtb-6', worldId: 'make-ten-beach', order: 6, nameKey: 'adventure.levels.mtb6', emoji: '🍦', isBonus: false, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, unlockCondition: unlockPrev('mtb-5')},
+      {id: 'mtb-bonus-a', worldId: 'make-ten-beach', order: 7, nameKey: 'adventure.levels.mtbBonusA', emoji: '⭐', isBonus: true, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, unlockCondition: unlockStars('make-ten-beach', 12)},
+      {id: 'mtb-bonus-b', worldId: 'make-ten-beach', order: 8, nameKey: 'adventure.levels.mtbBonusB', emoji: '🏆', isBonus: true, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, unlockCondition: unlockStars('make-ten-beach', 16)},
+    ],
+  },
+
+  // === World: Mixed Targets ===
+  // 6 progresive (Make 3, 5, 6, 7, 8, 9) + 2 bonus cu target='mixed' (3..9
+  // random per problem) = 8 niveluri. Puzzle drill, dar fără să fie mereu
+  // "Make 10" — copilul învață și partner-pairs pentru numere mai mici.
+  {
+    id: 'mixed-targets',
+    nameKey: 'adventure.worlds.mixedTargets',
+    emoji: '🧪',
+    theme: 'slime',
+    freeLevels: 3,
+    levels: [
+      {id: 'mt-1', worldId: 'mixed-targets', order: 1, nameKey: 'adventure.levels.mt1', emoji: '🧪', isBonus: false, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, puzzleTarget: 3, unlockCondition: {type: 'first'}},
+      {id: 'mt-2', worldId: 'mixed-targets', order: 2, nameKey: 'adventure.levels.mt2', emoji: '🧫', isBonus: false, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, puzzleTarget: 5, unlockCondition: unlockPrev('mt-1')},
+      {id: 'mt-3', worldId: 'mixed-targets', order: 3, nameKey: 'adventure.levels.mt3', emoji: '🔬', isBonus: false, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, puzzleTarget: 6, unlockCondition: unlockPrev('mt-2')},
+      {id: 'mt-4', worldId: 'mixed-targets', order: 4, nameKey: 'adventure.levels.mt4', emoji: '🧬', isBonus: false, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, puzzleTarget: 7, unlockCondition: unlockPrev('mt-3')},
+      {id: 'mt-5', worldId: 'mixed-targets', order: 5, nameKey: 'adventure.levels.mt5', emoji: '💊', isBonus: false, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, puzzleTarget: 8, unlockCondition: unlockPrev('mt-4')},
+      {id: 'mt-6', worldId: 'mixed-targets', order: 6, nameKey: 'adventure.levels.mt6', emoji: '🥽', isBonus: false, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, puzzleTarget: 9, unlockCondition: unlockPrev('mt-5')},
+      {id: 'mt-bonus-a', worldId: 'mixed-targets', order: 7, nameKey: 'adventure.levels.mtBonusA', emoji: '⭐', isBonus: true, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, puzzleTarget: 'mixed', unlockCondition: unlockStars('mixed-targets', 12)},
+      {id: 'mt-bonus-b', worldId: 'mixed-targets', order: 8, nameKey: 'adventure.levels.mtBonusB', emoji: '🏆', isBonus: true, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, puzzleTarget: 'mixed', unlockCondition: unlockStars('mixed-targets', 16)},
     ],
   },
 
@@ -184,6 +203,7 @@ export function getDefaultAdventureProgress(): AdventureProgress {
       'addition-island': {unlocked: true, levels: {}},
       'subtraction-mountain': {unlocked: true, levels: {}},
       'make-ten-beach': {unlocked: true, levels: {}},
+      'mixed-targets': {unlocked: true, levels: {}},
       'doubles-castle': {unlocked: true, levels: {}},
       'memory-garden': {unlocked: true, levels: {}},
       'farm-share': {unlocked: true, levels: {}},
