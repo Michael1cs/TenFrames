@@ -44,7 +44,7 @@ import {ParentDashboard} from '../info/ParentDashboard';
 import {SettingsModal} from '../info/SettingsModal';
 import {usePremium} from '../../hooks/usePremium';
 import {useSound} from '../../hooks/useSound';
-import {useVoice, VOICE_GROUPS, setVoiceEnabled} from '../../hooks/useVoice';
+import {useVoice, VOICE_GROUPS, setVoiceEnabled, clearPendingVoiceQueue} from '../../hooks/useVoice';
 import {useAgeProfile} from '../../hooks/useAgeProfile';
 import {useIAPConnection, withIAPContext} from '../../hooks/useIAP';
 import {FREE_DAILY_LIMIT} from '../../config/limits';
@@ -97,8 +97,14 @@ function HomeScreen() {
         navigation.navigate('FreePlay');
       }}
       homeBar={{
-        onDashboard: () => ctx.setShowParentDash(true),
-        onSettings: () => ctx.setShowSettings(true),
+        onDashboard: () => {
+          ctx.voice.stop();
+          ctx.setShowParentDash(true);
+        },
+        onSettings: () => {
+          ctx.voice.stop();
+          ctx.setShowSettings(true);
+        },
       }}
     />
   );
@@ -314,19 +320,26 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
       </View>
       <View style={styles.titleRight}>
         <Pressable
-          onPress={() => setShowAbout(true)}
+          onPress={() => {
+            ctx.voice.stop();
+            setShowAbout(true);
+          }}
           style={styles.infoButton}>
           <Text style={styles.infoButtonText}><Emoji>ℹ️</Emoji></Text>
         </Pressable>
         {!premium.isPremium && (
           <Pressable
-            onPress={() => setShowUpgrade(true)}
+            onPress={() => {
+              ctx.voice.stop();
+              setShowUpgrade(true);
+            }}
             style={styles.premiumButton}>
             <Text style={styles.premiumButtonText}><Emoji>👑</Emoji></Text>
           </Pressable>
         )}
         <Pressable
           onPress={() => {
+            ctx.voice.stop();
             game.setIsThemeChange(true);
             game.setShowSetup(true);
           }}
@@ -352,14 +365,20 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
         </View>
       )}
       <Pressable
-        onPress={() => setShowStickerBook(true)}
+        onPress={() => {
+          ctx.voice.stop();
+          setShowStickerBook(true);
+        }}
         style={[styles.statBadge, {borderColor: '#A855F7'}]}>
         <Text style={styles.statBadgeText}>
           <Emoji>🎨</Emoji> {rewardSystem.rewards.stickers.length}
         </Text>
       </Pressable>
       <Pressable
-        onPress={() => setShowParentDash(true)}
+        onPress={() => {
+          ctx.voice.stop();
+          setShowParentDash(true);
+        }}
         style={[styles.statBadge, {borderColor: '#EAB308'}]}>
         <Text style={styles.statBadgeText}>
           <Emoji>🏆</Emoji> {rewardSystem.rewards.achievements.length}
@@ -620,11 +639,11 @@ function useShellState(
     const n1 = game.currentProblem.num1;
     const n2 = game.currentProblem.num2;
     const action = game.gameMode === 'addition' ? 'add' : 'sub';
-    // Drop any leftover audio from the previous problem (instruction that
-    // didn't finish before the child solved, or pending praise that's still
-    // queued) so the new problem's voice doesn't queue BEHIND the old one
-    // and replay the previous instruction.
-    if (!isFirst) voice.stop();
+    // Drop any leftover INSTRUCTION queued from the previous problem (the
+    // child might have solved while it was still queued). Use the soft
+    // variant so the currently-playing praise (post_great_…) finishes
+    // naturally — cutting it mid-word was the previous complaint.
+    if (!isFirst) clearPendingVoiceQueue();
     queueVoice(`pre_have_${game.theme}_${n1}`);
     queueVoice(`instr_${action}_${game.theme}_${n2}`);
   }, [game.currentProblem, game.gameMode, game.ageGroup, game.theme, queueVoice, voice]);
@@ -912,6 +931,13 @@ function GameShellInner() {
               headerShown: false,
               gestureEnabled: true,
               animation: 'slide_from_right',
+            }}
+            // Whenever any screen in the stack loses focus, cut any audio
+            // currently playing. Kids navigate impatiently — without this,
+            // the previous screen's narrator keeps talking over the new
+            // screen for several seconds.
+            screenListeners={{
+              blur: () => shell.voice.stop(),
             }}>
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="FreePlay" component={FreePlayScreen} />

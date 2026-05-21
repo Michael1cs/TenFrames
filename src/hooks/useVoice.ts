@@ -21,6 +21,7 @@ let currentlyPlaying: Sound | null = null;
 export function setVoiceEnabled(enabled: boolean) {
   globalEnabled = enabled;
   if (!enabled) {
+    playGen++;
     queue.length = 0;
     currentlyPlaying?.stop();
     currentlyPlaying = null;
@@ -72,6 +73,11 @@ type Job = {
 const queue: Job[] = [];
 let busy = false;
 let drainTimer: ReturnType<typeof setTimeout> | null = null;
+// Bumped on every stop(). A load-in-flight Promise captures the value at
+// drain time and bails when it resolves into a stale generation — otherwise
+// a `voice.stop()` issued WHILE the next clip is still loading lets the
+// clip play anyway when the load finally resolves.
+let playGen = 0;
 
 function drain() {
   if (busy) return;
@@ -82,7 +88,14 @@ function drain() {
   const next = queue.shift();
   if (!next) return;
   busy = true;
+  const gen = playGen;
   void loadFile(next.lang, next.id).then(sound => {
+    if (gen !== playGen) {
+      // We were stopped while loading. Don't play, don't fire onDone, don't
+      // chain — the new queue (if any) drains itself.
+      busy = false;
+      return;
+    }
     if (!sound || !globalEnabled) {
       busy = false;
       next.onDone?.();
@@ -94,12 +107,21 @@ function drain() {
     }
     currentlyPlaying = sound;
     sound.stop(() => {
+      if (gen !== playGen) {
+        // Also catches the window between sound.stop and sound.play.
+        busy = false;
+        return;
+      }
       sound.setCurrentTime(0);
       sound.play(() => {
         if (currentlyPlaying === sound) currentlyPlaying = null;
         busy = false;
-        next.onDone?.();
-        drainTimer = setTimeout(drain, next.gapMs);
+        // Only chain if we're still on the same generation; otherwise the
+        // stop() already cleared the queue and we'd be advancing nothing.
+        if (gen === playGen) {
+          next.onDone?.();
+          drainTimer = setTimeout(drain, next.gapMs);
+        }
       });
     });
   });
@@ -115,6 +137,7 @@ function enqueue(lang: Lang, id: string, onDone?: () => void, gapMs = DEFAULT_GA
 }
 
 export function clearVoiceQueue() {
+  playGen++;
   queue.length = 0;
   if (drainTimer) {
     clearTimeout(drainTimer);
@@ -123,6 +146,20 @@ export function clearVoiceQueue() {
   currentlyPlaying?.stop();
   currentlyPlaying = null;
   busy = false;
+}
+
+// Like clearVoiceQueue but lets the CURRENTLY PLAYING clip finish naturally.
+// Only the pending items are dropped (their gen will mismatch when the
+// playing clip's onDone fires, so the chain stops). Use this when you want
+// to invalidate "stale" upcoming clips (e.g. leftover instruction from the
+// previous problem) without cutting off legitimate praise mid-sentence.
+export function clearPendingVoiceQueue() {
+  playGen++;
+  queue.length = 0;
+  if (drainTimer) {
+    clearTimeout(drainTimer);
+    drainTimer = null;
+  }
 }
 
 export interface UseVoiceOptions {

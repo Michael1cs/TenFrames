@@ -92,6 +92,9 @@ export function PlayerSetup({
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
+      // Kid picks a theme and taps Play before the narration finishes —
+      // cut the audio so the next screen doesn't get talked over.
+      voiceRef.current.stop();
     };
   }, [visible]);
 

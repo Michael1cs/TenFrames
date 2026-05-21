@@ -1,5 +1,6 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {View, Text, Pressable, StyleSheet, ImageBackground, useWindowDimensions} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
   BounceIn,
@@ -99,9 +100,13 @@ export function ModeChoice({
     transform: [{scale: fpPulse.value}],
   }));
 
-  useEffect(() => {
-    // Welcome lands first so the child knows the app heard them; then the
-    // mode prompt and per-card narration follow on the existing cadence.
+  // useFocusEffect runs on FOCUS and cleans up on BLUR (not just on unmount).
+  // Critical here: react-navigation native-stack keeps blurred screens
+  // mounted, so a plain useEffect cleanup wouldn't fire when the kid taps
+  // into Adventure / FreePlay mid-narration — the queued setTimeouts would
+  // keep calling voice.play after navigation and the welcome/mode sequence
+  // would talk over the next screen.
+  useFocusEffect(useCallback(() => {
     const t0 = setTimeout(() => voiceRef.current.play('welcome'), 400);
     const t1 = setTimeout(() => voiceRef.current.play('mode_question'), 2400);
     const t2 = setTimeout(() => {
@@ -119,8 +124,10 @@ export function ModeChoice({
       clearTimeout(t2);
       clearTimeout(t3);
       clearTimeout(t4);
+      voiceRef.current.stop();
+      setActiveCard(null);
     };
-  }, []);
+  }, []));
 
   const {width, height} = useWindowDimensions();
   const isLandscape = width > height;

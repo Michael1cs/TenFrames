@@ -282,10 +282,13 @@ export function useGameState() {
         return newStreak;
       });
 
+      // Longer than the praise voice (post_great_<theme>_<N> ≈ 2-3s) so
+      // the kid hears the full sentence + has a beat to settle before the
+      // next problem appears.
       setTimeout(() => {
         setShowConfetti(false);
         doGenerateProblem();
-      }, 3000);
+      }, 5000);
     } else {
       // WRONG
       setIsCorrect(false);
@@ -333,7 +336,7 @@ export function useGameState() {
         const newNum = generatePuzzleNumber();
         setPuzzleAnswer(newNum);
         setupPuzzleCells(newNum);
-      }, 3000);
+      }, 5000);
     } else {
       // WRONG
       setShowPuzzleAnswer(true);
