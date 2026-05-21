@@ -615,13 +615,19 @@ function useShellState(
     if (game.ageGroup !== 'young' || !game.currentProblem) return;
     const key = `${game.gameMode}-${game.currentProblem.num1}-${game.currentProblem.num2}`;
     if (key === lastProblemKey.current) return;
+    const isFirst = lastProblemKey.current === null;
     lastProblemKey.current = key;
     const n1 = game.currentProblem.num1;
     const n2 = game.currentProblem.num2;
     const action = game.gameMode === 'addition' ? 'add' : 'sub';
+    // Drop any leftover audio from the previous problem (instruction that
+    // didn't finish before the child solved, or pending praise that's still
+    // queued) so the new problem's voice doesn't queue BEHIND the old one
+    // and replay the previous instruction.
+    if (!isFirst) voice.stop();
     queueVoice(`pre_have_${game.theme}_${n1}`);
     queueVoice(`instr_${action}_${game.theme}_${n2}`);
-  }, [game.currentProblem, game.gameMode, game.ageGroup, game.theme, queueVoice]);
+  }, [game.currentProblem, game.gameMode, game.ageGroup, game.theme, queueVoice, voice]);
 
   const prevStickerCount = useRef(0);
   useEffect(() => {

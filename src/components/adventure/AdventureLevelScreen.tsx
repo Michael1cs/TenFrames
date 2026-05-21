@@ -614,6 +614,11 @@ export function AdventureLevelScreen({
     const delay = isFirstProblemRef.current ? 400 : 2300;
     isFirstProblemRef.current = false;
     const timer = setTimeout(() => {
+      // Clear any leftover audio + queued clips from the previous problem
+      // (e.g. share_intro that didn't finish before the child got it right).
+      // Without this, the new problem's voice queues BEHIND the old one and
+      // the child hears the previous instruction replay.
+      voiceRef.current.stop();
       action!();
       // Schedule the inactivity replay AFTER the first voice has started
       // playing, with enough margin (10s) to outlast even the longest
