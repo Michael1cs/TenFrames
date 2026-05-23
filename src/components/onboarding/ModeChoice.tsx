@@ -30,6 +30,13 @@ interface ModeChoiceProps {
   };
 }
 
+// Module-level flag so the welcome / mode-question / mode-card narration
+// only plays ONCE per language change. Without this, every time the kid
+// navigated back to Home (from FreePlay, Adventure, etc.) the full ~10s
+// sequence would replay, which felt repetitive and annoying. Reset by
+// swapping languages — the parent expects to hear the new voice play.
+let narrationPlayedForLang: string | null = null;
+
 function FloatingEmoji({emoji, style}: {emoji: string; style: any}) {
   const y = useSharedValue(0);
   useEffect(() => {
@@ -59,7 +66,7 @@ export function ModeChoice({
   onFreeplay,
   homeBar,
 }: ModeChoiceProps) {
-  const {t} = useTranslation();
+  const {t, i18n} = useTranslation();
 
   // Voice narration sequence + visual pulse on the card whose voice is playing.
   const voice = useVoice();
@@ -106,7 +113,14 @@ export function ModeChoice({
   // into Adventure / FreePlay mid-narration — the queued setTimeouts would
   // keep calling voice.play after navigation and the welcome/mode sequence
   // would talk over the next screen.
+  //
+  // The narration only fires the FIRST time Home gets focus per language —
+  // subsequent returns from FreePlay / Adventure stay silent. Switching the
+  // language flag resets the guard so the parent gets to hear the new voice.
+  const currentLang = i18n.language;
   useFocusEffect(useCallback(() => {
+    if (narrationPlayedForLang === currentLang) return;
+    narrationPlayedForLang = currentLang;
     const t0 = setTimeout(() => voiceRef.current.play('welcome'), 400);
     const t1 = setTimeout(() => voiceRef.current.play('mode_question'), 2400);
     const t2 = setTimeout(() => {
@@ -127,7 +141,7 @@ export function ModeChoice({
       voiceRef.current.stop();
       setActiveCard(null);
     };
-  }, []));
+  }, [currentLang]));
 
   const {width, height} = useWindowDimensions();
   const isLandscape = width > height;
