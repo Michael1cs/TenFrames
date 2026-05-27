@@ -5,6 +5,7 @@ import {useTranslation} from 'react-i18next';
 import {
   NavigationContainer,
   NavigationContainerRefWithCurrent,
+  useFocusEffect,
   useNavigation,
   useNavigationContainerRef,
 } from '@react-navigation/native';
@@ -112,6 +113,19 @@ function HomeScreen() {
 
 function FreePlayScreen() {
   const ctx = useShell();
+  // Track focus state so the shared post-correct setTimeout in useGameState
+  // can't queue voice / advance problems while the user is on a different
+  // screen. The setTimeout fires 5s after a correct answer; if the child
+  // navigated away in the meantime, we DON'T want the next-problem
+  // narration to play.
+  useFocusEffect(
+    useCallback(() => {
+      ctx.freePlayFocusedRef.current = true;
+      return () => {
+        ctx.freePlayFocusedRef.current = false;
+      };
+    }, [ctx]),
+  );
   return <FreePlayContent ctx={ctx} />;
 }
 
@@ -467,6 +481,11 @@ function useShellState(
   navigationRef: NavigationContainerRefWithCurrent<RootStackParamList>,
 ) {
   const {t: _t} = useTranslation(); // keep i18n active for any descendants
+  // Flipped by FreePlayScreen's useFocusEffect. Used by the post-correct
+  // voice useEffect below to suppress queueing when the child has
+  // navigated to Adventure (the setTimeout in useGameState still fires
+  // and generates the next problem, but we don't want to narrate it).
+  const freePlayFocusedRef = useRef(false);
   const game = useGameState();
   const themeConfig = useTheme(game.theme);
   const {colors} = themeConfig;
@@ -632,6 +651,11 @@ function useShellState(
   useEffect(() => {
     if (game.gameMode !== 'addition' && game.gameMode !== 'subtraction') return;
     if (game.ageGroup !== 'young' || !game.currentProblem) return;
+    // If the child navigated away (e.g. into Adventure) the next-problem
+    // setTimeout in useGameState still fires and mutates currentProblem —
+    // but we must NOT narrate it because the FreePlay screen isn't on
+    // screen anymore. Skip queuing in that case.
+    if (!freePlayFocusedRef.current) return;
     const key = `${game.gameMode}-${game.currentProblem.num1}-${game.currentProblem.num2}`;
     if (key === lastProblemKey.current) return;
     const isFirst = lastProblemKey.current === null;
@@ -844,6 +868,7 @@ function useShellState(
     iap,
     voice,
     playSound,
+    freePlayFocusedRef,
     showStickerBook, setShowStickerBook,
     showAchievements, setShowAchievements,
     lastStarsAwarded,

@@ -236,11 +236,14 @@ const themeConfigs: Record<Theme, ThemeConfig> = {
       cellColor1: '#F472B6',
       cellColor1Border: '#EC4899',
       marbleColor1: '#FBCFE8',
-      emojiColor1: '🩷',
+      // Voice says "ai un unicorn / două unicorni" — cells now show unicorns
+      // instead of generic shapes. Pink (color1) vs purple (color2) cell
+      // backgrounds still distinguish the two operands visually.
+      emojiColor1: '🦄',
       cellColor2: '#A78BFA',
       cellColor2Border: '#8B5CF6',
       marbleColor2: '#C4B5FD',
-      emojiColor2: '🟣',
+      emojiColor2: '🦄',
       primaryButton: '#8B5CF6',
       primaryButtonEnd: '#7C3AED',
       accentButton: '#EC4899',
