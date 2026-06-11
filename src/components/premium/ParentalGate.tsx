@@ -53,7 +53,11 @@ export function ParentalGate({
   };
 
   return (
-    <Modal visible={visible} transparent animationType="fade">
+    <Modal
+      visible={visible}
+      transparent
+      animationType="fade"
+      onRequestClose={onCancel}>
       <View style={styles.overlay}>
         <View style={[styles.card, {borderColor: colors.accent}]}>
           <Text style={styles.title}>{t('premium.parentalGateTitle')}</Text>
