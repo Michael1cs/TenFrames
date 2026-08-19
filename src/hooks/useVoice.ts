@@ -1,4 +1,5 @@
 import {useCallback, useEffect, useState} from 'react';
+import {AppState} from 'react-native';
 import Sound from 'react-native-sound';
 import {useTranslation} from 'react-i18next';
 import {VOICE_BY_ID} from '../voice/script';
@@ -7,14 +8,62 @@ Sound.setCategory('Playback', true); // mix with music
 
 type Lang = 'ro' | 'en' | 'de';
 
-const FILES_PER_LANG: Record<Lang, Record<string, Sound | null | undefined>> = {
-  ro: {},
-  en: {},
-  de: {},
-};
+// ─────────────────────────────────────────────────────────────────────
+// Bounded voice cache.
+//
+// The library is 1275 clips per language (3810 mp3s bundled). Every
+// `new Sound()` is a live AVAudioPlayer / MediaPlayer holding its file open,
+// so caching them all — as this module used to, keyed by id and never
+// released — grows without limit for as long as the app stays open, and
+// eventually gets the process killed under memory pressure.
+//
+// A Map preserves insertion order, which is all an LRU needs: re-inserting on
+// a hit moves the entry to the young end, so iteration starts at the coldest.
+// ─────────────────────────────────────────────────────────────────────
+const MAX_CACHED_SOUNDS = 48;
+
+const cache = new Map<string, Sound>();
+// Clips that failed to load. Booleans, not players, so this is safe to keep
+// forever — and it stops us retrying a missing file on every playback.
+const missing = new Set<string>();
+// Loads in flight, so two enqueues of the same clip cannot allocate two players.
+const inflight = new Map<string, Promise<Sound | null>>();
 
 let globalEnabled = true;
 let currentlyPlaying: Sound | null = null;
+
+function cacheKey(lang: Lang, id: string) {
+  return `${lang}:${id}`;
+}
+
+function evictDown(limit: number) {
+  for (const [key, sound] of cache) {
+    if (cache.size <= limit) return;
+    // Never release the player that is mid-sentence — release() on a playing
+    // AVAudioPlayer is exactly the kind of thing that crashes natively.
+    if (sound === currentlyPlaying) continue;
+    cache.delete(key);
+    try {
+      sound.release();
+    } catch {
+      // Already torn down by the platform — nothing left to do.
+    }
+  }
+}
+
+// A suspended app has no use for a warm audio cache, and iOS reclaims
+// backgrounded apps by memory footprint. Hand it all back on the way out.
+//
+// clearVoiceQueue() first, and not just for tidiness: iOS suspends the process
+// mid-clip, so react-native-sound's play completion callback never fires and
+// the pump would stay flagged busy for the rest of the session — voice simply
+// never returns until the child happens to navigate somewhere.
+AppState.addEventListener('change', state => {
+  if (state === 'background') {
+    clearVoiceQueue();
+    evictDown(0);
+  }
+});
 
 // Module-level setter so any component (Settings, GameShell) can flip the
 // global voice on/off without needing the same useVoice instance.
@@ -26,6 +75,7 @@ export function setVoiceEnabled(enabled: boolean) {
     currentlyPlaying?.stop();
     currentlyPlaying = null;
     busy = false;
+    busyToken = null;
   }
 }
 
@@ -36,23 +86,40 @@ function buildPath(lang: Lang, id: string) {
 }
 
 function loadFile(lang: Lang, id: string): Promise<Sound | null> {
-  const cached = FILES_PER_LANG[lang][id];
-  if (cached !== undefined) return Promise.resolve(cached);
+  const key = cacheKey(lang, id);
 
-  return new Promise(resolve => {
+  const cached = cache.get(key);
+  if (cached) {
+    // Re-insert so this entry counts as the most recently used.
+    cache.delete(key);
+    cache.set(key, cached);
+    return Promise.resolve(cached);
+  }
+  if (missing.has(key)) return Promise.resolve(null);
+
+  const pending = inflight.get(key);
+  if (pending) return pending;
+
+  const load = new Promise<Sound | null>(resolve => {
     const file = buildPath(lang, id);
     const sound = new Sound(file, Sound.MAIN_BUNDLE, error => {
+      inflight.delete(key);
       if (error) {
-        // Audio file missing — fail gracefully, cache as null so we don't retry.
-        FILES_PER_LANG[lang][id] = null;
+        // Audio file missing — fail gracefully, remember it so we don't retry.
+        missing.add(key);
         resolve(null);
         return;
       }
       sound.setVolume(0.95);
-      FILES_PER_LANG[lang][id] = sound;
+      // Inserted last, so eviction reaches it only after every colder entry.
+      cache.set(key, sound);
+      evictDown(MAX_CACHED_SOUNDS);
       resolve(sound);
     });
   });
+
+  inflight.set(key, load);
+  return load;
 }
 
 // ─────────────────────────────────────────────────────────────────────
@@ -72,6 +139,10 @@ type Job = {
 };
 const queue: Job[] = [];
 let busy = false;
+// Identifies WHICH drain job owns `busy`. Without it, a job that discovers it
+// has gone stale clears the flag out from under whichever newer job has since
+// claimed the pump.
+let busyToken: object | null = null;
 let drainTimer: ReturnType<typeof setTimeout> | null = null;
 // Bumped on every stop(). A load-in-flight Promise captures the value at
 // drain time and bails when it resolves into a stale generation — otherwise
@@ -88,18 +159,35 @@ function drain() {
   const next = queue.shift();
   if (!next) return;
   busy = true;
+  const token = {};
+  busyToken = token;
   const gen = playGen;
+
+  // Ends this job. It answers two questions the old code conflated into a
+  // single `gen === playGen` check:
+  //
+  //  * Do we still OWN the pump? Only then may we clear `busy` and schedule
+  //    the next clip. A clearVoiceQueue() in the meantime handed ownership to
+  //    a newer job, and releasing the flag under it truncated that job's clip
+  //    and dropped its onDone.
+  //  * Is this job still CURRENT? Only then may onDone fire — onDone advances
+  //    game state (Adventure records the answer from it), so a stale one would
+  //    score the wrong problem.
+  //
+  // The pump restarts either way. Gating the restart on currency is what let a
+  // clearPendingVoiceQueue() mid-clip strand every clip queued behind it until
+  // some later enqueue happened to find the queue idle.
+  const finish = () => {
+    if (busyToken !== token) return;
+    busyToken = null;
+    busy = false;
+    if (gen === playGen) next.onDone?.();
+    drainTimer = setTimeout(drain, next.gapMs);
+  };
+
   void loadFile(next.lang, next.id).then(sound => {
-    if (gen !== playGen) {
-      // We were stopped while loading. Don't play, don't fire onDone, don't
-      // chain — the new queue (if any) drains itself.
-      busy = false;
-      return;
-    }
-    if (!sound || !globalEnabled) {
-      busy = false;
-      next.onDone?.();
-      drainTimer = setTimeout(drain, next.gapMs);
+    if (gen !== playGen || !sound || !globalEnabled) {
+      finish();
       return;
     }
     if (currentlyPlaying && currentlyPlaying !== sound) {
@@ -108,20 +196,17 @@ function drain() {
     currentlyPlaying = sound;
     sound.stop(() => {
       if (gen !== playGen) {
-        // Also catches the window between sound.stop and sound.play.
-        busy = false;
+        // Stopped in the window between sound.stop and sound.play. stop()
+        // never fires the completion listener, so clear the pointer here or
+        // it keeps naming a clip that will never play.
+        if (currentlyPlaying === sound) currentlyPlaying = null;
+        finish();
         return;
       }
       sound.setCurrentTime(0);
       sound.play(() => {
         if (currentlyPlaying === sound) currentlyPlaying = null;
-        busy = false;
-        // Only chain if we're still on the same generation; otherwise the
-        // stop() already cleared the queue and we'd be advancing nothing.
-        if (gen === playGen) {
-          next.onDone?.();
-          drainTimer = setTimeout(drain, next.gapMs);
-        }
+        finish();
       });
     });
   });
@@ -146,6 +231,7 @@ export function clearVoiceQueue() {
   currentlyPlaying?.stop();
   currentlyPlaying = null;
   busy = false;
+  busyToken = null;
 }
 
 // Like clearVoiceQueue but lets the CURRENTLY PLAYING clip finish naturally.

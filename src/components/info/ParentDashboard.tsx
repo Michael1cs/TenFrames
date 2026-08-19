@@ -1,5 +1,6 @@
 import React, {useMemo, useState} from 'react';
-import {View, Text, StyleSheet, Pressable, ScrollView, Modal} from 'react-native';
+import {View, StyleSheet, Pressable, ScrollView, Modal} from 'react-native';
+import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {Emoji} from '../common/Emoji';
 import {

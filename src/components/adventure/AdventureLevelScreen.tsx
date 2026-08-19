@@ -1,5 +1,6 @@
 import React, {useState, useCallback, useRef, useEffect} from 'react';
-import {View, Text, Pressable, StyleSheet, ImageBackground} from 'react-native';
+import {View, Pressable, StyleSheet, ImageBackground} from 'react-native';
+import {Text} from '../common/AppText';
 import Animated, {BounceIn, FadeIn} from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
 import {
@@ -25,7 +26,7 @@ import {TenFrame} from '../game/TenFrame';
 import {NumberDisplay} from '../game/NumberDisplay';
 import {MemoryMode} from '../game/MemoryMode';
 import {FarmShareMode} from '../game/FarmShareMode';
-import {useVoice, VOICE_GROUPS} from '../../hooks/useVoice';
+import {useVoice, VOICE_GROUPS, clearPendingVoiceQueue} from '../../hooks/useVoice';
 import {LevelCompleteScreen} from './LevelCompleteScreen';
 import {LevelPlayState} from '../../hooks/useAdventure';
 import {getAllThemes} from '../../hooks/useTheme';
@@ -290,6 +291,19 @@ export function AdventureLevelScreen({
   // useEffect below — it fires only after the first instruction voice
   // finishes playing, so the reminder never cuts the original off.
   const reminderTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // The pending next-problem instruction timer. handleSubmit cancels it: that
+  // timer calls voice.stop(), and stopping the queue drops the pending onDone
+  // that carries level progression.
+  const instructionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Watchdog that records the answer if the voice callback never arrives.
+  const advanceFallbackRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(
+    () => () => {
+      if (instructionTimerRef.current) clearTimeout(instructionTimerRef.current);
+      if (advanceFallbackRef.current) clearTimeout(advanceFallbackRef.current);
+    },
+    [],
+  );
   useEffect(() => {
     if (level.gameMode === 'memory' || finished) {
       setShowTapHint(false);
@@ -396,13 +410,52 @@ export function AdventureLevelScreen({
     setIsCorrect(correct);
 
     if (correct) {
+      // This problem's instruction timer may still be armed, and its first act
+      // is voice.stop(). If it fires between here and the praise clip
+      // finishing, it clears the queue and takes the `advance` callback below
+      // with it. Cancel it — but ONLY on the correct path: on a wrong answer
+      // the child still needs to hear the instruction and its 10s replay
+      // nudge, and cancelling it there silenced the problem for good.
+      if (instructionTimerRef.current) {
+        clearTimeout(instructionTimerRef.current);
+        instructionTimerRef.current = null;
+      }
+
       const wasFirstTry = attempts === 0;
       // Industry pattern (Khan Academy Kids, Endless Numbers): always name
       // the answer for reinforcement, but only celebrate ~40% of the time so
-      // praise stays meaningful instead of feeling auto-fired. The completion
-      // callback advances problemIndex when the actual voice finishes — no
-      // hand-tuned duration timers (clips vary in length).
-      const advance = () => onRecordResult(wasFirstTry);
+      // praise stays meaningful instead of feeling auto-fired. The clip's own
+      // completion callback drives progression, so pacing follows the actual
+      // audio rather than hand-tuned durations (clips vary in length).
+      //
+      // But progression must not DEPEND on that callback surviving: any
+      // voice.stop() — navigation blur, the settings toggle, the app being
+      // backgrounded — drops the pending onDone and used to strand the level.
+      // The latch below makes the record fire exactly once, from whichever of
+      // the two paths reaches it first.
+      let advanced = false;
+      const advance = () => {
+        if (advanced) return;
+        advanced = true;
+        if (advanceFallbackRef.current) {
+          clearTimeout(advanceFallbackRef.current);
+          advanceFallbackRef.current = null;
+        }
+        onRecordResult(wasFirstTry);
+      };
+      if (advanceFallbackRef.current) clearTimeout(advanceFallbackRef.current);
+      // The child answered, so the instruction for the problem they just
+      // solved is stale — drop whatever is still queued behind the clip that
+      // is playing. Without this the praise queues behind up to ~5s of
+      // instruction and the watchdog below fires mid-sentence, advancing the
+      // level while the narrator is still talking about the previous problem.
+      // clearPendingVoiceQueue leaves the in-flight clip and the pump owner
+      // alone, so the currently speaking sentence still finishes cleanly.
+      clearPendingVoiceQueue();
+      // Worst legitimate path from here: the in-flight instruction clip
+      // finishing (~2.5s) plus a two-clip praise sequence with its 350ms gap
+      // and cold-cache loads. 8s clears that; it is a recovery, not a pace.
+      advanceFallbackRef.current = setTimeout(advance, 8000);
 
       if (level.gameMode === 'memory') {
         advance();
@@ -614,6 +667,7 @@ export function AdventureLevelScreen({
     const delay = isFirstProblemRef.current ? 400 : 2300;
     isFirstProblemRef.current = false;
     const timer = setTimeout(() => {
+      instructionTimerRef.current = null;
       // Clear any leftover audio + queued clips from the previous problem
       // (e.g. share_intro that didn't finish before the child got it right).
       // Without this, the new problem's voice queues BEHIND the old one and
@@ -628,8 +682,10 @@ export function AdventureLevelScreen({
         lastInstructionVoiceRef.current?.();
       }, 10000);
     }, delay);
+    instructionTimerRef.current = timer;
     return () => {
       clearTimeout(timer);
+      if (instructionTimerRef.current === timer) instructionTimerRef.current = null;
       if (reminderTimerRef.current) clearTimeout(reminderTimerRef.current);
     };
   }, [currentProblem, countingChallenge, shareProblem, level, finished]);

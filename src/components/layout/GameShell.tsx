@@ -1,10 +1,12 @@
 import React, {useEffect, useCallback, useState, useRef, useMemo, useContext} from 'react';
-import {View, Text, StyleSheet, StatusBar, Pressable, ScrollView, ImageBackground} from 'react-native';
+import {View, StyleSheet, StatusBar, Pressable, ScrollView, ImageBackground} from 'react-native';
+import {Text} from '../common/AppText';
 import LinearGradient from 'react-native-linear-gradient';
 import {useTranslation} from 'react-i18next';
 import {
   NavigationContainer,
   NavigationContainerRefWithCurrent,
+  StackActions,
   useFocusEffect,
   useNavigation,
   useNavigationContainerRef,
@@ -94,7 +96,7 @@ function HomeScreen() {
       }}
       onFreeplay={() => {
         ctx.savePlayerData({lastMode: 'freeplay'});
-        if (!ctx.game.playerName) ctx.game.setShowSetup(true);
+        if (!ctx.onboarded) ctx.game.setShowSetup(true);
         navigation.navigate('FreePlay');
       }}
       homeBar={{
@@ -499,7 +501,6 @@ function useShellState(
   const premium = usePremium();
   const {play: playSound} = useSound();
   const ageProfile = useAgeProfile(game.ageGroup);
-  const voice = useVoice({enabled: voiceEnabled});
 
   const [showStickerBook, setShowStickerBook] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
@@ -511,6 +512,11 @@ function useShellState(
   const [showSettings, setShowSettings] = useState(false);
   const [showParentDash, setShowParentDash] = useState(false);
   const [voiceEnabled, setVoiceEnabledState] = useState(true);
+  const [onboarded, setOnboarded] = useState(false);
+  // Declared after voiceEnabled on purpose: the babel preset downlevels const
+  // to var, so calling this above the useState silently passed `undefined`
+  // and the enabled option never took effect.
+  const voice = useVoice({enabled: voiceEnabled});
   const [bootLoaded, setBootLoaded] = useState(false);
   const [initialRoute, setInitialRoute] =
     useState<keyof RootStackParamList>('Home');
@@ -534,13 +540,30 @@ function useShellState(
     (async () => {
       const data = await loadPlayerData();
       let target: keyof RootStackParamList = 'Home';
-      if (data.name) {
-        game.setPlayerName(data.name);
-        game.setTheme(data.theme);
+
+      // Saves written before v1.6.1 have no `onboarded` flag; a non-empty
+      // name means that user completed the old setup that still asked for one.
+      const hasOnboarded = data.onboarded ?? data.name !== '';
+      setOnboarded(hasOnboarded);
+
+      // Theme and age group restore unconditionally: loadPlayerData spreads
+      // defaults over whatever is stored, so they are always present and valid.
+      game.setTheme(data.theme);
+      game.setAgeGroup(data.ageGroup);
+      if (data.name) game.setPlayerName(data.name);
+
+      if (hasOnboarded) {
+        // Language is the one preference that must NOT be taken from the
+        // defaults: defaultPlayerData hard-codes 'ro', so applying it on a
+        // fresh install would overwrite the device-locale choice that
+        // src/i18n/index.ts and useGameState's initial state just made, and
+        // hand a German or English child a Romanian app. Restore it only for
+        // someone who actually picked one — for everyone else it must survive
+        // every cold start, which is exactly what this used to get wrong in
+        // the other direction.
         game.setLanguage(data.language);
-        game.setAgeGroup(data.ageGroup);
-        game.setShowSetup(false);
         i18n.changeLanguage(data.language);
+        game.setShowSetup(false);
         isFirstSetupRef.current = false;
         if (data.lastMode === 'adventure') target = 'AdventureWorlds';
         else if (data.lastMode === 'freeplay') target = 'FreePlay';
@@ -772,11 +795,13 @@ function useShellState(
     game.setShowSetup(false);
     game.setIsThemeChange(false);
     isFirstSetupRef.current = false;
+    setOnboarded(true);
     savePlayerData({
       name: game.playerName,
       theme: game.theme,
       language: game.language,
       ageGroup: game.ageGroup,
+      onboarded: true,
     });
   }, [game, savePlayerData]);
 
@@ -800,7 +825,14 @@ function useShellState(
         (level.isBonus && !premium.isPremium);
       if (premiumLocked) {
         // Bounce out of the Adventure stack so the upgrade screen owns focus.
-        navigationRef.current?.popToTop();
+        //
+        // Must go through dispatch: createNavigationContainerRef only proxies
+        // CommonActions (navigate/goBack/reset/...) plus a fixed helper list.
+        // popToTop is a StackAction, so navigationRef.current.popToTop is
+        // undefined and calling it directly threw a TypeError — which, in a
+        // release build, is a hard crash the moment a free user taps a
+        // premium-locked Adventure level.
+        navigationRef.current?.dispatch(StackActions.popToTop());
         setShowUpgrade(true);
         return false;
       }
@@ -879,6 +911,7 @@ function useShellState(
     showSettings, setShowSettings,
     showParentDash, setShowParentDash,
     voiceEnabled,
+    onboarded,
     handleToggleVoice,
     bootLoaded,
     initialRoute,

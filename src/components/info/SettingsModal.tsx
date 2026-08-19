@@ -2,12 +2,12 @@ import React from 'react';
 import {
   Modal,
   View,
-  Text,
   Pressable,
   StyleSheet,
   Switch,
   ScrollView,
 } from 'react-native';
+import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {Emoji} from '../common/Emoji';
 

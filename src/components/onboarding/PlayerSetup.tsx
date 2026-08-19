@@ -1,13 +1,14 @@
 import React, {useEffect, useRef} from 'react';
 import {
   View,
-  Text,
   TextInput,
   Pressable,
   StyleSheet,
   Modal,
   ScrollView,
 } from 'react-native';
+import {Text} from '../common/AppText';
+import {FREDOKA_FAMILY} from '../../utils/fonts';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -276,6 +277,7 @@ const styles = StyleSheet.create({
     color: '#374151',
   },
   input: {
+    fontFamily: FREDOKA_FAMILY,
     borderWidth: 1.5,
     borderColor: '#D1D5DB',
     borderRadius: 14,

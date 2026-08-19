@@ -1,12 +1,12 @@
 import React, {useEffect, useRef} from 'react';
 import {
   View,
-  Text,
   Pressable,
   StyleSheet,
   ImageBackground,
   ScrollView,
 } from 'react-native';
+import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {
   AdventureProgress,

@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Text, Pressable, StyleSheet, ImageSourcePropType} from 'react-native';
+import {View, Pressable, StyleSheet, ImageSourcePropType} from 'react-native';
+import {Text} from '../common/AppText';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,

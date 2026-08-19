@@ -37,6 +37,11 @@ export interface PlayerData {
   level: number;
   lastMode?: 'adventure' | 'freeplay';
   voiceEnabled?: boolean;
+  // Explicit "has been through setup" flag. `name` used to serve this role,
+  // but the name field was removed from onboarding, so it is now permanently
+  // '' and cannot mark anything. Absent on saves written before v1.6.1 —
+  // read it through the `data.onboarded ?? data.name !== ''` migration.
+  onboarded?: boolean;
 }
 
 // === Reward System Types ===

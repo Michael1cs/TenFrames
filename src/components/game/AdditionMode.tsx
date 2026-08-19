@@ -1,5 +1,6 @@
 import React, {useEffect, useRef} from 'react';
-import {View, Text, StyleSheet, Pressable, ImageSourcePropType} from 'react-native';
+import {View, StyleSheet, Pressable, ImageSourcePropType} from 'react-native';
+import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {TenFrame} from './TenFrame';
 import {NumberDisplay} from './NumberDisplay';

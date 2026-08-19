@@ -3,6 +3,7 @@ import {
   useIAP as useIAPHook,
   withIAPContext,
   getAvailablePurchases as iapGetAvailablePurchases,
+  PurchaseStateAndroid,
   type Product,
   type Purchase,
 } from 'react-native-iap';
@@ -38,11 +39,42 @@ export function useIAPConnection(
     availablePurchases,
   } = useIAPHook({
     onPurchaseSuccess: async (purchase: Purchase) => {
-      // Acknowledge/finish the transaction
-      if (purchase.productId === PREMIUM_PRODUCT_ID) {
-        await finishTransaction({purchase, isConsumable: false});
+      if (purchase.productId !== PREMIUM_PRODUCT_ID) return;
+
+      // Google Play reports a purchase the parent still has to complete —
+      // cash, carrier billing, or an approval request — as PENDING. No money
+      // has moved, so no entitlement; but say so rather than leaving the
+      // sheet spinning. iOS never sets the field: delivery there already
+      // means purchased.
+      const pending =
+        purchase.purchaseStateAndroid === PurchaseStateAndroid.PENDING;
+
+      try {
+        if (!pending) {
+          await finishTransaction({purchase, isConsumable: false});
+        }
+      } catch {
+        // Acknowledging failed — Play service disconnected, offline, or the
+        // purchase was already finished. The payment itself went through, so
+        // the entitlement stands and Play replays the unacknowledged purchase
+        // on the next launch for us to finish then.
+        //
+        // Before this catch existed, the rejection escaped and took both
+        // setPurchasing(false) and the premium grant with it: the parent paid,
+        // got nothing, and the upgrade sheet stayed disabled with a spinner
+        // and no error for the rest of the session.
+      } finally {
         setPurchasing(false);
-        onPurchaseSuccess();
+        if (pending) {
+          // A sentinel, not a sentence: UpgradeScreen maps it through t() at
+          // render time, so it stays correct if the language changes while the
+          // sheet is open — and matches the existing 'no_previous_purchase'
+          // convention. Setting a rendered string here would be flattened to
+          // the generic "Purchase failed" by getErrorMessage.
+          setError('purchase_pending');
+        } else {
+          onPurchaseSuccess();
+        }
       }
     },
     onPurchaseError: (err) => {

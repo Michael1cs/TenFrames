@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
-import {Text, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import {Text} from '../common/AppText';
 import Animated, {
   Easing,
   useAnimatedStyle,

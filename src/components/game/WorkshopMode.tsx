@@ -1,5 +1,6 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {View, Text, StyleSheet, Pressable, Modal, ScrollView} from 'react-native';
+import {View, StyleSheet, Pressable, Modal, ScrollView} from 'react-native';
+import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import Animated, {
   BounceIn,

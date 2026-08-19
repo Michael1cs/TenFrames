@@ -168,18 +168,42 @@
     "sports": "Sport"
   },
   "stickers": {
-    "num1": "Eins", "num2": "Zwei", "num3": "Drei", "num4": "Vier",
-    "num5": "Fünf", "num10": "Zehn",
-    "cat": "Katze", "dog": "Hund", "rabbit": "Hase", "bear": "Bär",
-    "panda": "Panda", "unicorn": "Einhorn",
-    "rocket": "Rakete", "star": "Stern", "moon": "Mond", "planet": "Planet",
-    "ufo": "UFO", "alien": "Alien",
-    "flower": "Blume", "tree": "Baum", "rainbow": "Regenbogen", "sun": "Sonne",
-    "butterfly": "Schmetterling", "mushroom": "Pilz",
-    "apple": "Apfel", "cake": "Kuchen", "icecream": "Eis", "pizza": "Pizza",
-    "candy": "Bonbon", "donut": "Donut",
-    "soccer": "Fußball", "trophy": "Pokal", "medal": "Medaille", "crown": "Krone",
-    "diamond": "Diamant", "hundred": "100"
+    "num1": "Eins",
+    "num2": "Zwei",
+    "num3": "Drei",
+    "num4": "Vier",
+    "num5": "Fünf",
+    "num10": "Zehn",
+    "cat": "Katze",
+    "dog": "Hund",
+    "rabbit": "Hase",
+    "bear": "Bär",
+    "panda": "Panda",
+    "unicorn": "Einhorn",
+    "rocket": "Rakete",
+    "star": "Stern",
+    "moon": "Mond",
+    "planet": "Planet",
+    "ufo": "UFO",
+    "alien": "Alien",
+    "flower": "Blume",
+    "tree": "Baum",
+    "rainbow": "Regenbogen",
+    "sun": "Sonne",
+    "butterfly": "Schmetterling",
+    "mushroom": "Pilz",
+    "apple": "Apfel",
+    "cake": "Kuchen",
+    "icecream": "Eis",
+    "pizza": "Pizza",
+    "candy": "Bonbon",
+    "donut": "Donut",
+    "soccer": "Fußball",
+    "trophy": "Pokal",
+    "medal": "Medaille",
+    "crown": "Krone",
+    "diamond": "Diamant",
+    "hundred": "100"
   },
   "premium": {
     "dailyLimitTitle": "Tolle Arbeit heute!",
@@ -207,7 +231,8 @@
     "parentalGateSubmit": "Weiter",
     "parentalGateCancel": "Abbrechen",
     "parentalGateWrong": "Falsche Antwort. Bitte versuche es erneut.",
-    "parentalGatePlaceholder": "Antwort eingeben"
+    "parentalGatePlaceholder": "Antwort eingeben",
+    "purchasePending": "Deine Zahlung wird verarbeitet. Premium wird freigeschaltet, sobald sie bestätigt ist."
   },
   "achievements": {
     "firstStar": "Erster Stern",
@@ -371,5 +396,16 @@
     "premiumActiveSub": "Danke für deine Unterstützung!",
     "about": "Über Ten Frames",
     "aboutSub": "So funktioniert die Methode"
+  },
+  "error": {
+    "title": "Hoppla!",
+    "message": "Etwas ist schiefgelaufen. Tippe auf die Taste, um neu zu starten.",
+    "retry": "Nochmal versuchen",
+    "reset": "Geht immer noch nicht? Gespeicherten Fortschritt löschen",
+    "resetTitle": "Gespeicherten Fortschritt löschen?",
+    "resetMessage": "Damit werden Sterne, Sticker und der Abenteuer-Fortschritt auf diesem Gerät gelöscht. Mach das nur, wenn die App immer wieder abstürzt.",
+    "resetConfirm": "Löschen und neu starten",
+    "cancel": "Abbrechen",
+    "details": "Technische Details"
   }
 }

@@ -1,6 +1,8 @@
 import React, {useEffect, useRef} from 'react';
 import {useVoice} from '../../hooks/useVoice';
-import {View, Text, Pressable, StyleSheet} from 'react-native';
+import {View, Pressable, StyleSheet} from 'react-native';
+import {Text} from '../common/AppText';
+import {FREDOKA_FAMILY} from '../../utils/fonts';
 import Animated, {
   FadeIn,
   BounceIn,
@@ -213,6 +215,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   title: {
+    fontFamily: FREDOKA_FAMILY,
     fontSize: 24,
     fontWeight: '800',
     color: '#FFFFFF',
@@ -228,11 +231,13 @@ const styles = StyleSheet.create({
     fontSize: 52,
   },
   message: {
+    fontFamily: FREDOKA_FAMILY,
     fontSize: 20,
     fontWeight: '700',
     marginBottom: 4,
   },
   newBest: {
+    fontFamily: FREDOKA_FAMILY,
     fontSize: 16,
     fontWeight: '800',
     color: '#F59E0B',

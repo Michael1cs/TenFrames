@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Text, StyleSheet, ImageSourcePropType} from 'react-native';
+import {View, StyleSheet, ImageSourcePropType} from 'react-native';
+import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {TenFrame} from './TenFrame';
 import {AgeProfile} from '../../hooks/useAgeProfile';

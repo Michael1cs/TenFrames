@@ -168,18 +168,42 @@
     "sports": "Sports"
   },
   "stickers": {
-    "num1": "One", "num2": "Two", "num3": "Three", "num4": "Four",
-    "num5": "Five", "num10": "Ten",
-    "cat": "Cat", "dog": "Dog", "rabbit": "Rabbit", "bear": "Bear",
-    "panda": "Panda", "unicorn": "Unicorn",
-    "rocket": "Rocket", "star": "Star", "moon": "Moon", "planet": "Planet",
-    "ufo": "UFO", "alien": "Alien",
-    "flower": "Flower", "tree": "Tree", "rainbow": "Rainbow", "sun": "Sun",
-    "butterfly": "Butterfly", "mushroom": "Mushroom",
-    "apple": "Apple", "cake": "Cake", "icecream": "Ice Cream", "pizza": "Pizza",
-    "candy": "Candy", "donut": "Donut",
-    "soccer": "Soccer", "trophy": "Trophy", "medal": "Medal", "crown": "Crown",
-    "diamond": "Diamond", "hundred": "100"
+    "num1": "One",
+    "num2": "Two",
+    "num3": "Three",
+    "num4": "Four",
+    "num5": "Five",
+    "num10": "Ten",
+    "cat": "Cat",
+    "dog": "Dog",
+    "rabbit": "Rabbit",
+    "bear": "Bear",
+    "panda": "Panda",
+    "unicorn": "Unicorn",
+    "rocket": "Rocket",
+    "star": "Star",
+    "moon": "Moon",
+    "planet": "Planet",
+    "ufo": "UFO",
+    "alien": "Alien",
+    "flower": "Flower",
+    "tree": "Tree",
+    "rainbow": "Rainbow",
+    "sun": "Sun",
+    "butterfly": "Butterfly",
+    "mushroom": "Mushroom",
+    "apple": "Apple",
+    "cake": "Cake",
+    "icecream": "Ice Cream",
+    "pizza": "Pizza",
+    "candy": "Candy",
+    "donut": "Donut",
+    "soccer": "Soccer",
+    "trophy": "Trophy",
+    "medal": "Medal",
+    "crown": "Crown",
+    "diamond": "Diamond",
+    "hundred": "100"
   },
   "premium": {
     "dailyLimitTitle": "Great job today!",
@@ -207,7 +231,8 @@
     "parentalGateSubmit": "Continue",
     "parentalGateCancel": "Cancel",
     "parentalGateWrong": "Incorrect answer. Please try again.",
-    "parentalGatePlaceholder": "Enter the answer"
+    "parentalGatePlaceholder": "Enter the answer",
+    "purchasePending": "Your payment is being processed. Premium unlocks as soon as it is confirmed."
   },
   "achievements": {
     "firstStar": "First Star",
@@ -371,5 +396,16 @@
     "premiumActiveSub": "Thanks for supporting Ten Frames!",
     "about": "About Ten Frames",
     "aboutSub": "How the method works"
+  },
+  "error": {
+    "title": "Oops!",
+    "message": "Something went wrong. Tap the button to start again.",
+    "retry": "Try again",
+    "reset": "Still broken? Reset saved progress",
+    "resetTitle": "Reset saved progress?",
+    "resetMessage": "This deletes stars, stickers and adventure progress on this device. Only do this if the app keeps crashing.",
+    "resetConfirm": "Delete and restart",
+    "cancel": "Cancel",
+    "details": "Technical details"
   }
 }

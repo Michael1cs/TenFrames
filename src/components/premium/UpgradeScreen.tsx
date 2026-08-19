@@ -1,13 +1,13 @@
 import React, {useState, useCallback} from 'react';
 import {
   View,
-  Text,
   Pressable,
   StyleSheet,
   Modal,
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
+import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
 import type {Product} from 'react-native-iap';
@@ -84,6 +84,9 @@ export function UpgradeScreen({
   const getErrorMessage = (err: string): string => {
     if (err === 'no_previous_purchase') {
       return t('premium.restoreNotFound');
+    }
+    if (err === 'purchase_pending') {
+      return t('premium.purchasePending');
     }
     return t('premium.purchaseError');
   };

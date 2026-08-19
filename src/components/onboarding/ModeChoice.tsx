@@ -1,5 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {View, Text, Pressable, StyleSheet, ImageBackground, useWindowDimensions} from 'react-native';
+import {View, Pressable, StyleSheet, ImageBackground, useWindowDimensions} from 'react-native';
+import {Text} from '../common/AppText';
+import {FREDOKA_FAMILY} from '../../utils/fonts';
 import {useFocusEffect} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
@@ -447,6 +449,7 @@ const styles = StyleSheet.create({
     textShadowRadius: 4,
   },
   title: {
+    fontFamily: FREDOKA_FAMILY,
     fontSize: 24,
     fontWeight: '700',
     color: 'rgba(255,255,255,0.92)',

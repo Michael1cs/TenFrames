@@ -168,18 +168,42 @@
     "sports": "Sport"
   },
   "stickers": {
-    "num1": "Unu", "num2": "Doi", "num3": "Trei", "num4": "Patru",
-    "num5": "Cinci", "num10": "Zece",
-    "cat": "Pisică", "dog": "Cățel", "rabbit": "Iepure", "bear": "Urs",
-    "panda": "Panda", "unicorn": "Unicorn",
-    "rocket": "Rachetă", "star": "Stea", "moon": "Lună", "planet": "Planetă",
-    "ufo": "OZN", "alien": "Extraterestru",
-    "flower": "Floare", "tree": "Copac", "rainbow": "Curcubeu", "sun": "Soare",
-    "butterfly": "Fluture", "mushroom": "Ciupercă",
-    "apple": "Măr", "cake": "Tort", "icecream": "Înghețată", "pizza": "Pizza",
-    "candy": "Bomboană", "donut": "Gogoașă",
-    "soccer": "Fotbal", "trophy": "Trofeu", "medal": "Medalie", "crown": "Coroană",
-    "diamond": "Diamant", "hundred": "100"
+    "num1": "Unu",
+    "num2": "Doi",
+    "num3": "Trei",
+    "num4": "Patru",
+    "num5": "Cinci",
+    "num10": "Zece",
+    "cat": "Pisică",
+    "dog": "Cățel",
+    "rabbit": "Iepure",
+    "bear": "Urs",
+    "panda": "Panda",
+    "unicorn": "Unicorn",
+    "rocket": "Rachetă",
+    "star": "Stea",
+    "moon": "Lună",
+    "planet": "Planetă",
+    "ufo": "OZN",
+    "alien": "Extraterestru",
+    "flower": "Floare",
+    "tree": "Copac",
+    "rainbow": "Curcubeu",
+    "sun": "Soare",
+    "butterfly": "Fluture",
+    "mushroom": "Ciupercă",
+    "apple": "Măr",
+    "cake": "Tort",
+    "icecream": "Înghețată",
+    "pizza": "Pizza",
+    "candy": "Bomboană",
+    "donut": "Gogoașă",
+    "soccer": "Fotbal",
+    "trophy": "Trofeu",
+    "medal": "Medalie",
+    "crown": "Coroană",
+    "diamond": "Diamant",
+    "hundred": "100"
   },
   "premium": {
     "dailyLimitTitle": "Ai fost super azi!",
@@ -207,7 +231,8 @@
     "parentalGateSubmit": "Continuă",
     "parentalGateCancel": "Anulează",
     "parentalGateWrong": "Răspuns incorect. Încearcă din nou.",
-    "parentalGatePlaceholder": "Introdu răspunsul"
+    "parentalGatePlaceholder": "Introdu răspunsul",
+    "purchasePending": "Plata este în curs de procesare. Premium se activează imediat ce este confirmată."
   },
   "achievements": {
     "firstStar": "Prima stea",
@@ -371,5 +396,16 @@
     "premiumActiveSub": "Mulțumim pentru suport!",
     "about": "Despre Ten Frames",
     "aboutSub": "Cum funcționează metoda"
+  },
+  "error": {
+    "title": "Hopa!",
+    "message": "Ceva nu a mers bine. Apasă butonul ca să începem din nou.",
+    "retry": "Încearcă din nou",
+    "reset": "Tot nu merge? Șterge progresul salvat",
+    "resetTitle": "Ștergem progresul salvat?",
+    "resetMessage": "Se șterg stelele, abțibildurile și progresul din Aventură de pe acest dispozitiv. Fă asta doar dacă aplicația se închide de fiecare dată.",
+    "resetConfirm": "Șterge și repornește",
+    "cancel": "Anulează",
+    "details": "Detalii tehnice"
   }
 }
