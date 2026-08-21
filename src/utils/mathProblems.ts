@@ -83,6 +83,30 @@ function generateAdditionProblem(level: number): Problem {
     return {num1: n, num2: n, answer: n + n};
   }
 
+  // Level 26: near-doubles (n + n+1). The standard step after doubles — "5 and
+  // 6 is double 5 and one more" — and the only thing Doubles Castle's second
+  // boss can be without changing game mode. Caps at 4+5 so it fits the frame.
+  if (level === 26) {
+    const n = 1 + Math.floor(Math.random() * 4);
+    return {num1: n, num2: n + 1, answer: n + n + 1};
+  }
+
+  // Levels 12-18: SUM bands. Levels 1-9 fix the addend and let the total vary,
+  // which narrows the pool as it climbs — measured, level 9 reaches exactly
+  // three facts (1+8, 1+9, 2+8) at the climax of the biggest world. Fixing the
+  // TOTAL instead widens it: sum 6 has 5 facts, sum 10 has 9.
+  //   12-16 -> sums 6,7,8,9,10   17 -> mixed 6..10   18 -> mixed 8..10
+  if (level >= 12 && level <= 18) {
+    const sum =
+      level <= 16
+        ? level - 6
+        : level === 17
+        ? 6 + Math.floor(Math.random() * 5)
+        : 8 + Math.floor(Math.random() * 3);
+    const a = 1 + Math.floor(Math.random() * (sum - 1));
+    return {num1: a, num2: sum - a, answer: sum};
+  }
+
   let num1: number, num2: number;
 
   if (level >= 1 && level <= 9) {
@@ -105,6 +129,20 @@ function generateAdditionProblem(level: number): Problem {
 }
 
 function generateSubtractionProblem(level: number): Problem {
+  // Mirror of the addition sum bands: fix the MINUEND and let the subtrahend
+  // range over it, so the pool widens with the level instead of collapsing.
+  //   12-16 -> minuend 6,7,8,9,10   17 -> mixed 6..10   18 -> mixed 8..10
+  if (level >= 12 && level <= 18) {
+    const minuend =
+      level <= 16
+        ? level - 6
+        : level === 17
+        ? 6 + Math.floor(Math.random() * 5)
+        : 8 + Math.floor(Math.random() * 3);
+    const sub = 1 + Math.floor(Math.random() * (minuend - 1));
+    return {num1: minuend, num2: sub, answer: minuend - sub};
+  }
+
   let num1: number, num2: number;
 
   if (level >= 1 && level <= 9) {
@@ -149,7 +187,22 @@ const SHARE_CONFIGS: Record<number, {totals: number[]; buckets: number}> = {
   7: {totals: [4, 6, 8, 10], buckets: 2}, // mixed
 };
 
+// Level 8: the Farm Share finale — every split the world taught, mixed. Needed
+// because levels 6 (÷5) and 7 (mixed ÷2) were already taken by regular levels,
+// so the world's two bosses had nowhere distinct to sit.
+const SHARE_FINALE: {total: number; buckets: number}[] = [
+  {total: 8, buckets: 2},
+  {total: 10, buckets: 2},
+  {total: 6, buckets: 3},
+  {total: 9, buckets: 3},
+  {total: 10, buckets: 5},
+];
+
 export function generateShareProblem(level: number): ShareProblem {
+  if (level === 8) {
+    const p = SHARE_FINALE[Math.floor(Math.random() * SHARE_FINALE.length)];
+    return {total: p.total, buckets: p.buckets, target: p.total / p.buckets};
+  }
   const cfg = SHARE_CONFIGS[level] ?? SHARE_CONFIGS[1];
   const total = cfg.totals[Math.floor(Math.random() * cfg.totals.length)];
   return {total, buckets: cfg.buckets, target: total / cfg.buckets};
@@ -271,14 +324,21 @@ export function generateMemoryChallenge(level: number): MemoryChallenge {
     case 4: min = 4; max = 5; durationMs = 2000; break;
     case 5: min = 5; max = 6; durationMs = 1800; break;
     case 6: min = 6; max = 8; durationMs = 1500; break; // champion
+    case 7: min = 7; max = 9; durationMs = 1200; break; // grand champion
     default: min = 3; max = 5; durationMs = 2200;
   }
   const targetCount = min + Math.floor(Math.random() * (max - min + 1));
 
-  // Pick targetCount random cell positions from 0-9.
-  const indices = Array.from({length: 10}, (_, i) => i)
-    .sort(() => Math.random() - 0.5)
-    .slice(0, targetCount);
+  // Pick targetCount random cell positions from 0-9. Fisher-Yates: the old
+  // `.sort(() => Math.random() - 0.5)` is not a uniform shuffle — comparator
+  // results are inconsistent, so the outcome depends on the sort algorithm and
+  // some positions were systematically favoured.
+  const pool = Array.from({length: 10}, (_, i) => i);
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  const indices = pool.slice(0, targetCount);
 
   const targetCells: CellState[] = Array(10).fill("empty");
   for (const i of indices) targetCells[i] = "filled";

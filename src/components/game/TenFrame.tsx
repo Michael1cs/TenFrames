@@ -38,19 +38,41 @@ export function TenFrame({
           borderColor: colors.accent,
         },
       ]}>
-      <View style={[styles.grid, {width: 5 * (cellSize + 8)}]}>
-        {cells.map((state, index) => (
-          <TenFrameCell
-            key={index}
-            state={state}
-            onPress={() => onCellClick(index)}
-            disabled={disabled}
-            colors={colors}
-            emoji={emoji}
-            cellSize={cellSize}
-            tokenImage={tokenImage}
-            overrideEmoji={overrideEmoji}
-          />
+      {/* Two explicit rows of five, not one wrapping row of ten. The whole
+          point of a ten frame is the five-structure — that a full top row IS
+          five and can be seen without recounting — and a uniform 4pt margin on
+          a flexWrap row marks nothing. The gap plus the hairline is what makes
+          "five and three more" visible. */}
+      <View style={{width: 5 * (cellSize + 8)}}>
+        {[0, 1].map(row => (
+          <React.Fragment key={row}>
+            {row === 1 && (
+              <View
+                style={[
+                  styles.fiveRule,
+                  {marginVertical: Math.max(3, cellSize * 0.09), backgroundColor: colors.accent},
+                ]}
+              />
+            )}
+            <View style={styles.row}>
+              {cells.slice(row * 5, row * 5 + 5).map((state, i) => {
+                const index = row * 5 + i;
+                return (
+                  <TenFrameCell
+                    key={index}
+                    state={state}
+                    onPress={() => onCellClick(index)}
+                    disabled={disabled}
+                    colors={colors}
+                    emoji={emoji}
+                    cellSize={cellSize}
+                    tokenImage={tokenImage}
+                    overrideEmoji={overrideEmoji}
+                  />
+                );
+              })}
+            </View>
+          </React.Fragment>
         ))}
       </View>
     </View>
@@ -69,9 +91,13 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     alignSelf: 'center',
   },
-  grid: {
+  row: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
     justifyContent: 'center',
+  },
+  fiveRule: {
+    height: 1,
+    opacity: 0.35,
+    marginHorizontal: 4,
   },
 });

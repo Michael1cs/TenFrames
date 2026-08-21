@@ -18,6 +18,7 @@ import Animated, {
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
 import {Emoji} from '../common/Emoji';
+import {useReduceMotion} from '../../hooks/useReduceMotion';
 
 interface LevelCompleteScreenProps {
   stars: number;
@@ -75,6 +76,7 @@ export function LevelCompleteScreen({
   onReplay,
   onBackToMap,
 }: LevelCompleteScreenProps) {
+  const reduceMotion = useReduceMotion();
   const {t} = useTranslation();
   const voice = useVoice();
   const voiceRef = useRef(voice);
@@ -108,7 +110,7 @@ export function LevelCompleteScreen({
   return (
     <View style={styles.overlay}>
       {/* Confetti particles */}
-      {stars >= 2 && confettiEmojis.map((emoji, i) => (
+      {stars >= 2 && !reduceMotion && confettiEmojis.map((emoji, i) => (
         <ConfettiParticle
           key={i}
           emoji={emoji}

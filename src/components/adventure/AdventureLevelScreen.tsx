@@ -102,6 +102,15 @@ interface AdventureLevelScreenProps {
   onBackToMap: () => void;
 }
 
+// A 'mixed' puzzle target picks a fresh target per problem. modeLevel biases
+// the band: >= 8 draws only from the hard end, which is what separates a
+// world's second boss from its first. Below that it is the full 3..9 spread.
+function pickMixedTarget(modeLevel: number): number {
+  return modeLevel >= 8
+    ? 7 + Math.floor(Math.random() * 3)
+    : 3 + Math.floor(Math.random() * 7);
+}
+
 export function AdventureLevelScreen({
   levelState,
   colors,
@@ -189,7 +198,7 @@ export function AdventureLevelScreen({
       while (problems.length < problemCount && tries < 50) {
         const rawTarget = level.puzzleTarget ?? 10;
         const target = rawTarget === 'mixed'
-          ? 3 + Math.floor(Math.random() * 7) // 3..9 per problem
+          ? pickMixedTarget(level.modeLevel)
           : rawTarget;
         const p = level.gameMode === 'puzzle'
           ? (() => {
@@ -243,7 +252,7 @@ export function AdventureLevelScreen({
     } else if (level.gameMode === 'puzzle') {
       const rawTarget = level.puzzleTarget ?? 10;
       const fallbackTarget = rawTarget === 'mixed'
-        ? 3 + Math.floor(Math.random() * 7)
+        ? pickMixedTarget(level.modeLevel)
         : rawTarget;
       const problem = pregenProblemsRef.current[problemIndex]
         ?? (() => {

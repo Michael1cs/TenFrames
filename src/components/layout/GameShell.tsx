@@ -611,7 +611,28 @@ function useShellState(
 
   // Reward voices + post-correct logic.
   const prevIsCorrect = useRef<boolean | null>(null);
+  // One exercise is billed per PROBLEM, on the first submission whatever the
+  // outcome. This used to live in the isCorrect === true branch, so the free
+  // tier charged only for CORRECT answers: a child who got everything wrong
+  // played all day, and a child doing well was the one who hit the wall.
+  const billedProblemRef = useRef(false);
+  // The wall is raised here but shown later — never on top of a celebration.
+  const limitPendingRef = useRef(false);
   useEffect(() => {
+    billedProblemRef.current = false;
+  }, [game.currentProblem]);
+  useEffect(() => {
+    if (game.isCorrect !== null && !billedProblemRef.current) {
+      billedProblemRef.current = true;
+      const usage = premium.recordExercise(game.gameMode);
+      if (!premium.isPremium && premium.isModeLimited(game.gameMode)) {
+        const used = usage.counts[game.gameMode] || 0;
+        // Raise the flag now, show the sheet once the child has left the
+        // problem — see the currentProblem effect below.
+        if (used >= FREE_DAILY_LIMIT) limitPendingRef.current = true;
+      }
+    }
+
     if (game.isCorrect === true && prevIsCorrect.current !== true) {
       playSound('correct');
       if (
@@ -632,13 +653,6 @@ function useShellState(
         setShowStarsDisplay(false);
         playSound('star');
       }, 3000);
-      const updatedUsage = premium.recordExercise(game.gameMode);
-      if (!premium.isPremium && premium.isModeLimited(game.gameMode)) {
-        const used = updatedUsage.counts[game.gameMode] || 0;
-        if (used >= FREE_DAILY_LIMIT) {
-          setTimeout(() => setShowDailyLimit(true), 2500);
-        }
-      }
     } else if (game.isCorrect === false && prevIsCorrect.current !== false) {
       playSound('wrong');
       // Route through the queue so this never overlaps the praise/reward
@@ -670,6 +684,15 @@ function useShellState(
     }
     prevFilledCount.current = game.filledCount;
   }, [game.filledCount, game.ageGroup, game.gameMode, voice]);
+
+  // The daily wall waits here. Raising it during the celebration and firing a
+  // modal 2.5s later put "you're done for today" on top of a child's confetti;
+  // showing it as the next problem arrives lets the reward finish first.
+  useEffect(() => {
+    if (!limitPendingRef.current) return;
+    limitPendingRef.current = false;
+    setShowDailyLimit(true);
+  }, [game.currentProblem]);
 
   useEffect(() => {
     if (game.gameMode !== 'addition' && game.gameMode !== 'subtraction') return;

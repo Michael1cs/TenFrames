@@ -27,6 +27,13 @@ interface TenFrameCellProps {
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
+// The two operands must never be separated by hue alone. Measured across all
+// ten themes, cellColor1 vs cellColor2 has a WCAG luminance ratio between 1.02
+// and 1.97 — space and farm are 1.02, i.e. identical brightness — and in
+// Adventure both operands render the SAME glyph via overrideEmoji. For a child
+// with any red-green deficiency that turns every addition level into a
+// counting level. `ring` is a second, non-colour channel that no theme can
+// switch off.
 function getCellColors(state: CellState, colors: ThemeColors) {
   switch (state) {
     case 'color1':
@@ -35,6 +42,7 @@ function getCellColors(state: CellState, colors: ThemeColors) {
         border: colors.cellColor1Border,
         marble: colors.marbleColor1,
         emoji: colors.emojiColor1,
+        ring: false,
       };
     case 'color2':
       return {
@@ -42,6 +50,7 @@ function getCellColors(state: CellState, colors: ThemeColors) {
         border: colors.cellColor2Border,
         marble: colors.marbleColor2,
         emoji: colors.emojiColor2,
+        ring: true,
       };
     case 'filled':
       return {
@@ -49,6 +58,7 @@ function getCellColors(state: CellState, colors: ThemeColors) {
         border: colors.cellFilledBorder,
         marble: colors.marble,
         emoji: null, // use theme emoji
+        ring: false,
       };
     default:
       return {
@@ -56,6 +66,7 @@ function getCellColors(state: CellState, colors: ThemeColors) {
         border: colors.cellEmptyBorder,
         marble: '',
         emoji: null,
+        ring: false,
       };
   }
 }
@@ -117,6 +128,19 @@ export function TenFrameCell({
           opacity: disabled ? 0.75 : 1,
         },
       ]}>
+      {isFilled && cellColors.ring && (
+        <Animated.View
+          pointerEvents="none"
+          style={[
+            styles.ring,
+            {
+              borderRadius: 10 - RING_INSET,
+              borderColor: cellColors.border,
+              borderWidth: Math.max(1.5, cellSize * 0.035),
+            },
+          ]}
+        />
+      )}
       {isFilled ? (
         <Animated.View
           style={[
@@ -155,7 +179,17 @@ export function TenFrameCell({
   );
 }
 
+// Inset of the second-channel ring, in points.
+const RING_INSET = 3;
+
 const styles = StyleSheet.create({
+  ring: {
+    position: 'absolute',
+    top: RING_INSET,
+    left: RING_INSET,
+    right: RING_INSET,
+    bottom: RING_INSET,
+  },
   cell: {
     borderRadius: 10,
     borderWidth: 1.5,
