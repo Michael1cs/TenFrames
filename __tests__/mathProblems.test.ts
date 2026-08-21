@@ -64,6 +64,26 @@ describe('problem generation', () => {
     }
   });
 
+  // High Five! — num1 is always a full top row, and the child counts on.
+  it('always starts High Five from a full top row', () => {
+    for (let level = 30; level <= 35; level++) {
+      for (let i = 0; i < DRAWS; i++) {
+        const p = generateProblem('addition', level, 'older');
+        expect(p.num1).toBe(5);
+        expect(p.num2).toBeGreaterThanOrEqual(1);
+        expect(p.num2).toBeLessThanOrEqual(5);
+        expect(p.answer).toBe(5 + p.num2);
+        expect(p.answer).toBeLessThanOrEqual(10);
+      }
+    }
+  });
+
+  it('never makes a High Five level a single fact', () => {
+    for (let level = 30; level <= 35; level++) {
+      expect(facts('addition', level).size).toBeGreaterThanOrEqual(2);
+    }
+  });
+
   it('shares evenly at every level, finale included', () => {
     for (let level = 1; level <= 8; level++) {
       for (let i = 0; i < 100; i++) {

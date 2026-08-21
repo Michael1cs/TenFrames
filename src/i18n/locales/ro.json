@@ -274,7 +274,8 @@
       "mixedTargets": "Bule cu numere!",
       "doublesCastle": "Castelul Dublurilor",
       "memoryGarden": "Grădina Memoriei",
-      "farmShare": "Împarte la Fermă"
+      "farmShare": "Împarte la Fermă",
+      "highFive": "Bat palma!"
     },
     "levels": {
       "cm1": "Numără până la 2",
@@ -348,7 +349,17 @@
       "fs5": "Trei Găinușe",
       "fs6": "Cinci Iepurași",
       "fsBonusA": "Picnic la Purcei",
-      "fsBonusB": "Ospăț la Vaci"
+      "fsBonusB": "Ospăț la Vaci",
+      "hf1": "Rândul de sus",
+      "hf2": "Cinci și încă",
+      "hf3": "Cinci și unu",
+      "hf4": "Cinci și doi",
+      "hf5": "Cinci și trei",
+      "hf6": "Cinci și patru",
+      "hf7": "Cinci și cinci",
+      "hf8": "Amestecate",
+      "hfBonusA": "Toate felurile de cinci",
+      "hfBonusB": "Marele cinci"
     },
     "level": "Nivel",
     "stars": "Stele",

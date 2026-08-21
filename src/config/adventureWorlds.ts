@@ -1,6 +1,7 @@
 import {AdventureWorld, AdventureProgress} from '../types/game';
 
-// v1.6 Adventure: 7 lumi cu progresie completa = 68 niveluri totale.
+// v1.6.2 Adventure: 9 lumi cu progresie completa = 78 niveluri totale.
+// (High Five! adaugata ca lumea 2 — structura de cinci precede aritmetica.)
 // Pentru 4-6 ani, mai multe niveluri = retention mai bun + justifica
 // pretul premium fata de o aplicatie cu doar 30 niveluri.
 //
@@ -40,6 +41,37 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
       {id: 'cm-8', worldId: 'counting-meadow', order: 8, nameKey: 'adventure.levels.cm8', emoji: '🌳', isBonus: false, gameMode: 'counting', modeLevel: 8, problemCount: 5, unlockCondition: unlockPrev('cm-7')},
       {id: 'cm-bonus-a', worldId: 'counting-meadow', order: 9, nameKey: 'adventure.levels.cmBonusA', emoji: '⭐', isBonus: true, gameMode: 'counting', modeLevel: 9, problemCount: 5, unlockCondition: unlockStars('counting-meadow', 15)},
       {id: 'cm-bonus-b', worldId: 'counting-meadow', order: 10, nameKey: 'adventure.levels.cmBonusB', emoji: '🏆', isBonus: true, gameMode: 'counting', modeLevel: 10, problemCount: 5, unlockCondition: unlockStars('counting-meadow', 20)},
+    ],
+  },
+  // === World 2: High Five! ===
+  // Seventy-two levels and not one taught the five-structure explicitly, even
+  // though the 2x5 grid IS a five-structure. Two counting levels establish
+  // that a full top row is five without recounting; six addition levels count
+  // on from it ("five and three more is eight"). Placed second, not ninth: the
+  // five-structure precedes arithmetic rather than following it.
+  // Voice cost zero — star/moon/comet/galaxy/trophy all have complete
+  // have_*, add_more_* and post_great_* coverage. The kpop backgrounds are
+  // already bundled and were used by no world.
+  {
+    id: 'high-five',
+    nameKey: 'adventure.worlds.highFive',
+    emoji: '🖐️',
+    theme: 'kpop',
+    freeLevels: 3,
+    levels: [
+      {id: 'hf-1', worldId: 'high-five', order: 1, nameKey: 'adventure.levels.hf1', emoji: '⭐', isBonus: false, gameMode: 'counting', modeLevel: 11, problemCount: 5, unlockCondition: {type: 'first'}},
+      {id: 'hf-2', worldId: 'high-five', order: 2, nameKey: 'adventure.levels.hf2', emoji: '🌙', isBonus: false, gameMode: 'counting', modeLevel: 12, problemCount: 5, unlockCondition: unlockPrev('hf-1')},
+      {id: 'hf-3', worldId: 'high-five', order: 3, nameKey: 'adventure.levels.hf3', emoji: '⭐', isBonus: false, gameMode: 'addition', modeLevel: 30, problemCount: 5, unlockCondition: unlockPrev('hf-2')},
+      {id: 'hf-4', worldId: 'high-five', order: 4, nameKey: 'adventure.levels.hf4', emoji: '🌙', isBonus: false, gameMode: 'addition', modeLevel: 31, problemCount: 5, unlockCondition: unlockPrev('hf-3')},
+      {id: 'hf-5', worldId: 'high-five', order: 5, nameKey: 'adventure.levels.hf5', emoji: '☄️', isBonus: false, gameMode: 'addition', modeLevel: 32, problemCount: 5, unlockCondition: unlockPrev('hf-4')},
+      {id: 'hf-6', worldId: 'high-five', order: 6, nameKey: 'adventure.levels.hf6', emoji: '🌌', isBonus: false, gameMode: 'addition', modeLevel: 33, problemCount: 5, unlockCondition: unlockPrev('hf-5')},
+      {id: 'hf-7', worldId: 'high-five', order: 7, nameKey: 'adventure.levels.hf7', emoji: '⭐', isBonus: false, gameMode: 'addition', modeLevel: 34, problemCount: 5, unlockCondition: unlockPrev('hf-6')},
+      {id: 'hf-8', worldId: 'high-five', order: 8, nameKey: 'adventure.levels.hf8', emoji: '☄️', isBonus: false, gameMode: 'addition', modeLevel: 35, problemCount: 5, unlockCondition: unlockPrev('hf-7')},
+      // Boss A: every way to make five. Uniform starts 0..4, so five problems
+      // is exactly the complete set {0+5, 1+4, 2+3, 3+2, 4+1}.
+      {id: 'hf-bonus-a', worldId: 'high-five', order: 9, nameKey: 'adventure.levels.hfBonusA', emoji: '⭐', isBonus: true, gameMode: 'puzzle', modeLevel: 0, puzzleTarget: 5, problemCount: 5, unlockCondition: unlockStars('high-five', 15)},
+      // Boss B: the world's whole fact family, once each, on a new stage.
+      {id: 'hf-bonus-b', worldId: 'high-five', order: 10, nameKey: 'adventure.levels.hfBonusB', emoji: '🏆', isBonus: true, gameMode: 'addition', modeLevel: 35, problemCount: 5, theme: 'monsters', unlockCondition: unlockStars('high-five', 20)},
     ],
   },
 
@@ -200,6 +232,7 @@ export function getDefaultAdventureProgress(): AdventureProgress {
     currentWorld: 'counting-meadow',
     worlds: {
       'counting-meadow': {unlocked: true, levels: {}},
+      'high-five': {unlocked: true, levels: {}},
       'addition-island': {unlocked: true, levels: {}},
       'subtraction-mountain': {unlocked: true, levels: {}},
       'make-ten-beach': {unlocked: true, levels: {}},

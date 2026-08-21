@@ -42,6 +42,11 @@ import {ProblemTransition} from '../feedback/ProblemTransition';
 // of the generic world-theme noun. Unmapped levels fall back to world-themed
 // clips.
 const LEVEL_NOUN: Record<string, string> = {
+  // High Five! — all five nouns have complete have_/add_more_/post_great_
+  // coverage for 1-10, which is what keeps this world at zero voice cost.
+  'hf-1': 'star', 'hf-2': 'moon', 'hf-3': 'star', 'hf-4': 'moon',
+  'hf-5': 'comet', 'hf-6': 'galaxy', 'hf-7': 'star', 'hf-8': 'comet',
+  'hf-bonus-a': 'star', 'hf-bonus-b': 'trophy',
   // Addition Island
   'ai-1': 'shell',
   'ai-2': 'fish',

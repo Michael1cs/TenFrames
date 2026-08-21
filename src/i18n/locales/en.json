@@ -274,7 +274,8 @@
       "mixedTargets": "Number Bubbles!",
       "doublesCastle": "Doubles Castle",
       "memoryGarden": "Memory Garden",
-      "farmShare": "Farm Share"
+      "farmShare": "Farm Share",
+      "highFive": "High Five!"
     },
     "levels": {
       "cm1": "Count to 2",
@@ -348,7 +349,17 @@
       "fs5": "Three Chickens",
       "fs6": "Five Bunnies",
       "fsBonusA": "Pigs Picnic",
-      "fsBonusB": "Cows Feast"
+      "fsBonusB": "Cows Feast",
+      "hf1": "The Top Row",
+      "hf2": "Five and More",
+      "hf3": "Five and One",
+      "hf4": "Five and Two",
+      "hf5": "Five and Three",
+      "hf6": "Five and Four",
+      "hf7": "Five and Five",
+      "hf8": "All Mixed Up",
+      "hfBonusA": "Every Way to Make Five",
+      "hfBonusB": "The Big Five"
     },
     "level": "Level",
     "stars": "Stars",

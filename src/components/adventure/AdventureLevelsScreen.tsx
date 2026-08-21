@@ -14,7 +14,11 @@ import {getAllThemes} from '../../hooks/useTheme';
 import {useVoice} from '../../hooks/useVoice';
 import {Emoji} from '../common/Emoji';
 
-const WORLD_VOICE: Record<WorldId, string> = {
+// Partial on purpose. Every world here has a recorded name clip; a world added
+// without one simply isn't announced, because the call site below guards with
+// `if (clip)`. That is the whole trade that lets a new world ship at zero voice
+// cost — its levels are fully narrated, only its title is silent.
+const WORLD_VOICE: Partial<Record<WorldId, string>> = {
   'counting-meadow': 'world_counting_meadow',
   'addition-island': 'world_addition_island',
   'subtraction-mountain': 'world_subtraction_mountain',

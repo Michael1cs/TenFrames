@@ -91,6 +91,19 @@ function generateAdditionProblem(level: number): Problem {
     return {num1: n, num2: n + 1, answer: n + n + 1};
   }
 
+  // Levels 30-35: "High Five!" — num1 is always 5, a full top row, and the
+  // child counts on from it. 30 -> +1 ... 34 -> +5 with a +/-1 band so no
+  // level is a single fact; 35 mixes 1..5. Deliberately clear of the 20-25
+  // doubles band, which AdventureLevelScreen checks for its doubles voice.
+  if (level >= 30 && level <= 35) {
+    const center = level - 29;
+    const num2 =
+      level === 35
+        ? 1 + Math.floor(Math.random() * 5)
+        : Math.max(1, Math.min(5, center + (Math.floor(Math.random() * 3) - 1)));
+    return {num1: 5, num2, answer: 5 + num2};
+  }
+
   // Levels 12-18: SUM bands. Levels 1-9 fix the addend and let the total vary,
   // which narrows the pool as it climbs — measured, level 9 reaches exactly
   // three facts (1+8, 1+9, 2+8) at the climax of the biggest world. Fixing the
@@ -243,6 +256,22 @@ export function checkPuzzleAnswer(
 export function generateCountingChallenge(level: number): CountingChallenge {
   // Pool of challenges per level - picks randomly from pool
   const pools: Record<number, CountingChallenge[]> = {
+    // High Five! — levels 11-12. The whole point is that a full top row is
+    // five and can be seen without recounting, so every challenge here is
+    // anchored on a row rather than on a bare quantity.
+    11: [
+      {targetNumber: 5, instruction: 'fill_top_row'},
+      {targetNumber: 5, instruction: 'fill_bottom_row'},
+      {targetNumber: 5, instruction: 'fill_exactly'},
+      {targetNumber: 10, instruction: 'fill_both_equal'},
+    ],
+    12: [
+      {targetNumber: 6, instruction: 'fill_exactly'},
+      {targetNumber: 7, instruction: 'fill_exactly'},
+      {targetNumber: 8, instruction: 'fill_exactly'},
+      {targetNumber: 9, instruction: 'fill_exactly'},
+      {targetNumber: 10, instruction: 'fill_exactly'},
+    ],
     1: [
       {targetNumber: 1, instruction: 'fill_exactly'},
       {targetNumber: 2, instruction: 'fill_exactly'},

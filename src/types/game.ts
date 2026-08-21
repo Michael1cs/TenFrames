@@ -156,7 +156,8 @@ export type WorldId =
   | 'mixed-targets'
   | 'doubles-castle'
   | 'memory-garden'
-  | 'farm-share';
+  | 'farm-share'
+  | 'high-five';
 
 export interface AdventureProgress {
   version: number;

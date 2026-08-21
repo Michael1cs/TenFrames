@@ -274,7 +274,8 @@
       "mixedTargets": "Zahlen-Blasen!",
       "doublesCastle": "Doppel-Schloss",
       "memoryGarden": "Gedächtnis-Garten",
-      "farmShare": "Bauernhof teilen"
+      "farmShare": "Bauernhof teilen",
+      "highFive": "Gib fünf!"
     },
     "levels": {
       "cm1": "Zähle bis 2",
@@ -348,7 +349,17 @@
       "fs5": "Drei Hühner",
       "fs6": "Fünf Hasen",
       "fsBonusA": "Schweine-Picknick",
-      "fsBonusB": "Kühe-Festmahl"
+      "fsBonusB": "Kühe-Festmahl",
+      "hf1": "Die obere Reihe",
+      "hf2": "Fünf und mehr",
+      "hf3": "Fünf und eins",
+      "hf4": "Fünf und zwei",
+      "hf5": "Fünf und drei",
+      "hf6": "Fünf und vier",
+      "hf7": "Fünf und fünf",
+      "hf8": "Alles gemischt",
+      "hfBonusA": "Jeder Weg zur Fünf",
+      "hfBonusB": "Die große Fünf"
     },
     "level": "Level",
     "stars": "Sterne",
