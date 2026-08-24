@@ -34,6 +34,7 @@ import {ADVENTURE_WORLDS} from '../../config/adventureWorlds';
 import {Emoji} from '../common/Emoji';
 import {WrongFlash} from '../feedback/WrongFlash';
 import {TapHint} from '../feedback/TapHint';
+import {useReduceMotion} from '../../hooks/useReduceMotion';
 import {ProblemTransition} from '../feedback/ProblemTransition';
 
 // Per-level noun for voice narration. When set, the addition/subtraction
@@ -41,6 +42,15 @@ import {ProblemTransition} from '../feedback/ProblemTransition';
 // spoken phrase matches the level's emoji ("3 octopuses", "5 stars") instead
 // of the generic world-theme noun. Unmapped levels fall back to world-themed
 // clips.
+// How long after the child's last tap the board is judged. The child's answer
+// is WHERE THEY STOP, not where the app catches them: the old behaviour
+// submitted 350ms after the placed count matched the target, so a child
+// tapping through toward a larger (wrong) number was stopped and celebrated
+// the instant they passed through the right one. Under the stop rule the
+// pause itself is the commitment. Tune with a real 4-6yo: too short judges a
+// slow counter mid-thought, too long makes correct answers feel ignored.
+const STOP_JUDGE_MS = 2000;
+
 const LEVEL_NOUN: Record<string, string> = {
   // High Five! — all five nouns have complete have_/add_more_/post_great_
   // coverage for 1-10, which is what keeps this world at zero voice cost.
@@ -143,6 +153,14 @@ export function AdventureLevelScreen({
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [attempts, setAttempts] = useState(0);
+  // Hint ladder state. hintCells pulse (they need changing); everything else
+  // dims while a hint is up. assisting locks input while the third-attempt
+  // walkthrough builds the answer cell by cell.
+  const [hintCells, setHintCells] = useState<number[]>([]);
+  const [assisting, setAssisting] = useState(false);
+  const assistTimersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const hintFlashRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const reduceMotion = useReduceMotion();
   const [completedStars, setCompletedStars] = useState<number | null>(stars);
   // Sync with parent: when Replay zeroes the stars prop, drop our internal
   // completed state too so the LevelCompleteScreen overlay closes and the
@@ -234,6 +252,14 @@ export function AdventureLevelScreen({
     setHasSubmitted(false);
     setIsCorrect(null);
     setAttempts(0);
+    setHintCells([]);
+    setAssisting(false);
+    for (const t of assistTimersRef.current) clearTimeout(t);
+    assistTimersRef.current = [];
+    if (hintFlashRef.current) {
+      clearTimeout(hintFlashRef.current);
+      hintFlashRef.current = null;
+    }
 
     if (level.gameMode === 'memory') {
       const challenge = pregenMemoryRef.current[problemIndex]
@@ -315,6 +341,8 @@ export function AdventureLevelScreen({
     () => () => {
       if (instructionTimerRef.current) clearTimeout(instructionTimerRef.current);
       if (advanceFallbackRef.current) clearTimeout(advanceFallbackRef.current);
+      for (const t of assistTimersRef.current) clearTimeout(t);
+      if (hintFlashRef.current) clearTimeout(hintFlashRef.current);
     },
     [],
   );
@@ -348,7 +376,14 @@ export function AdventureLevelScreen({
   const handleCellPress = useCallback(
     (index: number) => {
       if (hasSubmitted && isCorrect) return;
+      if (assisting) return; // the walkthrough owns the board
       dismissHint();
+      // A tap answers the visual hint, so take it down.
+      setHintCells(prev => (prev.length ? [] : prev));
+      if (hintFlashRef.current) {
+        clearTimeout(hintFlashRef.current);
+        hintFlashRef.current = null;
+      }
 
       setCells(prev => {
         const newCells = [...prev];
@@ -375,7 +410,7 @@ export function AdventureLevelScreen({
         setIsCorrect(null);
       }
     },
-    [hasSubmitted, isCorrect, level.gameMode],
+    [hasSubmitted, isCorrect, level.gameMode, assisting],
   );
 
   const handleSubmit = useCallback(() => {
@@ -514,10 +549,209 @@ export function AdventureLevelScreen({
         }
       }
     } else {
-      setAttempts(prev => prev + 1);
-      voiceRef.current.playRandom(VOICE_GROUPS.tryAgain);
+      // ── The hint ladder ────────────────────────────────────────────
+      // Before this existed, every wrong answer got one random "Almost!"
+      // and the 10s inactivity timer replayed the IDENTICAL instruction —
+      // tapping 6 when the answer was 7 and tapping 2 when the answer was
+      // 7 produced byte-identical responses. Three rungs now:
+      //   1st miss  → say it again, in a DIFFERENT form
+      //   2nd miss  → show it: dim what's right, pulse what must change
+      //   3rd miss  → build it together, counting aloud; one star anyway
+      // No child ever fails out of a problem.
+      const attemptNumber = attempts + 1;
+      setAttempts(attemptNumber);
+
+      const noun = LEVEL_NOUN[level.id];
+      const themeId = ADVENTURE_WORLDS.find(w => w.id === level.worldId)?.theme;
+      const isDoubles =
+        level.gameMode === 'addition' &&
+        level.modeLevel >= 20 &&
+        level.modeLevel <= 25;
+
+      // The quantity the child is building toward — drives the five-structure
+      // flash (only meaningful for totals of six or more).
+      const buildTarget =
+        level.gameMode === 'counting' && countingChallenge
+          ? countingChallenge.targetNumber
+          : currentProblem?.answer ?? 0;
+
+      // Which cells must change to reach the answer, from the board as the
+      // child left it. Positional (first empties / last extras): the child's
+      // placement order is unknown, and position reads naturally on a frame.
+      const cellsToChange = (): number[] => {
+        const idx = (pred: (c: CellState, i: number) => boolean) =>
+          cells.map((c, i) => (pred(c, i) ? i : -1)).filter(i => i >= 0);
+        if (level.gameMode === 'counting' && countingChallenge) {
+          const {instruction, targetNumber} = countingChallenge;
+          if (instruction === 'fill_top_row') {
+            return [
+              ...idx((c, i) => i < 5 && c === 'empty'),
+              ...idx((c, i) => i >= 5 && c !== 'empty'),
+            ];
+          }
+          if (instruction === 'fill_bottom_row') {
+            return [
+              ...idx((c, i) => i >= 5 && c === 'empty'),
+              ...idx((c, i) => i < 5 && c !== 'empty'),
+            ];
+          }
+          if (instruction === 'fill_both_equal') {
+            const perRow = targetNumber / 2;
+            const out: number[] = [];
+            for (const [lo, hi] of [[0, 5], [5, 10]] as const) {
+              const filled = idx((c, i) => i >= lo && i < hi && c !== 'empty');
+              const empty = idx((c, i) => i >= lo && i < hi && c === 'empty');
+              if (filled.length < perRow) out.push(...empty.slice(0, perRow - filled.length));
+              else out.push(...filled.slice(perRow));
+            }
+            return out;
+          }
+          const filled = idx(c => c !== 'empty');
+          const empty = idx(c => c === 'empty');
+          return filled.length < targetNumber
+            ? empty.slice(0, targetNumber - filled.length)
+            : filled.slice(targetNumber);
+        }
+        if (!currentProblem) return [];
+        if (level.gameMode === 'subtraction') {
+          const kept = idx(c => c === 'color1');
+          const empty = idx(c => c === 'empty');
+          return kept.length > currentProblem.answer
+            ? kept.slice(currentProblem.answer)
+            : empty.slice(0, currentProblem.answer - kept.length);
+        }
+        // addition / puzzle: the child's operand is color2
+        const placed = idx(c => c === 'color2');
+        const empty = idx(c => c === 'empty');
+        return placed.length < currentProblem.num2
+          ? empty.slice(0, currentProblem.num2 - placed.length)
+          : placed.slice(currentProblem.num2);
+      };
+
+      if (attemptNumber === 1) {
+        // Same request, different sentence — a repeat reads as a stuck record.
+        voiceRef.current.playRandom(VOICE_GROUPS.tryAgain);
+        if (level.gameMode === 'counting') {
+          voiceRef.current.play('instr_counting');
+          lastInstructionVoiceRef.current?.();
+        } else if (level.gameMode === 'puzzle' && currentProblem) {
+          voiceRef.current.play('instr_puzzle');
+          const target = currentProblem.answer;
+          voiceRef.current.play(target === 10 ? 'instr_make_ten' : `make_${target}`);
+        } else if (currentProblem) {
+          if (isDoubles) {
+            voiceRef.current.play(`doubles_${currentProblem.num1}`);
+          } else if (noun) {
+            // The instruction said "you have N, add M" — restate it as the
+            // bare number plus the action, which is the counting-on frame.
+            const verb = level.gameMode === 'addition' ? 'add_more' : 'take';
+            voiceRef.current.playSequence(
+              [`num_${currentProblem.num1}`, `${verb}_${noun}_${currentProblem.num2}`],
+              350,
+            );
+          } else if (themeId) {
+            const act = level.gameMode === 'addition' ? 'add' : 'sub';
+            voiceRef.current.play(`instr_${act}_${themeId}_${currentProblem.num2}`);
+          }
+        }
+      } else if (attemptNumber === 2) {
+        voiceRef.current.playRandom(VOICE_GROUPS.tryAgain);
+        const diff = cellsToChange();
+        if (buildTarget >= 6 && !reduceMotion) {
+          // Light the full top row first — the five-structure IS the hint for
+          // anything past five — then hand over to the actual cells to fix.
+          setHintCells([0, 1, 2, 3, 4]);
+          hintFlashRef.current = setTimeout(() => {
+            hintFlashRef.current = null;
+            setHintCells(diff);
+          }, 900);
+        } else {
+          setHintCells(diff);
+        }
+      } else {
+        // ── Build it together ──
+        setAssisting(true);
+        setHintCells([]);
+        // handleSubmit set hasSubmitted/isCorrect(false) just above, which
+        // would keep the red WrongFlash and the 🤔 box on screen through the
+        // whole walkthrough. This is teaching now, not judging — clear them;
+        // they come back as the success pair when the build finishes.
+        setHasSubmitted(false);
+        setIsCorrect(null);
+        if (instructionTimerRef.current) {
+          clearTimeout(instructionTimerRef.current);
+          instructionTimerRef.current = null;
+        }
+        if (reminderTimerRef.current) {
+          clearTimeout(reminderTimerRef.current);
+          reminderTimerRef.current = null;
+        }
+        voiceRef.current.stop();
+
+        // Reset to the operand's starting point, then place (or remove) one
+        // cell at a time, counting aloud — the same one-to-one counting the
+        // level is teaching. The child watches the answer get built instead
+        // of being told it.
+        let base: CellState[] = Array(10).fill('empty');
+        const steps: {index: number; state: CellState}[] = [];
+        if (level.gameMode === 'counting' && countingChallenge) {
+          const {instruction, targetNumber} = countingChallenge;
+          const positions =
+            instruction === 'fill_top_row'
+              ? [0, 1, 2, 3, 4]
+              : instruction === 'fill_bottom_row'
+              ? [5, 6, 7, 8, 9]
+              : instruction === 'fill_both_equal'
+              ? [
+                  ...Array.from({length: targetNumber / 2}, (_, i) => i),
+                  ...Array.from({length: targetNumber / 2}, (_, i) => 5 + i),
+                ]
+              : Array.from({length: targetNumber}, (_, i) => i);
+          for (const i of positions) steps.push({index: i, state: 'filled'});
+        } else if (currentProblem && level.gameMode === 'subtraction') {
+          base = base.map((c, i) => (i < currentProblem.num1 ? 'color1' : c));
+          for (let k = 0; k < currentProblem.num2; k++) {
+            steps.push({index: currentProblem.num1 - 1 - k, state: 'empty'});
+          }
+        } else if (currentProblem) {
+          // addition / puzzle
+          base = base.map((c, i) => (i < currentProblem.num1 ? 'color1' : c));
+          for (let k = 0; k < currentProblem.num2; k++) {
+            steps.push({index: currentProblem.num1 + k, state: 'color2'});
+          }
+        }
+
+        setCells(base);
+        steps.forEach((st, i) => {
+          assistTimersRef.current.push(
+            setTimeout(() => {
+              setCells(prev => {
+                const n = [...prev];
+                n[st.index] = st.state;
+                return n;
+              });
+              voiceRef.current.play(`num_${i + 1}`);
+            }, 500 + i * 600),
+          );
+        });
+        const doneAt = 500 + steps.length * 600 + 300;
+        assistTimersRef.current.push(
+          setTimeout(() => {
+            setHasSubmitted(true);
+            setIsCorrect(true);
+            voiceRef.current.playRandom(VOICE_GROUPS.correct);
+          }, doneAt),
+        );
+        assistTimersRef.current.push(
+          setTimeout(() => {
+            setAssisting(false);
+            // wasFirstTry false → one star. Helped is still finished.
+            onRecordResult(false);
+          }, doneAt + 2200),
+        );
+      }
     }
-  }, [cells, currentProblem, countingChallenge, level, attempts, onRecordResult]);
+  }, [cells, currentProblem, countingChallenge, level, attempts, onRecordResult, reduceMotion]);
 
   // Auto-complete level when finished
   useEffect(() => {
@@ -527,70 +761,38 @@ export function AdventureLevelScreen({
     }
   }, [finished, completedStars, onComplete]);
 
-  // Auto-submit: when child reaches the correct answer, fire submit after
-  // 350ms (positive). When they overshoot, fire after 1.8s grace (wrong).
-  // This replaces the manual ✓ button — 4-6 ages don't need to confirm.
-  // Cleanup-based: every cells change cancels the prior pending timer and
-  // re-evaluates from scratch, so the child can over- then under-shoot
-  // freely without locking the level up. hasSubmitted gates the effect
-  // entirely once a submit has actually fired.
+  // Judge where the child STOPS, not where the app catches them. Every cell
+  // change re-arms one timer; when the child leaves the board alone for
+  // STOP_JUDGE_MS, whatever is on it is their answer — right or wrong, it
+  // goes through handleSubmit and, if wrong, into the hint ladder. The old
+  // behaviour submitted 350ms after the count MATCHED, so a child tapping
+  // onward toward a larger number was stopped and celebrated the moment they
+  // passed through the right answer, without ever deciding anything.
   const handleSubmitRef = useRef(handleSubmit);
   handleSubmitRef.current = handleSubmit;
   useEffect(() => {
-    if (finished || hasSubmitted || level.gameMode === 'memory') return;
-    // Share mode owns its own match detection so skip the
-    // count-based auto-submit logic here.
-    if (level.gameMode === 'share') return;
+    if (finished || hasSubmitted || assisting) return;
+    if (level.gameMode === 'memory' || level.gameMode === 'share') return;
 
-    const topFilled = cells.slice(0, 5).filter(c => c !== 'empty').length;
-    const bottomFilled = cells.slice(5, 10).filter(c => c !== 'empty').length;
-    const totalFilled = topFilled + bottomFilled;
-
-    let isMatch = false;
-    let isOvershoot = false;
-
+    // Only judge once the child has touched their operand — an untouched
+    // board is "still thinking", and the 10s voice nudge owns that case.
+    let engaged = false;
     if (level.gameMode === 'counting' && countingChallenge) {
-      const {instruction, targetNumber} = countingChallenge;
-      if (instruction === 'fill_top_row') {
-        isMatch = topFilled === 5 && bottomFilled === 0;
-        isOvershoot = bottomFilled > 0 || topFilled > 5;
-      } else if (instruction === 'fill_bottom_row') {
-        isMatch = bottomFilled === 5 && topFilled === 0;
-        isOvershoot = topFilled > 0 || bottomFilled > 5;
-      } else if (instruction === 'fill_both_equal') {
-        const perRow = targetNumber / 2;
-        isMatch = topFilled === perRow && bottomFilled === perRow;
-        isOvershoot = topFilled > perRow || bottomFilled > perRow;
-      } else {
-        // fill_exactly
-        isMatch = totalFilled === targetNumber;
-        isOvershoot = totalFilled > targetNumber;
-      }
-    } else if (level.gameMode === 'puzzle' && currentProblem) {
-      const color2Count = cells.filter(c => c === 'color2').length;
-      isMatch = color2Count === currentProblem.num2;
-      isOvershoot = color2Count > currentProblem.num2;
-    } else if (currentProblem) {
-      if (level.gameMode === 'addition') {
-        const color2Count = cells.filter(c => c === 'color2').length;
-        isMatch = color2Count === currentProblem.num2;
-        isOvershoot = color2Count > currentProblem.num2;
-      } else if (level.gameMode === 'subtraction') {
-        const remainingColor1 = cells.filter(c => c === 'color1').length;
-        isMatch = remainingColor1 === currentProblem.answer;
-        isOvershoot = remainingColor1 < currentProblem.answer; // removed too many
-      }
+      engaged = cells.some(c => c !== 'empty');
+    } else if (
+      (level.gameMode === 'addition' || level.gameMode === 'puzzle') &&
+      currentProblem
+    ) {
+      engaged = cells.some(c => c === 'color2');
+    } else if (level.gameMode === 'subtraction' && currentProblem) {
+      engaged =
+        cells.filter(c => c === 'color1').length !== currentProblem.num1;
     }
+    if (!engaged) return;
 
-    if (isMatch) {
-      const t = setTimeout(() => handleSubmitRef.current(), 350);
-      return () => clearTimeout(t);
-    }
-    if (isOvershoot) {
-      const t = setTimeout(() => handleSubmitRef.current(), 1800);
-      return () => clearTimeout(t);
-    }
-  }, [cells, currentProblem, countingChallenge, level, hasSubmitted, finished, problemIndex]);
+    const t = setTimeout(() => handleSubmitRef.current(), STOP_JUDGE_MS);
+    return () => clearTimeout(t);
+  }, [cells, currentProblem, countingChallenge, level, hasSubmitted, finished, problemIndex, assisting]);
 
   // Voice narration per problem. Memory mode handles its own voice via
   // onPhaseChange, so we skip it here.
@@ -912,11 +1114,13 @@ export function AdventureLevelScreen({
               <TenFrame
                 cells={cells}
                 onCellClick={handleCellPress}
+                disabled={assisting}
                 colors={themeColors}
                 emoji={worldTheme?.colors?.emojiColor1 ?? '🔵'}
                 overrideEmoji={level.emoji}
+                hintedCells={hintCells}
               />
-              <TapHint visible={showTapHint && !hasSubmitted} />
+              <TapHint visible={showTapHint && !hasSubmitted && !assisting} />
             </Animated.View>
 
             {/* Count display */}

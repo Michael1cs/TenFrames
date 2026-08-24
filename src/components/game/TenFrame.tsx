@@ -15,6 +15,9 @@ interface TenFrameProps {
   // Override the per-cell emoji (used in adventure to make filled cells
   // show the level's icon instead of the theme's generic marble).
   overrideEmoji?: string;
+  // Hint-ladder support: these cells pulse (they need changing); while any
+  // hint is up, the other occupied cells dim so the eye lands on the fix.
+  hintedCells?: number[];
 }
 
 export function TenFrame({
@@ -26,6 +29,7 @@ export function TenFrame({
   tokenImage,
   ageGroup = 'older',
   overrideEmoji,
+  hintedCells,
 }: TenFrameProps) {
   const {cellSize} = useLayout(ageGroup);
 
@@ -57,6 +61,9 @@ export function TenFrame({
             <View style={styles.row}>
               {cells.slice(row * 5, row * 5 + 5).map((state, i) => {
                 const index = row * 5 + i;
+                const hinted = hintedCells?.includes(index) ?? false;
+                const dimmed =
+                  !!hintedCells?.length && !hinted && state !== 'empty';
                 return (
                   <TenFrameCell
                     key={index}
@@ -68,6 +75,8 @@ export function TenFrame({
                     cellSize={cellSize}
                     tokenImage={tokenImage}
                     overrideEmoji={overrideEmoji}
+                    hinted={hinted}
+                    dimmed={dimmed}
                   />
                 );
               })}
