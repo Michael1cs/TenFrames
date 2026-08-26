@@ -17,7 +17,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
-import {Theme, Language, AgeGroup} from '../../types/game';
+import {Theme, Language} from '../../types/game';
 import {getAllThemes} from '../../hooks/useTheme';
 import {useVoice} from '../../hooks/useVoice';
 import {LanguageSwitcher} from '../layout/LanguageSwitcher';
@@ -31,8 +31,6 @@ interface PlayerSetupProps {
   onThemeChange: (theme: Theme) => void;
   language: Language;
   onLanguageChange: (lang: Language) => void;
-  ageGroup: AgeGroup;
-  onAgeGroupChange: (group: AgeGroup) => void;
   onComplete: () => void;
   // When true, modal is opened from header (returning user editing settings).
   // We don't show the big "Ten Frames" title and the CTA copy is "Save".
@@ -47,8 +45,6 @@ export function PlayerSetup({
   onThemeChange,
   language,
   onLanguageChange,
-  ageGroup,
-  onAgeGroupChange,
   onComplete,
   isThemeChange = false,
 }: PlayerSetupProps) {
@@ -288,10 +284,6 @@ const styles = StyleSheet.create({
   },
   languageRow: {
     alignItems: 'flex-start',
-  },
-  ageRow: {
-    flexDirection: 'row',
-    gap: 12,
   },
   ageButton: {
     flex: 1,

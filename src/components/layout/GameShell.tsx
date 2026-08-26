@@ -1128,8 +1128,6 @@ function GameShellInner() {
         onThemeChange={game.setTheme}
         language={game.language}
         onLanguageChange={handleLanguageChange}
-        ageGroup={game.ageGroup}
-        onAgeGroupChange={game.setAgeGroup}
         onComplete={handleSetupComplete}
         isThemeChange={game.isThemeChange}
       />

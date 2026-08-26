@@ -35,6 +35,7 @@ import {Emoji} from '../common/Emoji';
 import {WrongFlash} from '../feedback/WrongFlash';
 import {TapHint} from '../feedback/TapHint';
 import {useReduceMotion} from '../../hooks/useReduceMotion';
+import {buildAssistPlan, cellsToChange} from '../../utils/hintLadder';
 import {ProblemTransition} from '../feedback/ProblemTransition';
 
 // Per-level noun for voice narration. When set, the addition/subtraction
@@ -575,57 +576,14 @@ export function AdventureLevelScreen({
           ? countingChallenge.targetNumber
           : currentProblem?.answer ?? 0;
 
-      // Which cells must change to reach the answer, from the board as the
-      // child left it. Positional (first empties / last extras): the child's
-      // placement order is unknown, and position reads naturally on a frame.
-      const cellsToChange = (): number[] => {
-        const idx = (pred: (c: CellState, i: number) => boolean) =>
-          cells.map((c, i) => (pred(c, i) ? i : -1)).filter(i => i >= 0);
-        if (level.gameMode === 'counting' && countingChallenge) {
-          const {instruction, targetNumber} = countingChallenge;
-          if (instruction === 'fill_top_row') {
-            return [
-              ...idx((c, i) => i < 5 && c === 'empty'),
-              ...idx((c, i) => i >= 5 && c !== 'empty'),
-            ];
-          }
-          if (instruction === 'fill_bottom_row') {
-            return [
-              ...idx((c, i) => i >= 5 && c === 'empty'),
-              ...idx((c, i) => i < 5 && c !== 'empty'),
-            ];
-          }
-          if (instruction === 'fill_both_equal') {
-            const perRow = targetNumber / 2;
-            const out: number[] = [];
-            for (const [lo, hi] of [[0, 5], [5, 10]] as const) {
-              const filled = idx((c, i) => i >= lo && i < hi && c !== 'empty');
-              const empty = idx((c, i) => i >= lo && i < hi && c === 'empty');
-              if (filled.length < perRow) out.push(...empty.slice(0, perRow - filled.length));
-              else out.push(...filled.slice(perRow));
-            }
-            return out;
-          }
-          const filled = idx(c => c !== 'empty');
-          const empty = idx(c => c === 'empty');
-          return filled.length < targetNumber
-            ? empty.slice(0, targetNumber - filled.length)
-            : filled.slice(targetNumber);
-        }
-        if (!currentProblem) return [];
-        if (level.gameMode === 'subtraction') {
-          const kept = idx(c => c === 'color1');
-          const empty = idx(c => c === 'empty');
-          return kept.length > currentProblem.answer
-            ? kept.slice(currentProblem.answer)
-            : empty.slice(0, currentProblem.answer - kept.length);
-        }
-        // addition / puzzle: the child's operand is color2
-        const placed = idx(c => c === 'color2');
-        const empty = idx(c => c === 'empty');
-        return placed.length < currentProblem.num2
-          ? empty.slice(0, currentProblem.num2 - placed.length)
-          : placed.slice(currentProblem.num2);
+      // Which cells must change, and the walkthrough board, both live in
+      // src/utils/hintLadder.ts as pure functions — they are the part of the
+      // ladder that can actually be wrong, and there they are testable.
+      const ladderCtx = {
+        gameMode: level.gameMode,
+        cells,
+        problem: currentProblem,
+        counting: countingChallenge,
       };
 
       if (attemptNumber === 1) {
@@ -656,7 +614,7 @@ export function AdventureLevelScreen({
         }
       } else if (attemptNumber === 2) {
         voiceRef.current.playRandom(VOICE_GROUPS.tryAgain);
-        const diff = cellsToChange();
+        const diff = cellsToChange(ladderCtx);
         if (buildTarget >= 6 && !reduceMotion) {
           // Light the full top row first — the five-structure IS the hint for
           // anything past five — then hand over to the actual cells to fix.
@@ -692,34 +650,7 @@ export function AdventureLevelScreen({
         // cell at a time, counting aloud — the same one-to-one counting the
         // level is teaching. The child watches the answer get built instead
         // of being told it.
-        let base: CellState[] = Array(10).fill('empty');
-        const steps: {index: number; state: CellState}[] = [];
-        if (level.gameMode === 'counting' && countingChallenge) {
-          const {instruction, targetNumber} = countingChallenge;
-          const positions =
-            instruction === 'fill_top_row'
-              ? [0, 1, 2, 3, 4]
-              : instruction === 'fill_bottom_row'
-              ? [5, 6, 7, 8, 9]
-              : instruction === 'fill_both_equal'
-              ? [
-                  ...Array.from({length: targetNumber / 2}, (_, i) => i),
-                  ...Array.from({length: targetNumber / 2}, (_, i) => 5 + i),
-                ]
-              : Array.from({length: targetNumber}, (_, i) => i);
-          for (const i of positions) steps.push({index: i, state: 'filled'});
-        } else if (currentProblem && level.gameMode === 'subtraction') {
-          base = base.map((c, i) => (i < currentProblem.num1 ? 'color1' : c));
-          for (let k = 0; k < currentProblem.num2; k++) {
-            steps.push({index: currentProblem.num1 - 1 - k, state: 'empty'});
-          }
-        } else if (currentProblem) {
-          // addition / puzzle
-          base = base.map((c, i) => (i < currentProblem.num1 ? 'color1' : c));
-          for (let k = 0; k < currentProblem.num2; k++) {
-            steps.push({index: currentProblem.num1 + k, state: 'color2'});
-          }
-        }
+        const {base, steps} = buildAssistPlan(ladderCtx);
 
         setCells(base);
         steps.forEach((st, i) => {
