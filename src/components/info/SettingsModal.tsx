@@ -10,6 +10,7 @@ import {
 import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {Emoji} from '../common/Emoji';
+import {IS_SCHOOL_EDITION} from '../../config/edition';
 
 interface Props {
   visible: boolean;
@@ -69,7 +70,11 @@ export function SettingsModal({
           {/* Premium row — tapping always opens the upgrade screen so the
               purchase UI stays discoverable (handy in dev when isPremium is
               forced true). When premium is already active, the row shows a
-              status badge but still lets the parent peek at the screen. */}
+              status badge but still lets the parent peek at the screen.
+              Hidden entirely in the School Edition: on a managed classroom
+              device there is nothing to buy and no parent to buy it, and a
+              paid institutional app must not show purchase language. */}
+          {!IS_SCHOOL_EDITION && (
           <Pressable onPress={onUpgrade} style={styles.premiumCard}>
             <Text style={styles.premiumEmoji}>
               <Emoji>{isPremium ? '✅' : '👑'}</Emoji>
@@ -88,6 +93,7 @@ export function SettingsModal({
             </View>
             <Text style={styles.chevron}>›</Text>
           </Pressable>
+          )}
 
           {/* About link */}
           <Pressable
