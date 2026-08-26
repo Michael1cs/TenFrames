@@ -59,39 +59,46 @@ Plus instruction and praise lines on top of the number words in every case.
 
 ---
 
-## Where I'd disagree with the proposed order
+## Two ways to order this — and they disagree
 
-Proposed: Base Ten → Number Bonds → Rekenrek → Fractions → Arrays.
+**By market expansion** (the one that matters): each app should open a *new
+school year*, because that is a new budget line at the same institution. A
+school that buys Ten Frames for reception can buy Base Ten for Year 2 — two
+sales, same customer, no cannibalisation. Under this logic Ten Frames is the
+beachhead and every later app should climb the age ladder.
 
-**I'd put Rekenrek second, not fourth.** It is the cheapest possible next app
-by a wide margin:
+**By build cost**: the cheapest next app is the one that stays inside the
+number range and mechanics we already have.
 
-- Same number range as Ten Frames (to 20), so ~30 new number clips instead of 270.
-- Same mechanic family: composing and decomposing against anchors of 5 and 10 —
-  the app *already* teaches this (the High Five! world is exactly the
-  five-structure, and Make-Ten Beach is exactly bonds to ten).
-- The board is two rows of ten beads. Structurally close to the existing
-  renderer; genuinely a different manipulative to a teacher, but not a new
-  engine to us.
-- Weak incumbent: the reference app is free, open-ended, and rated ~2.5.
-  Nobody has made it a game.
-- It is the fastest way to test whether the *family* strategy works at all —
-  whether one institutional buyer who took Ten Frames will take a second app.
+These point in opposite directions, and market expansion wins. Recorded here
+so the tension is visible, not so it gets re-argued:
 
-**Base Ten is the bigger prize but the bigger bill.** It extends school life
-past ten frames (Y1–Y3 rather than reception), the incumbents are genuinely
-ancient (2012, $0.99), and place value + regrouping is a real curriculum spine.
-But it needs numbers to 100 in three languages, a new renderer (rods, flats,
-place-value columns), and it shifts the audience up from 4–6 — which the app
-was deliberately re-targeted *to* in v1.6.
+| Concept | School years | Voice cost | Expands the range? |
+|---|---|---|---|
+| Ten Frames *(shipped)* | Reception / K, ages 4–6 | — | beachhead |
+| **Rekenrek** | same as Ten Frames | ~30 clips | **no — overlaps** |
+| **Number Bonds** | K–Y1 | ~30 clips | barely |
+| **Base Ten / Place Value** | Y1–Y3, ages 6–8 | ~270 clips + regrouping | **yes, one full band up** |
+| **Arrays & Multiplication** | Y2–Y3 | ~270 clips | yes |
+| **Fractions** | Y2–Y4 | ~120 clips | yes, and the widest span |
 
-Do it second-to-last, when the engine is extracted and the voice pipeline has
-been run once more.
+So **Base Ten is the right app #2** despite being the expensive one: it is the
+first concept that opens a grade band Ten Frames cannot serve, and the
+incumbents there are genuinely ancient (2012, $0.99, digital manipulatives
+rather than games).
 
-**Fractions** is the one that could carry a $9.99–$14.99 School Edition,
-because it spans several school years. Worth its own analysis when we get there.
+Rekenrek and Number Bonds are cheap but sell to a customer who already owns
+Ten Frames and is being taught the same maths. They are better as *features
+inside* Ten Frames — a rekenrek is a second representation of exactly the
+composing-to-five-and-ten that High Five! already teaches — than as separate
+products. Fractions is the widest age span and the best School Edition price
+($9.99–$14.99), so it is the strongest third.
 
----
+**Reuse is a nice-to-have here, not a requirement.** The 68.6% shell means a
+second app costs weeks rather than months, but if a concept needs a completely
+different board, that is fine — the mascot, voice, rewards, adventure map,
+School Edition build and store positioning all still carry over, and those are
+the parts that took years, not the grid renderer.
 
 ## Before app #2: the App Store analysis
 
@@ -121,7 +128,9 @@ a ten; then 34 + 28 with regrouping to 62. Covers place value, addition,
 subtraction and regrouping — longer school life than ten frames.
 Incumbents old (Base Ten Blocks 2012 $0.99; Hands-On Math Base Ten $2.99), and
 they are digital manipulatives rather than games.
-*Cost: high (numbers to 100 × 3 langs, new renderer, audience shifts to 6–8).*
+*Cost: high (numbers to 100 × 3 langs, new renderer). The audience shift to
+6–8 is the **point**, not a drawback — it is a new school year and a new
+budget line at schools that already own Ten Frames. **App #2.***
 
 ### 2. Number Bonds
 `7 + ? = 10`, `? + 6 = 10`, `14 = 8 + ?`. Shown as bond triangles/circles
@@ -137,7 +146,9 @@ Two rows of ten beads. "Show 7" → 5 red + 2 white. Then "make 10", then 7 + 6
 via 7 + 3 + 3. Anchors of five and ten, composing/decomposing, subitizing.
 Incumbent (Rekenrek by mathies) is free, open-ended, ~2.5 stars — a tool, not
 a game.
-*Cost: lowest of the five. **My pick for app #2.***
+*Cost: lowest of the five — but it sells to a customer who already owns
+Ten Frames. Probably stronger as a second representation inside Ten Frames
+than as its own product.*
 
 ### 4. Fractions
 Fraction bars, circles, pizzas. `1/2 = ?/4`, which is larger 3/4 or 2/3, build
