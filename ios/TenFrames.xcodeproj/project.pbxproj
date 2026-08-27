@@ -268,6 +268,7 @@
 		11EB481473B17DD044EB1F99 /* voice_de_take_rocket_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8A92DFF49F4086061823D358 /* voice_de_take_rocket_4.mp3 */; };
 		1200F5820E6BF2673245BC7E /* voice_de_pre_have_pixel_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D2C9E43B5D03858444819CEF /* voice_de_pre_have_pixel_9.mp3 */; };
 		12149C898406B0DD84DAF80B /* voice_de_post_great_comet_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A69DF2C46FCD0E70F5221409 /* voice_de_post_great_comet_2.mp3 */; };
+		12616EC81BB5433FD678CD3D /* voice_de_make_6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A641BC06771C607021B6692F /* voice_de_make_6.mp3 */; };
 		126B88ED26C342AF90D41EB2 /* voice_en_post_great_ufo_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4ABE05184F1C40109D5F7E8C /* voice_en_post_great_ufo_9.mp3 */; };
 		127067453BFA81A47B08B1C6 /* voice_de_pre_have_candy_10.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B2A1C5DB428162A571CE5734 /* voice_de_pre_have_candy_10.mp3 */; };
 		1274D1B0B22F61A027ABECE5 /* voice_de_have_dolphin_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5DF38E83CACF032E2E446EA7 /* voice_de_have_dolphin_5.mp3 */; };
@@ -308,6 +309,7 @@
 		14447EFD20B7ADC857E01FE1 /* voice_de_post_great_fox_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 86B063FCE238353F76DFDC10 /* voice_de_post_great_fox_7.mp3 */; };
 		145E6F19DAF046E2A78F5A4F /* voice_ro_instr_add_forest_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 465A8495C41240A9868231FB /* voice_ro_instr_add_forest_7.mp3 */; };
 		148460EA0D494487AF6E9EBF /* voice_ro_reward_level_great.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3EA5F8CF7C404014A536F481 /* voice_ro_reward_level_great.mp3 */; };
+		14A33C5C31799D5F91FBC361 /* voice_de_make_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 375D7BF99F481BF39A458CE9 /* voice_de_make_3.mp3 */; };
 		14E244829B024CD18DBEBD4B /* voice_ro_instr_sub_space_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3E8E6F548B3C4D0D98CFEFEA /* voice_ro_instr_sub_space_3.mp3 */; };
 		14E5661C4E84BD6DDB955CCD /* voice_de_instr_add_unicorn_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F60F22FE06E63030D5E16B61 /* voice_de_instr_add_unicorn_7.mp3 */; };
 		14E6723CA2D015390957472B /* voice_de_pre_have_kpop_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B147EBE715E021C552986DD7 /* voice_de_pre_have_kpop_1.mp3 */; };
@@ -414,6 +416,7 @@
 		1BD1DDA1D13D4B05A8031FD3 /* voice_en_add_more_octopus_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8F229EF3CAE3418C8A2C95AB /* voice_en_add_more_octopus_9.mp3 */; };
 		1BF458AA2BA94446A44E181E /* voice_ro_post_great_planet_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9618C0D98C6482A83C23443 /* voice_ro_post_great_planet_1.mp3 */; };
 		1C0958564F03C11C03766ECA /* voice_de_instr_sub_ocean_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8FFFF5218B9D50E820352AB6 /* voice_de_instr_sub_ocean_1.mp3 */; };
+		1C124DDEA8EE92CBA0D90502 /* voice_de_make_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EC50C62AFB29D5B56EA60E44 /* voice_de_make_9.mp3 */; };
 		1C260C76C1544C28BC199AD8 /* voice_en_post_great_galaxy_8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0895CA3C7DC14D0E875BE334 /* voice_en_post_great_galaxy_8.mp3 */; };
 		1C401F9CC010B744C277A6FD /* voice_de_post_great_sunflower_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5F3B1BF6176033E7C126B961 /* voice_de_post_great_sunflower_4.mp3 */; };
 		1C54874923254E4C904EE34B /* voice_ro_post_great_dolphin_10.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4EF8C736B35646408D4C81FE /* voice_ro_post_great_dolphin_10.mp3 */; };
@@ -717,6 +720,7 @@
 		2FF63E9882F042049C6EEA2E /* voice_ro_have_ufo_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 831581D0141D4DA4A6B90CC7 /* voice_ro_have_ufo_1.mp3 */; };
 		2FF7A3F656864EBBB8247EC2 /* voice_ro_post_great_mushroom_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C5DED06641B48A4B1E17941 /* voice_ro_post_great_mushroom_5.mp3 */; };
 		30382F5E8B9F4AD7A0BB656D /* voice_ro_post_great_comet_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 59F4219141D644A496385AFF /* voice_ro_post_great_comet_5.mp3 */; };
+		303CD72C2CE4A3C08747E5D7 /* voice_en_world_mixed_targets.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FB2CE94A04716327A9EF7F79 /* voice_en_world_mixed_targets.mp3 */; };
 		3053FC925ED448DFA4902615 /* voice_en_post_great_forest_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A0935FF16DC649EAB826A298 /* voice_en_post_great_forest_3.mp3 */; };
 		30605C93FABC5138AA1C82E2 /* voice_de_take_telescope_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1CBC0A475A50F11696FB8C24 /* voice_de_take_telescope_4.mp3 */; };
 		306A8844236D43D8BCDDEB35 /* voice_ro_instr_add_slime_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B763F1927F13458E90349B3F /* voice_ro_instr_add_slime_1.mp3 */; };
@@ -744,6 +748,7 @@
 		31E5E2565042BC888D0F44D4 /* voice_de_post_great_planet_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0A9024E7823689737E6F1C58 /* voice_de_post_great_planet_2.mp3 */; };
 		31EE1AAA20CCA31FC8D6063F /* voice_de_have_star_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 732E9E963A178CEAF95C7565 /* voice_de_have_star_5.mp3 */; };
 		31F3405B2917486785894699 /* voice_en_take_shell_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 38346C575C0B48AFB2F5B964 /* voice_en_take_shell_7.mp3 */; };
+		31F711F26CDAA836D74A66F6 /* voice_ro_make_6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D84B9AB1F179FD5B05AE5FD7 /* voice_ro_make_6.mp3 */; };
 		32295AB052E841D6A1A776BE /* voice_ro_have_star_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9E89CAC35F2742BEB01B5FBC /* voice_ro_have_star_5.mp3 */; };
 		32371A2760AD46DA88B244DD /* voice_en_add_more_shell_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1334A9ECE69A401C83866CD8 /* voice_en_add_more_shell_7.mp3 */; };
 		323BEBF2CC884C79A68AC5D6 /* voice_ro_take_planet_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EE349453A080415EA81BEC65 /* voice_ro_take_planet_3.mp3 */; };
@@ -988,6 +993,7 @@
 		41C4C04626BD4B048D5D99BE /* voice_ro_reward_level_perfect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 63F086DD53094A7599C79E9F /* voice_ro_reward_level_perfect.mp3 */; };
 		41CA20740BC53796ECCC7329 /* voice_de_instr_add_unicorn_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7F3B0BAFA998475BB748B47C /* voice_de_instr_add_unicorn_9.mp3 */; };
 		41CAD39EF8E6C4879CAB2370 /* voice_de_have_shell_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9FA40BCD13C9D240C18CCC81 /* voice_de_have_shell_9.mp3 */; };
+		41E0D8510F7F1690522C9C41 /* voice_de_make_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3C2CEC99530CCDF87ABDFE2A /* voice_de_make_4.mp3 */; };
 		41EC2799BF94E2D5DFF0C039 /* voice_de_have_comet_6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2AB85C4D05C4F7280B0A48F8 /* voice_de_have_comet_6.mp3 */; };
 		41F3CC4B235240859304E2C1 /* voice_en_have_moon_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DAD02C4F851E4CBDB02ACB05 /* voice_en_have_moon_2.mp3 */; };
 		42012CEBB6C046F094A540F2 /* voice_en_take_alien_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E235B95328BB4BB295FC5575 /* voice_en_take_alien_4.mp3 */; };
@@ -1031,6 +1037,7 @@
 		44C03AD11981A54358F6799E /* voice_de_take_ufo_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 98359847CC0D988E275F2B56 /* voice_de_take_ufo_2.mp3 */; };
 		44C50158022C4C7C82A75F1E /* voice_en_have_planet_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 42C6A6A06A66496296470939 /* voice_en_have_planet_7.mp3 */; };
 		44DDA913FE7345DF8ADFBE2A /* voice_ro_take_moon_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B6867A4B2279482B9103BF5D /* voice_ro_take_moon_4.mp3 */; };
+		44E55CC8D5BF698704649A32 /* voice_en_make_8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6870C4D6067A7751F115A7A4 /* voice_en_make_8.mp3 */; };
 		44F6D149BC0F4B1597B6E191 /* voice_ro_have_telescope_10.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29E28B2FDEE44CC6B6D2F8B4 /* voice_ro_have_telescope_10.mp3 */; };
 		44FFC85C976EAC58A63B48E0 /* voice_de_pre_have_ocean_8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 903A9E2285B76CC4B98A07BE /* voice_de_pre_have_ocean_8.mp3 */; };
 		4508814098F54967A5C7BF2B /* voice_en_add_more_rocket_6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 46D1E5EACB3F494EB7BCE848 /* voice_en_add_more_rocket_6.mp3 */; };
@@ -1089,6 +1096,7 @@
 		48F623511F24B1D94C32C31C /* voice_de_have_crab_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AE6814C5B8BEAD8DA2D49BF9 /* voice_de_have_crab_2.mp3 */; };
 		48F8C148E4864904A60F15EC /* voice_ro_take_squid_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1185FDB1341C476793C9A8A2 /* voice_ro_take_squid_7.mp3 */; };
 		48FE2D221D294800B2A7145E /* voice_ro_have_ufo_6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 91B728D33C234A659595E5EF /* voice_ro_have_ufo_6.mp3 */; };
+		49141E49F88D00148F9C7375 /* voice_en_make_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EFADD0DCB2BDBA59EADEE10B /* voice_en_make_9.mp3 */; };
 		49161E8CC58C4FF682D05F55 /* voice_en_have_ufo_6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 63CE4514586A404F90512435 /* voice_en_have_ufo_6.mp3 */; };
 		491FEB8355DC459D92F48B92 /* voice_en_post_great_comet_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CF4CDF36095F40929EF36EEE /* voice_en_post_great_comet_4.mp3 */; };
 		4933C143DEF6E66B5BD2FE4F /* voice_de_post_great_caterpillar_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A405636CCE7D2B4F22B69D3 /* voice_de_post_great_caterpillar_5.mp3 */; };
@@ -1106,6 +1114,7 @@
 		4A57324E216848B1B5AA19EC /* voice_en_have_trophy_8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 70EB2DE567434FECB8AFAA8A /* voice_en_have_trophy_8.mp3 */; };
 		4A7652CD29D7AC7DCAAB513B /* voice_de_post_great_trophy_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E6AAE7C03D526440D77A70D0 /* voice_de_post_great_trophy_2.mp3 */; };
 		4A78155205B6425790AD2407 /* voice_en_take_octopus_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 95822C5FA5BB4531B47520C8 /* voice_en_take_octopus_9.mp3 */; };
+		4A7F01E88F0294B4226802DB /* voice_ro_make_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CBE3D8EA47C6EF5975E4AD34 /* voice_ro_make_7.mp3 */; };
 		4A7FDDB65C1A4D3E834F7426 /* voice_en_mem_was_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1FAF95B08CC543B5AF855E7C /* voice_en_mem_was_3.mp3 */; };
 		4AB01E1382863745D5A4744B /* voice_de_post_great_shell_10.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C3224EEFE99772B6F8461E12 /* voice_de_post_great_shell_10.mp3 */; };
 		4ABF8C3F1A5F437AB7792845 /* voice_en_take_planet_8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF9B8F9C0F2B4488A37D33D2 /* voice_en_take_planet_8.mp3 */; };
@@ -1127,6 +1136,7 @@
 		4BBC0EEF38C24BD2ADD1397F /* voice_ro_fb_correct_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04B69DA5EAC34C93A84B138F /* voice_ro_fb_correct_7.mp3 */; };
 		4BC620682E224C72B46E1527 /* voice_en_add_more_planet_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F246D983A14142FEA42013A9 /* voice_en_add_more_planet_1.mp3 */; };
 		4BCB3D71E61A43B19F8FA532 /* voice_ro_add_more_island_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F2C8D28305204FE3BC6C1E9D /* voice_ro_add_more_island_9.mp3 */; };
+		4BF11247D3E235A585BE5055 /* voice_ro_make_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29CDFA3312C349A5E2AEBBBF /* voice_ro_make_3.mp3 */; };
 		4C0C13CC9239B99157533948 /* voice_de_post_great_flower_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6DE9EAD2E2AAE5B8C085DC81 /* voice_de_post_great_flower_3.mp3 */; };
 		4C0C9A3480054D0EAA4F125D /* voice_ro_post_great_caterpillar_10.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0A62E5FD50784B90A9C6B876 /* voice_ro_post_great_caterpillar_10.mp3 */; };
 		4C1620CA2D22A886A7D2C529 /* voice_de_pre_have_farm_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CA80033A8ACA5864470C0601 /* voice_de_pre_have_farm_2.mp3 */; };
@@ -1475,6 +1485,7 @@
 		614CD79AB00E4FE6996FF3A1 /* voice_en_instr_sub_kpop_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9B1069ED4E014E5EA7B12F70 /* voice_en_instr_sub_kpop_5.mp3 */; };
 		61566EECCB424DED9F13DF4A /* voice_ro_post_great_planet_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F41FBD1BA1BB475FA46F933A /* voice_ro_post_great_planet_9.mp3 */; };
 		6162BDF6EFBA4933BDAAA4B3 /* voice_en_post_great_forest_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F6AC2867CB5D41F5B5BF87DC /* voice_en_post_great_forest_2.mp3 */; };
+		61762BA33EE645616085D9B0 /* voice_en_make_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9EFE2B2C023986F33DB657CE /* voice_en_make_5.mp3 */; };
 		61CE1EBB0A1D45F599C53B97 /* voice_en_instr_sub_monsters_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F182ED80C9764E26BBA7203A /* voice_en_instr_sub_monsters_4.mp3 */; };
 		6214812A5A93ED6B024654A7 /* voice_de_instr_add_pixel_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 13B89587DEBB78E142F518CF /* voice_de_instr_add_pixel_2.mp3 */; };
 		621502E572FA44BF9745B2F4 /* voice_ro_instr_add_farm_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DE31FC0AFF284910B039D91A /* voice_ro_instr_add_farm_1.mp3 */; };
@@ -1519,6 +1530,7 @@
 		64CB602C7C08AE1ECD93F3FA /* voice_de_post_great_owl_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 921D0E1D004F7ED1CE22596F /* voice_de_post_great_owl_5.mp3 */; };
 		64CDAFD24A0A4E9499909C84 /* voice_en_take_comet_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 836B1B76E42A4B12B889C0F9 /* voice_en_take_comet_1.mp3 */; };
 		64DACDBE452D45709CC01EA2 /* voice_ro_take_island_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1C056554BAB349DCAD8C65CC /* voice_ro_take_island_1.mp3 */; };
+		64DE3BBF342F096943664E5A /* voice_ro_make_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A40E94420827B2EA0142E57 /* voice_ro_make_9.mp3 */; };
 		64F2145F9C1E46569137F374 /* voice_ro_pre_have_ocean_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A201A37413C4495A4129D78 /* voice_ro_pre_have_ocean_5.mp3 */; };
 		64F8D2EA1B0C9552C8DBCFD8 /* voice_de_instr_both_rows.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EF43199EF686BA38CECCACF9 /* voice_de_instr_both_rows.mp3 */; };
 		64FC07CDFF244AA785EF0F67 /* voice_en_take_fish_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 79EBB6AAC1D5429480502690 /* voice_en_take_fish_7.mp3 */; };
@@ -1761,6 +1773,7 @@
 		749711AFABC2420388D5B23C /* voice_en_add_more_comet_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A01B47EFFC594798B9C77D0D /* voice_en_add_more_comet_5.mp3 */; };
 		74A8F64E5D3C42DD9FDCB8E4 /* voice_ro_add_more_comet_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 41F61F8B2066489189BC1E18 /* voice_ro_add_more_comet_4.mp3 */; };
 		74AB39470A454A3384E11DB4 /* voice_ro_instr_add_kpop_6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B3FD40AB1A854A2E9543865E /* voice_ro_instr_add_kpop_6.mp3 */; };
+		74B3110FBE1DEB7B2E4ADAC7 /* voice_ro_world_mixed_targets.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 933C859E379A69A661767E2D /* voice_ro_world_mixed_targets.mp3 */; };
 		74C5ABEFE24405A5CEFD0058 /* voice_de_add_more_rocket_6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A77E99C4C5D602CB81BC03D /* voice_de_add_more_rocket_6.mp3 */; };
 		74DA5C23FA284242883996E1 /* voice_en_add_more_shell_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D137329784BB49F4B8FA5C6F /* voice_en_add_more_shell_1.mp3 */; };
 		74EA3B490695491D9F2CE0C9 /* voice_en_take_trophy_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 61A0359DE7F2476282AABE65 /* voice_en_take_trophy_2.mp3 */; };
@@ -2303,8 +2316,10 @@
 		995601EAFCD45D834870077F /* voice_de_press_play.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9833DA6B994DA428B7B8C8FC /* voice_de_press_play.mp3 */; };
 		995EA690A89549F88D00E807 /* voice_ro_take_fish_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 70E6DC35D5DF4714A6FCD436 /* voice_ro_take_fish_4.mp3 */; };
 		997AE42292464C4CAF25BA5D /* voice_en_instr_sub_pixel_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D98F9268989A401A822015FC /* voice_en_instr_sub_pixel_2.mp3 */; };
+		998815E1BE2B3DF5AE2F0D79 /* voice_en_make_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4113A156D15B7B56E55E1E02 /* voice_en_make_3.mp3 */; };
 		9997C7893A1948C58ADD11E8 /* voice_ro_post_great_gem_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8B4C02E109AF4D2E80970CE4 /* voice_ro_post_great_gem_1.mp3 */; };
 		99B3BF4409784FB88D74041A /* voice_ro_post_great_fish_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2C15EA39E99C44E29ED35FD8 /* voice_ro_post_great_fish_3.mp3 */; };
+		99C40270182807EC06AFAF08 /* voice_ro_make_8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A948CF996C5D3F0009CD62D3 /* voice_ro_make_8.mp3 */; };
 		99D74C0101514C2BB97D139D /* voice_en_instr_sub_monsters_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C167D50366944C6B1EB3EAB /* voice_en_instr_sub_monsters_1.mp3 */; };
 		9A04708A95324C2F8A9C7DC1 /* voice_en_reward_milestone_10.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 37D384975B3D4C568DD060FC /* voice_en_reward_milestone_10.mp3 */; };
 		9A0A27ECD293401AA187B52C /* voice_ro_post_great_monsters_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 076F61956DFA43AA88C7BE28 /* voice_ro_post_great_monsters_4.mp3 */; };
@@ -2349,6 +2364,7 @@
 		9CA579EA23774EED86D6D7D5 /* voice_ro_have_star_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B58AF7A0FFB54D139C0988EF /* voice_ro_have_star_2.mp3 */; };
 		9CA68592A1524310B10B2CE1 /* voice_ro_instr_sub_candy_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C3C8152D2DFD47A39A128FD7 /* voice_ro_instr_sub_candy_5.mp3 */; };
 		9CB66FE0A5104A7C95AA60C8 /* voice_en_post_great_telescope_6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FA9AB7FA16694B4EB38C2652 /* voice_en_post_great_telescope_6.mp3 */; };
+		9CB675B98097D5B56966A170 /* voice_ro_make_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3E0BB71E5FF638623A300FCF /* voice_ro_make_5.mp3 */; };
 		9CBA531257A2444E8C54D01A /* voice_en_add_more_lobster_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 162314A66AF547F7844A4A4A /* voice_en_add_more_lobster_2.mp3 */; };
 		9CDF2B186463494891A32F66 /* voice_en_post_great_galaxy_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C13F00D856C0498DB0FE5DD8 /* voice_en_post_great_galaxy_1.mp3 */; };
 		9CEFEC914F78490E9E80E539 /* voice_en_take_moon_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4B5AAB64F68E4B4495A963A1 /* voice_en_take_moon_5.mp3 */; };
@@ -2419,6 +2435,7 @@
 		A0B91E1EEA064961B8761BD7 /* voice_ro_add_more_squid_6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C48376D0077147259B4D9C78 /* voice_ro_add_more_squid_6.mp3 */; };
 		A0BA5B034FB3443989C41D14 /* voice_en_have_rocket_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6CC838C5E5824871A0765179 /* voice_en_have_rocket_1.mp3 */; };
 		A0C31133EBE97995A45A4134 /* voice_de_take_island_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1E19C536A25CA83EC81770B1 /* voice_de_take_island_1.mp3 */; };
+		A0CC51756FB6A352B6138732 /* voice_en_make_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AC793B825229BD7FEA47CBFB /* voice_en_make_7.mp3 */; };
 		A1009A7213814C2AA545D471 /* voice_ro_post_great_slime_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 38C57DBB0F364FEBACC6D31C /* voice_ro_post_great_slime_3.mp3 */; };
 		A122144C4F4D406B8E2FB3C1 /* voice_en_post_great_unicorn_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 469FF652C9F54DA6924C646F /* voice_en_post_great_unicorn_2.mp3 */; };
 		A12440AA05724EEB91A0728C /* voice_en_add_more_alien_8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 44459C36352D4BCF983BDA85 /* voice_en_add_more_alien_8.mp3 */; };
@@ -2550,6 +2567,7 @@
 		A86ED0C888FE4690874A730C /* voice_en_post_great_galaxy_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 933B1804F9134ED08D2325EB /* voice_en_post_great_galaxy_9.mp3 */; };
 		A87A1304B83341F6AD815426 /* voice_en_post_great_octopus_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5DDC4D5AA1A34DA6BB4ABB73 /* voice_en_post_great_octopus_1.mp3 */; };
 		A8814723068F4D9B9B8CBDBF /* voice_ro_post_great_trophy_8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A7033E3797C14FDDB30A7A9F /* voice_ro_post_great_trophy_8.mp3 */; };
+		A89D981F01F7B585F988127E /* voice_de_make_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6370973D7C2DC314681E7F42 /* voice_de_make_5.mp3 */; };
 		A8B30A951F61497A97432311 /* voice_en_have_telescope_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 98B7F0563C8942E7AA405105 /* voice_en_have_telescope_9.mp3 */; };
 		A8CFF8F8EAB14BBF900A3D84 /* voice_en_have_shell_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 97675423A30B43B58D0A3F7F /* voice_en_have_shell_2.mp3 */; };
 		A8DD0F6B11AF1233139F6A02 /* voice_de_instr_sub_slime_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8D52D32BE06EE7F8BCBE1481 /* voice_de_instr_sub_slime_5.mp3 */; };
@@ -2633,6 +2651,7 @@
 		AD40D5077D8742F899DAEDEF /* voice_ro_post_great_owl_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 94D13BAFA4354635A6CB15CD /* voice_ro_post_great_owl_2.mp3 */; };
 		AD46410F205A485A8D67BCB9 /* voice_en_take_moon_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C8040656E5E44A398EA0BA6E /* voice_en_take_moon_9.mp3 */; };
 		AD585A37C2154CCDA434C06E /* voice_en_take_alien_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B932D99BA684BBB887E355A /* voice_en_take_alien_3.mp3 */; };
+		AD5C8EA9AF3290230A019D61 /* voice_ro_make_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E3F61DE9F091B81E4DF5CFF7 /* voice_ro_make_4.mp3 */; };
 		AD9BEC885DC44BEEAC3AEF85 /* voice_ro_pre_have_monsters_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D4E1E7E269464548BB5F5B2E /* voice_ro_pre_have_monsters_5.mp3 */; };
 		ADAF2F5296B930CCE63E5B2B /* voice_de_take_comet_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BF391CAE25B0281BDF4361F6 /* voice_de_take_comet_9.mp3 */; };
 		ADBFCD3AF14801FDC6E6DD01 /* voice_de_post_great_crown_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 72777A636063F06010263298 /* voice_de_post_great_crown_5.mp3 */; };
@@ -2864,6 +2883,7 @@
 		BD904AABEB6B6C05BF57FB13 /* voice_de_instr_add_slime_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 35C4EFD0DC848628EE49A28E /* voice_de_instr_add_slime_2.mp3 */; };
 		BDA7BD77535BDFAC630CAF89 /* voice_de_instr_sub_pixel_8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 91527A9331214BEADD97FD0A /* voice_de_instr_sub_pixel_8.mp3 */; };
 		BDAEF7879B09F18425C97C6F /* voice_de_have_comet_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F9F58FB21DAD578961C58091 /* voice_de_have_comet_9.mp3 */; };
+		BDC1EE7FF08CBFD672775EC7 /* voice_en_make_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1CECF254C33AEB07C3EF0854 /* voice_en_make_4.mp3 */; };
 		BDDEDEF6DF5D43FBA416C98D /* voice_en_take_ufo_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 27C8BD52ADD6446790634C84 /* voice_en_take_ufo_2.mp3 */; };
 		BDF7CC18AD754CAE939D7D61 /* voice_en_post_great_gem_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CEBAD5578D384E629B1D9C71 /* voice_en_post_great_gem_9.mp3 */; };
 		BE224F28CB5C43B780C622BF /* voice_ro_instr_puzzle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A3CFF11563FE4023B89D54CA /* voice_ro_instr_puzzle.mp3 */; };
@@ -2948,6 +2968,7 @@
 		C41413C6D8434BABAB4295A8 /* voice_ro_take_alien_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 071E3B24D60B4B7C9769FC32 /* voice_ro_take_alien_2.mp3 */; };
 		C41F5D44F66AB7EC4AA99778 /* voice_de_pre_have_pixel_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7D1E56E5C5B781E4CC43F99B /* voice_de_pre_have_pixel_3.mp3 */; };
 		C4200523DBA94A51ABD4F0FD /* voice_en_have_telescope_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C6460564E6374133AA3838C3 /* voice_en_have_telescope_7.mp3 */; };
+		C4282CB936424F23516BEC59 /* voice_de_make_8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EB02C7622B36D6623D0E8FB2 /* voice_de_make_8.mp3 */; };
 		C42F9AD85D4B4492B03DD19D /* voice_en_post_great_gem_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3207E2F253724E0884A15AFB /* voice_en_post_great_gem_1.mp3 */; };
 		C4390A4200D84ED397FF3C61 /* voice_ro_take_octopus_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F247CD3CFD1644D59BFCEF1A /* voice_ro_take_octopus_3.mp3 */; };
 		C439E6AFC68C43B5A5D976D7 /* voice_ro_post_great_galaxy_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C34B54DF3E7B41199542CE9E /* voice_ro_post_great_galaxy_4.mp3 */; };
@@ -2990,6 +3011,7 @@
 		C713B0DF70E34E5DB7715476 /* voice_en_post_great_space_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F7E6206829914EE7BCF1B7A4 /* voice_en_post_great_space_1.mp3 */; };
 		C7226859245A4A9E82FEB84B /* voice_ro_post_great_octopus_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = ECD8BA3A4E224DBABF8A832B /* voice_ro_post_great_octopus_2.mp3 */; };
 		C73620495CBC8D8FEB899C1D /* voice_de_instr_sub_monsters_8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4BD9BECFC297477AACFAA9D1 /* voice_de_instr_sub_monsters_8.mp3 */; };
+		C73C47BB8152C1FEE1F03DC2 /* voice_de_make_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BDAB6461901CFFAA2A759D80 /* voice_de_make_7.mp3 */; };
 		C7566EA638324D2388475EAC /* voice_ro_have_moon_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7D8BA7049C9A4798A9B40D83 /* voice_ro_have_moon_9.mp3 */; };
 		C781D47C1C0D4ACAA0B4D01E /* voice_en_post_great_gem_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 99F529689AFD4C9492E66CAC /* voice_en_post_great_gem_2.mp3 */; };
 		C783B805898441EBB9F1563A /* voice_en_post_great_butterfly_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E422B750C3A8494BAC6B2420 /* voice_en_post_great_butterfly_3.mp3 */; };
@@ -3344,6 +3366,7 @@
 		DFDDD47AA8AE491BB67789F2 /* voice_ro_world_make_ten_beach.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1D15EB264DA5426397B961D4 /* voice_ro_world_make_ten_beach.mp3 */; };
 		E03F8C8637F345A2811A7B48 /* voice_en_take_squid_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C646620C545E46BA91424EF5 /* voice_en_take_squid_3.mp3 */; };
 		E041D6BB78AD40B88F41658B /* voice_ro_add_more_dolphin_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9043769A089346C8A438770C /* voice_ro_add_more_dolphin_5.mp3 */; };
+		E045775195D2B9A1298180E6 /* voice_en_make_6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7CF43FF9FD116AD6831D5193 /* voice_en_make_6.mp3 */; };
 		E04D7054C35441659905C32D /* voice_ro_post_great_tree_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 753ECFAE09D04AE29F0CFB90 /* voice_ro_post_great_tree_1.mp3 */; };
 		E059CD96CB4F4B6B98630A26 /* voice_en_take_dolphin_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8E89AB8DD1244A36809BEA97 /* voice_en_take_dolphin_2.mp3 */; };
 		E070B0D3F1694130A7069A91 /* voice_en_add_more_whale_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BEAC9A67A034452CBF7D3229 /* voice_en_add_more_whale_3.mp3 */; };
@@ -3541,6 +3564,7 @@
 		EE8841CAB5324D318354B159 /* voice_ro_have_crab_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 37E838A74A7D488C910A059F /* voice_ro_have_crab_3.mp3 */; };
 		EE8F36DD661F41A2AB162BE0 /* voice_ro_add_more_fish_6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E4E0117ACEBB4545A36A306C /* voice_ro_add_more_fish_6.mp3 */; };
 		EEF7848B6CE14722A477F36F /* voice_en_post_great_sparkle_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2E5EACA3E1124A27AAC9D482 /* voice_en_post_great_sparkle_7.mp3 */; };
+		EF199FB56B3DAF47E7EE852F /* voice_de_world_mixed_targets.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 80FD68BF85573A171EA350AF /* voice_de_world_mixed_targets.mp3 */; };
 		EF24FBC6C3524D4C9C718FBB /* voice_en_instr_sub_candy_8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EEF9574C8F844747B32B5EF2 /* voice_en_instr_sub_candy_8.mp3 */; };
 		EF3527DAB5444E5D876DEF98 /* voice_en_post_great_shell_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 12ECEFF4AC5B42EAA21E4CC5 /* voice_en_post_great_shell_7.mp3 */; };
 		EF3BA19E6D89497E867BBAD5 /* voice_ro_pre_have_kpop_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A93388332BF34D2C8F10899C /* voice_ro_pre_have_kpop_3.mp3 */; };
@@ -3804,30 +3828,6 @@
 		FFEFDDE55986B3AC4DBA240D /* voice_de_post_great_fish_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E6B3C1FEF41C09E34B1E4C5F /* voice_de_post_great_fish_3.mp3 */; };
 		FFFE17264B654358BFCF3658 /* voice_en_instr_sub_ocean_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FD441ACA8E0E4C22A3CB9DDF /* voice_en_instr_sub_ocean_1.mp3 */; };
 		FFFEA2E58AC327795BA59A82 /* voice_de_pre_have_space_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BBF765DA0565A71E296952AE /* voice_de_pre_have_space_4.mp3 */; };
-		4BF11247D3E235A585BE5055 /* voice_ro_make_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29CDFA3312C349A5E2AEBBBF /* voice_ro_make_3.mp3 */; };
-		AD5C8EA9AF3290230A019D61 /* voice_ro_make_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E3F61DE9F091B81E4DF5CFF7 /* voice_ro_make_4.mp3 */; };
-		9CB675B98097D5B56966A170 /* voice_ro_make_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3E0BB71E5FF638623A300FCF /* voice_ro_make_5.mp3 */; };
-		31F711F26CDAA836D74A66F6 /* voice_ro_make_6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D84B9AB1F179FD5B05AE5FD7 /* voice_ro_make_6.mp3 */; };
-		4A7F01E88F0294B4226802DB /* voice_ro_make_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CBE3D8EA47C6EF5975E4AD34 /* voice_ro_make_7.mp3 */; };
-		99C40270182807EC06AFAF08 /* voice_ro_make_8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A948CF996C5D3F0009CD62D3 /* voice_ro_make_8.mp3 */; };
-		64DE3BBF342F096943664E5A /* voice_ro_make_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A40E94420827B2EA0142E57 /* voice_ro_make_9.mp3 */; };
-		74B3110FBE1DEB7B2E4ADAC7 /* voice_ro_world_mixed_targets.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 933C859E379A69A661767E2D /* voice_ro_world_mixed_targets.mp3 */; };
-		998815E1BE2B3DF5AE2F0D79 /* voice_en_make_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4113A156D15B7B56E55E1E02 /* voice_en_make_3.mp3 */; };
-		BDC1EE7FF08CBFD672775EC7 /* voice_en_make_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1CECF254C33AEB07C3EF0854 /* voice_en_make_4.mp3 */; };
-		61762BA33EE645616085D9B0 /* voice_en_make_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9EFE2B2C023986F33DB657CE /* voice_en_make_5.mp3 */; };
-		E045775195D2B9A1298180E6 /* voice_en_make_6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7CF43FF9FD116AD6831D5193 /* voice_en_make_6.mp3 */; };
-		A0CC51756FB6A352B6138732 /* voice_en_make_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AC793B825229BD7FEA47CBFB /* voice_en_make_7.mp3 */; };
-		44E55CC8D5BF698704649A32 /* voice_en_make_8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6870C4D6067A7751F115A7A4 /* voice_en_make_8.mp3 */; };
-		49141E49F88D00148F9C7375 /* voice_en_make_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EFADD0DCB2BDBA59EADEE10B /* voice_en_make_9.mp3 */; };
-		303CD72C2CE4A3C08747E5D7 /* voice_en_world_mixed_targets.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FB2CE94A04716327A9EF7F79 /* voice_en_world_mixed_targets.mp3 */; };
-		14A33C5C31799D5F91FBC361 /* voice_de_make_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 375D7BF99F481BF39A458CE9 /* voice_de_make_3.mp3 */; };
-		41E0D8510F7F1690522C9C41 /* voice_de_make_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3C2CEC99530CCDF87ABDFE2A /* voice_de_make_4.mp3 */; };
-		A89D981F01F7B585F988127E /* voice_de_make_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6370973D7C2DC314681E7F42 /* voice_de_make_5.mp3 */; };
-		12616EC81BB5433FD678CD3D /* voice_de_make_6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A641BC06771C607021B6692F /* voice_de_make_6.mp3 */; };
-		C73C47BB8152C1FEE1F03DC2 /* voice_de_make_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BDAB6461901CFFAA2A759D80 /* voice_de_make_7.mp3 */; };
-		C4282CB936424F23516BEC59 /* voice_de_make_8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EB02C7622B36D6623D0E8FB2 /* voice_de_make_8.mp3 */; };
-		1C124DDEA8EE92CBA0D90502 /* voice_de_make_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EC50C62AFB29D5B56EA60E44 /* voice_de_make_9.mp3 */; };
-		EF199FB56B3DAF47E7EE852F /* voice_de_world_mixed_targets.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 80FD68BF85573A171EA350AF /* voice_de_world_mixed_targets.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -4219,6 +4219,7 @@
 		1A033EBABD0B4A02B6CD9262 /* voice_en_instr_sub_farm_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_instr_sub_farm_8.mp3; path = ../assets/audio/voice_en_instr_sub_farm_8.mp3; sourceTree = "<group>"; };
 		1A0886E061894DC3B8E6FF7C /* voice_en_pre_have_pixel_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_pre_have_pixel_4.mp3; path = ../assets/audio/voice_en_pre_have_pixel_4.mp3; sourceTree = "<group>"; };
 		1A405636CCE7D2B4F22B69D3 /* voice_de_post_great_caterpillar_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_post_great_caterpillar_5.mp3; path = ../assets/audio/voice_de_post_great_caterpillar_5.mp3; sourceTree = "<group>"; };
+		1A40E94420827B2EA0142E57 /* voice_ro_make_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_make_9.mp3; path = ../assets/audio/voice_ro_make_9.mp3; sourceTree = "<group>"; };
 		1A49C09110C84C34B4C6F4B1 /* voice_ro_fb_correct_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_fb_correct_8.mp3; path = ../assets/audio/voice_ro_fb_correct_8.mp3; sourceTree = "<group>"; };
 		1A62F7D3DADC48FC8869D564 /* voice_ro_post_great_sunflower_10.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_post_great_sunflower_10.mp3; path = ../assets/audio/voice_ro_post_great_sunflower_10.mp3; sourceTree = "<group>"; };
 		1A6B8FC7CF6F1CFAFBCB2B37 /* voice_de_have_ufo_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_have_ufo_7.mp3; path = ../assets/audio/voice_de_have_ufo_7.mp3; sourceTree = "<group>"; };
@@ -4260,6 +4261,7 @@
 		1CB91CA826B14A29B323F5D2 /* voice_ro_add_more_dolphin_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_add_more_dolphin_6.mp3; path = ../assets/audio/voice_ro_add_more_dolphin_6.mp3; sourceTree = "<group>"; };
 		1CBC0A475A50F11696FB8C24 /* voice_de_take_telescope_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_take_telescope_4.mp3; path = ../assets/audio/voice_de_take_telescope_4.mp3; sourceTree = "<group>"; };
 		1CDE3A29F3E34EFA989A2EA3 /* voice_ro_post_great_fox_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_post_great_fox_8.mp3; path = ../assets/audio/voice_ro_post_great_fox_8.mp3; sourceTree = "<group>"; };
+		1CECF254C33AEB07C3EF0854 /* voice_en_make_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_make_4.mp3; path = ../assets/audio/voice_en_make_4.mp3; sourceTree = "<group>"; };
 		1CF2B6EBA585010F42076ABE /* voice_de_take_octopus_3.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_take_octopus_3.mp3; path = ../assets/audio/voice_de_take_octopus_3.mp3; sourceTree = "<group>"; };
 		1D00992724044AC7AF05C419 /* voice_ro_add_more_galaxy_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_add_more_galaxy_6.mp3; path = ../assets/audio/voice_ro_add_more_galaxy_6.mp3; sourceTree = "<group>"; };
 		1D15EB264DA5426397B961D4 /* voice_ro_world_make_ten_beach.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_world_make_ten_beach.mp3; path = ../assets/audio/voice_ro_world_make_ten_beach.mp3; sourceTree = "<group>"; };
@@ -4446,10 +4448,12 @@
 		29BD69B6828099DA8F88AAA6 /* voice_de_take_alien_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_take_alien_8.mp3; path = ../assets/audio/voice_de_take_alien_8.mp3; sourceTree = "<group>"; };
 		29BDF4E0B511DB73F308733B /* voice_de_pre_have_forest_3.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_pre_have_forest_3.mp3; path = ../assets/audio/voice_de_pre_have_forest_3.mp3; sourceTree = "<group>"; };
 		29CA921B7F4EFCD46BCB0006 /* voice_de_post_great_galaxy_1.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_post_great_galaxy_1.mp3; path = ../assets/audio/voice_de_post_great_galaxy_1.mp3; sourceTree = "<group>"; };
+		29CDFA3312C349A5E2AEBBBF /* voice_ro_make_3.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_make_3.mp3; path = ../assets/audio/voice_ro_make_3.mp3; sourceTree = "<group>"; };
 		29E28B2FDEE44CC6B6D2F8B4 /* voice_ro_have_telescope_10.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_have_telescope_10.mp3; path = ../assets/audio/voice_ro_have_telescope_10.mp3; sourceTree = "<group>"; };
 		29EA41612C7800D2C35F1036 /* voice_de_pre_have_kpop_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_pre_have_kpop_6.mp3; path = ../assets/audio/voice_de_pre_have_kpop_6.mp3; sourceTree = "<group>"; };
 		29EFB3BD2B2743E7B69ABD7B /* voice_ro_have_octopus_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_have_octopus_5.mp3; path = ../assets/audio/voice_ro_have_octopus_5.mp3; sourceTree = "<group>"; };
 		29F63868880485342BD915A4 /* voice_de_post_great_caterpillar_2.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_post_great_caterpillar_2.mp3; path = ../assets/audio/voice_de_post_great_caterpillar_2.mp3; sourceTree = "<group>"; };
+		2A1B048429064D812D15E4CA /* Pods-TenFrames.release-school.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TenFrames.release-school.xcconfig"; path = "Target Support Files/Pods-TenFrames/Pods-TenFrames.release-school.xcconfig"; sourceTree = "<group>"; };
 		2A1D681000B5EB21B5FD847D /* voice_de_instr_add_kpop_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_instr_add_kpop_6.mp3; path = ../assets/audio/voice_de_instr_add_kpop_6.mp3; sourceTree = "<group>"; };
 		2A284992340DCC7D1834EC1D /* voice_de_have_squid_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_have_squid_4.mp3; path = ../assets/audio/voice_de_have_squid_4.mp3; sourceTree = "<group>"; };
 		2A2A9799D8E4445AAB6A622F /* voice_ro_instr_sub_monsters_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_instr_sub_monsters_4.mp3; path = ../assets/audio/voice_ro_instr_sub_monsters_4.mp3; sourceTree = "<group>"; };
@@ -4654,6 +4658,7 @@
 		3727C850755E114FE73BAEA1 /* voice_de_instr_add_space_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_instr_add_space_8.mp3; path = ../assets/audio/voice_de_instr_add_space_8.mp3; sourceTree = "<group>"; };
 		372B44D1B6C04617998F9278 /* voice_ro_post_great_octopus_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_post_great_octopus_5.mp3; path = ../assets/audio/voice_ro_post_great_octopus_5.mp3; sourceTree = "<group>"; };
 		372C15E645984A4398571F80 /* voice_ro_take_lobster_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_take_lobster_9.mp3; path = ../assets/audio/voice_ro_take_lobster_9.mp3; sourceTree = "<group>"; };
+		375D7BF99F481BF39A458CE9 /* voice_de_make_3.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_make_3.mp3; path = ../assets/audio/voice_de_make_3.mp3; sourceTree = "<group>"; };
 		375E896E99610DEAFCF4717D /* voice_de_post_great_space_1.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_post_great_space_1.mp3; path = ../assets/audio/voice_de_post_great_space_1.mp3; sourceTree = "<group>"; };
 		377BE97DD08F4EC1A229C5B8 /* voice_ro_add_more_squid_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_add_more_squid_7.mp3; path = ../assets/audio/voice_ro_add_more_squid_7.mp3; sourceTree = "<group>"; };
 		378121AEA94C4BC2AAFFC6D2 /* voice_ro_instr_add_unicorn_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_instr_add_unicorn_9.mp3; path = ../assets/audio/voice_ro_instr_add_unicorn_9.mp3; sourceTree = "<group>"; };
@@ -4737,6 +4742,7 @@
 		3C0B5001EB3E4FDC94F89DF0 /* voice_en_post_great_comet_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_post_great_comet_5.mp3; path = ../assets/audio/voice_en_post_great_comet_5.mp3; sourceTree = "<group>"; };
 		3C1431C609344F10A6151404 /* voice_en_post_great_candy_2.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_post_great_candy_2.mp3; path = ../assets/audio/voice_en_post_great_candy_2.mp3; sourceTree = "<group>"; };
 		3C17D78D6DAA063FCA059FE3 /* voice_de_have_squid_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_have_squid_9.mp3; path = ../assets/audio/voice_de_have_squid_9.mp3; sourceTree = "<group>"; };
+		3C2CEC99530CCDF87ABDFE2A /* voice_de_make_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_make_4.mp3; path = ../assets/audio/voice_de_make_4.mp3; sourceTree = "<group>"; };
 		3C340161E6D89CF59D0D9C8B /* voice_de_have_alien_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_have_alien_5.mp3; path = ../assets/audio/voice_de_have_alien_5.mp3; sourceTree = "<group>"; };
 		3C4F66D43DD0D5EC513B7CB5 /* voice_de_take_dolphin_1.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_take_dolphin_1.mp3; path = ../assets/audio/voice_de_take_dolphin_1.mp3; sourceTree = "<group>"; };
 		3C578E2DDDF24FD48222EB0E /* voice_en_take_octopus_2.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_take_octopus_2.mp3; path = ../assets/audio/voice_en_take_octopus_2.mp3; sourceTree = "<group>"; };
@@ -4760,6 +4766,7 @@
 		3D9FCDA71E25438482D591E1 /* voice_en_have_crab_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_have_crab_6.mp3; path = ../assets/audio/voice_en_have_crab_6.mp3; sourceTree = "<group>"; };
 		3DE786E6274A432D8D8CEBA5 /* voice_ro_take_lobster_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_take_lobster_4.mp3; path = ../assets/audio/voice_ro_take_lobster_4.mp3; sourceTree = "<group>"; };
 		3DECA8216F8C4709951CDEEA /* voice_ro_num_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_num_6.mp3; path = ../assets/audio/voice_ro_num_6.mp3; sourceTree = "<group>"; };
+		3E0BB71E5FF638623A300FCF /* voice_ro_make_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_make_5.mp3; path = ../assets/audio/voice_ro_make_5.mp3; sourceTree = "<group>"; };
 		3E1E1ACB25C6B8FAA898C33B /* voice_de_instr_sub_space_2.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_instr_sub_space_2.mp3; path = ../assets/audio/voice_de_instr_sub_space_2.mp3; sourceTree = "<group>"; };
 		3E4068D79BF54D2EB32DA517 /* voice_ro_instr_add_ocean_1.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_instr_add_ocean_1.mp3; path = ../assets/audio/voice_ro_instr_add_ocean_1.mp3; sourceTree = "<group>"; };
 		3E478F0F1CA74214A771A693 /* voice_en_instr_add_candy_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_instr_add_candy_9.mp3; path = ../assets/audio/voice_en_instr_add_candy_9.mp3; sourceTree = "<group>"; };
@@ -4803,6 +4810,7 @@
 		40C4814DD78E5B9621F70EE7 /* voice_de_take_fish_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_take_fish_6.mp3; path = ../assets/audio/voice_de_take_fish_6.mp3; sourceTree = "<group>"; };
 		40C85888D4864CB1B901D139 /* voice_ro_take_telescope_2.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_take_telescope_2.mp3; path = ../assets/audio/voice_ro_take_telescope_2.mp3; sourceTree = "<group>"; };
 		40F61FD604094E718D2E0CB6 /* voice_en_post_great_island_10.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_post_great_island_10.mp3; path = ../assets/audio/voice_en_post_great_island_10.mp3; sourceTree = "<group>"; };
+		4113A156D15B7B56E55E1E02 /* voice_en_make_3.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_make_3.mp3; path = ../assets/audio/voice_en_make_3.mp3; sourceTree = "<group>"; };
 		4138977C340642E7A3FC550C /* voice_en_have_lobster_1.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_have_lobster_1.mp3; path = ../assets/audio/voice_en_have_lobster_1.mp3; sourceTree = "<group>"; };
 		413F698A5F6F4E3981EC5189 /* voice_en_take_telescope_1.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_take_telescope_1.mp3; path = ../assets/audio/voice_en_take_telescope_1.mp3; sourceTree = "<group>"; };
 		41416636E08E413599C03230 /* voice_ro_post_great_ufo_10.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_post_great_ufo_10.mp3; path = ../assets/audio/voice_ro_post_great_ufo_10.mp3; sourceTree = "<group>"; };
@@ -5292,6 +5300,7 @@
 		63300FA54E564790AC64E78D /* voice_ro_post_great_alien_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_post_great_alien_6.mp3; path = ../assets/audio/voice_ro_post_great_alien_6.mp3; sourceTree = "<group>"; };
 		634F1148A7E94B6184D8D7C3 /* voice_en_instr_sub_ocean_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_instr_sub_ocean_6.mp3; path = ../assets/audio/voice_en_instr_sub_ocean_6.mp3; sourceTree = "<group>"; };
 		636683262A054D5A9B04DC0A /* voice_ro_take_telescope_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_take_telescope_6.mp3; path = ../assets/audio/voice_ro_take_telescope_6.mp3; sourceTree = "<group>"; };
+		6370973D7C2DC314681E7F42 /* voice_de_make_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_make_5.mp3; path = ../assets/audio/voice_de_make_5.mp3; sourceTree = "<group>"; };
 		6376EE207E8A33E78E030262 /* voice_de_take_squid_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_take_squid_6.mp3; path = ../assets/audio/voice_de_take_squid_6.mp3; sourceTree = "<group>"; };
 		637ED1D5E61441D282F98333 /* voice_en_post_great_dolphin_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_post_great_dolphin_8.mp3; path = ../assets/audio/voice_en_post_great_dolphin_8.mp3; sourceTree = "<group>"; };
 		638C2103270B4CDCA4A21635 /* voice_ro_take_shell_1.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_take_shell_1.mp3; path = ../assets/audio/voice_ro_take_shell_1.mp3; sourceTree = "<group>"; };
@@ -5358,6 +5367,7 @@
 		6819633C7DF131A510F0686A /* voice_de_instr_sub_forest_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_instr_sub_forest_9.mp3; path = ../assets/audio/voice_de_instr_sub_forest_9.mp3; sourceTree = "<group>"; };
 		68506C50C2794202905376D4 /* voice_en_post_great_crab_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_post_great_crab_8.mp3; path = ../assets/audio/voice_en_post_great_crab_8.mp3; sourceTree = "<group>"; };
 		686366BE38764602A079F58A /* voice_en_instr_add_space_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_instr_add_space_7.mp3; path = ../assets/audio/voice_en_instr_add_space_7.mp3; sourceTree = "<group>"; };
+		6870C4D6067A7751F115A7A4 /* voice_en_make_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_make_8.mp3; path = ../assets/audio/voice_en_make_8.mp3; sourceTree = "<group>"; };
 		68858FF088B54972A529A979 /* voice_ro_pre_have_ocean_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_pre_have_ocean_6.mp3; path = ../assets/audio/voice_ro_pre_have_ocean_6.mp3; sourceTree = "<group>"; };
 		68872F30B71E444EABC56713 /* voice_en_take_comet_2.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_take_comet_2.mp3; path = ../assets/audio/voice_en_take_comet_2.mp3; sourceTree = "<group>"; };
 		6893D4CA5BED44A798404B5E /* voice_en_post_great_dolphin_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_post_great_dolphin_6.mp3; path = ../assets/audio/voice_en_post_great_dolphin_6.mp3; sourceTree = "<group>"; };
@@ -5676,6 +5686,7 @@
 		7CB6D81B13AC413E9A2301EF /* voice_en_mode_freeplay.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_mode_freeplay.mp3; path = ../assets/audio/voice_en_mode_freeplay.mp3; sourceTree = "<group>"; };
 		7CBF93E9773C44DED85A2963 /* voice_de_pre_have_candy_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_pre_have_candy_6.mp3; path = ../assets/audio/voice_de_pre_have_candy_6.mp3; sourceTree = "<group>"; };
 		7CD449471A2A4C6AA44C83B6 /* voice_ro_add_more_squid_1.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_add_more_squid_1.mp3; path = ../assets/audio/voice_ro_add_more_squid_1.mp3; sourceTree = "<group>"; };
+		7CF43FF9FD116AD6831D5193 /* voice_en_make_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_make_6.mp3; path = ../assets/audio/voice_en_make_6.mp3; sourceTree = "<group>"; };
 		7CF55DA77A51B3487CF134A3 /* voice_de_instr_sub_pixel_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_instr_sub_pixel_9.mp3; path = ../assets/audio/voice_de_instr_sub_pixel_9.mp3; sourceTree = "<group>"; };
 		7D00981B3A384215ADD1E4E9 /* voice_en_world_subtraction.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_world_subtraction.mp3; path = ../assets/audio/voice_en_world_subtraction.mp3; sourceTree = "<group>"; };
 		7D077F70361131EB06F1E8BF /* voice_de_post_great_lobster_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_post_great_lobster_9.mp3; path = ../assets/audio/voice_de_post_great_lobster_9.mp3; sourceTree = "<group>"; };
@@ -5734,6 +5745,7 @@
 		80CD99955E622B232B727209 /* voice_de_post_great_lobster_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_post_great_lobster_8.mp3; path = ../assets/audio/voice_de_post_great_lobster_8.mp3; sourceTree = "<group>"; };
 		80CFE5BFF5374C8DAB8ED9E4 /* voice_en_add_more_crab_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_add_more_crab_8.mp3; path = ../assets/audio/voice_en_add_more_crab_8.mp3; sourceTree = "<group>"; };
 		80F0A932624A70DCD9825A1B /* voice_de_have_galaxy_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_have_galaxy_8.mp3; path = ../assets/audio/voice_de_have_galaxy_8.mp3; sourceTree = "<group>"; };
+		80FD68BF85573A171EA350AF /* voice_de_world_mixed_targets.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_world_mixed_targets.mp3; path = ../assets/audio/voice_de_world_mixed_targets.mp3; sourceTree = "<group>"; };
 		811E2AFCAC624356922CDC6D /* voice_en_add_more_trophy_2.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_add_more_trophy_2.mp3; path = ../assets/audio/voice_en_add_more_trophy_2.mp3; sourceTree = "<group>"; };
 		81203F147256470B91508DA2 /* voice_en_have_squid_10.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_have_squid_10.mp3; path = ../assets/audio/voice_en_have_squid_10.mp3; sourceTree = "<group>"; };
 		81285875E8AC47C2951DE3C5 /* voice_ro_add_more_shell_2.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_add_more_shell_2.mp3; path = ../assets/audio/voice_ro_add_more_shell_2.mp3; sourceTree = "<group>"; };
@@ -6031,6 +6043,7 @@
 		9325F6EA646FA739D082895F /* voice_de_post_great_alien_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_post_great_alien_6.mp3; path = ../assets/audio/voice_de_post_great_alien_6.mp3; sourceTree = "<group>"; };
 		93293F7FBE474ED8AF859C5A /* voice_ro_pre_have_monsters_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_pre_have_monsters_9.mp3; path = ../assets/audio/voice_ro_pre_have_monsters_9.mp3; sourceTree = "<group>"; };
 		933B1804F9134ED08D2325EB /* voice_en_post_great_galaxy_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_post_great_galaxy_9.mp3; path = ../assets/audio/voice_en_post_great_galaxy_9.mp3; sourceTree = "<group>"; };
+		933C859E379A69A661767E2D /* voice_ro_world_mixed_targets.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_world_mixed_targets.mp3; path = ../assets/audio/voice_ro_world_mixed_targets.mp3; sourceTree = "<group>"; };
 		935A3A78305341CF9807A194 /* voice_ro_post_great_galaxy_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_post_great_galaxy_5.mp3; path = ../assets/audio/voice_ro_post_great_galaxy_5.mp3; sourceTree = "<group>"; };
 		935E86A40C3109CD6B5FB6AE /* voice_de_post_great_crab_3.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_post_great_crab_3.mp3; path = ../assets/audio/voice_de_post_great_crab_3.mp3; sourceTree = "<group>"; };
 		9362355778B5492D819C4F17 /* voice_en_have_telescope_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_have_telescope_6.mp3; path = ../assets/audio/voice_en_have_telescope_6.mp3; sourceTree = "<group>"; };
@@ -6236,6 +6249,7 @@
 		9E9E6C2FB76E498D996EC9C0 /* voice_ro_have_shell_10.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_have_shell_10.mp3; path = ../assets/audio/voice_ro_have_shell_10.mp3; sourceTree = "<group>"; };
 		9EAA1AF6035257E6F32AF5CA /* voice_de_post_great_shell_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_post_great_shell_9.mp3; path = ../assets/audio/voice_de_post_great_shell_9.mp3; sourceTree = "<group>"; };
 		9ED784BA68B04D55AC37FBAB /* voice_en_post_great_gem_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_post_great_gem_4.mp3; path = ../assets/audio/voice_en_post_great_gem_4.mp3; sourceTree = "<group>"; };
+		9EFE2B2C023986F33DB657CE /* voice_en_make_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_make_5.mp3; path = ../assets/audio/voice_en_make_5.mp3; sourceTree = "<group>"; };
 		9F02EFE6A0E94A9AEEDC5302 /* voice_de_have_island_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_have_island_4.mp3; path = ../assets/audio/voice_de_have_island_4.mp3; sourceTree = "<group>"; };
 		9F095FB8676E4096BB217800 /* voice_en_have_lobster_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_have_lobster_5.mp3; path = ../assets/audio/voice_en_have_lobster_5.mp3; sourceTree = "<group>"; };
 		9F2CB5D69E9447FBB81DB2DB /* voice_ro_have_telescope_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_have_telescope_9.mp3; path = ../assets/audio/voice_ro_have_telescope_9.mp3; sourceTree = "<group>"; };
@@ -6340,6 +6354,7 @@
 		A5E0B0C005B84D3AAA30CCDD /* voice_en_have_alien_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_have_alien_9.mp3; path = ../assets/audio/voice_en_have_alien_9.mp3; sourceTree = "<group>"; };
 		A5EA00150BB8C1D482C2E0A3 /* voice_de_post_great_trophy_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_post_great_trophy_5.mp3; path = ../assets/audio/voice_de_post_great_trophy_5.mp3; sourceTree = "<group>"; };
 		A6389962078F4DC6998C1692 /* voice_en_take_crab_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_take_crab_5.mp3; path = ../assets/audio/voice_en_take_crab_5.mp3; sourceTree = "<group>"; };
+		A641BC06771C607021B6692F /* voice_de_make_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_make_6.mp3; path = ../assets/audio/voice_de_make_6.mp3; sourceTree = "<group>"; };
 		A64611A55B824507B210515C /* voice_en_post_great_sunflower_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_post_great_sunflower_8.mp3; path = ../assets/audio/voice_en_post_great_sunflower_8.mp3; sourceTree = "<group>"; };
 		A670B4998A04E868477A214D /* voice_de_pre_have_candy_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_pre_have_candy_7.mp3; path = ../assets/audio/voice_de_pre_have_candy_7.mp3; sourceTree = "<group>"; };
 		A671778932654B0BA5920B1D /* voice_ro_take_telescope_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_take_telescope_9.mp3; path = ../assets/audio/voice_ro_take_telescope_9.mp3; sourceTree = "<group>"; };
@@ -6388,6 +6403,7 @@
 		A90BDC0A00AC47F394476D04 /* voice_en_post_great_sunflower_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_post_great_sunflower_7.mp3; path = ../assets/audio/voice_en_post_great_sunflower_7.mp3; sourceTree = "<group>"; };
 		A914161E82C86B3827391994 /* voice_de_add_more_whale_3.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_add_more_whale_3.mp3; path = ../assets/audio/voice_de_add_more_whale_3.mp3; sourceTree = "<group>"; };
 		A93388332BF34D2C8F10899C /* voice_ro_pre_have_kpop_3.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_pre_have_kpop_3.mp3; path = ../assets/audio/voice_ro_pre_have_kpop_3.mp3; sourceTree = "<group>"; };
+		A948CF996C5D3F0009CD62D3 /* voice_ro_make_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_make_8.mp3; path = ../assets/audio/voice_ro_make_8.mp3; sourceTree = "<group>"; };
 		A94DBD7089C84BFE942FA926 /* voice_ro_have_octopus_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_have_octopus_7.mp3; path = ../assets/audio/voice_ro_have_octopus_7.mp3; sourceTree = "<group>"; };
 		A951B8A7183A4F46B831D269 /* voice_en_post_great_moon_3.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_post_great_moon_3.mp3; path = ../assets/audio/voice_en_post_great_moon_3.mp3; sourceTree = "<group>"; };
 		A956575833F744A0ACBE5FF2 /* voice_ro_add_more_planet_2.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_add_more_planet_2.mp3; path = ../assets/audio/voice_ro_add_more_planet_2.mp3; sourceTree = "<group>"; };
@@ -6437,6 +6453,7 @@
 		AC5571B5B57260FE48E3B102 /* voice_de_add_more_rocket_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_add_more_rocket_5.mp3; path = ../assets/audio/voice_de_add_more_rocket_5.mp3; sourceTree = "<group>"; };
 		AC64E7EC06E94FA5A74E2EB0 /* voice_ro_mem_was_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_mem_was_7.mp3; path = ../assets/audio/voice_ro_mem_was_7.mp3; sourceTree = "<group>"; };
 		AC7162DDCCBB44F5B8EAC777 /* voice_ro_post_great_owl_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_post_great_owl_7.mp3; path = ../assets/audio/voice_ro_post_great_owl_7.mp3; sourceTree = "<group>"; };
+		AC793B825229BD7FEA47CBFB /* voice_en_make_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_make_7.mp3; path = ../assets/audio/voice_en_make_7.mp3; sourceTree = "<group>"; };
 		AC7B5623161FB1E1C8462C82 /* voice_de_post_great_rocket_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_post_great_rocket_5.mp3; path = ../assets/audio/voice_de_post_great_rocket_5.mp3; sourceTree = "<group>"; };
 		ACA0843F8E7F45F5A038C453 /* voice_ro_post_great_kpop_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_post_great_kpop_5.mp3; path = ../assets/audio/voice_ro_post_great_kpop_5.mp3; sourceTree = "<group>"; };
 		ACB70E1DECC14E19BEF79FCD /* voice_ro_have_whale_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_have_whale_4.mp3; path = ../assets/audio/voice_ro_have_whale_4.mp3; sourceTree = "<group>"; };
@@ -6680,6 +6697,7 @@
 		BD4F537EA18C41E2B88F86FC /* voice_en_post_great_candy_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_post_great_candy_5.mp3; path = ../assets/audio/voice_en_post_great_candy_5.mp3; sourceTree = "<group>"; };
 		BD92D8FC9EA905FE62A41735 /* voice_de_add_more_island_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_add_more_island_8.mp3; path = ../assets/audio/voice_de_add_more_island_8.mp3; sourceTree = "<group>"; };
 		BDAB264D29E047D3961F1DC8 /* voice_ro_add_more_planet_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_add_more_planet_6.mp3; path = ../assets/audio/voice_ro_add_more_planet_6.mp3; sourceTree = "<group>"; };
+		BDAB6461901CFFAA2A759D80 /* voice_de_make_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_make_7.mp3; path = ../assets/audio/voice_de_make_7.mp3; sourceTree = "<group>"; };
 		BDB852C09405419FAE7F777F /* voice_ro_take_whale_1.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_take_whale_1.mp3; path = ../assets/audio/voice_ro_take_whale_1.mp3; sourceTree = "<group>"; };
 		BDBA2AD7AB3E4C6E831A1857 /* voice_en_post_great_moon_10.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_post_great_moon_10.mp3; path = ../assets/audio/voice_en_post_great_moon_10.mp3; sourceTree = "<group>"; };
 		BDC1AF97AC6A4413B3B4557B /* voice_ro_pre_have_farm_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_pre_have_farm_4.mp3; path = ../assets/audio/voice_ro_pre_have_farm_4.mp3; sourceTree = "<group>"; };
@@ -6885,6 +6903,7 @@
 		CB98F25B374FD4084C176109 /* voice_de_post_great_dolphin_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_post_great_dolphin_7.mp3; path = ../assets/audio/voice_de_post_great_dolphin_7.mp3; sourceTree = "<group>"; };
 		CBD043CFFD894F32A3C6452C /* voice_ro_add_more_moon_1.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_add_more_moon_1.mp3; path = ../assets/audio/voice_ro_add_more_moon_1.mp3; sourceTree = "<group>"; };
 		CBD415FAC366772A519C01E5 /* voice_de_post_great_whale_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_post_great_whale_8.mp3; path = ../assets/audio/voice_de_post_great_whale_8.mp3; sourceTree = "<group>"; };
+		CBE3D8EA47C6EF5975E4AD34 /* voice_ro_make_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_make_7.mp3; path = ../assets/audio/voice_ro_make_7.mp3; sourceTree = "<group>"; };
 		CBF0393C402648D0A1326967 /* voice_en_have_squid_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_have_squid_4.mp3; path = ../assets/audio/voice_en_have_squid_4.mp3; sourceTree = "<group>"; };
 		CBFED99A1FC7C4DD053A3B82 /* voice_de_instr_sub_monsters_2.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_instr_sub_monsters_2.mp3; path = ../assets/audio/voice_de_instr_sub_monsters_2.mp3; sourceTree = "<group>"; };
 		CC12779C56074B1499C9473C /* voice_ro_post_great_sunflower_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_post_great_sunflower_8.mp3; path = ../assets/audio/voice_ro_post_great_sunflower_8.mp3; sourceTree = "<group>"; };
@@ -7063,6 +7082,7 @@
 		D829D6B87E0D280A80E4F20B /* voice_de_have_island_3.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_have_island_3.mp3; path = ../assets/audio/voice_de_have_island_3.mp3; sourceTree = "<group>"; };
 		D82A184D8EA525C443EB4CF1 /* voice_de_reward_streak.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_reward_streak.mp3; path = ../assets/audio/voice_de_reward_streak.mp3; sourceTree = "<group>"; };
 		D83BEFDC22A84DB38E9B25E7 /* voice_ro_pre_have_farm_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_pre_have_farm_7.mp3; path = ../assets/audio/voice_ro_pre_have_farm_7.mp3; sourceTree = "<group>"; };
+		D84B9AB1F179FD5B05AE5FD7 /* voice_ro_make_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_make_6.mp3; path = ../assets/audio/voice_ro_make_6.mp3; sourceTree = "<group>"; };
 		D85D8B5CCD9948CFA5998FD3 /* voice_ro_have_fish_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_have_fish_9.mp3; path = ../assets/audio/voice_ro_have_fish_9.mp3; sourceTree = "<group>"; };
 		D864A81F5D14449CB9E3FD0C /* voice_en_have_trophy_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_have_trophy_4.mp3; path = ../assets/audio/voice_en_have_trophy_4.mp3; sourceTree = "<group>"; };
 		D867DEE7B19A819594C81EF9 /* voice_de_post_great_ufo_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_post_great_ufo_4.mp3; path = ../assets/audio/voice_de_post_great_ufo_4.mp3; sourceTree = "<group>"; };
@@ -7234,6 +7254,7 @@
 		E39F92A20DCA98763E4444A9 /* voice_de_instr_sub_slime_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_instr_sub_slime_9.mp3; path = ../assets/audio/voice_de_instr_sub_slime_9.mp3; sourceTree = "<group>"; };
 		E3AAFABF59675A5CF3B6DF88 /* voice_de_have_rocket_3.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_have_rocket_3.mp3; path = ../assets/audio/voice_de_have_rocket_3.mp3; sourceTree = "<group>"; };
 		E3B7543415651851596165F2 /* voice_de_add_more_ufo_1.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_add_more_ufo_1.mp3; path = ../assets/audio/voice_de_add_more_ufo_1.mp3; sourceTree = "<group>"; };
+		E3F61DE9F091B81E4DF5CFF7 /* voice_ro_make_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_make_4.mp3; path = ../assets/audio/voice_ro_make_4.mp3; sourceTree = "<group>"; };
 		E420383450944522B33E514E /* voice_ro_post_great_crown_3.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_post_great_crown_3.mp3; path = ../assets/audio/voice_ro_post_great_crown_3.mp3; sourceTree = "<group>"; };
 		E422B750C3A8494BAC6B2420 /* voice_en_post_great_butterfly_3.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_post_great_butterfly_3.mp3; path = ../assets/audio/voice_en_post_great_butterfly_3.mp3; sourceTree = "<group>"; };
 		E4299B5987B949C6840A5A39 /* voice_ro_add_more_octopus_2.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_add_more_octopus_2.mp3; path = ../assets/audio/voice_ro_add_more_octopus_2.mp3; sourceTree = "<group>"; };
@@ -7325,6 +7346,7 @@
 		EAAF4022FE9A41EFAE6B1A27 /* voice_en_take_squid_1.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_take_squid_1.mp3; path = ../assets/audio/voice_en_take_squid_1.mp3; sourceTree = "<group>"; };
 		EAB533D980B240548AEA4204 /* voice_en_post_great_telescope_1.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_post_great_telescope_1.mp3; path = ../assets/audio/voice_en_post_great_telescope_1.mp3; sourceTree = "<group>"; };
 		EAC74AFF1AAA4B9C89C7537D /* voice_ro_post_great_tree_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_post_great_tree_6.mp3; path = ../assets/audio/voice_ro_post_great_tree_6.mp3; sourceTree = "<group>"; };
+		EB02C7622B36D6623D0E8FB2 /* voice_de_make_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_make_8.mp3; path = ../assets/audio/voice_de_make_8.mp3; sourceTree = "<group>"; };
 		EB0FD7D4C78840E7A1A0BEA4 /* voice_en_have_dolphin_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_have_dolphin_8.mp3; path = ../assets/audio/voice_en_have_dolphin_8.mp3; sourceTree = "<group>"; };
 		EB2C7F9271A648C2A5D6C381 /* voice_en_post_great_gem_3.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_post_great_gem_3.mp3; path = ../assets/audio/voice_en_post_great_gem_3.mp3; sourceTree = "<group>"; };
 		EB3805185F77FD2CA4DE40CF /* voice_de_add_more_telescope_2.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_add_more_telescope_2.mp3; path = ../assets/audio/voice_de_add_more_telescope_2.mp3; sourceTree = "<group>"; };
@@ -7344,6 +7366,7 @@
 		EC38F30A5E1247E0AD2475C5 /* voice_ro_instr_add_ocean_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_instr_add_ocean_5.mp3; path = ../assets/audio/voice_ro_instr_add_ocean_5.mp3; sourceTree = "<group>"; };
 		EC43691B7285452EA57BBB3B /* voice_ro_post_great_whale_2.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_post_great_whale_2.mp3; path = ../assets/audio/voice_ro_post_great_whale_2.mp3; sourceTree = "<group>"; };
 		EC4790CC2B8748A6A31D23DE /* voice_ro_post_great_moon_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_post_great_moon_7.mp3; path = ../assets/audio/voice_ro_post_great_moon_7.mp3; sourceTree = "<group>"; };
+		EC50C62AFB29D5B56EA60E44 /* voice_de_make_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_make_9.mp3; path = ../assets/audio/voice_de_make_9.mp3; sourceTree = "<group>"; };
 		EC5CD1CEB7FF402DA67C010E /* voice_ro_post_great_fish_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_post_great_fish_9.mp3; path = ../assets/audio/voice_ro_post_great_fish_9.mp3; sourceTree = "<group>"; };
 		EC5E253D1CAB9D72CF324106 /* voice_de_take_star_1.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_take_star_1.mp3; path = ../assets/audio/voice_de_take_star_1.mp3; sourceTree = "<group>"; };
 		EC6C293DDB49479EAEDA8F51 /* voice_ro_post_great_unicorn_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_post_great_unicorn_6.mp3; path = ../assets/audio/voice_ro_post_great_unicorn_6.mp3; sourceTree = "<group>"; };
@@ -7395,6 +7418,7 @@
 		EF5F73D4777D4C6CAE067CEB /* voice_en_add_more_dolphin_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_add_more_dolphin_8.mp3; path = ../assets/audio/voice_en_add_more_dolphin_8.mp3; sourceTree = "<group>"; };
 		EF86DC475BBBBB1A85B38D5A /* voice_de_post_great_crown_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_post_great_crown_4.mp3; path = ../assets/audio/voice_de_post_great_crown_4.mp3; sourceTree = "<group>"; };
 		EFA63CE018A74BBABA14C8E2 /* voice_ro_add_more_star_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_add_more_star_8.mp3; path = ../assets/audio/voice_ro_add_more_star_8.mp3; sourceTree = "<group>"; };
+		EFADD0DCB2BDBA59EADEE10B /* voice_en_make_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_make_9.mp3; path = ../assets/audio/voice_en_make_9.mp3; sourceTree = "<group>"; };
 		EFB87F03C8BC24613ED0C344 /* voice_de_have_whale_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_have_whale_5.mp3; path = ../assets/audio/voice_de_have_whale_5.mp3; sourceTree = "<group>"; };
 		EFB9BB6874E7442E03B4DA3E /* voice_de_instr_sub_candy_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_instr_sub_candy_8.mp3; path = ../assets/audio/voice_de_instr_sub_candy_8.mp3; sourceTree = "<group>"; };
 		EFC0918E94F9C4A412E68A0B /* voice_de_have_rocket_1.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_have_rocket_1.mp3; path = ../assets/audio/voice_de_have_rocket_1.mp3; sourceTree = "<group>"; };
@@ -7573,6 +7597,7 @@
 		FB16D7AF345E4C3789C14415 /* voice_ro_add_more_ufo_1.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_add_more_ufo_1.mp3; path = ../assets/audio/voice_ro_add_more_ufo_1.mp3; sourceTree = "<group>"; };
 		FB1F1D8CF76A432292DC47AF /* voice_ro_post_great_shell_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_post_great_shell_6.mp3; path = ../assets/audio/voice_ro_post_great_shell_6.mp3; sourceTree = "<group>"; };
 		FB2A15E7A6F54FCEA739F54C /* voice_ro_instr_sub_forest_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_instr_sub_forest_5.mp3; path = ../assets/audio/voice_ro_instr_sub_forest_5.mp3; sourceTree = "<group>"; };
+		FB2CE94A04716327A9EF7F79 /* voice_en_world_mixed_targets.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_world_mixed_targets.mp3; path = ../assets/audio/voice_en_world_mixed_targets.mp3; sourceTree = "<group>"; };
 		FB414AD8144E478085C438E3 /* voice_en_fb_again_3.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_fb_again_3.mp3; path = ../assets/audio/voice_en_fb_again_3.mp3; sourceTree = "<group>"; };
 		FB57C5F652BF6342181E6298 /* voice_de_reward_milestone_100.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_reward_milestone_100.mp3; path = ../assets/audio/voice_de_reward_milestone_100.mp3; sourceTree = "<group>"; };
 		FB8BE7F8874A4E0589D3EA59 /* voice_en_post_great_telescope_2.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_post_great_telescope_2.mp3; path = ../assets/audio/voice_en_post_great_telescope_2.mp3; sourceTree = "<group>"; };
@@ -7633,30 +7658,6 @@
 		FFEA7263E1194529924AB28A /* voice_ro_take_dolphin_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_take_dolphin_4.mp3; path = ../assets/audio/voice_ro_take_dolphin_4.mp3; sourceTree = "<group>"; };
 		FFF8669F2F974CBEA7A0D7C0 /* voice_en_instr_addition_easy.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_instr_addition_easy.mp3; path = ../assets/audio/voice_en_instr_addition_easy.mp3; sourceTree = "<group>"; };
 		FFFC0A2C2D594F1987DCCE13 /* voice_ro_take_whale_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_take_whale_7.mp3; path = ../assets/audio/voice_ro_take_whale_7.mp3; sourceTree = "<group>"; };
-		29CDFA3312C349A5E2AEBBBF /* voice_ro_make_3.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_make_3.mp3; path = ../assets/audio/voice_ro_make_3.mp3; sourceTree = "<group>"; };
-		E3F61DE9F091B81E4DF5CFF7 /* voice_ro_make_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_make_4.mp3; path = ../assets/audio/voice_ro_make_4.mp3; sourceTree = "<group>"; };
-		3E0BB71E5FF638623A300FCF /* voice_ro_make_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_make_5.mp3; path = ../assets/audio/voice_ro_make_5.mp3; sourceTree = "<group>"; };
-		D84B9AB1F179FD5B05AE5FD7 /* voice_ro_make_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_make_6.mp3; path = ../assets/audio/voice_ro_make_6.mp3; sourceTree = "<group>"; };
-		CBE3D8EA47C6EF5975E4AD34 /* voice_ro_make_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_make_7.mp3; path = ../assets/audio/voice_ro_make_7.mp3; sourceTree = "<group>"; };
-		A948CF996C5D3F0009CD62D3 /* voice_ro_make_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_make_8.mp3; path = ../assets/audio/voice_ro_make_8.mp3; sourceTree = "<group>"; };
-		1A40E94420827B2EA0142E57 /* voice_ro_make_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_make_9.mp3; path = ../assets/audio/voice_ro_make_9.mp3; sourceTree = "<group>"; };
-		933C859E379A69A661767E2D /* voice_ro_world_mixed_targets.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_world_mixed_targets.mp3; path = ../assets/audio/voice_ro_world_mixed_targets.mp3; sourceTree = "<group>"; };
-		4113A156D15B7B56E55E1E02 /* voice_en_make_3.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_make_3.mp3; path = ../assets/audio/voice_en_make_3.mp3; sourceTree = "<group>"; };
-		1CECF254C33AEB07C3EF0854 /* voice_en_make_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_make_4.mp3; path = ../assets/audio/voice_en_make_4.mp3; sourceTree = "<group>"; };
-		9EFE2B2C023986F33DB657CE /* voice_en_make_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_make_5.mp3; path = ../assets/audio/voice_en_make_5.mp3; sourceTree = "<group>"; };
-		7CF43FF9FD116AD6831D5193 /* voice_en_make_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_make_6.mp3; path = ../assets/audio/voice_en_make_6.mp3; sourceTree = "<group>"; };
-		AC793B825229BD7FEA47CBFB /* voice_en_make_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_make_7.mp3; path = ../assets/audio/voice_en_make_7.mp3; sourceTree = "<group>"; };
-		6870C4D6067A7751F115A7A4 /* voice_en_make_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_make_8.mp3; path = ../assets/audio/voice_en_make_8.mp3; sourceTree = "<group>"; };
-		EFADD0DCB2BDBA59EADEE10B /* voice_en_make_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_make_9.mp3; path = ../assets/audio/voice_en_make_9.mp3; sourceTree = "<group>"; };
-		FB2CE94A04716327A9EF7F79 /* voice_en_world_mixed_targets.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_world_mixed_targets.mp3; path = ../assets/audio/voice_en_world_mixed_targets.mp3; sourceTree = "<group>"; };
-		375D7BF99F481BF39A458CE9 /* voice_de_make_3.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_make_3.mp3; path = ../assets/audio/voice_de_make_3.mp3; sourceTree = "<group>"; };
-		3C2CEC99530CCDF87ABDFE2A /* voice_de_make_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_make_4.mp3; path = ../assets/audio/voice_de_make_4.mp3; sourceTree = "<group>"; };
-		6370973D7C2DC314681E7F42 /* voice_de_make_5.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_make_5.mp3; path = ../assets/audio/voice_de_make_5.mp3; sourceTree = "<group>"; };
-		A641BC06771C607021B6692F /* voice_de_make_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_make_6.mp3; path = ../assets/audio/voice_de_make_6.mp3; sourceTree = "<group>"; };
-		BDAB6461901CFFAA2A759D80 /* voice_de_make_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_make_7.mp3; path = ../assets/audio/voice_de_make_7.mp3; sourceTree = "<group>"; };
-		EB02C7622B36D6623D0E8FB2 /* voice_de_make_8.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_make_8.mp3; path = ../assets/audio/voice_de_make_8.mp3; sourceTree = "<group>"; };
-		EC50C62AFB29D5B56EA60E44 /* voice_de_make_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_make_9.mp3; path = ../assets/audio/voice_de_make_9.mp3; sourceTree = "<group>"; };
-		80FD68BF85573A171EA350AF /* voice_de_world_mixed_targets.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_world_mixed_targets.mp3; path = ../assets/audio/voice_de_world_mixed_targets.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -7732,6 +7733,7 @@
 			children = (
 				3B4392A12AC88292D35C810B /* Pods-TenFrames.debug.xcconfig */,
 				5709B34CF0A7D63546082F79 /* Pods-TenFrames.release.xcconfig */,
+				2A1B048429064D812D15E4CA /* Pods-TenFrames.release-school.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -15532,10 +15534,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = WLYF4PNB2M;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TenFrames/Info.plist;
+				APP_DISPLAY_NAME = "Ten Frames";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -15563,9 +15566,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = WLYF4PNB2M;
 				INFOPLIST_FILE = TenFrames/Info.plist;
+				APP_DISPLAY_NAME = "Ten Frames";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -15742,6 +15746,111 @@
 			};
 			name = Release;
 		};
+		C0FFEE010000000000000000 /* Release-School */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2A1B048429064D812D15E4CA /* Pods-TenFrames.release-school.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 10;
+				DEVELOPMENT_TEAM = WLYF4PNB2M;
+				ENTRY_FILE = index.school.js;
+				INFOPLIST_FILE = TenFrames/Info.plist;
+				APP_DISPLAY_NAME = "Ten Frames School";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.6.2;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tenframes.school;
+				PRODUCT_NAME = TenFrames;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Release-School";
+		};
+		C0FFEE020000000000000000 /* Release-School */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SDKROOT)/usr/lib/swift\"",
+					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
+					"\"$(inherited)\"",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-DFOLLY_NO_CONFIG",
+					"-DFOLLY_MOBILE=1",
+					"-DFOLLY_USE_LIBCPP=1",
+					"-DFOLLY_CFG_NO_COROUTINES=1",
+					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				SDKROOT = iphoneos;
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
+				USE_HERMES = true;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-School";
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -15750,6 +15859,7 @@
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
+				C0FFEE010000000000000000 /* Release-School */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -15759,6 +15869,7 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
+				C0FFEE020000000000000000 /* Release-School */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
