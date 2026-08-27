@@ -8,6 +8,7 @@ import {Emoji} from '../common/Emoji';
 import {AgeProfile} from '../../hooks/useAgeProfile';
 import {AgeGroup, CellState, Problem, ThemeColors} from '../../types/game';
 import {STOP_JUDGE_MS} from '../../config/timing';
+import {hasEngaged} from '../../utils/answerTiming';
 
 interface AdditionModeProps {
   cells: CellState[];
@@ -72,8 +73,8 @@ export function AdditionMode({
   useEffect(() => {
     if (!compact || !currentProblem || hasSubmitted) return;
     if (autoSubmittedRef.current) return;
-    // An untouched board is "still thinking", not an answer.
-    if (userAnswer === null) return;
+    // "not null" is not the same as "answered" — see hasEngaged.
+    if (!hasEngaged(userAnswer, currentProblem)) return;
     const t = setTimeout(() => {
       autoSubmittedRef.current = true;
       onSubmit();
