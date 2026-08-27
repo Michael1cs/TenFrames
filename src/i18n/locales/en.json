@@ -406,7 +406,9 @@
     "premiumActive": "Premium active",
     "premiumActiveSub": "Thanks for supporting Ten Frames!",
     "about": "About Ten Frames",
-    "aboutSub": "How the method works"
+    "aboutSub": "How the method works",
+    "schoolEdition": "School Edition",
+    "schoolEditionSub": "All content unlocked. No daily limits, no in-app purchases."
   },
   "error": {
     "title": "Oops!",

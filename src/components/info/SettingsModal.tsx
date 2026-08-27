@@ -95,6 +95,27 @@ export function SettingsModal({
           </Pressable>
           )}
 
+          {/* Same slot, School Edition. Not an advert and not a purchase —
+              it answers "which edition is on this iPad?", which is the first
+              question in any support conversation with a school, and tells
+              the teacher plainly that nothing is locked or metered. Deliberately
+              not a Pressable: there is nowhere for it to go. */}
+          {IS_SCHOOL_EDITION && (
+            <View style={styles.premiumCard}>
+              <Text style={styles.premiumEmoji}>
+                <Emoji>🏫</Emoji>
+              </Text>
+              <View style={styles.premiumText}>
+                <Text style={styles.premiumTitle}>
+                  {t('settings.schoolEdition')}
+                </Text>
+                <Text style={styles.premiumSub}>
+                  {t('settings.schoolEditionSub')}
+                </Text>
+              </View>
+            </View>
+          )}
+
           {/* About link */}
           <Pressable
             onPress={() => {

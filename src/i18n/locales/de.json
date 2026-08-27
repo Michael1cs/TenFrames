@@ -406,7 +406,9 @@
     "premiumActive": "Premium aktiv",
     "premiumActiveSub": "Danke für deine Unterstützung!",
     "about": "Über Ten Frames",
-    "aboutSub": "So funktioniert die Methode"
+    "aboutSub": "So funktioniert die Methode",
+    "schoolEdition": "Schulversion",
+    "schoolEditionSub": "Alle Inhalte freigeschaltet. Keine Tageslimits, keine In-App-Käufe."
   },
   "error": {
     "title": "Hoppla!",

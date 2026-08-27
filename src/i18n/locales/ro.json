@@ -406,7 +406,9 @@
     "premiumActive": "Premium activ",
     "premiumActiveSub": "Mulțumim pentru suport!",
     "about": "Despre Ten Frames",
-    "aboutSub": "Cum funcționează metoda"
+    "aboutSub": "Cum funcționează metoda",
+    "schoolEdition": "Ediția pentru școli",
+    "schoolEditionSub": "Tot conținutul deblocat. Fără limite zilnice, fără achiziții în aplicație."
   },
   "error": {
     "title": "Hopa!",

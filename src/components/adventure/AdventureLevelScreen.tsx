@@ -36,6 +36,7 @@ import {WrongFlash} from '../feedback/WrongFlash';
 import {TapHint} from '../feedback/TapHint';
 import {useReduceMotion} from '../../hooks/useReduceMotion';
 import {buildAssistPlan, cellsToChange} from '../../utils/hintLadder';
+import {STOP_JUDGE_MS} from '../../config/timing';
 import {ProblemTransition} from '../feedback/ProblemTransition';
 
 // Per-level noun for voice narration. When set, the addition/subtraction
@@ -43,15 +44,6 @@ import {ProblemTransition} from '../feedback/ProblemTransition';
 // spoken phrase matches the level's emoji ("3 octopuses", "5 stars") instead
 // of the generic world-theme noun. Unmapped levels fall back to world-themed
 // clips.
-// How long after the child's last tap the board is judged. The child's answer
-// is WHERE THEY STOP, not where the app catches them: the old behaviour
-// submitted 350ms after the placed count matched the target, so a child
-// tapping through toward a larger (wrong) number was stopped and celebrated
-// the instant they passed through the right one. Under the stop rule the
-// pause itself is the commitment. Tune with a real 4-6yo: too short judges a
-// slow counter mid-thought, too long makes correct answers feel ignored.
-const STOP_JUDGE_MS = 2000;
-
 const LEVEL_NOUN: Record<string, string> = {
   // High Five! — all five nouns have complete have_/add_more_/post_great_
   // coverage for 1-10, which is what keeps this world at zero voice cost.
