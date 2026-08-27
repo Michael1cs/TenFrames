@@ -8,6 +8,7 @@ import {
   type Purchase,
 } from 'react-native-iap';
 import {PREMIUM_PRODUCT_ID} from '../config/iap';
+import {IS_SCHOOL_EDITION} from '../config/edition';
 
 export interface IAPState {
   connected: boolean;
@@ -20,7 +21,38 @@ export interface IAPState {
   clearError: () => void;
 }
 
-export function useIAPConnection(
+/**
+ * The School Edition is paid up front and sells nothing, so it must not touch
+ * StoreKit at all. Hiding the purchase UI is not enough: the hook below opens
+ * a billing connection and queries PREMIUM_PRODUCT_ID on mount, and that
+ * product does not exist in the school app's record — so the school build
+ * would spend launch time on a connection that can only fail, on devices
+ * where MDM usually blocks in-app purchases anyway, while the App Review
+ * notes claim the app contains no in-app purchases.
+ */
+const INERT_IAP: IAPState = {
+  connected: false,
+  product: null,
+  purchasing: false,
+  restoring: false,
+  error: null,
+  requestPurchase: async () => {},
+  restorePurchases: async () => {},
+  clearError: () => {},
+};
+
+export function useIAPConnection(onPurchaseSuccess: () => void): IAPState {
+  // Conditional hook call, deliberately. IS_SCHOOL_EDITION is fixed for the
+  // whole process — it is read once at module scope from a global the entry
+  // file set before any app module loaded — so the branch cannot change
+  // between renders and hook order is invariant. The alternative is calling
+  // react-native-iap's hook in a build that has no IAP context (GameShell
+  // skips withIAPContext for the School Edition), which would throw.
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  return IS_SCHOOL_EDITION ? INERT_IAP : useConsumerIAPConnection(onPurchaseSuccess);
+}
+
+function useConsumerIAPConnection(
   onPurchaseSuccess: () => void,
 ): IAPState {
   const [purchasing, setPurchasing] = useState(false);

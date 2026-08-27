@@ -1225,4 +1225,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export const GameShell = withIAPContext(GameShellInner);
+// The School Edition sells nothing, so it must not open a StoreKit connection
+// at all — withIAPContext is what establishes it. A module-level branch on a
+// build-time constant, not a runtime condition.
+export const GameShell = IS_SCHOOL_EDITION
+  ? GameShellInner
+  : withIAPContext(GameShellInner);
