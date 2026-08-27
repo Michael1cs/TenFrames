@@ -1,0 +1,15 @@
+// School Edition build settings.
+//
+// Attach this to a duplicated `Release-School` configuration in Xcode
+// (Project → Info → Configurations → duplicate "Release"), then point a new
+// scheme's Archive action at it. Everything else — code, assets, voice —
+// is shared with the consumer app; only these three settings differ.
+//
+// Do NOT pass these on the xcodebuild command line instead. Command-line
+// build settings apply to every target in the build, including every Pod,
+// and renaming the pods breaks the link with
+// `ld: library 'AsyncStorage' not found`.
+
+PRODUCT_BUNDLE_IDENTIFIER = com.tenframes.school
+ENTRY_FILE = index.school.js
+INFOPLIST_KEY_CFBundleDisplayName = Ten Frames School
