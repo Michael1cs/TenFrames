@@ -247,7 +247,8 @@
     "parentalGateCancel": "Cancel",
     "parentalGateWrong": "Incorrect answer. Please try again.",
     "parentalGatePlaceholder": "Enter the answer",
-    "purchasePending": "Your payment is being processed. Premium unlocks as soon as it is confirmed."
+    "purchasePending": "Your payment is being processed. Premium unlocks as soon as it is confirmed.",
+    "priceUnavailable": "Price shown at confirmation"
   },
   "achievements": {
     "firstStar": "First Star",

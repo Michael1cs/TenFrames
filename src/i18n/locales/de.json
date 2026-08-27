@@ -247,7 +247,8 @@
     "parentalGateCancel": "Abbrechen",
     "parentalGateWrong": "Falsche Antwort. Bitte versuche es erneut.",
     "parentalGatePlaceholder": "Antwort eingeben",
-    "purchasePending": "Deine Zahlung wird verarbeitet. Premium wird freigeschaltet, sobald sie bestätigt ist."
+    "purchasePending": "Deine Zahlung wird verarbeitet. Premium wird freigeschaltet, sobald sie bestätigt ist.",
+    "priceUnavailable": "Preis wird bei der Bestätigung angezeigt"
   },
   "achievements": {
     "firstStar": "Erster Stern",

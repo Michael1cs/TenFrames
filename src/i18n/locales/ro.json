@@ -247,7 +247,8 @@
     "parentalGateCancel": "Anulează",
     "parentalGateWrong": "Răspuns incorect. Încearcă din nou.",
     "parentalGatePlaceholder": "Introdu răspunsul",
-    "purchasePending": "Plata este în curs de procesare. Premium se activează imediat ce este confirmată."
+    "purchasePending": "Plata este în curs de procesare. Premium se activează imediat ce este confirmată.",
+    "priceUnavailable": "Prețul se afișează la confirmare"
   },
   "achievements": {
     "firstStar": "Prima stea",
