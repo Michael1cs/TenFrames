@@ -141,6 +141,21 @@
       "tipsDesc": "• Let the child explore freely — there's no wrong way to fill a ten frame!\n• Ask questions like \"How many more do you need to make 10?\"\n• Celebrate effort, not just correct answers\n• Short daily sessions (5–10 minutes) are more effective than long ones\n• Connect ten frames to real life: \"We have 3 apples, how many more to fill our box of 10?\"",
       "research": "Research Background",
       "researchDesc": "Ten Frames are recommended by the National Council of Teachers of Mathematics (NCTM) as a key tool for developing number sense in early childhood. Research shows that children who use ten frames develop stronger mental math skills and a deeper understanding of place value. The method is part of the Common Core State Standards in the United States and is used in curricula worldwide, including Singapore Math and Australian National Curriculum."
+    },
+    "tabTeachers": "Teachers",
+    "teachers": {
+      "covers": "What it covers",
+      "coversDesc": "Counting to 10, addition and subtraction within 10, pairs that make 10, doubles, fair sharing and visual memory. Nine worlds, 78 levels, all unlocked.",
+      "privacy": "Privacy",
+      "privacyDesc": "No accounts, no sign-up. Nothing leaves the iPad — progress is stored locally. Works fully offline. No ads, no in-app purchases, no links out of the app.",
+      "devices": "Shared iPads",
+      "devicesDesc": "Progress is saved per device, not per pupil. Children sharing an iPad share the same stars and the same map. For individual tracking, assign one iPad per pupil.",
+      "session": "How long it takes",
+      "sessionDesc": "A level is 5 problems and runs 2–4 minutes. For ages 4–6, two or three short sessions a week work better than one long one."
+    },
+    "contact": {
+      "title": "Get in touch",
+      "desc": "Have a suggestion, found a problem, or want to work together? We would like to hear from you — especially if you teach and have ideas about what should come next."
     }
   },
   "rewards": {

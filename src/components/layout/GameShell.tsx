@@ -51,6 +51,7 @@ import {useVoice, VOICE_GROUPS, setVoiceEnabled, clearPendingVoiceQueue} from '.
 import {useAgeProfile} from '../../hooks/useAgeProfile';
 import {useIAPConnection, withIAPContext} from '../../hooks/useIAP';
 import {FREE_DAILY_LIMIT} from '../../config/limits';
+import {IS_SCHOOL_EDITION} from '../../config/edition';
 import {Language, GameMode, WorldId} from '../../types/game';
 import {ADVENTURE_WORLDS} from '../../config/adventureWorlds';
 import {useAdventure} from '../../hooks/useAdventure';
@@ -328,7 +329,8 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
     <View style={styles.titleBar}>
       <View style={styles.titleLeft}>
         <Text style={[styles.title, {color: colors.text}]}>
-          <Emoji>{mascotEmoji}</Emoji> Ten Frames
+          <Emoji>{mascotEmoji}</Emoji>{' '}
+          {IS_SCHOOL_EDITION ? 'Ten Frames School' : 'Ten Frames'}
         </Text>
         <Text style={[styles.subtitle, {color: colors.accent}]}>
           {t('app.title')}
