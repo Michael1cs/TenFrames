@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ImageBackground,
   ScrollView,
+  useWindowDimensions,
 } from 'react-native';
 import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
@@ -21,6 +22,11 @@ import {
 import {getAllThemes} from '../../hooks/useTheme';
 import {useVoice} from '../../hooks/useVoice';
 import {Emoji} from '../common/Emoji';
+
+// Grid geometry, shared between the container padding and the per-card
+// width so the columns always add up to the available width exactly.
+const GRID_PADDING = 16;
+const GRID_GAP = 12;
 
 interface Props {
   progress: AdventureProgress;
@@ -39,6 +45,18 @@ export function AdventureWorldsScreen({progress, onSelectWorld, onClose}: Props)
     return () => clearTimeout(timer);
   }, []);
 
+  // The cards used a flat 47% width, which is right on a phone (two columns)
+  // but produced ~485pt squares on a 13" iPad — two and a half of them filled
+  // the screen and the world list read as a stack of billboards rather than a
+  // map. Pick the column count from the shortest edge and derive an exact
+  // pixel width, so the last row lines up with the rows above it instead of
+  // being stretched by space-between.
+  const {width, height} = useWindowDimensions();
+  const isTablet = Math.min(width, height) >= 600;
+  const columns = isTablet ? 3 : 2;
+  const cardWidth =
+    (width - GRID_PADDING * 2 - GRID_GAP * (columns - 1)) / columns;
+
   const allThemes = getAllThemes();
 
   return (
@@ -48,7 +66,7 @@ export function AdventureWorldsScreen({progress, onSelectWorld, onClose}: Props)
       resizeMode="cover">
       <View style={styles.overlay}>
         <View style={styles.header}>
-          <Text style={styles.title}>
+          <Text style={[styles.title, isTablet && styles.titleTablet]}>
             <Emoji>🗺️</Emoji> {t('adventure.title')}
           </Text>
           <Pressable onPress={onClose} style={styles.closeBtn}>
@@ -76,17 +94,31 @@ export function AdventureWorldsScreen({progress, onSelectWorld, onClose}: Props)
                 disabled={!isUnlocked}
                 style={[
                   styles.worldCard,
-                  {borderColor: accent},
+                  {width: cardWidth, borderColor: accent},
                   !isUnlocked && styles.worldCardLocked,
                 ]}>
-                <Text style={styles.worldCardEmoji}>
+                <Text
+                  style={[
+                    styles.worldCardEmoji,
+                    isTablet && styles.worldCardEmojiTablet,
+                  ]}>
                   <Emoji>{isUnlocked ? w.emoji : '🔒'}</Emoji>
                 </Text>
-                <Text style={styles.worldCardName} numberOfLines={2}>
+                <Text
+                  style={[
+                    styles.worldCardName,
+                    isTablet && styles.worldCardNameTablet,
+                  ]}
+                  numberOfLines={2}>
                   {t(w.nameKey)}
                 </Text>
                 {isUnlocked && (
-                  <Text style={[styles.worldCardStars, {color: accent}]}>
+                  <Text
+                    style={[
+                      styles.worldCardStars,
+                      isTablet && styles.worldCardStarsTablet,
+                      {color: accent},
+                    ]}>
                     ⭐ {stars}/{maxStars}
                   </Text>
                 )}
@@ -127,6 +159,7 @@ const styles = StyleSheet.create({
     textShadowOffset: {width: 0, height: 1},
     textShadowRadius: 3,
   },
+  titleTablet: {fontSize: 32},
   closeBtn: {
     width: 36,
     height: 36,
@@ -144,13 +177,14 @@ const styles = StyleSheet.create({
   worldsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
+    // flex-start, not space-between: the width is computed to fill the row
+    // exactly, so space-between would only stretch a short final row.
+    justifyContent: 'flex-start',
+    paddingHorizontal: GRID_PADDING,
     paddingBottom: 96,
-    gap: 12,
+    gap: GRID_GAP,
   },
   worldCard: {
-    width: '47%',
     aspectRatio: 1,
     borderRadius: 22,
     borderWidth: 3,
@@ -165,6 +199,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.05)',
   },
   worldCardEmoji: {fontSize: 56},
+  worldCardEmojiTablet: {fontSize: 72},
   worldCardName: {
     color: '#FFFFFF',
     fontSize: 16,
@@ -174,6 +209,8 @@ const styles = StyleSheet.create({
     textShadowOffset: {width: 0, height: 1},
     textShadowRadius: 2,
   },
+  worldCardNameTablet: {fontSize: 21},
+  worldCardStarsTablet: {fontSize: 18},
   worldCardStars: {
     fontSize: 14,
     fontWeight: '700',

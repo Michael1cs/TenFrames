@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Modal,
   ScrollView,
+  useWindowDimensions,
 } from 'react-native';
 import {Text} from '../common/AppText';
 import {FREDOKA_FAMILY} from '../../utils/fonts';
@@ -95,6 +96,14 @@ export function PlayerSetup({
     };
   }, [visible]);
 
+  // The card is capped at 420pt, which is most of a phone's width but barely
+  // 40% of a 13" iPad — the modal ended up as a narrow strip with the theme
+  // grid breaking 4 + 4 + 2 and leaving a ragged last row. Widen the card on
+  // tablets and switch to five columns, which divides the ten themes into two
+  // full rows exactly.
+  const {width, height} = useWindowDimensions();
+  const isTablet = Math.min(width, height) >= 600;
+
   const themeGradients: Record<Theme, string[]> = {
     space: ['#6366F1', '#8B5CF6'],
     forest: ['#22C55E', '#10B981'],
@@ -111,15 +120,17 @@ export function PlayerSetup({
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
-        <View style={styles.card}>
+        <View style={[styles.card, isTablet && styles.cardTablet]}>
           <ScrollView
             showsVerticalScrollIndicator={false}
             style={styles.scrollArea}
             contentContainerStyle={styles.scrollContent}>
             {!isSettings && (
-              <Text style={styles.titleMain}>Ten Frames</Text>
+              <Text style={[styles.titleMain, isTablet && styles.titleMainTablet]}>
+                Ten Frames
+              </Text>
             )}
-            <Text style={styles.title}>
+            <Text style={[styles.title, isTablet && styles.titleTablet]}>
               {isSettings ? (
                 <><Emoji>🎨</Emoji>{` ${t('setup.themeLabel')}`}</>
               ) : (
@@ -133,20 +144,26 @@ export function PlayerSetup({
             {!isSettings && (
               <>
                 <View style={styles.section}>
-                  <Text style={styles.label}>{t('setup.languageLabel')}</Text>
+                  <Text style={[styles.label, isTablet && styles.labelTablet]}>
+                    {t('setup.languageLabel')}
+                  </Text>
                   <View style={styles.languageRow}>
                     <LanguageSwitcher
                       language={language}
                       onLanguageChange={onLanguageChange}
+                      large={isTablet}
+                      onLight
                     />
                   </View>
                 </View>
               </>
             )}
 
-            <View style={styles.section}>
+            <View style={[styles.section, isTablet && styles.sectionTablet]}>
               {!isSettings && (
-                <Text style={styles.label}>{t('setup.themeLabel')}</Text>
+                <Text style={[styles.label, isTablet && styles.labelTablet]}>
+                  {t('setup.themeLabel')}
+                </Text>
               )}
               <View style={styles.themeGrid}>
                 {themes.map(themeConfig => {
@@ -163,6 +180,10 @@ export function PlayerSetup({
                       style={[
                         styles.themeButton,
                         isSettings && styles.themeButtonLarge,
+                        isTablet &&
+                          (isSettings
+                            ? styles.themeButtonLargeTablet
+                            : styles.themeButtonTablet),
                         {
                           backgroundColor: isSelected
                             ? gradientColor
@@ -172,13 +193,21 @@ export function PlayerSetup({
                             : '#E5E7EB',
                         },
                       ]}>
-                      <Emoji style={isSettings ? styles.themeEmojiLarge : styles.themeEmoji}>
+                      <Emoji
+                        style={[
+                          isSettings ? styles.themeEmojiLarge : styles.themeEmoji,
+                          isTablet &&
+                            (isSettings
+                              ? styles.themeEmojiLargeTablet
+                              : styles.themeEmojiTablet),
+                        ]}>
                         {themeConfig.selectorEmoji}
                       </Emoji>
                       <Text
                         style={[
                           styles.themeName,
                           isSettings && styles.themeNameLarge,
+                          isTablet && styles.themeNameTablet,
                           {color: isSelected ? '#FFFFFF' : '#374151'},
                         ]}>
                         {t(themeConfig.nameKey)} <Emoji>{themeConfig.emoji}</Emoji>
@@ -196,15 +225,39 @@ export function PlayerSetup({
             {isSettings ? (
               <Pressable
                 onPress={onComplete}
-                style={styles.closeSettingsBtn}>
-                <Text style={styles.closeSettingsText}>✕</Text>
+                style={[
+                  styles.closeSettingsBtn,
+                  isTablet && styles.closeSettingsBtnTablet,
+                ]}>
+                <Text
+                  style={[
+                    styles.closeSettingsText,
+                    isTablet && styles.closeSettingsTextTablet,
+                  ]}>
+                  ✕
+                </Text>
               </Pressable>
             ) : (
               <Animated.View style={pulseStyle}>
-                <Pressable onPress={onComplete} style={styles.startButton}>
+                <Pressable
+                  onPress={onComplete}
+                  style={[
+                    styles.startButton,
+                    isTablet && styles.startButtonTablet,
+                  ]}>
                   <View style={styles.startButtonContent}>
-                    <Text style={styles.startButtonIcon}><Emoji>▶️</Emoji></Text>
-                    <Text style={styles.startButtonText}>
+                    <Text
+                      style={[
+                        styles.startButtonIcon,
+                        isTablet && styles.startButtonIconTablet,
+                      ]}>
+                      <Emoji>▶️</Emoji>
+                    </Text>
+                    <Text
+                      style={[
+                        styles.startButtonText,
+                        isTablet && styles.startButtonTextTablet,
+                      ]}>
                       {t('setup.play')}
                     </Text>
                   </View>
@@ -237,6 +290,11 @@ const styles = StyleSheet.create({
     maxHeight: '88%',
     elevation: 10,
   },
+  cardTablet: {
+    maxWidth: 860,
+    paddingHorizontal: 48,
+    paddingTop: 44,
+  },
   scrollArea: {
     flexShrink: 1,
   },
@@ -256,6 +314,7 @@ const styles = StyleSheet.create({
     color: '#4F46E5',
     marginBottom: 4,
   },
+  titleMainTablet: {fontSize: 50, marginBottom: 10},
   title: {
     fontSize: 22,
     fontWeight: 'bold',
@@ -263,15 +322,18 @@ const styles = StyleSheet.create({
     marginBottom: 22,
     color: '#1F2937',
   },
+  titleTablet: {fontSize: 33, marginBottom: 34},
   section: {
     marginBottom: 18,
   },
+  sectionTablet: {marginBottom: 30},
   label: {
     fontSize: 16,
     fontWeight: '700',
     marginBottom: 10,
     color: '#374151',
   },
+  labelTablet: {fontSize: 24, marginBottom: 18},
   input: {
     fontFamily: FREDOKA_FAMILY,
     borderWidth: 1.5,
@@ -326,6 +388,17 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     alignItems: 'center',
   },
+  // Five across: the ten themes fill two rows with no orphans.
+  themeButtonTablet: {
+    width: '18%',
+    padding: 20,
+    borderRadius: 22,
+    borderWidth: 3,
+  },
+  themeButtonLargeTablet: {
+    width: '22%',
+    padding: 18,
+  },
   // Bigger theme cards in settings (theme-only) mode — kid-friendly tap target
   themeButtonLarge: {
     width: '30%',
@@ -336,6 +409,8 @@ const styles = StyleSheet.create({
     fontSize: 26,
     marginBottom: 4,
   },
+  themeEmojiTablet: {fontSize: 48, marginBottom: 10},
+  themeEmojiLargeTablet: {fontSize: 60, marginBottom: 12},
   themeEmojiLarge: {
     fontSize: 40,
     marginBottom: 8,
@@ -345,6 +420,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
   },
+  themeNameTablet: {fontSize: 19, fontWeight: '700'},
   themeNameLarge: {
     fontSize: 14,
     fontWeight: '700',
@@ -358,11 +434,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  closeSettingsBtnTablet: {width: 80, height: 80, borderRadius: 40},
   closeSettingsText: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#374151',
   },
+  closeSettingsTextTablet: {fontSize: 36},
   startButton: {
     backgroundColor: '#8B5CF6',
     paddingVertical: 18,
@@ -383,13 +461,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 12,
   },
+  startButtonTablet: {paddingVertical: 28, borderRadius: 24},
   startButtonIcon: {
     fontSize: 32,
   },
+  startButtonIconTablet: {fontSize: 44},
   startButtonText: {
     color: '#FFFFFF',
     fontSize: 20,
     fontWeight: '800',
     textAlign: 'center',
   },
+  startButtonTextTablet: {fontSize: 31},
 });

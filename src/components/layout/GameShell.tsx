@@ -1007,9 +1007,28 @@ function GameShellInner() {
       />
 
       <ShellCtx.Provider value={shell}>
-        <NavigationContainer ref={navigationRef}>
+        <NavigationContainer
+          ref={navigationRef}
+          // Restoring the last mode used to be done by making it the stack's
+          // initialRouteName, which left it as the ONLY entry in the stack.
+          // Every way back out of Adventure is a pop — the ✕ on the worlds and
+          // levels screens, the level screen's back arrow, the watchdog's
+          // StackActions.popToTop — and a pop with nothing beneath it is a
+          // silent no-op, so a returning child whose last mode was Adventure
+          // opened the app straight into the world list and could not leave it.
+          // Seed the stack with Home underneath instead: the restored screen is
+          // still what the child sees first, but now it has somewhere to go
+          // back to and every existing exit works unchanged.
+          initialState={
+            initialRoute === 'Home'
+              ? undefined
+              : {
+                  index: 1,
+                  routes: [{name: 'Home' as const}, {name: initialRoute}],
+                }
+          }>
           <Stack.Navigator
-            initialRouteName={initialRoute}
+            initialRouteName="Home"
             screenOptions={{
               headerShown: false,
               gestureEnabled: true,

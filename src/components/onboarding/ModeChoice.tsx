@@ -147,6 +147,19 @@ export function ModeChoice({
 
   const {width, height} = useWindowDimensions();
   const isLandscape = width > height;
+  // Everything on this screen was sized for a phone: a 360pt card column, a
+  // 22pt wordmark and 28pt brand cells. On a 13" iPad that column occupies a
+  // third of a 1032pt-wide screen and the whole composition collapses into a
+  // small island floating in the middle of the artwork. Scale the column, the
+  // type and the brand mark together so the screen keeps its proportions
+  // instead of just its pixel sizes.
+  const isTablet = Math.min(width, height) >= 600;
+  const miniCell = isTablet ? 40 : 28;
+  const miniGap = isTablet ? 6 : 4;
+  const miniPad = isTablet ? 8 : 6;
+  // 5 columns; each cell carries a 1.5pt border on both sides.
+  const miniFrameWidth =
+    5 * (miniCell + 3) + 4 * miniGap + miniPad * 2;
   const spaceBg = isLandscape
     ? require('../../../assets/backgrounds/space/space_landscape.jpg')
     : require('../../../assets/backgrounds/space/space_portrait.jpg');
@@ -206,7 +219,11 @@ export function ModeChoice({
               filled cells carry the space theme's rocket emoji, empties show
               a faint plus so the grid reads as "fillable" at a glance. */}
           <Animated.View entering={BounceIn.delay(100)} style={styles.brandWrap}>
-            <View style={styles.miniFrame}>
+            <View
+              style={[
+                styles.miniFrame,
+                {width: miniFrameWidth, padding: miniPad, gap: miniGap},
+              ]}>
               {Array.from({length: 10}).map((_, i) => {
                 const filled = i < 7;
                 return (
@@ -214,27 +231,42 @@ export function ModeChoice({
                     key={i}
                     style={[
                       styles.miniCell,
+                      {width: miniCell, height: miniCell},
                       filled ? styles.miniCellFilled : styles.miniCellEmpty,
                     ]}>
                     {filled ? (
-                      <Text style={styles.miniCellEmoji}>
+                      <Text
+                        style={[
+                          styles.miniCellEmoji,
+                          isTablet && styles.miniCellEmojiTablet,
+                        ]}>
                         <Emoji>🚀</Emoji>
                       </Text>
                     ) : (
-                      <Text style={styles.miniCellPlus}>+</Text>
+                      <Text
+                        style={[
+                          styles.miniCellPlus,
+                          isTablet && styles.miniCellPlusTablet,
+                        ]}>
+                        +
+                      </Text>
                     )}
                   </View>
                 );
               })}
             </View>
-            <Text style={styles.brandText}>TEN FRAMES</Text>
+            <Text style={[styles.brandText, isTablet && styles.brandTextTablet]}>
+              TEN FRAMES
+            </Text>
           </Animated.View>
 
-          <Animated.Text entering={BounceIn.delay(280)} style={styles.title}>
+          <Animated.Text
+            entering={BounceIn.delay(280)}
+            style={[styles.title, isTablet && styles.titleTablet]}>
             {t('modeChoice.title')}
           </Animated.Text>
 
-        <View style={styles.cardsColumn}>
+        <View style={[styles.cardsColumn, isTablet && styles.cardsColumnTablet]}>
           {/* Adventure Card */}
           <Animated.View entering={BounceIn.delay(400)} style={advStyle}>
             <Pressable
@@ -252,11 +284,17 @@ export function ModeChoice({
               <FloatingEmoji emoji="✨" style={styles.floatBR} />
 
               <View style={styles.cardContent}>
-                <View style={styles.adventureIcon}>
-                  <Text style={styles.bigEmoji}><Emoji>🗺️</Emoji></Text>
+                <View
+                  style={[
+                    styles.adventureIcon,
+                    isTablet && styles.modeIconTablet,
+                  ]}>
+                  <Text style={[styles.bigEmoji, isTablet && styles.bigEmojiTablet]}>
+                    <Emoji>🗺️</Emoji>
+                  </Text>
                 </View>
                 <View style={styles.cardText}>
-                  <Text style={styles.cardTitle}>
+                  <Text style={[styles.cardTitle, isTablet && styles.cardTitleTablet]}>
                     {t('modeChoice.adventureTitle')}
                   </Text>
                 </View>
@@ -284,11 +322,17 @@ export function ModeChoice({
                 activeCard === 'freeplay' && styles.cardHighlighted,
               ]}>
               <View style={styles.cardContent}>
-                <View style={styles.freeplayIcon}>
-                  <Text style={styles.bigEmoji}><Emoji>🎮</Emoji></Text>
+                <View
+                  style={[
+                    styles.freeplayIcon,
+                    isTablet && styles.modeIconTablet,
+                  ]}>
+                  <Text style={[styles.bigEmoji, isTablet && styles.bigEmojiTablet]}>
+                    <Emoji>🎮</Emoji>
+                  </Text>
                 </View>
                 <View style={styles.cardText}>
-                  <Text style={styles.cardTitle}>
+                  <Text style={[styles.cardTitle, isTablet && styles.cardTitleTablet]}>
                     {t('modeChoice.freeplayTitle')}
                   </Text>
                 </View>
@@ -402,18 +446,15 @@ const styles = StyleSheet.create({
     // padding on each side keeps everything on two rows.
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: 5 * 31 + 4 * 4 + 12,
-    padding: 6,
+    // width / padding / gap are supplied inline so the brand mark can grow
+    // on tablets; see miniFrameWidth in the component.
     backgroundColor: 'rgba(255,255,255,0.08)',
     borderRadius: 16,
     borderWidth: 1.5,
     borderColor: 'rgba(255,255,255,0.45)',
     justifyContent: 'center',
-    gap: 4,
   },
   miniCell: {
-    width: 28,
-    height: 28,
     borderRadius: 7,
     borderWidth: 1.5,
     alignItems: 'center',
@@ -434,6 +475,8 @@ const styles = StyleSheet.create({
   miniCellEmoji: {
     fontSize: 16,
   },
+  miniCellEmojiTablet: {fontSize: 24},
+  miniCellPlusTablet: {fontSize: 19},
   miniCellPlus: {
     color: '#A5B4FC',
     fontSize: 13,
@@ -448,6 +491,7 @@ const styles = StyleSheet.create({
     textShadowOffset: {width: 0, height: 2},
     textShadowRadius: 4,
   },
+  brandTextTablet: {fontSize: 34, letterSpacing: 7},
   title: {
     fontFamily: FREDOKA_FAMILY,
     fontSize: 24,
@@ -459,11 +503,13 @@ const styles = StyleSheet.create({
     textShadowOffset: {width: 0, height: 2},
     textShadowRadius: 4,
   },
+  titleTablet: {fontSize: 36, marginBottom: 34},
   cardsColumn: {
     gap: 16,
     width: '100%',
     maxWidth: 360,
   },
+  cardsColumnTablet: {maxWidth: 620, gap: 26},
   adventureCard: {
     borderRadius: 24,
     padding: 22,
@@ -525,6 +571,12 @@ const styles = StyleSheet.create({
   bigEmoji: {
     fontSize: 48,
   },
+  bigEmojiTablet: {fontSize: 64},
+  modeIconTablet: {
+    width: 116,
+    height: 116,
+    borderRadius: 58,
+  },
   cardText: {
     flex: 1,
   },
@@ -533,6 +585,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: '#1F2937',
   },
+  cardTitleTablet: {fontSize: 36},
   previewRow: {
     flexDirection: 'row',
     gap: 10,
