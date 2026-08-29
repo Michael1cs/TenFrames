@@ -118,7 +118,11 @@ export function PlayerSetup({
   };
 
   return (
-    <Modal visible={visible} transparent animationType="fade">
+    <Modal
+      visible={visible}
+      transparent
+      animationType="fade"
+      onRequestClose={onComplete}>
       <View style={styles.overlay}>
         <View style={[styles.card, isTablet && styles.cardTablet]}>
           <ScrollView

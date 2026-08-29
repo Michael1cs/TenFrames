@@ -8,6 +8,11 @@ const REWARDS_KEY = '@tenframes_rewards';
 const PREMIUM_KEY = '@tenframes_premium';
 const ADVENTURE_KEY = '@tenframes_adventure';
 
+const ALLOWED_LANGS = ['ro', 'en', 'de'] as const;
+type AllowedLang = typeof ALLOWED_LANGS[number];
+const isAllowedLang = (v: unknown): v is AllowedLang =>
+  typeof v === 'string' && (ALLOWED_LANGS as readonly string[]).includes(v);
+
 const defaultPlayerData: PlayerData = {
   name: '',
   theme: 'space',
@@ -38,8 +43,13 @@ export function usePersistence() {
       const data = await AsyncStorage.getItem(PLAYER_KEY);
       if (data) {
         const parsed = JSON.parse(data);
+        // Sanitize language: AsyncStorage could have a stale or unsupported
+        // value (e.g. carried over from a device-locale auto-detect that
+        // doesn't match our supported set). Falling through to a bad value
+        // causes downstream voice playback / i18n lookups to misbehave.
+        const language = isAllowedLang(parsed.language) ? parsed.language : 'en';
         // v1.6: app re-targeted at 4-6 age group — migrate older players to young.
-        return {...defaultPlayerData, ...parsed, ageGroup: 'young'};
+        return {...defaultPlayerData, ...parsed, language, ageGroup: 'young'};
       }
     } catch {
       // Return defaults on error
