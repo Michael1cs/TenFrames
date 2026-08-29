@@ -15242,22 +15242,6 @@
       "sha1": "ce8e51628b1c9d70b2f759b01e66c4aac1ecdf3f"
     },
     {
-      "path": "assets/fonts/Fredoka-Bold.ttf",
-      "sha1": "f7355ee56b4474e9ea73b468d8b347864ac39799"
-    },
-    {
-      "path": "assets/fonts/Fredoka-Medium.ttf",
-      "sha1": "a7efbc75247d434f1f6df96550423017561c8b70"
-    },
-    {
-      "path": "assets/fonts/Fredoka-Regular.ttf",
-      "sha1": "1241ff3b11c6998f5f2dd5301136e27631a32943"
-    },
-    {
-      "path": "assets/fonts/Fredoka-SemiBold.ttf",
-      "sha1": "b74aa2fdad08887d26896d5d3e1dbdca4be87ec1"
-    },
-    {
       "path": "assets/fonts/Fredoka.ttf",
       "sha1": "071c16b87b55f0ff4a2e5891a3a7647dd61a3635"
     }
