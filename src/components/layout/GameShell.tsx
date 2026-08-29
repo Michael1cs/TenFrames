@@ -47,7 +47,7 @@ import {usePremium} from '../../hooks/usePremium';
 import {useSound} from '../../hooks/useSound';
 import {useVoice, VOICE_GROUPS, setVoiceEnabled, clearPendingVoiceQueue} from '../../hooks/useVoice';
 import {useAgeProfile} from '../../hooks/useAgeProfile';
-import {useIAPConnection, withIAPContext} from '../../hooks/useIAP';
+import {useIAPConnection} from '../../hooks/useIAP';
 import {FREE_DAILY_LIMIT} from '../../config/limits';
 import {Language, GameMode, WorldId} from '../../types/game';
 import {ADVENTURE_WORLDS} from '../../config/adventureWorlds';
@@ -1169,4 +1169,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export const GameShell = withIAPContext(GameShellInner);
+// react-native-iap 15.x dropped withIAPContext — useIAP opens the store
+// connection itself on mount, from inside GameShellInner.
+export const GameShell = GameShellInner;

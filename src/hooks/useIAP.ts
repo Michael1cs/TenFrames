@@ -1,10 +1,11 @@
 import {useEffect, useCallback, useState} from 'react';
 import {
   useIAP as useIAPHook,
-  withIAPContext,
   getAvailablePurchases as iapGetAvailablePurchases,
+  ErrorCode,
   type Product,
   type Purchase,
+  type PurchaseError,
 } from 'react-native-iap';
 import {PREMIUM_PRODUCT_ID} from '../config/iap';
 
@@ -19,51 +20,64 @@ export interface IAPState {
   clearError: () => void;
 }
 
+// A purchase only counts as owned once Google reports it settled. A 'pending'
+// state means the payment is still being approved (cash payments, family
+// approval flows) — granting premium there would hand out the unlock for free.
+function isOwned(purchase: Purchase): boolean {
+  return (
+    purchase.productId === PREMIUM_PRODUCT_ID &&
+    purchase.purchaseState === 'purchased'
+  );
+}
+
 export function useIAPConnection(
   onPurchaseSuccess: () => void,
 ): IAPState {
   const [purchasing, setPurchasing] = useState(false);
   const [restoring, setRestoring] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [fetchRequested, setFetchRequested] = useState(false);
 
   const {
     connected,
     products,
-    getProducts,
-    currentPurchase,
-    currentPurchaseError,
+    fetchProducts,
     finishTransaction,
     requestPurchase: iapRequestPurchase,
-    getAvailablePurchases,
-    availablePurchases,
   } = useIAPHook({
     onPurchaseSuccess: async (purchase: Purchase) => {
-      // Acknowledge/finish the transaction
-      if (purchase.productId === PREMIUM_PRODUCT_ID) {
-        await finishTransaction({purchase, isConsumable: false});
-        setPurchasing(false);
-        onPurchaseSuccess();
+      if (!isOwned(purchase)) {
+        return;
       }
-    },
-    onPurchaseError: (err) => {
+      // Acknowledge the transaction — Google auto-refunds after 3 days otherwise.
+      await finishTransaction({purchase, isConsumable: false});
       setPurchasing(false);
-      if (err.code === 'E_USER_CANCELLED') {
+      onPurchaseSuccess();
+    },
+    onPurchaseError: (err: PurchaseError) => {
+      setPurchasing(false);
+      if (err.code === ErrorCode.UserCancelled) {
         return;
       }
       setError(err.message || 'Purchase failed');
     },
+    // Non-purchase errors (fetchProducts, connection). Silent on purpose: the
+    // store being unreachable should not throw an error at a 5-year-old.
+    onError: () => {},
   });
 
-  // Fetch products when connected
+  // Fetch the product once the store connects. Guarded because fetchProducts
+  // changes identity as hook state updates, which would otherwise re-fire this.
   useEffect(() => {
-    if (connected) {
-      getProducts({skus: [PREMIUM_PRODUCT_ID]});
+    if (!connected || fetchRequested) {
+      return;
     }
-  }, [connected, getProducts]);
+    setFetchRequested(true);
+    fetchProducts({skus: [PREMIUM_PRODUCT_ID], type: 'in-app'});
+  }, [connected, fetchRequested, fetchProducts]);
 
-  const product = products.find(
-    p => p.productId === PREMIUM_PRODUCT_ID,
-  ) || null;
+  // On Product the SKU is `id` (on Purchase it is `productId` — they differ).
+  const product = products.find(p => p.id === PREMIUM_PRODUCT_ID) || null;
 
   const requestPurchase = useCallback(async () => {
     if (!connected) {
@@ -73,10 +87,16 @@ export function useIAPConnection(
     setPurchasing(true);
     setError(null);
     try {
-      await iapRequestPurchase({sku: PREMIUM_PRODUCT_ID});
+      await iapRequestPurchase({
+        type: 'in-app',
+        request: {
+          google: {skus: [PREMIUM_PRODUCT_ID]},
+          apple: {sku: PREMIUM_PRODUCT_ID},
+        },
+      });
     } catch (err: any) {
       setPurchasing(false);
-      if (err?.code !== 'E_USER_CANCELLED') {
+      if (err?.code !== ErrorCode.UserCancelled) {
         setError(err?.message || 'Purchase failed');
       }
     }
@@ -90,11 +110,10 @@ export function useIAPConnection(
     setRestoring(true);
     setError(null);
     try {
+      // The hook's getAvailablePurchases returns void and fills hook state; the
+      // standalone export returns the array, which is what this flow needs.
       const purchases = await iapGetAvailablePurchases();
-      const hasPremium = purchases.some(
-        (p: Purchase) => p.productId === PREMIUM_PRODUCT_ID,
-      );
-      if (hasPremium) {
+      if (purchases.some(isOwned)) {
         onPurchaseSuccess();
       } else {
         setError('no_previous_purchase');
@@ -121,6 +140,3 @@ export function useIAPConnection(
     clearError,
   };
 }
-
-// Re-export withIAPContext for wrapping the root component
-export {withIAPContext};

@@ -78,7 +78,7 @@ export function UpgradeScreen({
   ];
 
   // Use localized price from store, fallback to $4.99
-  const displayPrice = product?.localizedPrice || '$4.99';
+  const displayPrice = product?.displayPrice || '$4.99';
   const isLoading = purchasing || restoring;
 
   const getErrorMessage = (err: string): string => {
