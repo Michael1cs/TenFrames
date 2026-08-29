@@ -11,6 +11,8 @@ export interface VoiceEntry {
   id: string;
   ro: string;
   en: string;
+  // Added with the German voice library; every one of the 1275 entries has it.
+  de: string;
   // Optional ElevenLabs voice override per entry; otherwise default per language.
   voiceId?: string;
 }

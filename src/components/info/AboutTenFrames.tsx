@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Pressable, ScrollView, Modal} from 'react-native';
+import {View, StyleSheet, Pressable, ScrollView, Modal} from 'react-native';
+import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {Language, ThemeColors} from '../../types/game';
 import {Emoji} from '../common/Emoji';
 import {LanguageSwitcher} from '../layout/LanguageSwitcher';
+import {IS_SCHOOL_EDITION} from '../../config/edition';
 
 interface AboutTenFramesProps {
   visible: boolean;
@@ -76,7 +78,8 @@ export function AboutTenFrames({
                   styles.tabText,
                   tab === 'parents' && styles.tabTextActive,
                 ]}>
-                <Emoji>👨‍👩‍👧</Emoji> {t('info.tabParents')}
+                <Emoji>{IS_SCHOOL_EDITION ? '👩‍🏫' : '👨‍👩‍👧'}</Emoji>{' '}
+                {IS_SCHOOL_EDITION ? t('info.tabTeachers') : t('info.tabParents')}
               </Text>
             </Pressable>
           </View>
@@ -158,6 +161,52 @@ export function AboutTenFrames({
               </>
             ) : (
               <>
+                {/* School Edition only: the things a teacher needs to know
+                    before putting this on a class set, and which no consumer
+                    parent cares about. Deliberately includes the shared-device
+                    limitation — one progress record per iPad — because a
+                    teacher who finds that out mid-lesson is a teacher who
+                    stops using the app. */}
+                {IS_SCHOOL_EDITION && (
+                  <>
+                    <View style={styles.section}>
+                      <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+                        <Emoji>🏫</Emoji> {t('info.teachers.covers')}
+                      </Text>
+                      <Text style={[styles.sectionText, {color: colors.text}]}>
+                        {t('info.teachers.coversDesc')}
+                      </Text>
+                    </View>
+
+                    <View style={styles.section}>
+                      <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+                        <Emoji>🔒</Emoji> {t('info.teachers.privacy')}
+                      </Text>
+                      <Text style={[styles.sectionText, {color: colors.text}]}>
+                        {t('info.teachers.privacyDesc')}
+                      </Text>
+                    </View>
+
+                    <View style={styles.section}>
+                      <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+                        <Emoji>📱</Emoji> {t('info.teachers.devices')}
+                      </Text>
+                      <Text style={[styles.sectionText, {color: colors.text}]}>
+                        {t('info.teachers.devicesDesc')}
+                      </Text>
+                    </View>
+
+                    <View style={styles.section}>
+                      <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+                        <Emoji>⏱️</Emoji> {t('info.teachers.session')}
+                      </Text>
+                      <Text style={[styles.sectionText, {color: colors.text}]}>
+                        {t('info.teachers.sessionDesc')}
+                      </Text>
+                    </View>
+                  </>
+                )}
+
                 {/* Progress dashboard entry — gated by ParentalGate inside
                     the dashboard so the child can't peek. */}
                 {onOpenProgress && (
@@ -254,6 +303,26 @@ export function AboutTenFrames({
                   </Text>
                   <Text style={[styles.sectionText, {color: colors.text}]}>
                     {t('info.parents.researchDesc')}
+                  </Text>
+                </View>
+
+                {/* Contact. Plain selectable text, deliberately NOT a mailto
+                    link: the app has no links out of it at all, which is a
+                    real selling point to a school's IT and the one thing that
+                    would need a parental gate the day this enters the Kids
+                    Category. A managed classroom iPad also often has no Mail
+                    account, so a link would open nothing. Long-press copies. */}
+                <View style={styles.section}>
+                  <Text style={[styles.sectionTitle, {color: colors.accent}]}>
+                    <Emoji>✉️</Emoji> {t('info.contact.title')}
+                  </Text>
+                  <Text style={[styles.sectionText, {color: colors.text}]}>
+                    {t('info.contact.desc')}
+                  </Text>
+                  <Text
+                    selectable
+                    style={[styles.contactAddress, {color: colors.accent}]}>
+                    contact@cleodalabs.com
                   </Text>
                 </View>
               </>
@@ -388,6 +457,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 22,
     color: '#E5E7EB',
+  },
+  contactAddress: {
+    fontSize: 16,
+    fontWeight: '700',
+    marginTop: 8,
+    letterSpacing: 0.2,
   },
   kidsText: {
     fontSize: 17,

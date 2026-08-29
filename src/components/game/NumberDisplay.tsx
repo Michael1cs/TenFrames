@@ -1,5 +1,6 @@
 import React from 'react';
-import {Text, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
+import {Text} from '../common/AppText';
 import {Emoji} from '../common/Emoji';
 import Animated, {
   useAnimatedStyle,

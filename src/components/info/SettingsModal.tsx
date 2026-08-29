@@ -2,14 +2,15 @@ import React from 'react';
 import {
   Modal,
   View,
-  Text,
   Pressable,
   StyleSheet,
   Switch,
   ScrollView,
 } from 'react-native';
+import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {Emoji} from '../common/Emoji';
+import {IS_SCHOOL_EDITION} from '../../config/edition';
 
 interface Props {
   visible: boolean;
@@ -69,7 +70,11 @@ export function SettingsModal({
           {/* Premium row — tapping always opens the upgrade screen so the
               purchase UI stays discoverable (handy in dev when isPremium is
               forced true). When premium is already active, the row shows a
-              status badge but still lets the parent peek at the screen. */}
+              status badge but still lets the parent peek at the screen.
+              Hidden entirely in the School Edition: on a managed classroom
+              device there is nothing to buy and no parent to buy it, and a
+              paid institutional app must not show purchase language. */}
+          {!IS_SCHOOL_EDITION && (
           <Pressable onPress={onUpgrade} style={styles.premiumCard}>
             <Text style={styles.premiumEmoji}>
               <Emoji>{isPremium ? '✅' : '👑'}</Emoji>
@@ -88,6 +93,28 @@ export function SettingsModal({
             </View>
             <Text style={styles.chevron}>›</Text>
           </Pressable>
+          )}
+
+          {/* Same slot, School Edition. Not an advert and not a purchase —
+              it answers "which edition is on this iPad?", which is the first
+              question in any support conversation with a school, and tells
+              the teacher plainly that nothing is locked or metered. Deliberately
+              not a Pressable: there is nowhere for it to go. */}
+          {IS_SCHOOL_EDITION && (
+            <View style={styles.premiumCard}>
+              <Text style={styles.premiumEmoji}>
+                <Emoji>🏫</Emoji>
+              </Text>
+              <View style={styles.premiumText}>
+                <Text style={styles.premiumTitle}>
+                  {t('settings.schoolEdition')}
+                </Text>
+                <Text style={styles.premiumSub}>
+                  {t('settings.schoolEditionSub')}
+                </Text>
+              </View>
+            </View>
+          )}
 
           {/* About link */}
           <Pressable

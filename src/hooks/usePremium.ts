@@ -1,6 +1,7 @@
 import {useState, useCallback} from 'react';
 import {GameMode, DailyUsage, PremiumData} from '../types/game';
 import {FREE_DAILY_LIMIT, LIMITED_MODES} from '../config/limits';
+import {IS_SCHOOL_EDITION} from '../config/edition';
 
 const getToday = (): string => {
   const d = new Date();
@@ -13,11 +14,20 @@ const freshDailyUsage = (): DailyUsage => ({
 });
 
 export function usePremium() {
-  const [isPremium, setIsPremium] = useState(__DEV__ ? true : false);
+  // The School Edition is premium by construction — the institution paid for
+  // the app itself, so there is nothing left to unlock, meter, or sell.
+  const [isPremium, setIsPremium] = useState(
+    IS_SCHOOL_EDITION || __DEV__ ? true : false,
+  );
   const [purchaseDate, setPurchaseDate] = useState<string | undefined>();
   const [dailyUsage, setDailyUsage] = useState<DailyUsage>(freshDailyUsage());
 
   const loadPremiumData = useCallback((data: PremiumData) => {
+    if (IS_SCHOOL_EDITION) {
+      // Never let persisted consumer-shaped data (isPremium: false from the
+      // defaults) un-premium a school device on boot.
+      return;
+    }
     setIsPremium(data.isPremium);
     setPurchaseDate(data.purchaseDate);
     // Reset counts if stored date is not today

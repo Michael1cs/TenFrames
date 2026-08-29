@@ -1,6 +1,7 @@
 import {AdventureWorld, AdventureProgress} from '../types/game';
 
-// v1.6 Adventure: 7 lumi cu progresie completa = 68 niveluri totale.
+// v1.6.2 Adventure: 9 lumi cu progresie completa = 78 niveluri totale.
+// (High Five! adaugata ca lumea 2 — structura de cinci precede aritmetica.)
 // Pentru 4-6 ani, mai multe niveluri = retention mai bun + justifica
 // pretul premium fata de o aplicatie cu doar 30 niveluri.
 //
@@ -42,6 +43,37 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
       {id: 'cm-bonus-b', worldId: 'counting-meadow', order: 10, nameKey: 'adventure.levels.cmBonusB', emoji: '🏆', isBonus: true, gameMode: 'counting', modeLevel: 10, problemCount: 5, unlockCondition: unlockStars('counting-meadow', 20)},
     ],
   },
+  // === World 2: High Five! ===
+  // Seventy-two levels and not one taught the five-structure explicitly, even
+  // though the 2x5 grid IS a five-structure. Two counting levels establish
+  // that a full top row is five without recounting; six addition levels count
+  // on from it ("five and three more is eight"). Placed second, not ninth: the
+  // five-structure precedes arithmetic rather than following it.
+  // Voice cost zero — star/moon/comet/galaxy/trophy all have complete
+  // have_*, add_more_* and post_great_* coverage. The kpop backgrounds are
+  // already bundled and were used by no world.
+  {
+    id: 'high-five',
+    nameKey: 'adventure.worlds.highFive',
+    emoji: '🖐️',
+    theme: 'kpop',
+    freeLevels: 3,
+    levels: [
+      {id: 'hf-1', worldId: 'high-five', order: 1, nameKey: 'adventure.levels.hf1', emoji: '⭐', isBonus: false, gameMode: 'counting', modeLevel: 11, problemCount: 5, unlockCondition: {type: 'first'}},
+      {id: 'hf-2', worldId: 'high-five', order: 2, nameKey: 'adventure.levels.hf2', emoji: '🌙', isBonus: false, gameMode: 'counting', modeLevel: 12, problemCount: 5, unlockCondition: unlockPrev('hf-1')},
+      {id: 'hf-3', worldId: 'high-five', order: 3, nameKey: 'adventure.levels.hf3', emoji: '⭐', isBonus: false, gameMode: 'addition', modeLevel: 30, problemCount: 5, unlockCondition: unlockPrev('hf-2')},
+      {id: 'hf-4', worldId: 'high-five', order: 4, nameKey: 'adventure.levels.hf4', emoji: '🌙', isBonus: false, gameMode: 'addition', modeLevel: 31, problemCount: 5, unlockCondition: unlockPrev('hf-3')},
+      {id: 'hf-5', worldId: 'high-five', order: 5, nameKey: 'adventure.levels.hf5', emoji: '☄️', isBonus: false, gameMode: 'addition', modeLevel: 32, problemCount: 5, unlockCondition: unlockPrev('hf-4')},
+      {id: 'hf-6', worldId: 'high-five', order: 6, nameKey: 'adventure.levels.hf6', emoji: '🌌', isBonus: false, gameMode: 'addition', modeLevel: 33, problemCount: 5, unlockCondition: unlockPrev('hf-5')},
+      {id: 'hf-7', worldId: 'high-five', order: 7, nameKey: 'adventure.levels.hf7', emoji: '⭐', isBonus: false, gameMode: 'addition', modeLevel: 34, problemCount: 5, unlockCondition: unlockPrev('hf-6')},
+      {id: 'hf-8', worldId: 'high-five', order: 8, nameKey: 'adventure.levels.hf8', emoji: '☄️', isBonus: false, gameMode: 'addition', modeLevel: 35, problemCount: 5, unlockCondition: unlockPrev('hf-7')},
+      // Boss A: every way to make five. Uniform starts 0..4, so five problems
+      // is exactly the complete set {0+5, 1+4, 2+3, 3+2, 4+1}.
+      {id: 'hf-bonus-a', worldId: 'high-five', order: 9, nameKey: 'adventure.levels.hfBonusA', emoji: '⭐', isBonus: true, gameMode: 'puzzle', modeLevel: 0, puzzleTarget: 5, problemCount: 5, unlockCondition: unlockStars('high-five', 15)},
+      // Boss B: the world's whole fact family, once each, on a new stage.
+      {id: 'hf-bonus-b', worldId: 'high-five', order: 10, nameKey: 'adventure.levels.hfBonusB', emoji: '🏆', isBonus: true, gameMode: 'addition', modeLevel: 35, problemCount: 5, theme: 'monsters', unlockCondition: unlockStars('high-five', 20)},
+    ],
+  },
 
   // === World 2: Addition Island ===
   {
@@ -56,13 +88,13 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
       {id: 'ai-3', worldId: 'addition-island', order: 3, nameKey: 'adventure.levels.ai3', emoji: '🦀', isBonus: false, gameMode: 'addition', modeLevel: 3, problemCount: 5, unlockCondition: unlockPrev('ai-2')},
       {id: 'ai-4', worldId: 'addition-island', order: 4, nameKey: 'adventure.levels.ai4', emoji: '🐠', isBonus: false, gameMode: 'addition', modeLevel: 4, problemCount: 5, unlockCondition: unlockPrev('ai-3')},
       {id: 'ai-5', worldId: 'addition-island', order: 5, nameKey: 'adventure.levels.ai5', emoji: '🐙', isBonus: false, gameMode: 'addition', modeLevel: 5, problemCount: 5, unlockCondition: unlockPrev('ai-4')},
-      {id: 'ai-6', worldId: 'addition-island', order: 6, nameKey: 'adventure.levels.ai6', emoji: '🦞', isBonus: false, gameMode: 'addition', modeLevel: 6, problemCount: 5, unlockCondition: unlockPrev('ai-5')},
-      {id: 'ai-7', worldId: 'addition-island', order: 7, nameKey: 'adventure.levels.ai7', emoji: '🐬', isBonus: false, gameMode: 'addition', modeLevel: 7, problemCount: 5, unlockCondition: unlockPrev('ai-6')},
-      {id: 'ai-8', worldId: 'addition-island', order: 8, nameKey: 'adventure.levels.ai8', emoji: '🐳', isBonus: false, gameMode: 'addition', modeLevel: 8, problemCount: 5, unlockCondition: unlockPrev('ai-7')},
-      {id: 'ai-9', worldId: 'addition-island', order: 9, nameKey: 'adventure.levels.ai9', emoji: '🦑', isBonus: false, gameMode: 'addition', modeLevel: 9, problemCount: 5, unlockCondition: unlockPrev('ai-8')},
-      {id: 'ai-10', worldId: 'addition-island', order: 10, nameKey: 'adventure.levels.ai10', emoji: '🏝️', isBonus: false, gameMode: 'addition', modeLevel: 10, problemCount: 5, unlockCondition: unlockPrev('ai-9')},
-      {id: 'ai-bonus-a', worldId: 'addition-island', order: 11, nameKey: 'adventure.levels.aiBonusA', emoji: '⭐', isBonus: true, gameMode: 'addition', modeLevel: 10, problemCount: 5, unlockCondition: unlockStars('addition-island', 20)},
-      {id: 'ai-bonus-b', worldId: 'addition-island', order: 12, nameKey: 'adventure.levels.aiBonusB', emoji: '🏆', isBonus: true, gameMode: 'addition', modeLevel: 11, problemCount: 5, unlockCondition: unlockStars('addition-island', 25)},
+      {id: 'ai-6', worldId: 'addition-island', order: 6, nameKey: 'adventure.levels.ai6', emoji: '🦞', isBonus: false, gameMode: 'addition', modeLevel: 12, problemCount: 5, unlockCondition: unlockPrev('ai-5')},
+      {id: 'ai-7', worldId: 'addition-island', order: 7, nameKey: 'adventure.levels.ai7', emoji: '🐬', isBonus: false, gameMode: 'addition', modeLevel: 13, problemCount: 5, unlockCondition: unlockPrev('ai-6')},
+      {id: 'ai-8', worldId: 'addition-island', order: 8, nameKey: 'adventure.levels.ai8', emoji: '🐳', isBonus: false, gameMode: 'addition', modeLevel: 14, problemCount: 5, unlockCondition: unlockPrev('ai-7')},
+      {id: 'ai-9', worldId: 'addition-island', order: 9, nameKey: 'adventure.levels.ai9', emoji: '🦑', isBonus: false, gameMode: 'addition', modeLevel: 15, problemCount: 5, unlockCondition: unlockPrev('ai-8')},
+      {id: 'ai-10', worldId: 'addition-island', order: 10, nameKey: 'adventure.levels.ai10', emoji: '🏝️', isBonus: false, gameMode: 'addition', modeLevel: 16, problemCount: 5, unlockCondition: unlockPrev('ai-9')},
+      {id: 'ai-bonus-a', worldId: 'addition-island', order: 11, nameKey: 'adventure.levels.aiBonusA', emoji: '⭐', isBonus: true, gameMode: 'addition', modeLevel: 17, problemCount: 5, unlockCondition: unlockStars('addition-island', 20)},
+      {id: 'ai-bonus-b', worldId: 'addition-island', order: 12, nameKey: 'adventure.levels.aiBonusB', emoji: '🏆', isBonus: true, gameMode: 'addition', modeLevel: 18, problemCount: 5, unlockCondition: unlockStars('addition-island', 25)},
     ],
   },
 
@@ -79,13 +111,13 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
       {id: 'sm-3', worldId: 'subtraction-mountain', order: 3, nameKey: 'adventure.levels.sm3', emoji: '🪐', isBonus: false, gameMode: 'subtraction', modeLevel: 3, problemCount: 5, unlockCondition: unlockPrev('sm-2')},
       {id: 'sm-4', worldId: 'subtraction-mountain', order: 4, nameKey: 'adventure.levels.sm4', emoji: '☄️', isBonus: false, gameMode: 'subtraction', modeLevel: 4, problemCount: 5, unlockCondition: unlockPrev('sm-3')},
       {id: 'sm-5', worldId: 'subtraction-mountain', order: 5, nameKey: 'adventure.levels.sm5', emoji: '🛸', isBonus: false, gameMode: 'subtraction', modeLevel: 5, problemCount: 5, unlockCondition: unlockPrev('sm-4')},
-      {id: 'sm-6', worldId: 'subtraction-mountain', order: 6, nameKey: 'adventure.levels.sm6', emoji: '🌍', isBonus: false, gameMode: 'subtraction', modeLevel: 6, problemCount: 5, unlockCondition: unlockPrev('sm-5')},
-      {id: 'sm-7', worldId: 'subtraction-mountain', order: 7, nameKey: 'adventure.levels.sm7', emoji: '👽', isBonus: false, gameMode: 'subtraction', modeLevel: 7, problemCount: 5, unlockCondition: unlockPrev('sm-6')},
-      {id: 'sm-8', worldId: 'subtraction-mountain', order: 8, nameKey: 'adventure.levels.sm8', emoji: '🔭', isBonus: false, gameMode: 'subtraction', modeLevel: 8, problemCount: 5, unlockCondition: unlockPrev('sm-7')},
-      {id: 'sm-9', worldId: 'subtraction-mountain', order: 9, nameKey: 'adventure.levels.sm9', emoji: '🌌', isBonus: false, gameMode: 'subtraction', modeLevel: 9, problemCount: 5, unlockCondition: unlockPrev('sm-8')},
-      {id: 'sm-10', worldId: 'subtraction-mountain', order: 10, nameKey: 'adventure.levels.sm10', emoji: '🌠', isBonus: false, gameMode: 'subtraction', modeLevel: 10, problemCount: 5, unlockCondition: unlockPrev('sm-9')},
-      {id: 'sm-bonus-a', worldId: 'subtraction-mountain', order: 11, nameKey: 'adventure.levels.smBonusA', emoji: '⭐', isBonus: true, gameMode: 'subtraction', modeLevel: 10, problemCount: 5, unlockCondition: unlockStars('subtraction-mountain', 20)},
-      {id: 'sm-bonus-b', worldId: 'subtraction-mountain', order: 12, nameKey: 'adventure.levels.smBonusB', emoji: '🏆', isBonus: true, gameMode: 'subtraction', modeLevel: 11, problemCount: 5, unlockCondition: unlockStars('subtraction-mountain', 25)},
+      {id: 'sm-6', worldId: 'subtraction-mountain', order: 6, nameKey: 'adventure.levels.sm6', emoji: '🌍', isBonus: false, gameMode: 'subtraction', modeLevel: 12, problemCount: 5, unlockCondition: unlockPrev('sm-5')},
+      {id: 'sm-7', worldId: 'subtraction-mountain', order: 7, nameKey: 'adventure.levels.sm7', emoji: '👽', isBonus: false, gameMode: 'subtraction', modeLevel: 13, problemCount: 5, unlockCondition: unlockPrev('sm-6')},
+      {id: 'sm-8', worldId: 'subtraction-mountain', order: 8, nameKey: 'adventure.levels.sm8', emoji: '🔭', isBonus: false, gameMode: 'subtraction', modeLevel: 14, problemCount: 5, unlockCondition: unlockPrev('sm-7')},
+      {id: 'sm-9', worldId: 'subtraction-mountain', order: 9, nameKey: 'adventure.levels.sm9', emoji: '🌌', isBonus: false, gameMode: 'subtraction', modeLevel: 15, problemCount: 5, unlockCondition: unlockPrev('sm-8')},
+      {id: 'sm-10', worldId: 'subtraction-mountain', order: 10, nameKey: 'adventure.levels.sm10', emoji: '🌠', isBonus: false, gameMode: 'subtraction', modeLevel: 16, problemCount: 5, unlockCondition: unlockPrev('sm-9')},
+      {id: 'sm-bonus-a', worldId: 'subtraction-mountain', order: 11, nameKey: 'adventure.levels.smBonusA', emoji: '⭐', isBonus: true, gameMode: 'subtraction', modeLevel: 17, problemCount: 5, unlockCondition: unlockStars('subtraction-mountain', 20)},
+      {id: 'sm-bonus-b', worldId: 'subtraction-mountain', order: 12, nameKey: 'adventure.levels.smBonusB', emoji: '🏆', isBonus: true, gameMode: 'subtraction', modeLevel: 18, problemCount: 5, unlockCondition: unlockStars('subtraction-mountain', 25)},
     ],
   },
 
@@ -98,14 +130,14 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     theme: 'candy',
     freeLevels: 3,
     levels: [
-      {id: 'mtb-1', worldId: 'make-ten-beach', order: 1, nameKey: 'adventure.levels.mtb1', emoji: '🍬', isBonus: false, gameMode: 'puzzle', modeLevel: 1, problemCount: 5, unlockCondition: {type: 'first'}},
-      {id: 'mtb-2', worldId: 'make-ten-beach', order: 2, nameKey: 'adventure.levels.mtb2', emoji: '🍭', isBonus: false, gameMode: 'puzzle', modeLevel: 3, problemCount: 5, unlockCondition: unlockPrev('mtb-1')},
+      {id: 'mtb-1', worldId: 'make-ten-beach', order: 1, nameKey: 'adventure.levels.mtb1', emoji: '🍬', isBonus: false, gameMode: 'puzzle', modeLevel: 9, problemCount: 5, unlockCondition: {type: 'first'}},
+      {id: 'mtb-2', worldId: 'make-ten-beach', order: 2, nameKey: 'adventure.levels.mtb2', emoji: '🍭', isBonus: false, gameMode: 'puzzle', modeLevel: 7, problemCount: 5, unlockCondition: unlockPrev('mtb-1')},
       {id: 'mtb-3', worldId: 'make-ten-beach', order: 3, nameKey: 'adventure.levels.mtb3', emoji: '🧁', isBonus: false, gameMode: 'puzzle', modeLevel: 5, problemCount: 5, unlockCondition: unlockPrev('mtb-2')},
-      {id: 'mtb-4', worldId: 'make-ten-beach', order: 4, nameKey: 'adventure.levels.mtb4', emoji: '🍩', isBonus: false, gameMode: 'puzzle', modeLevel: 7, problemCount: 5, unlockCondition: unlockPrev('mtb-3')},
-      {id: 'mtb-5', worldId: 'make-ten-beach', order: 5, nameKey: 'adventure.levels.mtb5', emoji: '🍫', isBonus: false, gameMode: 'puzzle', modeLevel: 9, problemCount: 5, unlockCondition: unlockPrev('mtb-4')},
+      {id: 'mtb-4', worldId: 'make-ten-beach', order: 4, nameKey: 'adventure.levels.mtb4', emoji: '🍩', isBonus: false, gameMode: 'puzzle', modeLevel: 3, problemCount: 5, unlockCondition: unlockPrev('mtb-3')},
+      {id: 'mtb-5', worldId: 'make-ten-beach', order: 5, nameKey: 'adventure.levels.mtb5', emoji: '🍫', isBonus: false, gameMode: 'puzzle', modeLevel: 1, problemCount: 5, unlockCondition: unlockPrev('mtb-4')},
       {id: 'mtb-6', worldId: 'make-ten-beach', order: 6, nameKey: 'adventure.levels.mtb6', emoji: '🍦', isBonus: false, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, unlockCondition: unlockPrev('mtb-5')},
-      {id: 'mtb-bonus-a', worldId: 'make-ten-beach', order: 7, nameKey: 'adventure.levels.mtbBonusA', emoji: '⭐', isBonus: true, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, unlockCondition: unlockStars('make-ten-beach', 12)},
-      {id: 'mtb-bonus-b', worldId: 'make-ten-beach', order: 8, nameKey: 'adventure.levels.mtbBonusB', emoji: '🏆', isBonus: true, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, unlockCondition: unlockStars('make-ten-beach', 16)},
+      {id: 'mtb-bonus-a', worldId: 'make-ten-beach', order: 7, nameKey: 'adventure.levels.mtbBonusA', emoji: '⭐', isBonus: true, gameMode: 'puzzle', modeLevel: 2, problemCount: 5, unlockCondition: unlockStars('make-ten-beach', 12)},
+      {id: 'mtb-bonus-b', worldId: 'make-ten-beach', order: 8, nameKey: 'adventure.levels.mtbBonusB', emoji: '🏆', isBonus: true, gameMode: 'puzzle', modeLevel: 0, puzzleTarget: 'mixed', problemCount: 5, unlockCondition: unlockStars('make-ten-beach', 16)},
     ],
   },
 
@@ -127,7 +159,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
       {id: 'mt-5', worldId: 'mixed-targets', order: 5, nameKey: 'adventure.levels.mt5', emoji: '💊', isBonus: false, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, puzzleTarget: 8, unlockCondition: unlockPrev('mt-4')},
       {id: 'mt-6', worldId: 'mixed-targets', order: 6, nameKey: 'adventure.levels.mt6', emoji: '🥽', isBonus: false, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, puzzleTarget: 9, unlockCondition: unlockPrev('mt-5')},
       {id: 'mt-bonus-a', worldId: 'mixed-targets', order: 7, nameKey: 'adventure.levels.mtBonusA', emoji: '⭐', isBonus: true, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, puzzleTarget: 'mixed', unlockCondition: unlockStars('mixed-targets', 12)},
-      {id: 'mt-bonus-b', worldId: 'mixed-targets', order: 8, nameKey: 'adventure.levels.mtBonusB', emoji: '🏆', isBonus: true, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, puzzleTarget: 'mixed', unlockCondition: unlockStars('mixed-targets', 16)},
+      {id: 'mt-bonus-b', worldId: 'mixed-targets', order: 8, nameKey: 'adventure.levels.mtBonusB', emoji: '🏆', isBonus: true, gameMode: 'puzzle', modeLevel: 8, problemCount: 5, puzzleTarget: 'mixed', unlockCondition: unlockStars('mixed-targets', 16)},
     ],
   },
 
@@ -146,7 +178,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
       {id: 'dc-4', worldId: 'doubles-castle', order: 4, nameKey: 'adventure.levels.dc4', emoji: '👑', isBonus: false, gameMode: 'addition', modeLevel: 24, problemCount: 5, unlockCondition: unlockPrev('dc-3')},
       {id: 'dc-5', worldId: 'doubles-castle', order: 5, nameKey: 'adventure.levels.dc5', emoji: '💎', isBonus: false, gameMode: 'addition', modeLevel: 25, problemCount: 5, unlockCondition: unlockPrev('dc-4')},
       {id: 'dc-bonus-a', worldId: 'doubles-castle', order: 6, nameKey: 'adventure.levels.dcBonusA', emoji: '⭐', isBonus: true, gameMode: 'addition', modeLevel: 20, problemCount: 5, unlockCondition: unlockStars('doubles-castle', 10)},
-      {id: 'dc-bonus-b', worldId: 'doubles-castle', order: 7, nameKey: 'adventure.levels.dcBonusB', emoji: '🏆', isBonus: true, gameMode: 'addition', modeLevel: 20, problemCount: 5, unlockCondition: unlockStars('doubles-castle', 15)},
+      {id: 'dc-bonus-b', worldId: 'doubles-castle', order: 7, nameKey: 'adventure.levels.dcBonusB', emoji: '🏆', isBonus: true, gameMode: 'addition', modeLevel: 26, problemCount: 5, unlockCondition: unlockStars('doubles-castle', 15)},
     ],
   },
 
@@ -165,7 +197,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
       {id: 'mg-4', worldId: 'memory-garden', order: 4, nameKey: 'adventure.levels.mg4', emoji: '🐰', isBonus: false, gameMode: 'memory', modeLevel: 4, problemCount: 5, unlockCondition: unlockPrev('mg-3'), theme: 'farm'},
       {id: 'mg-5', worldId: 'memory-garden', order: 5, nameKey: 'adventure.levels.mg5', emoji: '🍬', isBonus: false, gameMode: 'memory', modeLevel: 5, problemCount: 5, unlockCondition: unlockPrev('mg-4'), theme: 'candy'},
       {id: 'mg-bonus-a', worldId: 'memory-garden', order: 6, nameKey: 'adventure.levels.mgBonusA', emoji: '🦄', isBonus: true, gameMode: 'memory', modeLevel: 6, problemCount: 5, unlockCondition: unlockStars('memory-garden', 12), theme: 'unicorn'},
-      {id: 'mg-bonus-b', worldId: 'memory-garden', order: 7, nameKey: 'adventure.levels.mgBonusB', emoji: '👾', isBonus: true, gameMode: 'memory', modeLevel: 6, problemCount: 5, unlockCondition: unlockStars('memory-garden', 18), theme: 'pixel'},
+      {id: 'mg-bonus-b', worldId: 'memory-garden', order: 7, nameKey: 'adventure.levels.mgBonusB', emoji: '👾', isBonus: true, gameMode: 'memory', modeLevel: 7, problemCount: 5, unlockCondition: unlockStars('memory-garden', 18), theme: 'pixel'},
     ],
   },
 
@@ -188,7 +220,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
       {id: 'fs-5', worldId: 'farm-share', order: 5, nameKey: 'adventure.levels.fs5', emoji: '🐔', isBonus: false, gameMode: 'share', modeLevel: 5, problemCount: 5, unlockCondition: unlockPrev('fs-4')},
       {id: 'fs-6', worldId: 'farm-share', order: 6, nameKey: 'adventure.levels.fs6', emoji: '🐰', isBonus: false, gameMode: 'share', modeLevel: 6, problemCount: 5, unlockCondition: unlockPrev('fs-5')},
       {id: 'fs-bonus-a', worldId: 'farm-share', order: 7, nameKey: 'adventure.levels.fsBonusA', emoji: '⭐', isBonus: true, gameMode: 'share', modeLevel: 7, problemCount: 5, unlockCondition: unlockStars('farm-share', 12)},
-      {id: 'fs-bonus-b', worldId: 'farm-share', order: 8, nameKey: 'adventure.levels.fsBonusB', emoji: '🏆', isBonus: true, gameMode: 'share', modeLevel: 7, problemCount: 5, unlockCondition: unlockStars('farm-share', 18)},
+      {id: 'fs-bonus-b', worldId: 'farm-share', order: 8, nameKey: 'adventure.levels.fsBonusB', emoji: '🏆', isBonus: true, gameMode: 'share', modeLevel: 8, problemCount: 5, unlockCondition: unlockStars('farm-share', 18)},
     ],
   },
 
@@ -200,6 +232,7 @@ export function getDefaultAdventureProgress(): AdventureProgress {
     currentWorld: 'counting-meadow',
     worlds: {
       'counting-meadow': {unlocked: true, levels: {}},
+      'high-five': {unlocked: true, levels: {}},
       'addition-island': {unlocked: true, levels: {}},
       'subtraction-mountain': {unlocked: true, levels: {}},
       'make-ten-beach': {unlocked: true, levels: {}},

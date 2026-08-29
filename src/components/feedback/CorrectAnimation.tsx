@@ -1,6 +1,8 @@
 import React, {useEffect, useMemo} from 'react';
-import {View, Text, StyleSheet, useWindowDimensions} from 'react-native';
+import {View, StyleSheet, useWindowDimensions} from 'react-native';
+import {Text} from '../common/AppText';
 import {Emoji} from '../common/Emoji';
+import {useReduceMotion} from '../../hooks/useReduceMotion';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -80,6 +82,7 @@ interface CorrectAnimationProps {
 }
 
 export function CorrectAnimation({visible}: CorrectAnimationProps) {
+  const reduceMotion = useReduceMotion();
   const scale = useSharedValue(0);
 
   useEffect(() => {
@@ -99,7 +102,7 @@ export function CorrectAnimation({visible}: CorrectAnimationProps) {
 
   return (
     <View style={styles.container} pointerEvents="none">
-      {Array.from({length: 20}).map((_, i) => (
+      {!reduceMotion && Array.from({length: 20}).map((_, i) => (
         <ConfettiPiece key={i} index={i} />
       ))}
       <Animated.View style={[styles.emojiContainer, emojiStyle]}>

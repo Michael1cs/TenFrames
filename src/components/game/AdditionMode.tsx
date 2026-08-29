@@ -1,11 +1,14 @@
 import React, {useEffect, useRef} from 'react';
-import {View, Text, StyleSheet, Pressable, ImageSourcePropType} from 'react-native';
+import {View, StyleSheet, Pressable, ImageSourcePropType} from 'react-native';
+import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {TenFrame} from './TenFrame';
 import {NumberDisplay} from './NumberDisplay';
 import {Emoji} from '../common/Emoji';
 import {AgeProfile} from '../../hooks/useAgeProfile';
 import {AgeGroup, CellState, Problem, ThemeColors} from '../../types/game';
+import {STOP_JUDGE_MS} from '../../config/timing';
+import {hasEngaged} from '../../utils/answerTiming';
 
 interface AdditionModeProps {
   cells: CellState[];
@@ -60,21 +63,23 @@ export function AdditionMode({
   useEffect(() => {
     autoSubmittedRef.current = false;
   }, [problemKey]);
+  // Judge where the child STOPS, not where the app catches them. This used to
+  // submit 350ms after userAnswer MATCHED the answer, so a child placed
+  // counters on the way to a larger, wrong number was stopped and congratulated
+  // exactly as they passed through the right one — overshooting was impossible
+  // and every such problem was recorded first-try correct. Now one debounce
+  // re-arms on every change and judges whatever is on the board when the
+  // tapping stops, right or wrong. Same rule as AdventureLevelScreen.
   useEffect(() => {
     if (!compact || !currentProblem || hasSubmitted) return;
     if (autoSubmittedRef.current) return;
-    if (userAnswer === currentProblem.answer) {
+    // "not null" is not the same as "answered" — see hasEngaged.
+    if (!hasEngaged(userAnswer, currentProblem)) return;
+    const t = setTimeout(() => {
       autoSubmittedRef.current = true;
-      const t = setTimeout(() => onSubmit(), 350);
-      return () => clearTimeout(t);
-    }
-    if (userAnswer !== null && userAnswer > currentProblem.answer) {
-      const t = setTimeout(() => {
-        autoSubmittedRef.current = true;
-        onSubmit();
-      }, 2000);
-      return () => clearTimeout(t);
-    }
+      onSubmit();
+    }, STOP_JUDGE_MS);
+    return () => clearTimeout(t);
   }, [userAnswer, currentProblem, hasSubmitted, compact, onSubmit]);
 
   return (

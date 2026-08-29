@@ -8,6 +8,7 @@ import {
   type PurchaseError,
 } from 'react-native-iap';
 import {PREMIUM_PRODUCT_ID} from '../config/iap';
+import {IS_SCHOOL_EDITION} from '../config/edition';
 
 export interface IAPState {
   connected: boolean;
@@ -20,19 +21,53 @@ export interface IAPState {
   clearError: () => void;
 }
 
-// A purchase only counts as owned once Google reports it settled. A 'pending'
-// state means the payment is still being approved (cash payments, family
-// approval flows) — granting premium there would hand out the unlock for free.
-function isOwned(purchase: Purchase): boolean {
-  return (
-    purchase.productId === PREMIUM_PRODUCT_ID &&
-    purchase.purchaseState === 'purchased'
-  );
+/**
+ * The School Edition is paid up front and sells nothing, so it must not touch
+ * the store at all. Hiding the purchase UI is not enough: the hook below opens
+ * a billing connection and queries PREMIUM_PRODUCT_ID on mount, and that
+ * product does not exist in the school app's record — so the school build
+ * would spend launch time on a connection that can only fail, on devices
+ * where MDM usually blocks in-app purchases anyway, while the App Review
+ * notes claim the app contains no in-app purchases.
+ */
+const INERT_IAP: IAPState = {
+  connected: false,
+  product: null,
+  purchasing: false,
+  restoring: false,
+  error: null,
+  requestPurchase: async () => {},
+  restorePurchases: async () => {},
+  clearError: () => {},
+};
+
+function isPremium(purchase: Purchase): boolean {
+  return purchase.productId === PREMIUM_PRODUCT_ID;
 }
 
-export function useIAPConnection(
-  onPurchaseSuccess: () => void,
-): IAPState {
+/**
+ * A purchase the parent still has to complete — cash, carrier billing, or an
+ * approval request — arrives as 'pending'. No money has moved, so no
+ * entitlement. Only 'pending' blocks the grant: 'unknown' is treated as
+ * delivered, because on iOS delivery already means purchased and refusing
+ * anything that is not literally 'purchased' would strand paying customers.
+ */
+function isPending(purchase: Purchase): boolean {
+  return purchase.purchaseState === 'pending';
+}
+
+export function useIAPConnection(onPurchaseSuccess: () => void): IAPState {
+  // Conditional hook call, deliberately. IS_SCHOOL_EDITION is fixed for the
+  // whole process — it is read once at module scope from a global the entry
+  // file set before any app module loaded — so the branch cannot change
+  // between renders and hook order is invariant. Since react-native-iap 15.x
+  // there is no withIAPContext to skip at the root, so this is the only place
+  // left that can keep the school build away from the store.
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  return IS_SCHOOL_EDITION ? INERT_IAP : useConsumerIAPConnection(onPurchaseSuccess);
+}
+
+function useConsumerIAPConnection(onPurchaseSuccess: () => void): IAPState {
   const [purchasing, setPurchasing] = useState(false);
   const [restoring, setRestoring] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -46,13 +81,41 @@ export function useIAPConnection(
     requestPurchase: iapRequestPurchase,
   } = useIAPHook({
     onPurchaseSuccess: async (purchase: Purchase) => {
-      if (!isOwned(purchase)) {
+      if (!isPremium(purchase)) {
         return;
       }
-      // Acknowledge the transaction — Google auto-refunds after 3 days otherwise.
-      await finishTransaction({purchase, isConsumable: false});
-      setPurchasing(false);
-      onPurchaseSuccess();
+
+      const pending = isPending(purchase);
+
+      try {
+        if (!pending) {
+          // Acknowledge it — Google auto-refunds an unacknowledged purchase
+          // after three days.
+          await finishTransaction({purchase, isConsumable: false});
+        }
+      } catch {
+        // Acknowledging failed — store service disconnected, offline, or the
+        // purchase was already finished. The payment itself went through, so
+        // the entitlement stands and the store replays the unacknowledged
+        // purchase on the next launch for us to finish then.
+        //
+        // Before this catch existed, the rejection escaped and took both
+        // setPurchasing(false) and the premium grant with it: the parent paid,
+        // got nothing, and the upgrade sheet stayed disabled with a spinner
+        // and no error for the rest of the session.
+      } finally {
+        setPurchasing(false);
+        if (pending) {
+          // A sentinel, not a sentence: UpgradeScreen maps it through t() at
+          // render time, so it stays correct if the language changes while the
+          // sheet is open — and matches the existing 'no_previous_purchase'
+          // convention. Setting a rendered string here would be flattened to
+          // the generic "Purchase failed" by getErrorMessage.
+          setError('purchase_pending');
+        } else {
+          onPurchaseSuccess();
+        }
+      }
     },
     onPurchaseError: (err: PurchaseError) => {
       setPurchasing(false);
@@ -113,7 +176,10 @@ export function useIAPConnection(
       // The hook's getAvailablePurchases returns void and fills hook state; the
       // standalone export returns the array, which is what this flow needs.
       const purchases = await iapGetAvailablePurchases();
-      if (purchases.some(isOwned)) {
+      const hasPremium = purchases.some(
+        (p: Purchase) => isPremium(p) && !isPending(p),
+      );
+      if (hasPremium) {
         onPurchaseSuccess();
       } else {
         setError('no_previous_purchase');

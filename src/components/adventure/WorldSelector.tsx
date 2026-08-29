@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, Text, Pressable, ScrollView, StyleSheet} from 'react-native';
+import {View, Pressable, ScrollView, StyleSheet} from 'react-native';
+import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {WorldId, AdventureProgress, ThemeColors} from '../../types/game';
 import {ADVENTURE_WORLDS, getWorldStars, getWorldMaxStars} from '../../config/adventureWorlds';

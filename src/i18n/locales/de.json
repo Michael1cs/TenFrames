@@ -141,6 +141,21 @@
       "tipsDesc": "• Lass das Kind frei erkunden – es gibt keinen falschen Weg!\n• Stelle Fragen wie 'Wie viele mehr brauchst du, um 10 zu machen?'\n• Lobe Bemühen, nicht nur richtige Antworten\n• Kurze tägliche Einheiten (5–10 Minuten) sind effektiver als lange\n• Verbinde Zehnerfelder mit dem Alltag: 'Wir haben 3 Äpfel, wie viele mehr für eine Schachtel mit 10?'",
       "research": "Forschungshintergrund",
       "researchDesc": "Zehnerfelder werden von führenden Mathematikdidaktikern als Schlüsselwerkzeug zur Entwicklung des Zahlengefühls in der frühen Kindheit empfohlen. Forschung zeigt, dass Kinder, die Zehnerfelder verwenden, stärkere Kopfrechenfähigkeiten und ein tieferes Verständnis des Stellenwerts entwickeln."
+    },
+    "tabTeachers": "Lehrkräfte",
+    "teachers": {
+      "covers": "Inhalte",
+      "coversDesc": "Zählen bis 10, Addition und Subtraktion im Zahlenraum bis 10, Zerlegungen der 10, Verdopplungen, gerechtes Teilen und visuelles Gedächtnis. Neun Welten, 78 Level, alle freigeschaltet.",
+      "privacy": "Datenschutz",
+      "privacyDesc": "Keine Konten, keine Anmeldung. Nichts verlässt das iPad — der Fortschritt wird lokal gespeichert. Funktioniert vollständig offline. Keine Werbung, keine In-App-Käufe, keine Links nach außen.",
+      "devices": "Geteilte iPads",
+      "devicesDesc": "Der Fortschritt wird pro Gerät gespeichert, nicht pro Kind. Kinder, die sich ein iPad teilen, teilen auch Sterne und Karte. Für individuelle Auswertung ein iPad pro Kind zuweisen.",
+      "session": "Zeitbedarf",
+      "sessionDesc": "Ein Level umfasst 5 Aufgaben und dauert 2–4 Minuten. Für 4- bis 6-Jährige wirken zwei bis drei kurze Einheiten pro Woche besser als eine lange."
+    },
+    "contact": {
+      "title": "Schreib uns",
+      "desc": "Ein Vorschlag, ein Problem gefunden oder Interesse an einer Zusammenarbeit? Wir freuen uns über deine Nachricht — besonders wenn du unterrichtest und Ideen hast, was als Nächstes kommen sollte."
     }
   },
   "rewards": {
@@ -168,18 +183,42 @@
     "sports": "Sport"
   },
   "stickers": {
-    "num1": "Eins", "num2": "Zwei", "num3": "Drei", "num4": "Vier",
-    "num5": "Fünf", "num10": "Zehn",
-    "cat": "Katze", "dog": "Hund", "rabbit": "Hase", "bear": "Bär",
-    "panda": "Panda", "unicorn": "Einhorn",
-    "rocket": "Rakete", "star": "Stern", "moon": "Mond", "planet": "Planet",
-    "ufo": "UFO", "alien": "Alien",
-    "flower": "Blume", "tree": "Baum", "rainbow": "Regenbogen", "sun": "Sonne",
-    "butterfly": "Schmetterling", "mushroom": "Pilz",
-    "apple": "Apfel", "cake": "Kuchen", "icecream": "Eis", "pizza": "Pizza",
-    "candy": "Bonbon", "donut": "Donut",
-    "soccer": "Fußball", "trophy": "Pokal", "medal": "Medaille", "crown": "Krone",
-    "diamond": "Diamant", "hundred": "100"
+    "num1": "Eins",
+    "num2": "Zwei",
+    "num3": "Drei",
+    "num4": "Vier",
+    "num5": "Fünf",
+    "num10": "Zehn",
+    "cat": "Katze",
+    "dog": "Hund",
+    "rabbit": "Hase",
+    "bear": "Bär",
+    "panda": "Panda",
+    "unicorn": "Einhorn",
+    "rocket": "Rakete",
+    "star": "Stern",
+    "moon": "Mond",
+    "planet": "Planet",
+    "ufo": "UFO",
+    "alien": "Alien",
+    "flower": "Blume",
+    "tree": "Baum",
+    "rainbow": "Regenbogen",
+    "sun": "Sonne",
+    "butterfly": "Schmetterling",
+    "mushroom": "Pilz",
+    "apple": "Apfel",
+    "cake": "Kuchen",
+    "icecream": "Eis",
+    "pizza": "Pizza",
+    "candy": "Bonbon",
+    "donut": "Donut",
+    "soccer": "Fußball",
+    "trophy": "Pokal",
+    "medal": "Medaille",
+    "crown": "Krone",
+    "diamond": "Diamant",
+    "hundred": "100"
   },
   "premium": {
     "dailyLimitTitle": "Tolle Arbeit heute!",
@@ -207,7 +246,9 @@
     "parentalGateSubmit": "Weiter",
     "parentalGateCancel": "Abbrechen",
     "parentalGateWrong": "Falsche Antwort. Bitte versuche es erneut.",
-    "parentalGatePlaceholder": "Antwort eingeben"
+    "parentalGatePlaceholder": "Antwort eingeben",
+    "purchasePending": "Deine Zahlung wird verarbeitet. Premium wird freigeschaltet, sobald sie bestätigt ist.",
+    "priceUnavailable": "Preis wird bei der Bestätigung angezeigt"
   },
   "achievements": {
     "firstStar": "Erster Stern",
@@ -249,7 +290,8 @@
       "mixedTargets": "Zahlen-Blasen!",
       "doublesCastle": "Doppel-Schloss",
       "memoryGarden": "Gedächtnis-Garten",
-      "farmShare": "Bauernhof teilen"
+      "farmShare": "Bauernhof teilen",
+      "highFive": "Gib fünf!"
     },
     "levels": {
       "cm1": "Zähle bis 2",
@@ -323,7 +365,17 @@
       "fs5": "Drei Hühner",
       "fs6": "Fünf Hasen",
       "fsBonusA": "Schweine-Picknick",
-      "fsBonusB": "Kühe-Festmahl"
+      "fsBonusB": "Kühe-Festmahl",
+      "hf1": "Die obere Reihe",
+      "hf2": "Fünf und mehr",
+      "hf3": "Fünf und eins",
+      "hf4": "Fünf und zwei",
+      "hf5": "Fünf und drei",
+      "hf6": "Fünf und vier",
+      "hf7": "Fünf und fünf",
+      "hf8": "Alles gemischt",
+      "hfBonusA": "Jeder Weg zur Fünf",
+      "hfBonusB": "Die große Fünf"
     },
     "level": "Level",
     "stars": "Sterne",
@@ -370,6 +422,19 @@
     "premiumActive": "Premium aktiv",
     "premiumActiveSub": "Danke für deine Unterstützung!",
     "about": "Über Ten Frames",
-    "aboutSub": "So funktioniert die Methode"
+    "aboutSub": "So funktioniert die Methode",
+    "schoolEdition": "Schulversion",
+    "schoolEditionSub": "Alle Inhalte freigeschaltet. Keine Tageslimits, keine In-App-Käufe."
+  },
+  "error": {
+    "title": "Hoppla!",
+    "message": "Etwas ist schiefgelaufen. Tippe auf die Taste, um neu zu starten.",
+    "retry": "Nochmal versuchen",
+    "reset": "Geht immer noch nicht? Gespeicherten Fortschritt löschen",
+    "resetTitle": "Gespeicherten Fortschritt löschen?",
+    "resetMessage": "Damit werden Sterne, Sticker und der Abenteuer-Fortschritt auf diesem Gerät gelöscht. Mach das nur, wenn die App immer wieder abstürzt.",
+    "resetConfirm": "Löschen und neu starten",
+    "cancel": "Abbrechen",
+    "details": "Technische Details"
   }
 }

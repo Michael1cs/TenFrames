@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
+import {Text} from '../common/AppText';
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -13,6 +14,7 @@ import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
 import {Emoji} from '../common/Emoji';
 import {useSound} from '../../hooks/useSound';
+import {useReduceMotion} from '../../hooks/useReduceMotion';
 
 interface ProblemTransitionProps {
   // Increments on each problem change. Used to retrigger the animation.
@@ -84,6 +86,7 @@ export function ProblemTransition({
   total,
   colors,
 }: ProblemTransitionProps) {
+  const reduceMotion = useReduceMotion();
   const {t} = useTranslation();
   const {play: playSound} = useSound();
   const [visible, setVisible] = useState(false);
@@ -119,7 +122,7 @@ export function ProblemTransition({
 
   return (
     <View pointerEvents="none" style={styles.wrap}>
-      {CONFETTI.map((emoji, i) => (
+      {!reduceMotion && CONFETTI.map((emoji, i) => (
         <ConfettiDrop
           key={`${trigger}-${i}`}
           emoji={emoji}

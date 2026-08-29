@@ -1,6 +1,8 @@
 import React, {useEffect, useRef} from 'react';
 import {useVoice} from '../../hooks/useVoice';
-import {View, Text, Pressable, StyleSheet} from 'react-native';
+import {View, Pressable, StyleSheet} from 'react-native';
+import {Text} from '../common/AppText';
+import {FREDOKA_FAMILY} from '../../utils/fonts';
 import Animated, {
   FadeIn,
   BounceIn,
@@ -16,6 +18,7 @@ import Animated, {
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
 import {Emoji} from '../common/Emoji';
+import {useReduceMotion} from '../../hooks/useReduceMotion';
 
 interface LevelCompleteScreenProps {
   stars: number;
@@ -73,6 +76,7 @@ export function LevelCompleteScreen({
   onReplay,
   onBackToMap,
 }: LevelCompleteScreenProps) {
+  const reduceMotion = useReduceMotion();
   const {t} = useTranslation();
   const voice = useVoice();
   const voiceRef = useRef(voice);
@@ -106,7 +110,7 @@ export function LevelCompleteScreen({
   return (
     <View style={styles.overlay}>
       {/* Confetti particles */}
-      {stars >= 2 && confettiEmojis.map((emoji, i) => (
+      {stars >= 2 && !reduceMotion && confettiEmojis.map((emoji, i) => (
         <ConfettiParticle
           key={i}
           emoji={emoji}
@@ -213,6 +217,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   title: {
+    fontFamily: FREDOKA_FAMILY,
     fontSize: 24,
     fontWeight: '800',
     color: '#FFFFFF',
@@ -228,11 +233,13 @@ const styles = StyleSheet.create({
     fontSize: 52,
   },
   message: {
+    fontFamily: FREDOKA_FAMILY,
     fontSize: 20,
     fontWeight: '700',
     marginBottom: 4,
   },
   newBest: {
+    fontFamily: FREDOKA_FAMILY,
     fontSize: 16,
     fontWeight: '800',
     color: '#F59E0B',

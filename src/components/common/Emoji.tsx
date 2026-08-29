@@ -1,10 +1,13 @@
 import React from 'react';
-import {Text, TextStyle, Platform} from 'react-native';
+import {Text, TextStyle, StyleProp, Platform} from 'react-native';
 
 interface EmojiProps {
   children: string;
   size?: number;
-  style?: TextStyle | TextStyle[];
+  // StyleProp rather than TextStyle[] so callers can pass the usual
+  // conditional array — `[base, isTablet && tabletOverride]` — without
+  // TypeScript rejecting the `false` branch.
+  style?: StyleProp<TextStyle>;
 }
 
 const emojiFont: TextStyle =

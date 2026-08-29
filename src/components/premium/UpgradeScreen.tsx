@@ -1,13 +1,13 @@
 import React, {useState, useCallback} from 'react';
 import {
   View,
-  Text,
   Pressable,
   StyleSheet,
   Modal,
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
+import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
 import type {Product} from 'react-native-iap';
@@ -77,13 +77,23 @@ export function UpgradeScreen({
     {emoji: '🏆', key: 'premium.featureAchievements'},
   ];
 
-  // Use localized price from store, fallback to $4.99
-  const displayPrice = product?.displayPrice || '$4.99';
+  // Only ever show a price the store gave us. There used to be a hardcoded
+  // '$4.99' fallback here, which is a trap: the price lives in App Store
+  // Connect / Play Console, so the day it changes this string is silently
+  // wrong, and a parent who taps Buy after reading the old number sees a
+  // different amount at the confirmation sheet. When the product has not
+  // loaded — offline, store unavailable, product not yet approved — show
+  // nothing rather than a guess.
+  // (react-native-iap 15.x renamed Product.localizedPrice to displayPrice.)
+  const displayPrice = product?.displayPrice ?? null;
   const isLoading = purchasing || restoring;
 
   const getErrorMessage = (err: string): string => {
     if (err === 'no_previous_purchase') {
       return t('premium.restoreNotFound');
+    }
+    if (err === 'purchase_pending') {
+      return t('premium.purchasePending');
     }
     return t('premium.purchaseError');
   };
@@ -119,11 +129,15 @@ export function UpgradeScreen({
             </View>
 
             <View style={styles.priceBox}>
-              <Text style={[styles.price, {color: colors.text}]}>
-                {displayPrice}
-              </Text>
+              {displayPrice ? (
+                <Text style={[styles.price, {color: colors.text}]}>
+                  {displayPrice}
+                </Text>
+              ) : null}
               <Text style={[styles.priceNote, {color: colors.accent}]}>
-                {t('premium.oneTimePurchase')}
+                {displayPrice
+                  ? t('premium.oneTimePurchase')
+                  : t('premium.priceUnavailable')}
               </Text>
             </View>
 

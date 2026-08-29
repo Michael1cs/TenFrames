@@ -1,10 +1,12 @@
 import React, {useEffect, useCallback, useState, useRef, useMemo, useContext} from 'react';
-import {View, Text, StyleSheet, StatusBar, Pressable, ScrollView, ImageBackground} from 'react-native';
+import {View, StyleSheet, StatusBar, Pressable, ScrollView, ImageBackground} from 'react-native';
+import {Text} from '../common/AppText';
 import LinearGradient from 'react-native-linear-gradient';
 import {useTranslation} from 'react-i18next';
 import {
   NavigationContainer,
   NavigationContainerRefWithCurrent,
+  StackActions,
   useFocusEffect,
   useNavigation,
   useNavigationContainerRef,
@@ -49,6 +51,7 @@ import {useVoice, VOICE_GROUPS, setVoiceEnabled, clearPendingVoiceQueue} from '.
 import {useAgeProfile} from '../../hooks/useAgeProfile';
 import {useIAPConnection} from '../../hooks/useIAP';
 import {FREE_DAILY_LIMIT} from '../../config/limits';
+import {IS_SCHOOL_EDITION} from '../../config/edition';
 import {Language, GameMode, WorldId} from '../../types/game';
 import {ADVENTURE_WORLDS} from '../../config/adventureWorlds';
 import {useAdventure} from '../../hooks/useAdventure';
@@ -94,7 +97,7 @@ function HomeScreen() {
       }}
       onFreeplay={() => {
         ctx.savePlayerData({lastMode: 'freeplay'});
-        if (!ctx.game.playerName) ctx.game.setShowSetup(true);
+        if (!ctx.onboarded) ctx.game.setShowSetup(true);
         navigation.navigate('FreePlay');
       }}
       homeBar={{
@@ -326,7 +329,8 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
     <View style={styles.titleBar}>
       <View style={styles.titleLeft}>
         <Text style={[styles.title, {color: colors.text}]}>
-          <Emoji>{mascotEmoji}</Emoji> Ten Frames
+          <Emoji>{mascotEmoji}</Emoji>{' '}
+          {IS_SCHOOL_EDITION ? 'Ten Frames School' : 'Ten Frames'}
         </Text>
         <Text style={[styles.subtitle, {color: colors.accent}]}>
           {t('app.title')}
@@ -499,7 +503,6 @@ function useShellState(
   const premium = usePremium();
   const {play: playSound} = useSound();
   const ageProfile = useAgeProfile(game.ageGroup);
-  const voice = useVoice({enabled: voiceEnabled});
 
   const [showStickerBook, setShowStickerBook] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
@@ -511,6 +514,11 @@ function useShellState(
   const [showSettings, setShowSettings] = useState(false);
   const [showParentDash, setShowParentDash] = useState(false);
   const [voiceEnabled, setVoiceEnabledState] = useState(true);
+  const [onboarded, setOnboarded] = useState(false);
+  // Declared after voiceEnabled on purpose: the babel preset downlevels const
+  // to var, so calling this above the useState silently passed `undefined`
+  // and the enabled option never took effect.
+  const voice = useVoice({enabled: voiceEnabled});
   const [bootLoaded, setBootLoaded] = useState(false);
   const [initialRoute, setInitialRoute] =
     useState<keyof RootStackParamList>('Home');
@@ -534,13 +542,30 @@ function useShellState(
     (async () => {
       const data = await loadPlayerData();
       let target: keyof RootStackParamList = 'Home';
-      if (data.name) {
-        game.setPlayerName(data.name);
-        game.setTheme(data.theme);
+
+      // Saves written before v1.6.1 have no `onboarded` flag; a non-empty
+      // name means that user completed the old setup that still asked for one.
+      const hasOnboarded = data.onboarded ?? data.name !== '';
+      setOnboarded(hasOnboarded);
+
+      // Theme and age group restore unconditionally: loadPlayerData spreads
+      // defaults over whatever is stored, so they are always present and valid.
+      game.setTheme(data.theme);
+      game.setAgeGroup(data.ageGroup);
+      if (data.name) game.setPlayerName(data.name);
+
+      if (hasOnboarded) {
+        // Language is the one preference that must NOT be taken from the
+        // defaults: defaultPlayerData hard-codes 'ro', so applying it on a
+        // fresh install would overwrite the device-locale choice that
+        // src/i18n/index.ts and useGameState's initial state just made, and
+        // hand a German or English child a Romanian app. Restore it only for
+        // someone who actually picked one — for everyone else it must survive
+        // every cold start, which is exactly what this used to get wrong in
+        // the other direction.
         game.setLanguage(data.language);
-        game.setAgeGroup(data.ageGroup);
-        game.setShowSetup(false);
         i18n.changeLanguage(data.language);
+        game.setShowSetup(false);
         isFirstSetupRef.current = false;
         if (data.lastMode === 'adventure') target = 'AdventureWorlds';
         else if (data.lastMode === 'freeplay') target = 'FreePlay';
@@ -588,7 +613,28 @@ function useShellState(
 
   // Reward voices + post-correct logic.
   const prevIsCorrect = useRef<boolean | null>(null);
+  // One exercise is billed per PROBLEM, on the first submission whatever the
+  // outcome. This used to live in the isCorrect === true branch, so the free
+  // tier charged only for CORRECT answers: a child who got everything wrong
+  // played all day, and a child doing well was the one who hit the wall.
+  const billedProblemRef = useRef(false);
+  // The wall is raised here but shown later — never on top of a celebration.
+  const limitPendingRef = useRef(false);
   useEffect(() => {
+    billedProblemRef.current = false;
+  }, [game.currentProblem]);
+  useEffect(() => {
+    if (game.isCorrect !== null && !billedProblemRef.current) {
+      billedProblemRef.current = true;
+      const usage = premium.recordExercise(game.gameMode);
+      if (!premium.isPremium && premium.isModeLimited(game.gameMode)) {
+        const used = usage.counts[game.gameMode] || 0;
+        // Raise the flag now, show the sheet once the child has left the
+        // problem — see the currentProblem effect below.
+        if (used >= FREE_DAILY_LIMIT) limitPendingRef.current = true;
+      }
+    }
+
     if (game.isCorrect === true && prevIsCorrect.current !== true) {
       playSound('correct');
       if (
@@ -609,13 +655,6 @@ function useShellState(
         setShowStarsDisplay(false);
         playSound('star');
       }, 3000);
-      const updatedUsage = premium.recordExercise(game.gameMode);
-      if (!premium.isPremium && premium.isModeLimited(game.gameMode)) {
-        const used = updatedUsage.counts[game.gameMode] || 0;
-        if (used >= FREE_DAILY_LIMIT) {
-          setTimeout(() => setShowDailyLimit(true), 2500);
-        }
-      }
     } else if (game.isCorrect === false && prevIsCorrect.current !== false) {
       playSound('wrong');
       // Route through the queue so this never overlaps the praise/reward
@@ -647,6 +686,15 @@ function useShellState(
     }
     prevFilledCount.current = game.filledCount;
   }, [game.filledCount, game.ageGroup, game.gameMode, voice]);
+
+  // The daily wall waits here. Raising it during the celebration and firing a
+  // modal 2.5s later put "you're done for today" on top of a child's confetti;
+  // showing it as the next problem arrives lets the reward finish first.
+  useEffect(() => {
+    if (!limitPendingRef.current) return;
+    limitPendingRef.current = false;
+    setShowDailyLimit(true);
+  }, [game.currentProblem]);
 
   useEffect(() => {
     if (game.gameMode !== 'addition' && game.gameMode !== 'subtraction') return;
@@ -772,11 +820,13 @@ function useShellState(
     game.setShowSetup(false);
     game.setIsThemeChange(false);
     isFirstSetupRef.current = false;
+    setOnboarded(true);
     savePlayerData({
       name: game.playerName,
       theme: game.theme,
       language: game.language,
       ageGroup: game.ageGroup,
+      onboarded: true,
     });
   }, [game, savePlayerData]);
 
@@ -800,7 +850,14 @@ function useShellState(
         (level.isBonus && !premium.isPremium);
       if (premiumLocked) {
         // Bounce out of the Adventure stack so the upgrade screen owns focus.
-        navigationRef.current?.popToTop();
+        //
+        // Must go through dispatch: createNavigationContainerRef only proxies
+        // CommonActions (navigate/goBack/reset/...) plus a fixed helper list.
+        // popToTop is a StackAction, so navigationRef.current.popToTop is
+        // undefined and calling it directly threw a TypeError — which, in a
+        // release build, is a hard crash the moment a free user taps a
+        // premium-locked Adventure level.
+        navigationRef.current?.dispatch(StackActions.popToTop());
         setShowUpgrade(true);
         return false;
       }
@@ -879,6 +936,7 @@ function useShellState(
     showSettings, setShowSettings,
     showParentDash, setShowParentDash,
     voiceEnabled,
+    onboarded,
     handleToggleVoice,
     bootLoaded,
     initialRoute,
@@ -949,9 +1007,28 @@ function GameShellInner() {
       />
 
       <ShellCtx.Provider value={shell}>
-        <NavigationContainer ref={navigationRef}>
+        <NavigationContainer
+          ref={navigationRef}
+          // Restoring the last mode used to be done by making it the stack's
+          // initialRouteName, which left it as the ONLY entry in the stack.
+          // Every way back out of Adventure is a pop — the ✕ on the worlds and
+          // levels screens, the level screen's back arrow, the watchdog's
+          // StackActions.popToTop — and a pop with nothing beneath it is a
+          // silent no-op, so a returning child whose last mode was Adventure
+          // opened the app straight into the world list and could not leave it.
+          // Seed the stack with Home underneath instead: the restored screen is
+          // still what the child sees first, but now it has somewhere to go
+          // back to and every existing exit works unchanged.
+          initialState={
+            initialRoute === 'Home'
+              ? undefined
+              : {
+                  index: 1,
+                  routes: [{name: 'Home' as const}, {name: initialRoute}],
+                }
+          }>
           <Stack.Navigator
-            initialRouteName={initialRoute}
+            initialRouteName="Home"
             screenOptions={{
               headerShown: false,
               gestureEnabled: true,
@@ -1072,8 +1149,6 @@ function GameShellInner() {
         onThemeChange={game.setTheme}
         language={game.language}
         onLanguageChange={handleLanguageChange}
-        ageGroup={game.ageGroup}
-        onAgeGroupChange={game.setAgeGroup}
         onComplete={handleSetupComplete}
         isThemeChange={game.isThemeChange}
       />
@@ -1169,6 +1244,9 @@ const styles = StyleSheet.create({
   },
 });
 
-// react-native-iap 15.x dropped withIAPContext — useIAP opens the store
-// connection itself on mount, from inside GameShellInner.
+// react-native-iap 15.x dropped withIAPContext entirely — there is no context
+// to establish, so there is nothing here to branch on. The School Edition's
+// requirement (never open a store connection) still holds; it is now enforced
+// one level down, in useIAPConnection, which returns an inert state for the
+// school build and never calls the hook that connects.
 export const GameShell = GameShellInner;

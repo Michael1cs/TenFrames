@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
+import {Text} from '../common/AppText';
 import {Emoji} from '../common/Emoji';
 import Animated, {
   useSharedValue,

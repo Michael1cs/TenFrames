@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {
   View,
-  Text,
   TextInput,
   Pressable,
   StyleSheet,
   Modal,
 } from 'react-native';
+import {Text} from '../common/AppText';
+import {FREDOKA_FAMILY} from '../../utils/fonts';
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
 
@@ -42,6 +43,17 @@ export function ParentalGate({
     }
   }, [visible]);
 
+  // An Arabic/Persian/Hindi IME sends its own digit glyphs (٠-٩, ۰-۹, ०-९) for
+  // a number-pad field, and RN's ReactEditText deliberately strips the native
+  // KeyListener's filtering, so the JS regex below is the only filter there is.
+  // Without this the parent types a digit, sees nothing appear, and can never
+  // get past the gate.
+  const toAsciiDigits = (text: string) =>
+    text
+      .replace(/[\u0660-\u0669]/g, d => String(d.charCodeAt(0) - 0x0660))
+      .replace(/[\u06F0-\u06F9]/g, d => String(d.charCodeAt(0) - 0x06f0))
+      .replace(/[\u0966-\u096F]/g, d => String(d.charCodeAt(0) - 0x0966));
+
   const handleSubmit = () => {
     if (parseInt(input, 10) === problem.answer) {
       onSuccess();
@@ -70,7 +82,7 @@ export function ParentalGate({
           <TextInput
             value={input}
             onChangeText={text => {
-              setInput(text.replace(/[^0-9]/g, ''));
+              setInput(toAsciiDigits(text).replace(/[^0-9]/g, ''));
               setError(false);
             }}
             placeholder={t('premium.parentalGatePlaceholder')}
@@ -143,6 +155,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
+    fontFamily: FREDOKA_FAMILY,
     backgroundColor: '#2D2D3F',
     borderRadius: 12,
     paddingHorizontal: 16,

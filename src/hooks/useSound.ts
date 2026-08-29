@@ -1,7 +1,10 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import Sound from 'react-native-sound';
 
-Sound.setCategory('Playback');
+// Must match useVoice.ts: setCategory is a process-wide AVAudioSession call,
+// so whichever of the two modules imports last would otherwise win. Passing
+// mixWithOthers keeps a parent's music or podcast playing underneath.
+Sound.setCategory('Playback', true);
 
 type SoundName = 'tap' | 'correct' | 'wrong' | 'levelup' | 'star';
 
@@ -25,11 +28,15 @@ export function useSound() {
       const sound = new Sound(file, Sound.MAIN_BUNDLE, error => {
         if (error) {
           console.warn(`[Sound] Failed to load ${file}:`, error);
-        } else {
+        } else if (mounted) {
           sound.setVolume(volume);
-          if (mounted) {
-            loaded.current.set(name, sound);
-          }
+          loaded.current.set(name, sound);
+        } else {
+          // Unmounted while this clip was still decoding. The cleanup below
+          // has already run, so it will never be reached again — release it
+          // here or the player and its open file handle leak for the rest of
+          // the process's life.
+          sound.release();
         }
         loadedCount++;
         if (loadedCount === SOUNDS.length && mounted) {

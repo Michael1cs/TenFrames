@@ -141,6 +141,21 @@
       "tipsDesc": "• Lăsați copilul să exploreze liber — nu există un mod greșit de a umple un ten frame!\n• Puneți întrebări precum: „Câte mai trebuie ca să faci 10?”\n• Celebrați efortul, nu doar răspunsurile corecte\n• Sesiuni scurte zilnice (5–10 minute) sunt mai eficiente decât cele lungi\n• Conectați ten frames cu viața reală: „Avem 3 mere, câte mai trebuie ca să umplem cutia de 10?”",
       "research": "Fundament științific",
       "researchDesc": "Ten Frames sunt recomandate de Consiliul Național al Profesorilor de Matematică (NCTM) ca un instrument esențial pentru dezvoltarea simțului numeric în copilăria timpurie. Cercetările arată că copiii care folosesc ten frames dezvoltă abilități mai puternice de calcul mental și o înțelegere mai profundă a valorii poziționale. Metoda face parte din standardele Common Core din Statele Unite și este folosită în programe educaționale din întreaga lume, inclusiv Singapore Math și Curriculumul Național Australian."
+    },
+    "tabTeachers": "Profesori",
+    "teachers": {
+      "covers": "Ce acoperă",
+      "coversDesc": "Numărare până la 10, adunare și scădere în intervalul 10, perechi care fac 10, dubluri, împărțire echitabilă și memorie vizuală. Nouă lumi, 78 de niveluri, toate deblocate.",
+      "privacy": "Confidențialitate",
+      "privacyDesc": "Fără conturi și fără înregistrare. Nimic nu părăsește tableta — progresul se salvează local. Funcționează complet offline. Fără reclame, fără achiziții în aplicație, fără linkuri către exterior.",
+      "devices": "Tablete partajate",
+      "devicesDesc": "Progresul se salvează per tabletă, nu per elev. Dacă mai mulți copii folosesc aceeași tabletă, vor împărți aceleași stele și aceeași hartă. Pentru urmărire individuală, alocați o tabletă per elev.",
+      "session": "Cât durează",
+      "sessionDesc": "Un nivel are 5 probleme și durează 2–4 minute. Pentru copii de 4–6 ani, două-trei sesiuni scurte pe săptămână funcționează mai bine decât una lungă."
+    },
+    "contact": {
+      "title": "Scrie-ne",
+      "desc": "Ai o sugestie, ai găsit o problemă sau vrei să colaborăm? Ne face plăcere să auzim de la tine — mai ales dacă predai și ai idei despre ce ar trebui să urmeze."
     }
   },
   "rewards": {
@@ -168,18 +183,42 @@
     "sports": "Sport"
   },
   "stickers": {
-    "num1": "Unu", "num2": "Doi", "num3": "Trei", "num4": "Patru",
-    "num5": "Cinci", "num10": "Zece",
-    "cat": "Pisică", "dog": "Cățel", "rabbit": "Iepure", "bear": "Urs",
-    "panda": "Panda", "unicorn": "Unicorn",
-    "rocket": "Rachetă", "star": "Stea", "moon": "Lună", "planet": "Planetă",
-    "ufo": "OZN", "alien": "Extraterestru",
-    "flower": "Floare", "tree": "Copac", "rainbow": "Curcubeu", "sun": "Soare",
-    "butterfly": "Fluture", "mushroom": "Ciupercă",
-    "apple": "Măr", "cake": "Tort", "icecream": "Înghețată", "pizza": "Pizza",
-    "candy": "Bomboană", "donut": "Gogoașă",
-    "soccer": "Fotbal", "trophy": "Trofeu", "medal": "Medalie", "crown": "Coroană",
-    "diamond": "Diamant", "hundred": "100"
+    "num1": "Unu",
+    "num2": "Doi",
+    "num3": "Trei",
+    "num4": "Patru",
+    "num5": "Cinci",
+    "num10": "Zece",
+    "cat": "Pisică",
+    "dog": "Cățel",
+    "rabbit": "Iepure",
+    "bear": "Urs",
+    "panda": "Panda",
+    "unicorn": "Unicorn",
+    "rocket": "Rachetă",
+    "star": "Stea",
+    "moon": "Lună",
+    "planet": "Planetă",
+    "ufo": "OZN",
+    "alien": "Extraterestru",
+    "flower": "Floare",
+    "tree": "Copac",
+    "rainbow": "Curcubeu",
+    "sun": "Soare",
+    "butterfly": "Fluture",
+    "mushroom": "Ciupercă",
+    "apple": "Măr",
+    "cake": "Tort",
+    "icecream": "Înghețată",
+    "pizza": "Pizza",
+    "candy": "Bomboană",
+    "donut": "Gogoașă",
+    "soccer": "Fotbal",
+    "trophy": "Trofeu",
+    "medal": "Medalie",
+    "crown": "Coroană",
+    "diamond": "Diamant",
+    "hundred": "100"
   },
   "premium": {
     "dailyLimitTitle": "Ai fost super azi!",
@@ -207,7 +246,9 @@
     "parentalGateSubmit": "Continuă",
     "parentalGateCancel": "Anulează",
     "parentalGateWrong": "Răspuns incorect. Încearcă din nou.",
-    "parentalGatePlaceholder": "Introdu răspunsul"
+    "parentalGatePlaceholder": "Introdu răspunsul",
+    "purchasePending": "Plata este în curs de procesare. Premium se activează imediat ce este confirmată.",
+    "priceUnavailable": "Prețul se afișează la confirmare"
   },
   "achievements": {
     "firstStar": "Prima stea",
@@ -249,7 +290,8 @@
       "mixedTargets": "Bule cu numere!",
       "doublesCastle": "Castelul Dublurilor",
       "memoryGarden": "Grădina Memoriei",
-      "farmShare": "Împarte la Fermă"
+      "farmShare": "Împarte la Fermă",
+      "highFive": "Bat palma!"
     },
     "levels": {
       "cm1": "Numără până la 2",
@@ -323,7 +365,17 @@
       "fs5": "Trei Găinușe",
       "fs6": "Cinci Iepurași",
       "fsBonusA": "Picnic la Purcei",
-      "fsBonusB": "Ospăț la Vaci"
+      "fsBonusB": "Ospăț la Vaci",
+      "hf1": "Rândul de sus",
+      "hf2": "Cinci și încă",
+      "hf3": "Cinci și unu",
+      "hf4": "Cinci și doi",
+      "hf5": "Cinci și trei",
+      "hf6": "Cinci și patru",
+      "hf7": "Cinci și cinci",
+      "hf8": "Amestecate",
+      "hfBonusA": "Toate felurile de cinci",
+      "hfBonusB": "Marele cinci"
     },
     "level": "Nivel",
     "stars": "Stele",
@@ -370,6 +422,19 @@
     "premiumActive": "Premium activ",
     "premiumActiveSub": "Mulțumim pentru suport!",
     "about": "Despre Ten Frames",
-    "aboutSub": "Cum funcționează metoda"
+    "aboutSub": "Cum funcționează metoda",
+    "schoolEdition": "Ediția pentru școli",
+    "schoolEditionSub": "Tot conținutul deblocat. Fără limite zilnice, fără achiziții în aplicație."
+  },
+  "error": {
+    "title": "Hopa!",
+    "message": "Ceva nu a mers bine. Apasă butonul ca să începem din nou.",
+    "retry": "Încearcă din nou",
+    "reset": "Tot nu merge? Șterge progresul salvat",
+    "resetTitle": "Ștergem progresul salvat?",
+    "resetMessage": "Se șterg stelele, abțibildurile și progresul din Aventură de pe acest dispozitiv. Fă asta doar dacă aplicația se închide de fiecare dată.",
+    "resetConfirm": "Șterge și repornește",
+    "cancel": "Anulează",
+    "details": "Detalii tehnice"
   }
 }

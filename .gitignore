@@ -24,6 +24,9 @@ DerivedData
 ios/build/
 ios/build-device/
 ios/build-archive/
+ios/build-sim/
+ios/build-school/
+ios/build-device-check/
 
 # Android/IntelliJ
 #
