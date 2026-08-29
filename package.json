@@ -1,6 +1,6 @@
 {
   "name": "TenFrames",
-  "version": "1.7.0",
+  "version": "1.6.3",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
