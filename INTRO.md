@@ -1,6 +1,6 @@
 # TenFrames — Intro & Release Notes
 
-Educational math app for ages 4–6 using the American Ten Frames method.
+Educational math app for ages 4–7 using the American Ten Frames method.
 Currently shipping iOS first; Android is a port target.
 
 ## v1.6.0 — what's in this release
