@@ -10,7 +10,9 @@ A 2x5 grid where children place objects to visualize numbers 0-10.
 - `react-native-reanimated` v4 + `react-native-worklets` — animations
 - `react-native-linear-gradient` v3 (beta) — theme backgrounds
 - `@react-native-async-storage/async-storage` v3 — persistence (uses local Maven repo for KMP artifact)
-- `react-i18next` — bilingual (Romanian + English, RO is fallback)
+- `react-i18next` — trilingual (Romanian, English, German). Device locale picks
+  the language; anything that is not `ro` or `de` gets English, and `fallbackLng`
+  is `en` (see `src/i18n/index.ts`)
 
 ## Game Modes
 1. **Counting** — free toggle, tap cells to fill/empty
