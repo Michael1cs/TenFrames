@@ -35,9 +35,7 @@ export function AdditionMode({
   onReset,
   currentProblem,
   userAnswer,
-  isCorrect,
   hasSubmitted,
-  feedback,
   colors,
   emoji,
   tokenImage,
@@ -131,47 +129,8 @@ export function AdditionMode({
         </Pressable>
       )}
 
-      {feedback !== '' && (
-        <View
-          style={[
-            styles.feedbackContainer,
-            {
-              backgroundColor:
-                isCorrect === true
-                  ? 'rgba(34,197,94,0.2)'
-                  : isCorrect === false
-                  ? 'rgba(239,68,68,0.2)'
-                  : 'transparent',
-              borderColor:
-                isCorrect === true
-                  ? '#22C55E'
-                  : isCorrect === false
-                  ? '#EF4444'
-                  : 'transparent',
-            },
-          ]}>
-          <Text style={styles.feedbackEmoji}>
-            <Emoji>{isCorrect === true ? '✅' : '💡'}</Emoji>
-          </Text>
-          <Text
-            style={[
-              styles.feedbackText,
-              {color: isCorrect === true ? '#4ADE80' : '#FBBF24'},
-            ]}>
-            {isCorrect === true
-              ? t('feedback.correct')
-              : t('feedback.wrong')}
-          </Text>
-          {currentProblem && (
-            <Text style={[styles.answerText, {color: '#FFFFFF'}]}>
-              {isCorrect === true
-                ? t('feedback.correctAnswer', {answer: currentProblem.answer})
-                : t('feedback.answerWas', {answer: currentProblem.answer})}
-            </Text>
-          )}
-        </View>
-      )}
-
+      {/* Correct/wrong feedback lives in the FeedbackSheet overlay
+          (GameShell) so this column never reflows mid-celebration. */}
       <Pressable
         onPress={onReset}
         style={[styles.resetButton, {backgroundColor: colors.primaryButton}]}>

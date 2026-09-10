@@ -71,7 +71,6 @@ export function CompareMode({
   onReset,
   isCorrect,
   hasSubmitted,
-  feedback,
   colors,
   level,
   ageProfile,
@@ -142,30 +141,6 @@ export function CompareMode({
         </Text>
       </Pressable>
 
-      {feedback !== '' && (
-        <View
-          style={[
-            styles.feedbackContainer,
-            {
-              backgroundColor:
-                isCorrect === true
-                  ? 'rgba(34,197,94,0.2)'
-                  : 'rgba(239,68,68,0.2)',
-              borderColor: isCorrect === true ? '#22C55E' : '#EF4444',
-            },
-          ]}>
-          <Text style={styles.feedbackEmoji}>
-            <Emoji>{isCorrect === true ? '✅' : '💡'}</Emoji>
-          </Text>
-          <Text
-            style={[
-              styles.feedbackText,
-              {color: isCorrect === true ? '#4ADE80' : '#FBBF24'},
-            ]}>
-            {isCorrect === true ? t('feedback.correct') : t('feedback.tryAgain')}
-          </Text>
-        </View>
-      )}
 
       <Pressable
         onPress={onReset}
@@ -250,22 +225,6 @@ const styles = StyleSheet.create({
     fontSize: 19,
     fontWeight: '800',
     color: '#1F2937',
-  },
-  feedbackContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 18,
-    paddingVertical: 8,
-    borderRadius: 12,
-    borderWidth: 1,
-    gap: 8,
-  },
-  feedbackEmoji: {
-    fontSize: 22,
-  },
-  feedbackText: {
-    fontSize: 17,
-    fontWeight: '700',
   },
   resetButton: {
     width: 48,

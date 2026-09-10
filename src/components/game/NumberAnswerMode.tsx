@@ -38,7 +38,6 @@ export function NumberAnswerMode({
   problem,
   isCorrect,
   hasSubmitted,
-  feedback,
   wrongPick,
   colors,
   emoji,
@@ -125,30 +124,6 @@ export function NumberAnswerMode({
         wrongPick={wrongPick}
       />
 
-      {feedback !== '' && (
-        <View
-          style={[
-            styles.feedbackContainer,
-            {
-              backgroundColor:
-                isCorrect === true
-                  ? 'rgba(34,197,94,0.2)'
-                  : 'rgba(239,68,68,0.2)',
-              borderColor: isCorrect === true ? '#22C55E' : '#EF4444',
-            },
-          ]}>
-          <Text style={styles.feedbackEmoji}>
-            <Emoji>{isCorrect === true ? '✅' : '💡'}</Emoji>
-          </Text>
-          <Text
-            style={[
-              styles.feedbackText,
-              {color: isCorrect === true ? '#4ADE80' : '#FBBF24'},
-            ]}>
-            {isCorrect === true ? t('feedback.correct') : t('feedback.tryAgain')}
-          </Text>
-        </View>
-      )}
 
       <Pressable
         onPress={onReset}
@@ -201,22 +176,6 @@ const styles = StyleSheet.create({
     textShadowColor: 'rgba(0,0,0,0.7)',
     textShadowOffset: {width: 0, height: 1},
     textShadowRadius: 3,
-  },
-  feedbackContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 18,
-    paddingVertical: 8,
-    borderRadius: 12,
-    borderWidth: 1,
-    gap: 8,
-  },
-  feedbackEmoji: {
-    fontSize: 22,
-  },
-  feedbackText: {
-    fontSize: 17,
-    fontWeight: '700',
   },
   resetButton: {
     width: 48,

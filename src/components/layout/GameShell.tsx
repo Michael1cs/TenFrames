@@ -34,7 +34,7 @@ import {FarmShareMode} from '../game/FarmShareMode';
 import {CorrectAnimation} from '../feedback/CorrectAnimation';
 import {WrongAnimation} from '../feedback/WrongAnimation';
 import {WrongFlash} from '../feedback/WrongFlash';
-import {StarsDisplay} from '../feedback/StarsDisplay';
+import {FeedbackSheet, EquationPart} from '../feedback/FeedbackSheet';
 import {MilestoneAnimation} from '../feedback/MilestoneAnimation';
 import {NewStickerPopup} from '../feedback/NewStickerPopup';
 import {AchievementPopup} from '../feedback/AchievementPopup';
@@ -219,13 +219,56 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
     handleModeChange,
     handleAdventurePress,
     lastStarsAwarded,
-    showStarsDisplay,
     setShowAbout,
     setShowUpgrade,
     setShowStickerBook,
     setShowParentDash,
     mascotEmoji,
   } = ctx;
+
+  // The answer sheet slides over the bottom of the play area — completed
+  // equation on correct, gentle "try again" on wrong. It is an overlay, so
+  // the frame above never reflows.
+  const FEEDBACK_MODES: GameMode[] = ['addition', 'subtraction', 'puzzle', 'answer', 'compare'];
+  const showAnswerFeedback =
+    game.isCorrect !== null && FEEDBACK_MODES.includes(game.gameMode);
+  const eqDark = '#1E1B4B';
+  const eqGreen = '#16A34A';
+  const feedbackEquation: EquationPart[] | null = (() => {
+    if (game.isCorrect !== true) return null;
+    if (
+      (game.gameMode === 'addition' || game.gameMode === 'subtraction') &&
+      game.currentProblem
+    ) {
+      const p = game.currentProblem;
+      return [
+        {text: String(p.num1), color: colors.cellColor1},
+        {text: game.gameMode === 'addition' ? ' + ' : ' − ', color: eqDark},
+        {text: String(p.num2), color: colors.cellColor2},
+        {text: ' = ', color: eqDark},
+        {text: String(p.answer), color: eqGreen},
+      ];
+    }
+    if (game.gameMode === 'answer' && game.answerProblem) {
+      const p = game.answerProblem;
+      return [
+        {text: String(p.num1), color: colors.cellColor1},
+        {text: ' + ', color: eqDark},
+        {text: String(p.num2), color: p.slot === 'addend' ? eqGreen : colors.cellColor2},
+        {text: ' = ', color: eqDark},
+        {text: String(p.answer), color: p.slot === 'sum' ? eqGreen : colors.cellColor2},
+      ];
+    }
+    if (game.gameMode === 'puzzle') {
+      return [
+        {text: String(game.puzzleAnswer), color: colors.cellColor1},
+        {text: ' + ', color: eqDark},
+        {text: String(10 - game.puzzleAnswer), color: eqGreen},
+        {text: ' = 10', color: eqDark},
+      ];
+    }
+    return null; // compare: stars + praise carry the moment
+  })();
 
   // Mode renderer (originally renderGameMode in GameShell)
   const renderGameMode = () => {
@@ -481,25 +524,39 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
             showsVerticalScrollIndicator={false}>
             {renderSidebar()}
           </ScrollView>
-          <ScrollView
-            style={styles.gameAreaLandscape}
-            contentContainerStyle={styles.gameAreaLandscapeContent}
-            showsVerticalScrollIndicator={false}>
-            {renderGameMode()}
-            <StarsDisplay stars={lastStarsAwarded} visible={showStarsDisplay} />
-          </ScrollView>
+          <View style={styles.gameAreaWrap}>
+            <ScrollView
+              style={styles.gameAreaLandscape}
+              contentContainerStyle={styles.gameAreaLandscapeContent}
+              showsVerticalScrollIndicator={false}>
+              {renderGameMode()}
+            </ScrollView>
+            <FeedbackSheet
+              visible={showAnswerFeedback}
+              isCorrect={game.isCorrect}
+              stars={lastStarsAwarded}
+              equationParts={feedbackEquation}
+            />
+          </View>
         </View>
       ) : (
         <View style={styles.portraitContainer}>
           {renderTitleBar()}
           {renderStatsBar()}
-          <ScrollView
-            style={styles.gameArea}
-            contentContainerStyle={styles.gameAreaContent}
-            showsVerticalScrollIndicator={false}>
-            {renderGameMode()}
-            <StarsDisplay stars={lastStarsAwarded} visible={showStarsDisplay} />
-          </ScrollView>
+          <View style={styles.gameAreaWrap}>
+            <ScrollView
+              style={styles.gameArea}
+              contentContainerStyle={styles.gameAreaContent}
+              showsVerticalScrollIndicator={false}>
+              {renderGameMode()}
+            </ScrollView>
+            <FeedbackSheet
+              visible={showAnswerFeedback}
+              isCorrect={game.isCorrect}
+              stars={lastStarsAwarded}
+              equationParts={feedbackEquation}
+            />
+          </View>
           <ModeSelector
             activeMode={game.gameMode}
             onModeChange={handleModeChange}
@@ -1298,6 +1355,9 @@ const styles = StyleSheet.create({
   },
   themeButtonText: {fontSize: 22},
   gameArea: {flex: 1},
+  // Wraps the game ScrollView so the FeedbackSheet can overlay its bottom
+  // edge without touching the layout inside.
+  gameAreaWrap: {flex: 1},
   gameAreaContent: {
     flexGrow: 1,
     justifyContent: 'center',
