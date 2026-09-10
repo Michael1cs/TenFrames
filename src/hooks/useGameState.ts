@@ -129,6 +129,10 @@ export function useGameState() {
 
   // Generate problem when mode changes
   useEffect(() => {
+    // Drop any feedback-pause advance from the previous mode.
+    if (waitTimeoutRef.current) clearTimeout(waitTimeoutRef.current);
+    waitTimeoutRef.current = null;
+    pendingAdvanceRef.current = null;
     setLevelCorrectStreak(0);
     if (gameMode === 'addition' || gameMode === 'subtraction') {
       doGenerateProblem();
@@ -176,6 +180,45 @@ export function useGameState() {
     }
   }, [score, level]);
 
+  // === FEEDBACK-WAIT SCHEDULING ===
+  // After a submit the board pauses (praise, or a beat before retry). The
+  // pause is skippable: tapping the frame fires the pending advance now, so
+  // the wait never walls off a fast child.
+  const waitTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingAdvanceRef = useRef<(() => void) | null>(null);
+  const advanceScheduledAtRef = useRef(0);
+
+  const scheduleAdvance = useCallback((fn: () => void, delayMs: number) => {
+    if (waitTimeoutRef.current) clearTimeout(waitTimeoutRef.current);
+    pendingAdvanceRef.current = fn;
+    advanceScheduledAtRef.current = Date.now();
+    waitTimeoutRef.current = setTimeout(() => {
+      waitTimeoutRef.current = null;
+      pendingAdvanceRef.current = null;
+      fn();
+    }, delayMs);
+  }, []);
+
+  const cancelPendingAdvance = useCallback(() => {
+    if (waitTimeoutRef.current) clearTimeout(waitTimeoutRef.current);
+    waitTimeoutRef.current = null;
+    pendingAdvanceRef.current = null;
+  }, []);
+
+  // Returns true when the tap was consumed by a pending wait. The 600ms grace
+  // swallows the stray extra tap a child often lands right as the board is
+  // judged, without cutting the feedback short.
+  const skipWait = useCallback((): boolean => {
+    if (!pendingAdvanceRef.current || !waitTimeoutRef.current) return false;
+    if (Date.now() - advanceScheduledAtRef.current < 600) return true;
+    clearTimeout(waitTimeoutRef.current);
+    const fn = pendingAdvanceRef.current;
+    waitTimeoutRef.current = null;
+    pendingAdvanceRef.current = null;
+    fn();
+    return true;
+  }, []);
+
   // === CELL CLICK HANDLERS ===
 
   const handleCellClick = useCallback(
@@ -189,7 +232,12 @@ export function useGameState() {
           newCells[index] = newCells[index] === 'empty' ? 'filled' : 'empty';
           return newCells;
         });
-      } else if (mode === 'addition' && !hasSubmittedRef.current) {
+      } else if (mode === 'addition') {
+        // During the feedback pause a frame tap advances instead of editing.
+        if (hasSubmittedRef.current) {
+          skipWait();
+          return;
+        }
         // Addition: color1 cells are locked (first addend), child can only
         // add/remove color2 cells in empty spots
         setCells(prev => {
@@ -207,7 +255,11 @@ export function useGameState() {
           setUserAnswer(totalFilled);
           return newCells;
         });
-      } else if (mode === 'subtraction' && !hasSubmittedRef.current) {
+      } else if (mode === 'subtraction') {
+        if (hasSubmittedRef.current) {
+          skipWait();
+          return;
+        }
         // Subtraction: child can only remove color1 cells (or re-add them)
         setCells(prev => {
           const newCells = [...prev];
@@ -222,6 +274,8 @@ export function useGameState() {
           return newCells;
         });
       } else if (mode === 'puzzle') {
+        // A tap during the answer-reveal pause advances instead of editing.
+        if (skipWait()) return;
         // Puzzle: color1 cells are locked, child adds/removes color2
         setCells(prev => {
           const newCells = [...prev];
@@ -237,7 +291,7 @@ export function useGameState() {
         });
       }
     },
-    [],
+    [skipWait],
   );
 
   // === SUBMIT HANDLERS ===
@@ -284,8 +338,8 @@ export function useGameState() {
 
       // Longer than the praise voice (post_great_<theme>_<N> ≈ 2-3s) so
       // the kid hears the full sentence + has a beat to settle before the
-      // next problem appears.
-      setTimeout(() => {
+      // next problem appears. A frame tap skips ahead.
+      scheduleAdvance(() => {
         setShowConfetti(false);
         doGenerateProblem();
       }, 5000);
@@ -298,8 +352,8 @@ export function useGameState() {
       setHasSubmitted(true);
       setMascotMood('thinking');
 
-      // After 3 seconds, reset same problem for retry
-      setTimeout(() => {
+      // After 3 seconds (or a frame tap), reset same problem for retry
+      scheduleAdvance(() => {
         if (mode === 'addition') {
           setupAdditionCells(problem);
           setUserAnswer(problem.num1);
@@ -312,7 +366,7 @@ export function useGameState() {
         setFeedback('');
       }, 3000);
     }
-  }, [cells, doGenerateProblem, setupAdditionCells, setupSubtractionCells]);
+  }, [cells, doGenerateProblem, scheduleAdvance, setupAdditionCells, setupSubtractionCells]);
 
   const handlePuzzleSubmit = useCallback(() => {
     // Count color2 cells (what child added)
@@ -329,7 +383,7 @@ export function useGameState() {
       setStreak(prev => prev + 1);
       setShowConfetti(true);
 
-      setTimeout(() => {
+      scheduleAdvance(() => {
         setShowConfetti(false);
         setShowPuzzleAnswer(false);
         setIsCorrect(null);
@@ -344,17 +398,20 @@ export function useGameState() {
       setMascotMood('thinking');
       setStreak(0);
 
-      setTimeout(() => {
+      scheduleAdvance(() => {
         setShowPuzzleAnswer(false);
         setIsCorrect(null);
         // Reset to try again with same puzzle
         setupPuzzleCells(puzzleAnswer);
       }, 3000);
     }
-  }, [cells, puzzleAnswer, setupPuzzleCells]);
+  }, [cells, puzzleAnswer, scheduleAdvance, setupPuzzleCells]);
 
   const resetGame = useCallback(() => {
     const mode = gameModeRef.current;
+    // A reset during the feedback pause must also drop the pending advance,
+    // or the stale timeout fires later and generates a second problem.
+    cancelPendingAdvance();
     setFeedback('');
     setIsCorrect(null);
     setHasSubmitted(false);
@@ -370,7 +427,7 @@ export function useGameState() {
       setCells(Array(10).fill('empty'));
       setUserAnswer(null);
     }
-  }, [doGenerateProblem, setupPuzzleCells]);
+  }, [cancelPendingAdvance, doGenerateProblem, setupPuzzleCells]);
 
   const newPuzzle = useCallback(() => {
     const newNum = generatePuzzleNumber();

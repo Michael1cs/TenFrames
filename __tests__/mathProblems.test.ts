@@ -122,3 +122,39 @@ describe('problem generation', () => {
     expect(max / min).toBeLessThan(1.35);
   });
 });
+
+describe('no immediate repeats', () => {
+  // Focused levels draw from pools of 2-3 facts; without the guard the same
+  // problem lands back-to-back often enough that children notice.
+  it.each([
+    ['addition', 21], // doubles band around 1: pool {1+1, 2+2}
+    ['addition', 30], // High Five +1 band
+    ['subtraction', 1],
+    ['addition', 1],
+  ] as const)('%s level %i never serves the same fact twice in a row', (mode, level) => {
+    let last = '';
+    for (let i = 0; i < 300; i++) {
+      const p = generateProblem(mode, level, 'older');
+      const key = `${p.num1}|${p.num2}`;
+      expect(key).not.toBe(last);
+      last = key;
+    }
+  });
+
+  it('young pools never repeat back-to-back either', () => {
+    let last = '';
+    for (let i = 0; i < 300; i++) {
+      const p = generateProblem('addition', 1, 'young');
+      const key = `${p.num1}|${p.num2}`;
+      expect(key).not.toBe(last);
+      last = key;
+    }
+  });
+
+  it('share level 6 (single config, 10÷5) is allowed to repeat', () => {
+    // Pool of one: the guard must give up rather than loop forever.
+    const a = generateShareProblem(6);
+    const b = generateShareProblem(6);
+    expect(a).toEqual(b);
+  });
+});

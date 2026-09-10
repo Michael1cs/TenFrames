@@ -30,6 +30,30 @@ function pickRandom<T>(pool: T[]): T {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
+// Never serve the identical problem twice in a row. Focused levels draw from
+// pools as small as 2-3 facts (doubles bands, young pools), so a plain
+// uniform pick repeats back-to-back often enough that children notice. The
+// guard remembers the last key per scope and re-rolls a few times; a pool of
+// size one (share level 6 is always 10÷5 by design) simply gives up and
+// repeats, which is correct there.
+const lastServedKey = new Map<string, string>();
+
+function withoutImmediateRepeat<T>(
+  scope: string,
+  generate: () => T,
+  keyOf: (value: T) => string,
+): T {
+  let value = generate();
+  const last = lastServedKey.get(scope);
+  // 25 re-rolls: for a pool of two the miss chance is 2^-26 per draw —
+  // effectively never — while a pool of one falls through quickly.
+  for (let tries = 0; tries < 25 && keyOf(value) === last; tries++) {
+    value = generate();
+  }
+  lastServedKey.set(scope, keyOf(value));
+  return value;
+}
+
 /**
  * Generate a problem based on game mode and difficulty level.
  * Levels 1-9: focused practice (e.g., level 1 = +1 only, level 2 = +2 only)
@@ -40,6 +64,18 @@ export function generateProblem(
   gameMode: GameMode,
   level: number = 10,
   ageGroup: AgeGroup = 'older',
+): Problem {
+  return withoutImmediateRepeat(
+    gameMode,
+    () => generateProblemOnce(gameMode, level, ageGroup),
+    p => `${p.num1}|${p.num2}`,
+  );
+}
+
+function generateProblemOnce(
+  gameMode: GameMode,
+  level: number,
+  ageGroup: AgeGroup,
 ): Problem {
   if (ageGroup === 'young') {
     if (gameMode === 'addition') return pickRandom(YOUNG_ADDITION_POOL);
@@ -212,6 +248,14 @@ const SHARE_FINALE: {total: number; buckets: number}[] = [
 ];
 
 export function generateShareProblem(level: number): ShareProblem {
+  return withoutImmediateRepeat(
+    'share',
+    () => generateShareProblemOnce(level),
+    p => `${p.total}|${p.buckets}`,
+  );
+}
+
+function generateShareProblemOnce(level: number): ShareProblem {
   if (level === 8) {
     const p = SHARE_FINALE[Math.floor(Math.random() * SHARE_FINALE.length)];
     return {total: p.total, buckets: p.buckets, target: p.total / p.buckets};
@@ -222,6 +266,14 @@ export function generateShareProblem(level: number): ShareProblem {
 }
 
 export function generatePuzzleNumber(level?: number): number {
+  return withoutImmediateRepeat(
+    'puzzle',
+    () => generatePuzzleNumberOnce(level),
+    n => String(n),
+  );
+}
+
+function generatePuzzleNumberOnce(level?: number): number {
   // Each level picks the start number from a small band around its modeLevel
   // (±1) so the 5 problems in a level mix 2-3 different partners — drilling
   // one pair 5x straight was too repetitive. Level 0 / 10+ is fully random.
@@ -254,6 +306,14 @@ export function checkPuzzleAnswer(
  * Designed for 5-7 year olds.
  */
 export function generateCountingChallenge(level: number): CountingChallenge {
+  return withoutImmediateRepeat(
+    'counting',
+    () => generateCountingChallengeOnce(level),
+    c => `${c.targetNumber}|${c.instruction}`,
+  );
+}
+
+function generateCountingChallengeOnce(level: number): CountingChallenge {
   // Pool of challenges per level - picks randomly from pool
   const pools: Record<number, CountingChallenge[]> = {
     // High Five! — levels 11-12. The whole point is that a full top row is
