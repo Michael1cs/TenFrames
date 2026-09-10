@@ -182,6 +182,30 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     ],
   },
 
+  // === World: Number Town ===
+  // "Name the number" — the bridge from the concrete frame to the abstract
+  // equation. The child still works the frame, but the answer is a tapped
+  // numeral: 5 + 3 = ? first (sum slot), then 3 + ? = 8 (missing addend).
+  // Voice cost zero: instruction reuses have_<noun>_N + add_more_<noun>_M
+  // (sum) and have_<noun>_N + make_M (addend); the answer itself is num_N.
+  {
+    id: 'number-town',
+    nameKey: 'adventure.worlds.numberTown',
+    emoji: '🔟',
+    theme: 'pixel',
+    freeLevels: 3,
+    levels: [
+      {id: 'nt-1', worldId: 'number-town', order: 1, nameKey: 'adventure.levels.nt1', emoji: '⭐', isBonus: false, gameMode: 'answer', modeLevel: 1, problemCount: 5, unlockCondition: {type: 'first'}},
+      {id: 'nt-2', worldId: 'number-town', order: 2, nameKey: 'adventure.levels.nt2', emoji: '🚀', isBonus: false, gameMode: 'answer', modeLevel: 2, problemCount: 5, unlockCondition: unlockPrev('nt-1')},
+      {id: 'nt-3', worldId: 'number-town', order: 3, nameKey: 'adventure.levels.nt3', emoji: '🌙', isBonus: false, gameMode: 'answer', modeLevel: 3, problemCount: 5, unlockCondition: unlockPrev('nt-2')},
+      {id: 'nt-4', worldId: 'number-town', order: 4, nameKey: 'adventure.levels.nt4', emoji: '☄️', isBonus: false, gameMode: 'answer', modeLevel: 5, problemCount: 5, unlockCondition: unlockPrev('nt-3')},
+      {id: 'nt-5', worldId: 'number-town', order: 5, nameKey: 'adventure.levels.nt5', emoji: '🌌', isBonus: false, gameMode: 'answer', modeLevel: 6, problemCount: 5, unlockCondition: unlockPrev('nt-4')},
+      {id: 'nt-6', worldId: 'number-town', order: 6, nameKey: 'adventure.levels.nt6', emoji: '🛸', isBonus: false, gameMode: 'answer', modeLevel: 7, problemCount: 5, unlockCondition: unlockPrev('nt-5')},
+      {id: 'nt-bonus-a', worldId: 'number-town', order: 7, nameKey: 'adventure.levels.ntBonusA', emoji: '⭐', isBonus: true, gameMode: 'answer', modeLevel: 7, problemCount: 5, unlockCondition: unlockStars('number-town', 12)},
+      {id: 'nt-bonus-b', worldId: 'number-town', order: 8, nameKey: 'adventure.levels.ntBonusB', emoji: '🏆', isBonus: true, gameMode: 'answer', modeLevel: 8, problemCount: 5, unlockCondition: unlockStars('number-town', 16)},
+    ],
+  },
+
   // === World 6: Memory Garden ===
   // 5 progresive + 2 bonus (mai multe celule + show mai rapid)
   {
@@ -238,6 +262,7 @@ export function getDefaultAdventureProgress(): AdventureProgress {
       'make-ten-beach': {unlocked: true, levels: {}},
       'mixed-targets': {unlocked: true, levels: {}},
       'doubles-castle': {unlocked: true, levels: {}},
+      'number-town': {unlocked: true, levels: {}},
       'memory-garden': {unlocked: true, levels: {}},
       'farm-share': {unlocked: true, levels: {}},
     },

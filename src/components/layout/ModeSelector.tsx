@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Pressable, StyleSheet} from 'react-native';
+import {View, Pressable, ScrollView, StyleSheet} from 'react-native';
 import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {GameMode, ThemeColors} from '../../types/game';
@@ -20,7 +20,9 @@ const allModes: {id: GameMode; emoji: string; key: string; emojiColor?: string}[
   {id: 'counting', emoji: '🔢', key: 'modes.counting'},
   {id: 'addition', emoji: '+', key: 'modes.addition', emojiColor: '#4ADE80'},
   {id: 'subtraction', emoji: '−', key: 'modes.subtraction', emojiColor: '#F87171'},
+  {id: 'answer', emoji: '🎯', key: 'modes.answer'},
   {id: 'puzzle', emoji: '🧩', key: 'modes.puzzle'},
+  {id: 'compare', emoji: '⚖️', key: 'modes.compare'},
   {id: 'workshop', emoji: '🎨', key: 'modes.workshop'},
 ];
 
@@ -96,9 +98,14 @@ export function ModeSelector({
     );
   }
 
-  // Portrait bottom tab bar
-  return (
-    <View style={styles.bottomBar}>
+  // Portrait bottom tab bar. With the full 7-mode roster plus Adventure the
+  // tabs no longer fit a phone width, so past six entries the bar scrolls
+  // horizontally with fixed-width tabs instead of squeezing flex ones.
+  const totalTabs = modes.length + (onAdventurePress ? 1 : 0);
+  const scrollable = totalTabs > 6;
+  const tabStyle = scrollable ? styles.bottomTabFixed : styles.bottomTab;
+  const bar = (
+    <>
       {modes.map(mode => {
         const isActive = activeMode === mode.id;
         const isLimited = !isPremium && mode.id !== 'counting';
@@ -112,7 +119,7 @@ export function ModeSelector({
             key={mode.id}
             onPress={() => onModeChange(mode.id)}
             style={[
-              styles.bottomTab,
+              tabStyle,
               {opacity: isExhausted ? 0.5 : 1},
             ]}>
             <View
@@ -153,7 +160,7 @@ export function ModeSelector({
         );
       })}
       {onAdventurePress && (
-        <Pressable onPress={onAdventurePress} style={styles.bottomTab}>
+        <Pressable onPress={onAdventurePress} style={tabStyle}>
           <View
             style={[
               styles.bottomTabInner,
@@ -177,8 +184,23 @@ export function ModeSelector({
           </View>
         </Pressable>
       )}
-    </View>
+    </>
   );
+
+  if (scrollable) {
+    return (
+      <View style={styles.bottomBarWrap}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.bottomBarScroll}>
+          {bar}
+        </ScrollView>
+      </View>
+    );
+  }
+
+  return <View style={styles.bottomBar}>{bar}</View>;
 }
 
 const styles = StyleSheet.create({
@@ -196,6 +218,22 @@ const styles = StyleSheet.create({
   bottomTab: {
     flex: 1,
     alignItems: 'center',
+  },
+  bottomTabFixed: {
+    width: 88,
+    alignItems: 'center',
+  },
+  bottomBarWrap: {
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255,255,255,0.1)',
+  },
+  bottomBarScroll: {
+    flexGrow: 1,
+    paddingHorizontal: 8,
+    paddingTop: 8,
+    paddingBottom: 12,
+    gap: 6,
   },
   bottomTabInner: {
     alignItems: 'center',

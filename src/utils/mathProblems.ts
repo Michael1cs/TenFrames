@@ -1,4 +1,4 @@
-import {AgeGroup, CellState, GameMode, MemoryChallenge, Problem, CountingChallenge} from '../types/game';
+import {AgeGroup, AnswerProblem, CellState, CompareProblem, GameMode, MemoryChallenge, Problem, CountingChallenge} from '../types/game';
 
 const YOUNG_ADDITION_POOL: Problem[] = [
   {num1: 1, num2: 1, answer: 2},
@@ -283,6 +283,86 @@ function generatePuzzleNumberOnce(level?: number): number {
     return lo + Math.floor(Math.random() * (hi - lo + 1));
   }
   return Math.floor(Math.random() * 8) + 1;
+}
+
+/**
+ * Answer mode — the child names the number instead of arranging it.
+ * Level bands:
+ *   1: sum slot, small facts (totals 2-5)
+ *   2: sum slot, totals 6-10
+ *   3: sum slot, full range
+ *   5: addend slot (3 + ? = 5), totals <= 5
+ *   6: addend slot, totals 6-10
+ *   7: mixed slots, full range
+ *   8: addend slot only, totals 6-10 — the hardest skill, boss material
+ */
+export function generateAnswerProblem(level: number): AnswerProblem {
+  return withoutImmediateRepeat(
+    'answer',
+    () => generateAnswerProblemOnce(level),
+    p => `${p.slot}|${p.num1}|${p.num2}`,
+  );
+}
+
+function answerFactWithSum(lo: number, hi: number): Problem {
+  const sum = lo + Math.floor(Math.random() * (hi - lo + 1));
+  const a = 1 + Math.floor(Math.random() * (sum - 1));
+  return {num1: a, num2: sum - a, answer: sum};
+}
+
+function generateAnswerProblemOnce(level: number): AnswerProblem {
+  const slot: AnswerProblem['slot'] =
+    level <= 4
+      ? 'sum'
+      : level <= 6 || level >= 8
+      ? 'addend'
+      : Math.random() < 0.5
+      ? 'sum'
+      : 'addend';
+  // Addend-slot totals start at 3 so the voice line always exists:
+  // "You have N. Make M!" uses make_3..make_9 / instr_make_ten.
+  const p =
+    level === 1
+      ? answerFactWithSum(2, 5)
+      : level === 5
+      ? answerFactWithSum(3, 5)
+      : level === 2 || level === 6 || level >= 8
+      ? answerFactWithSum(6, 10)
+      : slot === 'addend'
+      ? answerFactWithSum(3, 10)
+      : answerFactWithSum(2, 10);
+  return {...p, slot, expected: slot === 'sum' ? p.answer : p.num2};
+}
+
+/**
+ * Compare mode — two frames, tap the one with more (or "same").
+ * Level bands:
+ *   1: difference >= 3, never equal (the contrast teaches the idea)
+ *   2: difference 1-2, never equal (forces actual counting)
+ *   3: full range, ~1 in 4 problems equal
+ */
+export function generateCompareProblem(level: number): CompareProblem {
+  return withoutImmediateRepeat(
+    'compare',
+    () => generateCompareProblemOnce(level),
+    p => `${p.left}|${p.right}`,
+  );
+}
+
+function generateCompareProblemOnce(level: number): CompareProblem {
+  if (level >= 3 && Math.random() < 0.25) {
+    const n = 1 + Math.floor(Math.random() * 10);
+    return {left: n, right: n, correct: 'equal'};
+  }
+  const minDiff = level <= 1 ? 3 : 1;
+  const maxDiff = level <= 1 ? 9 : level === 2 ? 2 : 9;
+  const diff =
+    minDiff + Math.floor(Math.random() * (maxDiff - minDiff + 1));
+  const small = 1 + Math.floor(Math.random() * (10 - diff));
+  const big = small + diff;
+  return Math.random() < 0.5
+    ? {left: big, right: small, correct: 'left'}
+    : {left: small, right: big, correct: 'right'};
 }
 
 export function checkAnswer(

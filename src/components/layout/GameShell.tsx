@@ -27,6 +27,8 @@ import {CountingMode} from '../game/CountingMode';
 import {AdditionMode} from '../game/AdditionMode';
 import {SubtractionMode} from '../game/SubtractionMode';
 import {PuzzleMode} from '../game/PuzzleMode';
+import {NumberAnswerMode} from '../game/NumberAnswerMode';
+import {CompareMode} from '../game/CompareMode';
 import {WorkshopMode} from '../game/WorkshopMode';
 import {FarmShareMode} from '../game/FarmShareMode';
 import {CorrectAnimation} from '../feedback/CorrectAnimation';
@@ -296,6 +298,40 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
             colors={colors}
             emoji={themeConfig.emoji}
             tokenImage={themeConfig.tokenImage}
+          />
+        );
+      case 'answer':
+        return (
+          <NumberAnswerMode
+            cells={game.cells}
+            onCellClick={handleCellClick}
+            onNumberPick={game.handleNumberPick}
+            onReset={game.resetGame}
+            problem={game.answerProblem}
+            isCorrect={game.isCorrect}
+            hasSubmitted={game.hasSubmitted}
+            feedback={game.feedback}
+            wrongPick={game.wrongPick}
+            colors={colors}
+            emoji={themeConfig.emoji}
+            tokenImage={themeConfig.tokenImage}
+            level={game.answerLevel}
+            ageGroup={game.ageGroup}
+            ageProfile={ageProfile}
+          />
+        );
+      case 'compare':
+        return (
+          <CompareMode
+            problem={game.compareProblem}
+            onPick={game.handleComparePick}
+            onReset={game.resetGame}
+            isCorrect={game.isCorrect}
+            hasSubmitted={game.hasSubmitted}
+            feedback={game.feedback}
+            colors={colors}
+            level={game.compareLevel}
+            ageProfile={ageProfile}
           />
         );
       case 'workshop':
@@ -622,7 +658,9 @@ function useShellState(
   const limitPendingRef = useRef(false);
   useEffect(() => {
     billedProblemRef.current = false;
-  }, [game.currentProblem]);
+    // answer/compare keep currentProblem null — their own problem objects
+    // mark the problem boundary instead.
+  }, [game.currentProblem, game.answerProblem, game.compareProblem]);
   useEffect(() => {
     if (game.isCorrect !== null && !billedProblemRef.current) {
       billedProblemRef.current = true;
@@ -643,6 +681,11 @@ function useShellState(
         (game.gameMode === 'addition' || game.gameMode === 'subtraction')
       ) {
         queueVoice(`post_great_${game.theme}_${game.currentProblem.answer}`);
+      } else if (game.gameMode === 'answer' && game.answerProblem) {
+        // Say the number the child just named, then praise.
+        queueVoice(`num_${game.answerProblem.expected}`);
+        const ids = VOICE_GROUPS.correct;
+        queueVoice(ids[Math.floor(Math.random() * ids.length)]);
       } else {
         const ids = VOICE_GROUPS.correct;
         queueVoice(ids[Math.floor(Math.random() * ids.length)]);
@@ -694,7 +737,7 @@ function useShellState(
     if (!limitPendingRef.current) return;
     limitPendingRef.current = false;
     setShowDailyLimit(true);
-  }, [game.currentProblem]);
+  }, [game.currentProblem, game.answerProblem, game.compareProblem]);
 
   useEffect(() => {
     if (game.gameMode !== 'addition' && game.gameMode !== 'subtraction') return;
@@ -760,13 +803,22 @@ function useShellState(
 
   const prevAddLevel = useRef(game.additionLevel);
   const prevSubLevel = useRef(game.subtractionLevel);
+  const prevAnswerLevel = useRef(game.answerLevel);
+  const prevCompareLevel = useRef(game.compareLevel);
   useEffect(() => {
-    if (game.additionLevel > prevAddLevel.current || game.subtractionLevel > prevSubLevel.current) {
+    if (
+      game.additionLevel > prevAddLevel.current ||
+      game.subtractionLevel > prevSubLevel.current ||
+      game.answerLevel > prevAnswerLevel.current ||
+      game.compareLevel > prevCompareLevel.current
+    ) {
       playSound('levelup');
     }
     prevAddLevel.current = game.additionLevel;
     prevSubLevel.current = game.subtractionLevel;
-  }, [game.additionLevel, game.subtractionLevel, playSound]);
+    prevAnswerLevel.current = game.answerLevel;
+    prevCompareLevel.current = game.compareLevel;
+  }, [game.additionLevel, game.subtractionLevel, game.answerLevel, game.compareLevel, playSound]);
 
   const handleLanguageChange = useCallback(
     (lang: Language) => {

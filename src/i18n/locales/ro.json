@@ -10,7 +10,9 @@
     "puzzle": "Puzzle",
     "share": "Împarte la fel",
     "memory": "Memorie",
-    "workshop": "Creează"
+    "workshop": "Creează",
+    "answer": "Răspunde",
+    "compare": "Mai multe?"
   },
   "parentDash": {
     "title": "Progres copil",
@@ -55,7 +57,10 @@
     "newProblem": "Problemă nouă",
     "newPuzzle": "Puzzle nou",
     "send": "Trimite",
-    "changeTheme": "Setări"
+    "changeTheme": "Setări",
+    "answerHint": "Construiește pe cadru, apoi apasă numărul!",
+    "compareQuestion": "Care are mai multe?",
+    "compareSame": "La fel!"
   },
   "feedback": {
     "correct": "Bravo! Așa e!",
@@ -291,7 +296,8 @@
       "doublesCastle": "Castelul Dublurilor",
       "memoryGarden": "Grădina Memoriei",
       "farmShare": "Împarte la Fermă",
-      "highFive": "Bat palma!"
+      "highFive": "Bat palma!",
+      "numberTown": "Orașul Numerelor"
     },
     "levels": {
       "cm1": "Numără până la 2",
@@ -375,7 +381,15 @@
       "hf7": "Cinci și cinci",
       "hf8": "Amestecate",
       "hfBonusA": "Toate felurile de cinci",
-      "hfBonusB": "Marele cinci"
+      "hfBonusB": "Marele cinci",
+      "nt1": "Sume mici",
+      "nt2": "Sume mari",
+      "nt3": "Toate sumele",
+      "nt4": "Ce lipsește?",
+      "nt5": "Lipsește mai mult",
+      "nt6": "Amestec de numere",
+      "ntBonusA": "Numere de stele",
+      "ntBonusB": "Campionul numerelor"
     },
     "level": "Nivel",
     "stars": "Stele",
@@ -399,7 +413,8 @@
     "fillExactly_other": "Umple exact {{count}} căsuțe!",
     "fillTopRow": "Umple doar rândul de sus!",
     "fillBottomRow": "Umple doar rândul de jos!",
-    "fillBothEqual": "La fel pe ambele rânduri!"
+    "fillBothEqual": "La fel pe ambele rânduri!",
+    "pickTheNumber": "Apasă numărul!"
   },
   "memory": {
     "watch": "Privește atent!",

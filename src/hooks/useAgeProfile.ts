@@ -17,9 +17,12 @@ export function useAgeProfile(ageGroup: AgeGroup): AgeProfile {
       compact: isYoung,
       autoVoice: isYoung,
       showHints: !isYoung,
+      // Compare ("which has more?") is pure subitizing, so even the young
+      // profile gets it. Answer mode needs numeral recognition 0-10 — that is
+      // the older band's bridge to written equations.
       availableModes: isYoung
-        ? (['counting', 'addition', 'subtraction', 'workshop'] as GameMode[])
-        : (['counting', 'addition', 'subtraction', 'puzzle', 'workshop'] as GameMode[]),
+        ? (['counting', 'addition', 'subtraction', 'compare', 'workshop'] as GameMode[])
+        : (['counting', 'addition', 'subtraction', 'answer', 'puzzle', 'compare', 'workshop'] as GameMode[]),
       fontScale: isYoung ? 1.15 : 1.0,
       cellMinSize: isYoung ? 64 : 56,
     };

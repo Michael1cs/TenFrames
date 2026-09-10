@@ -10,7 +10,9 @@
     "puzzle": "Rätsel",
     "share": "Teilen",
     "memory": "Gedächtnis",
-    "workshop": "Erstellen"
+    "workshop": "Erstellen",
+    "answer": "Antworten",
+    "compare": "Mehr?"
   },
   "parentDash": {
     "title": "Eltern-Übersicht",
@@ -55,7 +57,10 @@
     "newProblem": "Neue Aufgabe",
     "newPuzzle": "Neues Rätsel",
     "send": "Senden",
-    "changeTheme": "Einstellungen"
+    "changeTheme": "Einstellungen",
+    "answerHint": "Baue es im Feld, dann tippe die Zahl!",
+    "compareQuestion": "Wo sind mehr?",
+    "compareSame": "Gleich!"
   },
   "feedback": {
     "correct": "Ja! Richtig!",
@@ -291,7 +296,8 @@
       "doublesCastle": "Doppel-Schloss",
       "memoryGarden": "Gedächtnis-Garten",
       "farmShare": "Bauernhof teilen",
-      "highFive": "Gib fünf!"
+      "highFive": "Gib fünf!",
+      "numberTown": "Zahlenstadt"
     },
     "levels": {
       "cm1": "Zähle bis 2",
@@ -375,7 +381,15 @@
       "hf7": "Fünf und fünf",
       "hf8": "Alles gemischt",
       "hfBonusA": "Jeder Weg zur Fünf",
-      "hfBonusB": "Die große Fünf"
+      "hfBonusB": "Die große Fünf",
+      "nt1": "Kleine Summen",
+      "nt2": "Große Summen",
+      "nt3": "Alle Summen",
+      "nt4": "Was fehlt?",
+      "nt5": "Mehr fehlt",
+      "nt6": "Zahlen-Mix",
+      "ntBonusA": "Sternzahlen",
+      "ntBonusB": "Zahlen-Champion"
     },
     "level": "Level",
     "stars": "Sterne",
@@ -399,7 +413,8 @@
     "fillExactly_other": "Fülle genau {{count}} Felder!",
     "fillTopRow": "Fülle nur die obere Reihe!",
     "fillBottomRow": "Fülle nur die untere Reihe!",
-    "fillBothEqual": "Gleich viele in beiden Reihen!"
+    "fillBothEqual": "Gleich viele in beiden Reihen!",
+    "pickTheNumber": "Tippe die Zahl!"
   },
   "memory": {
     "watch": "Schau gut zu!",

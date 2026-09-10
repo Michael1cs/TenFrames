@@ -8,7 +8,8 @@ import {
   Language,
   AgeGroup,
 } from '../types/game';
-import {generateProblem, generatePuzzleNumber, generateShareProblem, ShareProblem} from '../utils/mathProblems';
+import {generateProblem, generatePuzzleNumber, generateShareProblem, generateAnswerProblem, generateCompareProblem, ShareProblem} from '../utils/mathProblems';
+import {AnswerProblem, CompareProblem} from '../types/game';
 import {shouldLevelUp} from '../utils/scoring';
 import i18n from '../i18n';
 
@@ -47,6 +48,13 @@ export function useGameState() {
   // Per-mode difficulty levels (1-9 = focused, 10+ = random)
   const [additionLevel, setAdditionLevel] = useState(1);
   const [subtractionLevel, setSubtractionLevel] = useState(1);
+  // Answer mode ("name the number"): 1-3 sum slot, 5-6 missing addend, 7 mixed
+  const [answerLevel, setAnswerLevel] = useState(1);
+  const [answerProblem, setAnswerProblem] = useState<AnswerProblem | null>(null);
+  const [wrongPick, setWrongPick] = useState<number | null>(null);
+  // Compare mode ("which has more?")
+  const [compareLevel, setCompareLevel] = useState(1);
+  const [compareProblem, setCompareProblem] = useState<CompareProblem | null>(null);
   // Consecutive correct answers at current level (level up after 3)
   const [levelCorrectStreak, setLevelCorrectStreak] = useState(0);
 
@@ -102,9 +110,51 @@ export function useGameState() {
   subtractionLevelRef.current = subtractionLevel;
   const ageGroupRef = useRef(ageGroup);
   ageGroupRef.current = ageGroup;
+  const answerLevelRef = useRef(answerLevel);
+  answerLevelRef.current = answerLevel;
+  const compareLevelRef = useRef(compareLevel);
+  compareLevelRef.current = compareLevel;
+  const answerProblemRef = useRef(answerProblem);
+  answerProblemRef.current = answerProblem;
+  const compareProblemRef = useRef(compareProblem);
+  compareProblemRef.current = compareProblem;
 
   const doGenerateProblem = useCallback(() => {
     const mode = gameModeRef.current;
+
+    if (mode === 'answer') {
+      const p = generateAnswerProblem(answerLevelRef.current);
+      setAnswerProblem(p);
+      setWrongPick(null);
+      setCurrentProblem(null);
+      setFeedback('');
+      setIsCorrect(null);
+      setHasSubmitted(false);
+      setMascotMood('thinking');
+      // The frame is the child's working space: num1 pre-placed, they build
+      // the rest and then NAME the number on the pad.
+      const newCells: CellState[] = Array(10).fill('empty');
+      for (let i = 0; i < p.num1; i++) {
+        newCells[i] = 'color1';
+      }
+      setCells(newCells);
+      setUserAnswer(p.num1);
+      return;
+    }
+
+    if (mode === 'compare') {
+      setCompareProblem(generateCompareProblem(compareLevelRef.current));
+      setWrongPick(null);
+      setCurrentProblem(null);
+      setFeedback('');
+      setIsCorrect(null);
+      setHasSubmitted(false);
+      setMascotMood('thinking');
+      setCells(Array(10).fill('empty'));
+      setUserAnswer(null);
+      return;
+    }
+
     const modeLevel = mode === 'addition' ? additionLevelRef.current : subtractionLevelRef.current;
     const problem = generateProblem(mode, modeLevel, ageGroupRef.current);
     setCurrentProblem(problem);
@@ -134,7 +184,12 @@ export function useGameState() {
     waitTimeoutRef.current = null;
     pendingAdvanceRef.current = null;
     setLevelCorrectStreak(0);
-    if (gameMode === 'addition' || gameMode === 'subtraction') {
+    if (
+      gameMode === 'addition' ||
+      gameMode === 'subtraction' ||
+      gameMode === 'answer' ||
+      gameMode === 'compare'
+    ) {
       doGenerateProblem();
     } else if (gameMode === 'puzzle') {
       const num = generatePuzzleNumber();
@@ -244,6 +299,27 @@ export function useGameState() {
           const newCells = [...prev];
           if (newCells[index] === 'color1') {
             // Can't remove the first addend cells
+            return prev;
+          }
+          if (newCells[index] === 'empty') {
+            newCells[index] = 'color2';
+          } else if (newCells[index] === 'color2') {
+            newCells[index] = 'empty';
+          }
+          const totalFilled = newCells.filter(c => c !== 'empty').length;
+          setUserAnswer(totalFilled);
+          return newCells;
+        });
+      } else if (mode === 'answer') {
+        // Same board rules as addition — but the frame is only a working
+        // space; the answer is submitted from the number pad.
+        if (hasSubmittedRef.current) {
+          skipWait();
+          return;
+        }
+        setCells(prev => {
+          const newCells = [...prev];
+          if (newCells[index] === 'color1') {
             return prev;
           }
           if (newCells[index] === 'empty') {
@@ -368,6 +444,90 @@ export function useGameState() {
     }
   }, [cells, doGenerateProblem, scheduleAdvance, setupAdditionCells, setupSubtractionCells]);
 
+  // Answer mode: the pad IS the submit button. Correct advances like any
+  // other mode; wrong marks the bubble and lets the child pick again — no
+  // frozen wait, the retry is immediate.
+  const handleNumberPick = useCallback(
+    (n: number) => {
+      const p = answerProblemRef.current;
+      if (!p) return;
+      if (hasSubmittedRef.current) {
+        skipWait();
+        return;
+      }
+      if (n === p.expected) {
+        setWrongPick(null);
+        setIsCorrect(true);
+        setFeedback('correct');
+        setScore(prev => prev + 1);
+        setStreak(prev => prev + 1);
+        setHasSubmitted(true);
+        setShowConfetti(true);
+        setMascotMood('excited');
+        setLevelCorrectStreak(prev => {
+          const newStreak = prev + 1;
+          if (newStreak >= 3) {
+            setAnswerLevel(l => Math.min(l + 1, 7));
+            return 0;
+          }
+          return newStreak;
+        });
+        scheduleAdvance(() => {
+          setShowConfetti(false);
+          doGenerateProblem();
+        }, 5000);
+      } else {
+        setWrongPick(n);
+        setIsCorrect(false);
+        setFeedback('wrong');
+        setStreak(0);
+        setLevelCorrectStreak(0);
+        setMascotMood('thinking');
+      }
+    },
+    [doGenerateProblem, scheduleAdvance, skipWait],
+  );
+
+  // Compare mode: tap the side with more (or "same").
+  const handleComparePick = useCallback(
+    (side: 'left' | 'right' | 'equal') => {
+      const p = compareProblemRef.current;
+      if (!p) return;
+      if (hasSubmittedRef.current) {
+        skipWait();
+        return;
+      }
+      if (side === p.correct) {
+        setIsCorrect(true);
+        setFeedback('correct');
+        setScore(prev => prev + 1);
+        setStreak(prev => prev + 1);
+        setHasSubmitted(true);
+        setShowConfetti(true);
+        setMascotMood('excited');
+        setLevelCorrectStreak(prev => {
+          const newStreak = prev + 1;
+          if (newStreak >= 3) {
+            setCompareLevel(l => Math.min(l + 1, 3));
+            return 0;
+          }
+          return newStreak;
+        });
+        scheduleAdvance(() => {
+          setShowConfetti(false);
+          doGenerateProblem();
+        }, 4000);
+      } else {
+        setIsCorrect(false);
+        setFeedback('wrong');
+        setStreak(0);
+        setLevelCorrectStreak(0);
+        setMascotMood('thinking');
+      }
+    },
+    [doGenerateProblem, scheduleAdvance, skipWait],
+  );
+
   const handlePuzzleSubmit = useCallback(() => {
     // Count color2 cells (what child added)
     const color2Cells = cells.filter(c => c === 'color2').length;
@@ -416,7 +576,12 @@ export function useGameState() {
     setIsCorrect(null);
     setHasSubmitted(false);
 
-    if (mode === 'addition' || mode === 'subtraction') {
+    if (
+      mode === 'addition' ||
+      mode === 'subtraction' ||
+      mode === 'answer' ||
+      mode === 'compare'
+    ) {
       doGenerateProblem();
     } else if (mode === 'puzzle') {
       const newNum = generatePuzzleNumber();
@@ -471,11 +636,18 @@ export function useGameState() {
     additionPhase,
     additionLevel,
     subtractionLevel,
+    answerLevel,
+    answerProblem,
+    wrongPick,
+    compareLevel,
+    compareProblem,
 
     // Actions
     setGameMode,
     handleCellClick,
     handleSubmit,
+    handleNumberPick,
+    handleComparePick,
     handlePuzzleSubmit,
     resetGame,
     newPuzzle,

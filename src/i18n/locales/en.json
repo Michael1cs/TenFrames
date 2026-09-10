@@ -10,7 +10,9 @@
     "puzzle": "Puzzle",
     "share": "Share",
     "memory": "Memory",
-    "workshop": "Create"
+    "workshop": "Create",
+    "answer": "Answer",
+    "compare": "More?"
   },
   "parentDash": {
     "title": "Parent Progress",
@@ -55,7 +57,10 @@
     "newProblem": "New problem",
     "newPuzzle": "New puzzle",
     "send": "Submit",
-    "changeTheme": "Settings"
+    "changeTheme": "Settings",
+    "answerHint": "Build it on the frame, then tap the number!",
+    "compareQuestion": "Which has more?",
+    "compareSame": "Same!"
   },
   "feedback": {
     "correct": "Yes! That's right!",
@@ -291,7 +296,8 @@
       "doublesCastle": "Doubles Castle",
       "memoryGarden": "Memory Garden",
       "farmShare": "Farm Share",
-      "highFive": "High Five!"
+      "highFive": "High Five!",
+      "numberTown": "Number Town"
     },
     "levels": {
       "cm1": "Count to 2",
@@ -375,7 +381,15 @@
       "hf7": "Five and Five",
       "hf8": "All Mixed Up",
       "hfBonusA": "Every Way to Make Five",
-      "hfBonusB": "The Big Five"
+      "hfBonusB": "The Big Five",
+      "nt1": "Little Sums",
+      "nt2": "Big Sums",
+      "nt3": "All the Sums",
+      "nt4": "What’s Missing?",
+      "nt5": "Missing Bigger",
+      "nt6": "Number Mix",
+      "ntBonusA": "Star Numbers",
+      "ntBonusB": "Number Champion"
     },
     "level": "Level",
     "stars": "Stars",
@@ -399,7 +413,8 @@
     "fillExactly_other": "Fill exactly {{count}} cells!",
     "fillTopRow": "Fill only the top row!",
     "fillBottomRow": "Fill only the bottom row!",
-    "fillBothEqual": "Same on both rows!"
+    "fillBothEqual": "Same on both rows!",
+    "pickTheNumber": "Tap the number!"
   },
   "memory": {
     "watch": "Watch carefully!",

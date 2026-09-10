@@ -5,6 +5,7 @@ import Animated, {BounceIn, FadeIn} from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
 import {
   AdventureLevel,
+  AnswerProblem,
   ThemeColors,
   ThemeConfig,
   Problem,
@@ -14,6 +15,7 @@ import {
 } from '../../types/game';
 import {
   generateProblem,
+  generateAnswerProblem,
   generateCountingChallenge,
   generateMemoryChallenge,
   generatePuzzleNumber,
@@ -24,6 +26,7 @@ import {
 } from '../../utils/mathProblems';
 import {TenFrame} from '../game/TenFrame';
 import {NumberDisplay} from '../game/NumberDisplay';
+import {NumberPad} from '../game/NumberPad';
 import {MemoryMode} from '../game/MemoryMode';
 import {FarmShareMode} from '../game/FarmShareMode';
 import {useVoice, VOICE_GROUPS, clearPendingVoiceQueue} from '../../hooks/useVoice';
@@ -95,6 +98,16 @@ const LEVEL_NOUN: Record<string, string> = {
   'dc-5': 'gem',
   'dc-bonus-a': 'star',
   'dc-bonus-b': 'trophy',
+  // Number Town — space nouns with complete have_/add_more_ coverage; level
+  // emojis match, so "3 stars" narrates the stars the child actually sees.
+  'nt-1': 'star',
+  'nt-2': 'rocket',
+  'nt-3': 'moon',
+  'nt-4': 'comet',
+  'nt-5': 'galaxy',
+  'nt-6': 'ufo',
+  'nt-bonus-a': 'star',
+  'nt-bonus-b': 'trophy',
 };
 
 interface AdventureLevelScreenProps {
@@ -146,6 +159,9 @@ export function AdventureLevelScreen({
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [attempts, setAttempts] = useState(0);
+  // Answer mode (Number Town): the number pad is the submit button.
+  const [padWrongPick, setPadWrongPick] = useState<number | null>(null);
+  const [padReveal, setPadReveal] = useState(false);
   // Hint ladder state. hintCells pulse (they need changing); everything else
   // dims while a hint is up. assisting locks input while the third-attempt
   // walkthrough builds the answer cell by cell.
@@ -226,8 +242,12 @@ export function AdventureLevelScreen({
                 : Math.floor(Math.random() * target);
               return {num1: n, num2: target - n, answer: target};
             })()
+          : level.gameMode === 'answer'
+          ? generateAnswerProblem(level.modeLevel)
           : generateProblem(level.gameMode, level.modeLevel);
-        const key = `${p.num1}-${p.num2}`;
+        const key = level.gameMode === 'answer'
+          ? `${(p as AnswerProblem).slot}-${p.num1}-${p.num2}`
+          : `${p.num1}-${p.num2}`;
         if (!seen.has(key) || tries > 30) {
           seen.add(key);
           problems.push(p);
@@ -245,6 +265,8 @@ export function AdventureLevelScreen({
     setHasSubmitted(false);
     setIsCorrect(null);
     setAttempts(0);
+    setPadWrongPick(null);
+    setPadReveal(false);
     setHintCells([]);
     setAssisting(false);
     for (const t of assistTimersRef.current) clearTimeout(t);
@@ -299,11 +321,14 @@ export function AdventureLevelScreen({
       setMemoryChallenge(null);
     } else {
       const problem = pregenProblemsRef.current[problemIndex]
-        ?? generateProblem(level.gameMode, level.modeLevel);
+        ?? (level.gameMode === 'answer'
+          ? generateAnswerProblem(level.modeLevel)
+          : generateProblem(level.gameMode, level.modeLevel));
       setCurrentProblem(problem);
       setCountingChallenge(null);
-      // Pre-fill for addition/subtraction
-      if (level.gameMode === 'addition') {
+      // Pre-fill for addition/subtraction (answer mode works like addition:
+      // num1 pre-placed, the frame is the child's working space)
+      if (level.gameMode === 'addition' || level.gameMode === 'answer') {
         const prefilled = Array(10).fill('empty') as CellState[];
         for (let i = 0; i < problem.num1; i++) {
           prefilled[i] = 'color1';
@@ -384,7 +409,11 @@ export function AdventureLevelScreen({
 
         if (level.gameMode === 'counting') {
           newCells[index] = currentState === 'empty' ? 'filled' : 'empty';
-        } else if (level.gameMode === 'addition' || level.gameMode === 'puzzle') {
+        } else if (
+          level.gameMode === 'addition' ||
+          level.gameMode === 'puzzle' ||
+          level.gameMode === 'answer'
+        ) {
           if (currentState === 'color1') return prev; // Can't change prefilled
           newCells[index] = currentState === 'empty' ? 'color2' : 'empty';
         } else if (level.gameMode === 'subtraction') {
@@ -676,6 +705,106 @@ export function AdventureLevelScreen({
     }
   }, [cells, currentProblem, countingChallenge, level, attempts, onRecordResult, reduceMotion]);
 
+  // Answer mode: a pad tap IS the submission. Correct advances with the
+  // spoken number; wrong walks a pad-shaped hint ladder — say it again, show
+  // it on the frame, then reveal the bubble. No child fails out.
+  const handleAnswerPick = useCallback(
+    (n: number) => {
+      if (finished || assisting) return;
+      if (level.gameMode !== 'answer') return;
+      const ap = currentProblem as AnswerProblem | null;
+      if (!ap || typeof ap.expected !== 'number') return;
+      if (hasSubmitted && isCorrect) return;
+      dismissHint();
+
+      if (n === ap.expected) {
+        setPadWrongPick(null);
+        setHasSubmitted(true);
+        setIsCorrect(true);
+        if (instructionTimerRef.current) {
+          clearTimeout(instructionTimerRef.current);
+          instructionTimerRef.current = null;
+        }
+        const wasFirstTry = attempts === 0;
+        let advanced = false;
+        const advance = () => {
+          if (advanced) return;
+          advanced = true;
+          if (advanceFallbackRef.current) {
+            clearTimeout(advanceFallbackRef.current);
+            advanceFallbackRef.current = null;
+          }
+          onRecordResult(wasFirstTry);
+        };
+        if (advanceFallbackRef.current) clearTimeout(advanceFallbackRef.current);
+        clearPendingVoiceQueue();
+        advanceFallbackRef.current = setTimeout(advance, 8000);
+        // Speak the number the child just named; praise ~40% of the time.
+        const praiseId =
+          Math.random() < 0.4
+            ? VOICE_GROUPS.correct[
+                Math.floor(Math.random() * VOICE_GROUPS.correct.length)
+              ]
+            : null;
+        const ids = praiseId ? [`num_${n}`, praiseId] : [`num_${n}`];
+        voiceRef.current.playSequence(ids, 350, advance);
+        return;
+      }
+
+      const attemptNumber = attempts + 1;
+      setAttempts(attemptNumber);
+      setPadWrongPick(n);
+      setHasSubmitted(true);
+      setIsCorrect(false);
+
+      if (attemptNumber === 1) {
+        voiceRef.current.playRandom(VOICE_GROUPS.tryAgain);
+        lastInstructionVoiceRef.current?.();
+      } else if (attemptNumber === 2) {
+        // Show it: complete the frame so the child can count the answer.
+        voiceRef.current.playRandom(VOICE_GROUPS.tryAgain);
+        setCells(() => {
+          const filled = Array(10).fill('empty') as CellState[];
+          for (let i = 0; i < ap.num1; i++) filled[i] = 'color1';
+          for (let i = ap.num1; i < ap.answer && i < 10; i++) filled[i] = 'color2';
+          return filled;
+        });
+      } else {
+        // Reveal: light the right bubble, say the number, one star anyway.
+        setAssisting(true);
+        setPadWrongPick(null);
+        setHasSubmitted(false);
+        setIsCorrect(null);
+        voiceRef.current.stop();
+        assistTimersRef.current.push(
+          setTimeout(() => {
+            setPadReveal(true);
+            setHasSubmitted(true);
+            setIsCorrect(true);
+            voiceRef.current.play(`num_${ap.expected}`);
+          }, 400),
+        );
+        assistTimersRef.current.push(
+          setTimeout(() => {
+            setAssisting(false);
+            onRecordResult(false);
+          }, 2600),
+        );
+      }
+    },
+    [
+      finished,
+      assisting,
+      level.gameMode,
+      currentProblem,
+      hasSubmitted,
+      isCorrect,
+      attempts,
+      onRecordResult,
+      dismissHint,
+    ],
+  );
+
   // Auto-complete level when finished
   useEffect(() => {
     if (finished && completedStars === null) {
@@ -695,7 +824,15 @@ export function AdventureLevelScreen({
   handleSubmitRef.current = handleSubmit;
   useEffect(() => {
     if (finished || hasSubmitted || assisting) return;
-    if (level.gameMode === 'memory' || level.gameMode === 'share') return;
+    // Answer mode: the pad is the submit button; the board is only a working
+    // space and must never be auto-judged.
+    if (
+      level.gameMode === 'memory' ||
+      level.gameMode === 'share' ||
+      level.gameMode === 'answer'
+    ) {
+      return;
+    }
 
     // Only judge once the child has touched their operand — an untouched
     // board is "still thinking", and the 10s voice nudge owns that case.
@@ -765,6 +902,32 @@ export function AdventureLevelScreen({
       // a "make it fair" nudge (later problems).
       const ids = [`num_${shareProblem.total}`, isFirst ? 'share_intro' : 'share_again'];
       action = () => voiceRef.current.playSequence(ids, 400);
+    } else if (level.gameMode === 'answer' && currentProblem) {
+      const ap = currentProblem as AnswerProblem;
+      key = `a-${ap.slot}-${ap.num1}-${ap.num2}`;
+      const noun = LEVEL_NOUN[level.id];
+      if (ap.slot === 'sum') {
+        // "You have 3 stars. Add 2 more!" — same sentence as addition; the
+        // difference is only in how the child answers.
+        action = noun
+          ? () =>
+              voiceRef.current.playSequence(
+                [`have_${noun}_${ap.num1}`, `add_more_${noun}_${ap.num2}`],
+                350,
+              )
+          : () => voiceRef.current.play('instr_addition');
+      } else {
+        // "You have 3 stars. Make 8!" — the make_N drill clips carry the
+        // missing-addend framing for free.
+        const makeId = ap.answer === 10 ? 'instr_make_ten' : `make_${ap.answer}`;
+        action = noun
+          ? () =>
+              voiceRef.current.playSequence(
+                [`have_${noun}_${ap.num1}`, makeId],
+                350,
+              )
+          : () => voiceRef.current.play(makeId);
+      }
     } else if (currentProblem && themeId) {
       const mode = level.gameMode;
       key = `${mode}-${currentProblem.num1}-${currentProblem.num2}`;
@@ -867,6 +1030,16 @@ export function AdventureLevelScreen({
       return {
         visual: `${targetNumber}`,
         text: t('adventure.fillExactly', {count: targetNumber}),
+      };
+    }
+    if (level.gameMode === 'answer' && currentProblem) {
+      const ap = currentProblem as AnswerProblem;
+      return {
+        visual:
+          ap.slot === 'sum'
+            ? `${ap.num1} + ${ap.num2} = ?`
+            : `${ap.num1} + ? = ${ap.answer}`,
+        text: t('adventure.pickTheNumber'),
       };
     }
     if (level.gameMode === 'addition' && currentProblem) {
@@ -1046,12 +1219,27 @@ export function AdventureLevelScreen({
               <TapHint visible={showTapHint && !hasSubmitted && !assisting} />
             </Animated.View>
 
-            {/* Count display */}
-            <NumberDisplay
-              number={filledCount}
-              colors={themeColors}
-              emoji={worldTheme?.colors?.emojiColor1 ?? '🔵'}
-            />
+            {/* Count display — answer mode swaps it for the number pad,
+                which is both the count check and the submit button */}
+            {level.gameMode === 'answer' ? (
+              <NumberPad
+                onPick={handleAnswerPick}
+                colors={themeColors}
+                disabled={assisting}
+                highlight={
+                  padReveal || (hasSubmitted && isCorrect === true)
+                    ? (currentProblem as AnswerProblem | null)?.expected ?? null
+                    : null
+                }
+                wrongPick={padWrongPick}
+              />
+            ) : (
+              <NumberDisplay
+                number={filledCount}
+                colors={themeColors}
+                emoji={worldTheme?.colors?.emojiColor1 ?? '🔵'}
+              />
+            )}
 
             {/* Submit / Feedback */}
             {!finished && (

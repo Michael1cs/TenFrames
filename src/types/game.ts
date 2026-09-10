@@ -1,4 +1,4 @@
-export type GameMode = 'counting' | 'addition' | 'subtraction' | 'puzzle' | 'memory' | 'workshop' | 'share';
+export type GameMode = 'counting' | 'addition' | 'subtraction' | 'puzzle' | 'memory' | 'workshop' | 'share' | 'answer' | 'compare';
 // 'filled' = user placed (counting mode or single-color)
 // 'color1' = first addend / pre-filled for subtraction/puzzle
 // 'color2' = second addend / user-added in addition/puzzle
@@ -12,6 +12,24 @@ export interface Problem {
   num1: number;
   num2: number;
   answer: number;
+}
+
+// Answer mode: the child works the frame, then NAMES the number — the bridge
+// from the concrete frame to the abstract equation. `slot` says which part of
+// the equation is hidden: the sum (5 + 3 = ?) or the second addend
+// (3 + ? = 8); `expected` is the number the child must pick either way.
+export interface AnswerProblem extends Problem {
+  slot: 'sum' | 'addend';
+  expected: number;
+}
+
+// Compare mode: two small frames side by side; the child taps the one with
+// more (or the equals button when both hold the same count).
+export interface CompareProblem {
+  left: number;
+  right: number;
+  // 'left' | 'right' | 'equal'
+  correct: 'left' | 'right' | 'equal';
 }
 
 export interface GameState {
@@ -157,7 +175,8 @@ export type WorldId =
   | 'doubles-castle'
   | 'memory-garden'
   | 'farm-share'
-  | 'high-five';
+  | 'high-five'
+  | 'number-town';
 
 export interface AdventureProgress {
   version: number;
