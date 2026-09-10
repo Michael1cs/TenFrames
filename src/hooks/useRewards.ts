@@ -1,6 +1,24 @@
-import {useState, useCallback, useRef} from 'react';
+import {useState, useCallback, useEffect, useRef} from 'react';
 import {GameMode, RewardData} from '../types/game';
 import {ALL_STICKERS, ALL_ACHIEVEMENTS} from '../utils/rewardData';
+
+// One correct answer can unlock a milestone, an achievement AND stickers at
+// the same instant — the star thresholds (10/25/50/100) deliberately overlap
+// across the three systems. Shown together they buried each other (three
+// popups on three parts of the screen at once), so celebrations now file
+// through a queue: one on stage at a time, milestone first (it is the big
+// moment), then achievements, then stickers.
+export type Celebration =
+  | {kind: 'milestone'; id: string}
+  | {kind: 'achievement'; id: string}
+  | {kind: 'sticker'; ids: string[]};
+
+// Give the immediate answer feedback (stars burst ~3s) the stage first.
+const CELEBRATION_START_DELAY_MS = 2400;
+// The milestone card has a Continue button; the timeout is only the escape
+// hatch for a child who never taps.
+const MILESTONE_AUTO_MS = 8000;
+const TOAST_AUTO_MS = 4000;
 
 const defaultRewardData: RewardData = {
   totalStars: 0,
@@ -24,16 +42,34 @@ function getToday(): string {
 
 export function useRewards() {
   const [rewards, setRewards] = useState<RewardData>(defaultRewardData);
-  const [newAchievement, setNewAchievement] = useState<string | null>(null);
-  const [newStickers, setNewStickers] = useState<string[]>([]);
-  const [showMilestone, setShowMilestone] = useState<string | null>(null);
+  const [celebrationQueue, setCelebrationQueue] = useState<Celebration[]>([]);
+  const currentCelebration = celebrationQueue[0] ?? null;
 
   const rewardsRef = useRef(rewards);
   rewardsRef.current = rewards;
 
+  const advanceCelebration = useCallback(() => {
+    setCelebrationQueue(q => q.slice(1));
+  }, []);
+
+  // Auto-advance whatever is on stage; a tap (milestone Continue) advances
+  // sooner via advanceCelebration.
+  useEffect(() => {
+    if (!currentCelebration) return;
+    const ms =
+      currentCelebration.kind === 'milestone' ? MILESTONE_AUTO_MS : TOAST_AUTO_MS;
+    const t = setTimeout(advanceCelebration, ms);
+    return () => clearTimeout(t);
+  }, [currentCelebration, advanceCelebration]);
+
   // Load reward data (called from GameShell on mount)
   const loadRewards = useCallback((data: RewardData) => {
-    setRewards({...defaultRewardData, ...data});
+    const merged = {...defaultRewardData, ...data};
+    // A former bug re-appended every reached milestone on every correct
+    // answer, so long-time saves carry thousands of duplicates — dedupe once
+    // on load and the next save persists the clean list.
+    merged.milestonesSeen = Array.from(new Set(merged.milestonesSeen));
+    setRewards(merged);
   }, []);
 
   // Update daily streak
@@ -98,12 +134,6 @@ export function useRewards() {
           s => s.requirement <= newTotalStars && !prev.stickers.includes(s.id),
         ).map(s => s.id);
 
-        if (unlockedStickers.length > 0) {
-          setNewStickers(unlockedStickers);
-          // Auto-clear after 4 seconds
-          setTimeout(() => setNewStickers([]), 4000);
-        }
-
         // Check for new achievements
         const allStickers = [...prev.stickers, ...unlockedStickers];
         const newlyUnlocked = checkAchievements(
@@ -116,23 +146,34 @@ export function useRewards() {
           prev.achievements,
         );
 
-        if (newlyUnlocked.length > 0) {
-          setNewAchievement(newlyUnlocked[0]);
-          setTimeout(() => setNewAchievement(null), 4000);
-        }
-
         // Check milestones (10, 25, 50, 100 stars)
         const milestones = [10, 25, 50, 100];
+        let crossedMilestone: string | null = null;
         for (const m of milestones) {
           if (
             newTotalStars >= m &&
             prev.totalStars < m &&
             !prev.milestonesSeen.includes(`stars-${m}`)
           ) {
-            setShowMilestone(`stars-${m}`);
-            setTimeout(() => setShowMilestone(null), 5000);
+            crossedMilestone = `stars-${m}`;
             break;
           }
+        }
+
+        // Everything unlocked by this answer files into the celebration
+        // queue in order of weight; the delay lets the stars burst finish.
+        const queued: Celebration[] = [];
+        if (crossedMilestone) queued.push({kind: 'milestone', id: crossedMilestone});
+        for (const achId of newlyUnlocked) {
+          queued.push({kind: 'achievement', id: achId});
+        }
+        if (unlockedStickers.length > 0) {
+          queued.push({kind: 'sticker', ids: unlockedStickers});
+        }
+        if (queued.length > 0) {
+          setTimeout(() => {
+            setCelebrationQueue(q => [...q, ...queued]);
+          }, CELEBRATION_START_DELAY_MS);
         }
 
         return {
@@ -142,8 +183,8 @@ export function useRewards() {
           stickers: allStickers,
           achievements: [...prev.achievements, ...newlyUnlocked],
           stats: newStats,
-          milestonesSeen: newTotalStars >= 10
-            ? [...prev.milestonesSeen, ...milestones.filter(m => newTotalStars >= m).map(m => `stars-${m}`)]
+          milestonesSeen: crossedMilestone
+            ? [...prev.milestonesSeen, crossedMilestone]
             : prev.milestonesSeen,
         };
       });
@@ -174,10 +215,6 @@ export function useRewards() {
     });
   }, []);
 
-  // Dismiss milestone/achievement popups
-  const dismissMilestone = useCallback(() => setShowMilestone(null), []);
-  const dismissAchievement = useCallback(() => setNewAchievement(null), []);
-  const dismissNewStickers = useCallback(() => setNewStickers([]), []);
 
   // Get progress info
   const getStickerProgress = useCallback(() => {
@@ -200,16 +237,12 @@ export function useRewards() {
 
   return {
     rewards,
-    newAchievement,
-    newStickers,
-    showMilestone,
+    currentCelebration,
+    advanceCelebration,
     loadRewards,
     updateDailyStreak,
     awardStars,
     recordWrongAnswer,
-    dismissMilestone,
-    dismissAchievement,
-    dismissNewStickers,
     getStickerProgress,
     getAchievementProgress,
   };

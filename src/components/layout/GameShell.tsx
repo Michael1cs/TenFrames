@@ -19,7 +19,7 @@ import {useGameState} from '../../hooks/useGameState';
 import {useTheme} from '../../hooks/useTheme';
 import {useLayout} from '../../hooks/useLayout';
 import {usePersistence} from '../../hooks/usePersistence';
-import {useRewards} from '../../hooks/useRewards';
+import {useRewards, Celebration} from '../../hooks/useRewards';
 import {Emoji} from '../common/Emoji';
 import {ModeSelector} from './ModeSelector';
 import {BackgroundEmojis} from './BackgroundEmojis';
@@ -763,33 +763,28 @@ function useShellState(
     queueVoice(`instr_${action}_${game.theme}_${n2}`);
   }, [game.currentProblem, game.gameMode, game.ageGroup, game.theme, queueVoice, voice]);
 
-  const prevStickerCount = useRef(0);
+  // One voice line per celebration, spoken as it takes the stage — the
+  // queue guarantees they no longer pile onto the same instant.
+  const prevCelebration = useRef<Celebration | null>(null);
   useEffect(() => {
-    if (rewardSystem.newStickers.length > prevStickerCount.current) {
-      queueVoice('reward_sticker');
+    const cur = rewardSystem.currentCelebration;
+    if (cur && cur !== prevCelebration.current) {
+      if (cur.kind === 'sticker') {
+        queueVoice('reward_sticker');
+      } else if (cur.kind === 'achievement') {
+        queueVoice('reward_achievement');
+      } else if (cur.id.includes('100')) {
+        queueVoice('reward_milestone_100');
+      } else if (cur.id.includes('50')) {
+        queueVoice('reward_milestone_50');
+      } else if (cur.id.includes('25')) {
+        queueVoice('reward_milestone_25');
+      } else {
+        queueVoice('reward_milestone_10');
+      }
     }
-    prevStickerCount.current = rewardSystem.newStickers.length;
-  }, [rewardSystem.newStickers.length, queueVoice]);
-
-  const prevAchievement = useRef<string | null>(null);
-  useEffect(() => {
-    if (rewardSystem.newAchievement && rewardSystem.newAchievement !== prevAchievement.current) {
-      queueVoice('reward_achievement');
-    }
-    prevAchievement.current = rewardSystem.newAchievement;
-  }, [rewardSystem.newAchievement, queueVoice]);
-
-  const prevMilestone = useRef<string | null>(null);
-  useEffect(() => {
-    if (rewardSystem.showMilestone && rewardSystem.showMilestone !== prevMilestone.current) {
-      const id = rewardSystem.showMilestone;
-      if (id.includes('100')) queueVoice('reward_milestone_100');
-      else if (id.includes('50')) queueVoice('reward_milestone_50');
-      else if (id.includes('25')) queueVoice('reward_milestone_25');
-      else queueVoice('reward_milestone_10');
-    }
-    prevMilestone.current = rewardSystem.showMilestone;
-  }, [rewardSystem.showMilestone, queueVoice]);
+    prevCelebration.current = cur;
+  }, [rewardSystem.currentCelebration, queueVoice]);
 
   const prevAdventureStars = useRef<number | null>(null);
   useEffect(() => {
@@ -1116,18 +1111,34 @@ function GameShellInner() {
       <CorrectAnimation visible={game.showConfetti} />
       <WrongAnimation visible={game.isCorrect === false} />
       <WrongFlash visible={game.isCorrect === false} />
+      {/* Celebration queue: exactly one on stage at a time. */}
       <NewStickerPopup
-        stickerIds={rewardSystem.newStickers}
-        visible={rewardSystem.newStickers.length > 0}
+        stickerIds={
+          rewardSystem.currentCelebration?.kind === 'sticker'
+            ? rewardSystem.currentCelebration.ids
+            : []
+        }
+        visible={rewardSystem.currentCelebration?.kind === 'sticker'}
+        colors={colors}
       />
       <AchievementPopup
-        achievementId={rewardSystem.newAchievement}
-        visible={rewardSystem.newAchievement !== null}
+        achievementId={
+          rewardSystem.currentCelebration?.kind === 'achievement'
+            ? rewardSystem.currentCelebration.id
+            : null
+        }
+        visible={rewardSystem.currentCelebration?.kind === 'achievement'}
+        colors={colors}
       />
       <MilestoneAnimation
-        visible={rewardSystem.showMilestone !== null}
-        milestoneId={rewardSystem.showMilestone}
-        onDismiss={rewardSystem.dismissMilestone}
+        visible={rewardSystem.currentCelebration?.kind === 'milestone'}
+        milestoneId={
+          rewardSystem.currentCelebration?.kind === 'milestone'
+            ? rewardSystem.currentCelebration.id
+            : null
+        }
+        onDismiss={rewardSystem.advanceCelebration}
+        colors={colors}
       />
 
       <StickerBook

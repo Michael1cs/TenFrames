@@ -6,27 +6,33 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
-  withDelay,
   withTiming,
 } from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
 import {ALL_STICKERS} from '../../utils/rewardData';
+import {ThemeColors} from '../../types/game';
+import {TenFrameMotif} from './TenFrameMotif';
 
 interface NewStickerPopupProps {
   stickerIds: string[];
   visible: boolean;
+  colors: ThemeColors;
 }
 
-export function NewStickerPopup({stickerIds, visible}: NewStickerPopupProps) {
-  const translateY = useSharedValue(-100);
+// Celebration toast, one lane for the whole app: top-center, BELOW the
+// header row, so it never buries the stats or the mode bar. Cream card +
+// theme-colored border + the ten-frame motif — the app's own celebration
+// language rather than a generic notification pill.
+export function NewStickerPopup({stickerIds, visible, colors}: NewStickerPopupProps) {
+  const translateY = useSharedValue(-120);
   const opacity = useSharedValue(0);
 
   useEffect(() => {
     if (visible && stickerIds.length > 0) {
-      translateY.value = withSpring(0, {damping: 12});
+      translateY.value = withSpring(0, {damping: 13});
       opacity.value = withTiming(1, {duration: 300});
     } else {
-      translateY.value = withTiming(-100, {duration: 200});
+      translateY.value = withTiming(-120, {duration: 200});
       opacity.value = withTiming(0, {duration: 200});
     }
   }, [visible, stickerIds, translateY, opacity]);
@@ -45,16 +51,24 @@ export function NewStickerPopup({stickerIds, visible}: NewStickerPopupProps) {
     .filter(Boolean);
 
   return (
-    <Animated.View style={[styles.container, animStyle]}>
-      <Text style={styles.label}>{t('rewards.newSticker')}</Text>
-      <View style={styles.stickersRow}>
-        {stickers.map(s =>
-          s ? (
-            <Text key={s.id} style={styles.emoji}>
-              <Emoji>{s.emoji}</Emoji>
-            </Text>
-          ) : null,
-        )}
+    <Animated.View
+      style={[styles.container, {borderColor: colors.accent}, animStyle]}>
+      <TenFrameMotif
+        filled={Math.min(5, stickerIds.length + 2)}
+        fillColor={colors.cellFilled}
+        borderColor={colors.accent}
+      />
+      <View style={styles.body}>
+        <View style={styles.stickersRow}>
+          {stickers.map(s =>
+            s ? (
+              <Text key={s.id} style={styles.emoji}>
+                <Emoji>{s.emoji}</Emoji>
+              </Text>
+            ) : null,
+          )}
+        </View>
+        <Text style={styles.label}>{t('rewards.newSticker')}</Text>
       </View>
     </Animated.View>
   );
@@ -63,30 +77,37 @@ export function NewStickerPopup({stickerIds, visible}: NewStickerPopupProps) {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: 50,
+    top: 132,
     alignSelf: 'center',
-    backgroundColor: '#7C3AED',
-    borderRadius: 16,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    flexDirection: 'row',
+    backgroundColor: '#FFF9F0',
+    borderRadius: 20,
+    paddingHorizontal: 22,
+    paddingVertical: 12,
     alignItems: 'center',
     gap: 8,
     zIndex: 90,
     elevation: 8,
-    borderWidth: 2,
-    borderColor: '#A78BFA',
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    borderWidth: 3,
+  },
+  body: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
   label: {
-    color: '#FFFFFF',
+    color: '#1E1B4B',
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 16,
   },
   stickersRow: {
     flexDirection: 'row',
     gap: 4,
   },
   emoji: {
-    fontSize: 24,
+    fontSize: 30,
   },
 });
