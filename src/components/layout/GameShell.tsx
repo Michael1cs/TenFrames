@@ -1020,6 +1020,7 @@ function GameShellInner() {
     game,
     colors,
     rewardSystem,
+    premium,
     iap,
     bootLoaded,
     initialRoute,
@@ -1164,7 +1165,16 @@ function GameShellInner() {
       <DailyLimitModal
         visible={showDailyLimit}
         colors={colors}
-        onDismiss={() => setShowDailyLimit(false)}
+        onDismiss={() => {
+          setShowDailyLimit(false);
+          // "See you tomorrow!" must actually end the session in a limited
+          // mode — staying put kept generating problems and re-raising this
+          // modal after every answer. Land the child in Counting, which is
+          // free forever.
+          if (!premium.canPlayMode(game.gameMode)) {
+            game.setGameMode('counting');
+          }
+        }}
         onUpgrade={() => {
           setShowDailyLimit(false);
           setShowUpgrade(true);

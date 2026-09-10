@@ -42,19 +42,25 @@ export function StarsDisplay({stars, visible}: StarsDisplayProps) {
   const style2 = useAnimatedStyle(() => ({transform: [{scale: scale2.value}]}));
   const style3 = useAnimatedStyle(() => ({transform: [{scale: scale3.value}]}));
 
-  if (!visible) return null;
-
+  // The slot is ALWAYS occupied at a fixed height. This component sits
+  // inline in a centered column, so mounting/unmounting it reflowed the
+  // whole game area — the frame visibly jumped up when the stars appeared
+  // and dropped back when they left.
   return (
     <View style={styles.container}>
-      <Animated.Text style={[styles.star, style1]}>
-        {stars >= 1 ? <Emoji>⭐</Emoji> : '☆'}
-      </Animated.Text>
-      <Animated.Text style={[styles.starBig, style2]}>
-        {stars >= 2 ? <Emoji>⭐</Emoji> : '☆'}
-      </Animated.Text>
-      <Animated.Text style={[styles.star, style3]}>
-        {stars >= 3 ? <Emoji>⭐</Emoji> : '☆'}
-      </Animated.Text>
+      {visible && stars > 0 && (
+        <>
+          <Animated.Text style={[styles.star, style1]}>
+            {stars >= 1 ? <Emoji>⭐</Emoji> : '☆'}
+          </Animated.Text>
+          <Animated.Text style={[styles.starBig, style2]}>
+            {stars >= 2 ? <Emoji>⭐</Emoji> : '☆'}
+          </Animated.Text>
+          <Animated.Text style={[styles.star, style3]}>
+            {stars >= 3 ? <Emoji>⭐</Emoji> : '☆'}
+          </Animated.Text>
+        </>
+      )}
     </View>
   );
 }
@@ -65,7 +71,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 4,
-    paddingVertical: 8,
+    height: 52,
   },
   star: {
     fontSize: 28,
