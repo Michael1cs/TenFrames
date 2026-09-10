@@ -301,6 +301,9 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'instr_bottom_row', ro: 'Umple rândul de jos!', en: "Fill the bottom row!", de: 'Fülle die untere Reihe!'},
   {id: 'instr_both_rows', ro: 'La fel pe ambele rânduri!', en: "Same on both rows!", de: 'Gleich viele in beiden Reihen!'},
   {id: 'instr_make_ten', ro: 'Fă zece!', en: "Make ten!", de: 'Mach zehn!'},
+  // Number Town (answer mode): fires with the 👇 pad hint once the child has
+  // built the answer on the frame but hasn't named it yet.
+  {id: 'instr_tap_number', ro: 'Acum apasă pe număr!', en: "Now tap the number!", de: 'Tippe jetzt auf die Zahl!'},
 
   // ── Memory Garden phrases ──
   // Phase intros + per-count success announcements.
