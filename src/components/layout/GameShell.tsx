@@ -51,7 +51,7 @@ import {usePremium} from '../../hooks/usePremium';
 import {useSound} from '../../hooks/useSound';
 import {useVoice, VOICE_GROUPS, setVoiceEnabled, clearPendingVoiceQueue} from '../../hooks/useVoice';
 import {useAgeProfile} from '../../hooks/useAgeProfile';
-import {useIAPConnection, withIAPContext} from '../../hooks/useIAP';
+import {useIAPConnection} from '../../hooks/useIAP';
 import {FREE_DAILY_LIMIT} from '../../config/limits';
 import {IS_SCHOOL_EDITION} from '../../config/edition';
 import {Language, GameMode, WorldId} from '../../types/game';
@@ -1384,9 +1384,9 @@ const styles = StyleSheet.create({
   },
 });
 
-// The School Edition sells nothing, so it must not open a StoreKit connection
-// at all — withIAPContext is what establishes it. A module-level branch on a
-// build-time constant, not a runtime condition.
-export const GameShell = IS_SCHOOL_EDITION
-  ? GameShellInner
-  : withIAPContext(GameShellInner);
+// react-native-iap 15.x dropped withIAPContext entirely — there is no context
+// to establish, so there is nothing here to branch on. The School Edition's
+// requirement (never open a store connection) still holds; it is now enforced
+// one level down, in useIAPConnection, which returns an inert state for the
+// school build and never calls the hook that connects.
+export const GameShell = GameShellInner;

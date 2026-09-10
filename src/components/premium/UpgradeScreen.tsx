@@ -77,13 +77,15 @@ export function UpgradeScreen({
     {emoji: '🏆', key: 'premium.featureAchievements'},
   ];
 
-  // Only ever show a price StoreKit gave us. There used to be a hardcoded
+  // Only ever show a price the store gave us. There used to be a hardcoded
   // '$4.99' fallback here, which is a trap: the price lives in App Store
-  // Connect, so the day it changes this string is silently wrong, and a parent
-  // who taps Buy after reading the old number sees a different amount at the
-  // confirmation sheet. When the product has not loaded — offline, StoreKit
-  // unavailable, product not yet approved — show nothing rather than a guess.
-  const displayPrice = product?.localizedPrice ?? null;
+  // Connect / Play Console, so the day it changes this string is silently
+  // wrong, and a parent who taps Buy after reading the old number sees a
+  // different amount at the confirmation sheet. When the product has not
+  // loaded — offline, store unavailable, product not yet approved — show
+  // nothing rather than a guess.
+  // (react-native-iap 15.x renamed Product.localizedPrice to displayPrice.)
+  const displayPrice = product?.displayPrice ?? null;
   const isLoading = purchasing || restoring;
 
   const getErrorMessage = (err: string): string => {

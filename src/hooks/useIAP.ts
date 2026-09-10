@@ -1,11 +1,11 @@
 import {useEffect, useCallback, useState} from 'react';
 import {
   useIAP as useIAPHook,
-  withIAPContext,
   getAvailablePurchases as iapGetAvailablePurchases,
-  PurchaseStateAndroid,
+  ErrorCode,
   type Product,
   type Purchase,
+  type PurchaseError,
 } from 'react-native-iap';
 import {PREMIUM_PRODUCT_ID} from '../config/iap';
 import {IS_SCHOOL_EDITION} from '../config/edition';
@@ -23,7 +23,7 @@ export interface IAPState {
 
 /**
  * The School Edition is paid up front and sells nothing, so it must not touch
- * StoreKit at all. Hiding the purchase UI is not enough: the hook below opens
+ * the store at all. Hiding the purchase UI is not enough: the hook below opens
  * a billing connection and queries PREMIUM_PRODUCT_ID on mount, and that
  * product does not exist in the school app's record — so the school build
  * would spend launch time on a connection that can only fail, on devices
@@ -41,55 +41,63 @@ const INERT_IAP: IAPState = {
   clearError: () => {},
 };
 
+function isPremium(purchase: Purchase): boolean {
+  return purchase.productId === PREMIUM_PRODUCT_ID;
+}
+
+/**
+ * A purchase the parent still has to complete — cash, carrier billing, or an
+ * approval request — arrives as 'pending'. No money has moved, so no
+ * entitlement. Only 'pending' blocks the grant: 'unknown' is treated as
+ * delivered, because on iOS delivery already means purchased and refusing
+ * anything that is not literally 'purchased' would strand paying customers.
+ */
+function isPending(purchase: Purchase): boolean {
+  return purchase.purchaseState === 'pending';
+}
+
 export function useIAPConnection(onPurchaseSuccess: () => void): IAPState {
   // Conditional hook call, deliberately. IS_SCHOOL_EDITION is fixed for the
   // whole process — it is read once at module scope from a global the entry
   // file set before any app module loaded — so the branch cannot change
-  // between renders and hook order is invariant. The alternative is calling
-  // react-native-iap's hook in a build that has no IAP context (GameShell
-  // skips withIAPContext for the School Edition), which would throw.
+  // between renders and hook order is invariant. Since react-native-iap 15.x
+  // there is no withIAPContext to skip at the root, so this is the only place
+  // left that can keep the school build away from the store.
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return IS_SCHOOL_EDITION ? INERT_IAP : useConsumerIAPConnection(onPurchaseSuccess);
 }
 
-function useConsumerIAPConnection(
-  onPurchaseSuccess: () => void,
-): IAPState {
+function useConsumerIAPConnection(onPurchaseSuccess: () => void): IAPState {
   const [purchasing, setPurchasing] = useState(false);
   const [restoring, setRestoring] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [fetchRequested, setFetchRequested] = useState(false);
 
   const {
     connected,
     products,
-    getProducts,
-    currentPurchase,
-    currentPurchaseError,
+    fetchProducts,
     finishTransaction,
     requestPurchase: iapRequestPurchase,
-    getAvailablePurchases,
-    availablePurchases,
   } = useIAPHook({
     onPurchaseSuccess: async (purchase: Purchase) => {
-      if (purchase.productId !== PREMIUM_PRODUCT_ID) return;
+      if (!isPremium(purchase)) {
+        return;
+      }
 
-      // Google Play reports a purchase the parent still has to complete —
-      // cash, carrier billing, or an approval request — as PENDING. No money
-      // has moved, so no entitlement; but say so rather than leaving the
-      // sheet spinning. iOS never sets the field: delivery there already
-      // means purchased.
-      const pending =
-        purchase.purchaseStateAndroid === PurchaseStateAndroid.PENDING;
+      const pending = isPending(purchase);
 
       try {
         if (!pending) {
+          // Acknowledge it — Google auto-refunds an unacknowledged purchase
+          // after three days.
           await finishTransaction({purchase, isConsumable: false});
         }
       } catch {
-        // Acknowledging failed — Play service disconnected, offline, or the
+        // Acknowledging failed — store service disconnected, offline, or the
         // purchase was already finished. The payment itself went through, so
-        // the entitlement stands and Play replays the unacknowledged purchase
-        // on the next launch for us to finish then.
+        // the entitlement stands and the store replays the unacknowledged
+        // purchase on the next launch for us to finish then.
         //
         // Before this catch existed, the rejection escaped and took both
         // setPurchasing(false) and the premium grant with it: the parent paid,
@@ -109,25 +117,30 @@ function useConsumerIAPConnection(
         }
       }
     },
-    onPurchaseError: (err) => {
+    onPurchaseError: (err: PurchaseError) => {
       setPurchasing(false);
-      if (err.code === 'E_USER_CANCELLED') {
+      if (err.code === ErrorCode.UserCancelled) {
         return;
       }
       setError(err.message || 'Purchase failed');
     },
+    // Non-purchase errors (fetchProducts, connection). Silent on purpose: the
+    // store being unreachable should not throw an error at a 5-year-old.
+    onError: () => {},
   });
 
-  // Fetch products when connected
+  // Fetch the product once the store connects. Guarded because fetchProducts
+  // changes identity as hook state updates, which would otherwise re-fire this.
   useEffect(() => {
-    if (connected) {
-      getProducts({skus: [PREMIUM_PRODUCT_ID]});
+    if (!connected || fetchRequested) {
+      return;
     }
-  }, [connected, getProducts]);
+    setFetchRequested(true);
+    fetchProducts({skus: [PREMIUM_PRODUCT_ID], type: 'in-app'});
+  }, [connected, fetchRequested, fetchProducts]);
 
-  const product = products.find(
-    p => p.productId === PREMIUM_PRODUCT_ID,
-  ) || null;
+  // On Product the SKU is `id` (on Purchase it is `productId` — they differ).
+  const product = products.find(p => p.id === PREMIUM_PRODUCT_ID) || null;
 
   const requestPurchase = useCallback(async () => {
     if (!connected) {
@@ -137,10 +150,16 @@ function useConsumerIAPConnection(
     setPurchasing(true);
     setError(null);
     try {
-      await iapRequestPurchase({sku: PREMIUM_PRODUCT_ID});
+      await iapRequestPurchase({
+        type: 'in-app',
+        request: {
+          google: {skus: [PREMIUM_PRODUCT_ID]},
+          apple: {sku: PREMIUM_PRODUCT_ID},
+        },
+      });
     } catch (err: any) {
       setPurchasing(false);
-      if (err?.code !== 'E_USER_CANCELLED') {
+      if (err?.code !== ErrorCode.UserCancelled) {
         setError(err?.message || 'Purchase failed');
       }
     }
@@ -154,9 +173,11 @@ function useConsumerIAPConnection(
     setRestoring(true);
     setError(null);
     try {
+      // The hook's getAvailablePurchases returns void and fills hook state; the
+      // standalone export returns the array, which is what this flow needs.
       const purchases = await iapGetAvailablePurchases();
       const hasPremium = purchases.some(
-        (p: Purchase) => p.productId === PREMIUM_PRODUCT_ID,
+        (p: Purchase) => isPremium(p) && !isPending(p),
       );
       if (hasPremium) {
         onPurchaseSuccess();
@@ -185,6 +206,3 @@ function useConsumerIAPConnection(
     clearError,
   };
 }
-
-// Re-export withIAPContext for wrapping the root component
-export {withIAPContext};

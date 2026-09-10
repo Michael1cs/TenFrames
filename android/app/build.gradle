@@ -116,8 +116,10 @@ dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
 
-    // Google Play Billing Library
-    implementation("com.android.billingclient:billing:7.1.1")
+    // Google Play Billing Library is provided transitively by react-native-iap
+    // (openiap-google 2.5.2 -> com.android.billingclient:billing 9.1.0).
+    // Do not pin it here: a pin can force a downgrade below the version
+    // Google Play requires.
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

@@ -1,7 +1,15 @@
 {
   "extends": "@react-native/typescript-config",
   "compilerOptions": {
-    "types": ["jest"]
+    "types": ["jest"],
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      // v15 exports its TS SOURCE under the "react-native" condition, which
+      // drags the library's internals (DOM/node types we don't have) into
+      // our typecheck. Point tsc at the shipped declarations instead.
+      "react-native-iap": ["./node_modules/react-native-iap/lib/typescript/src/index.d.ts"]
+    }
   },
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["**/node_modules", "**/Pods"]
