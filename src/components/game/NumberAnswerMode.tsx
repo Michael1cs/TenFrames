@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Pressable, ImageSourcePropType} from 'react-native';
 import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {TenFrame} from './TenFrame';
 import {NumberPad} from './NumberPad';
+import {PadHint} from '../feedback/PadHint';
 import {Emoji} from '../common/Emoji';
 import {AgeProfile} from '../../hooks/useAgeProfile';
 import {AgeGroup, AnswerProblem, CellState, ThemeColors} from '../../types/game';
@@ -48,6 +49,18 @@ export function NumberAnswerMode({
 }: NumberAnswerModeProps) {
   const {t} = useTranslation();
   const compact = ageProfile?.compact ?? false;
+
+  // Once the frame holds the target quantity and the child pauses, bounce an
+  // arrow at the pad — the board is built, the answer still needs naming.
+  const [showPadHint, setShowPadHint] = useState(false);
+  useEffect(() => {
+    setShowPadHint(false);
+    if (!problem || hasSubmitted) return;
+    const filled = cells.filter(c => c !== 'empty').length;
+    if (filled !== problem.answer) return;
+    const timer = setTimeout(() => setShowPadHint(true), 1100);
+    return () => clearTimeout(timer);
+  }, [cells, problem, hasSubmitted]);
 
   const equation = problem
     ? problem.slot === 'sum'
@@ -101,8 +114,12 @@ export function NumberAnswerMode({
         ageGroup={ageGroup}
       />
 
+      <PadHint visible={showPadHint} />
       <NumberPad
-        onPick={onNumberPick}
+        onPick={n => {
+          setShowPadHint(false);
+          onNumberPick(n);
+        }}
         colors={colors}
         highlight={hasSubmitted && isCorrect ? problem?.expected ?? null : null}
         wrongPick={wrongPick}

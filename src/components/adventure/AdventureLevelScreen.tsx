@@ -37,6 +37,7 @@ import {ADVENTURE_WORLDS} from '../../config/adventureWorlds';
 import {Emoji} from '../common/Emoji';
 import {WrongFlash} from '../feedback/WrongFlash';
 import {TapHint} from '../feedback/TapHint';
+import {PadHint} from '../feedback/PadHint';
 import {useReduceMotion} from '../../hooks/useReduceMotion';
 import {buildAssistPlan, cellsToChange} from '../../utils/hintLadder';
 import {STOP_JUDGE_MS} from '../../config/timing';
@@ -162,6 +163,9 @@ export function AdventureLevelScreen({
   // Answer mode (Number Town): the number pad is the submit button.
   const [padWrongPick, setPadWrongPick] = useState<number | null>(null);
   const [padReveal, setPadReveal] = useState(false);
+  // Shown once the child has built the answer on the frame but hasn't named
+  // it yet — the board is done, the missing step is the pad.
+  const [showPadHint, setShowPadHint] = useState(false);
   // Hint ladder state. hintCells pulse (they need changing); everything else
   // dims while a hint is up. assisting locks input while the third-attempt
   // walkthrough builds the answer cell by cell.
@@ -705,6 +709,32 @@ export function AdventureLevelScreen({
     }
   }, [cells, currentProblem, countingChallenge, level, attempts, onRecordResult, reduceMotion]);
 
+  // Answer-mode pad nudge: when the frame holds exactly the target quantity
+  // and the child pauses, point at the pad — building the board is not the
+  // whole answer, naming the number is. Also speaks instr_tap_number when
+  // that clip exists in the bundle (fails silently until it ships).
+  useEffect(() => {
+    if (
+      level.gameMode !== 'answer' ||
+      finished ||
+      hasSubmitted ||
+      assisting
+    ) {
+      setShowPadHint(false);
+      return;
+    }
+    const ap = currentProblem as AnswerProblem | null;
+    if (!ap) return;
+    const filled = cells.filter(c => c !== 'empty').length;
+    setShowPadHint(false);
+    if (filled !== ap.answer) return;
+    const t = setTimeout(() => {
+      setShowPadHint(true);
+      voiceRef.current.play('instr_tap_number');
+    }, 1100);
+    return () => clearTimeout(t);
+  }, [cells, currentProblem, level.gameMode, hasSubmitted, finished, assisting]);
+
   // Answer mode: a pad tap IS the submission. Correct advances with the
   // spoken number; wrong walks a pad-shaped hint ladder — say it again, show
   // it on the frame, then reveal the bubble. No child fails out.
@@ -716,6 +746,7 @@ export function AdventureLevelScreen({
       if (!ap || typeof ap.expected !== 'number') return;
       if (hasSubmitted && isCorrect) return;
       dismissHint();
+      setShowPadHint(false);
 
       if (n === ap.expected) {
         setPadWrongPick(null);
@@ -1222,17 +1253,20 @@ export function AdventureLevelScreen({
             {/* Count display — answer mode swaps it for the number pad,
                 which is both the count check and the submit button */}
             {level.gameMode === 'answer' ? (
-              <NumberPad
-                onPick={handleAnswerPick}
-                colors={themeColors}
-                disabled={assisting}
-                highlight={
-                  padReveal || (hasSubmitted && isCorrect === true)
-                    ? (currentProblem as AnswerProblem | null)?.expected ?? null
-                    : null
-                }
-                wrongPick={padWrongPick}
-              />
+              <>
+                <PadHint visible={showPadHint} />
+                <NumberPad
+                  onPick={handleAnswerPick}
+                  colors={themeColors}
+                  disabled={assisting}
+                  highlight={
+                    padReveal || (hasSubmitted && isCorrect === true)
+                      ? (currentProblem as AnswerProblem | null)?.expected ?? null
+                      : null
+                  }
+                  wrongPick={padWrongPick}
+                />
+              </>
             ) : (
               <NumberDisplay
                 number={filledCount}
