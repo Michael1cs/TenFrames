@@ -150,7 +150,7 @@
     "tabTeachers": "Profesori",
     "teachers": {
       "covers": "Ce acoperă",
-      "coversDesc": "Numărare până la 10, adunare și scădere în intervalul 10, perechi care fac 10, dubluri, împărțire echitabilă și memorie vizuală. Nouă lumi, 78 de niveluri, toate deblocate.",
+      "coversDesc": "Numărare până la 10, adunare și scădere în intervalul 10, perechi care fac 10, dubluri, numirea numărului (ecuații scrise), compararea cantităților, împărțire echitabilă și memorie vizuală. Zece lumi, 90 de niveluri, toate deblocate.",
       "privacy": "Confidențialitate",
       "privacyDesc": "Fără conturi și fără înregistrare. Nimic nu părăsește tableta — progresul se salvează local. Funcționează complet offline. Fără reclame, fără achiziții în aplicație, fără linkuri către exterior.",
       "devices": "Tablete partajate",
@@ -232,7 +232,7 @@
     "comeBackTomorrow": "Ne vedem mâine!",
     "upgradeTitle": "Matematica cu Zâmbete Premium",
     "upgradeSubtitle": "Învață fără limite!",
-    "featureAllWorlds": "Toate cele 7 lumi Aventură, toate nivelele",
+    "featureAllWorlds": "Toate cele 10 lumi Aventură, toate nivelele",
     "featureUnlimitedModes": "Fără limită zilnică la niciun joc",
     "featureAllThemes": "Toate cele 10 teme vizuale",
     "featureStickerBook": "Album complet (36 stickere)",
