@@ -46,7 +46,11 @@ export function NewStickerPopup({stickerIds, visible, colors}: NewStickerPopupPr
 
   if (!visible || stickerIds.length === 0) return null;
 
-  const stickers = stickerIds
+  // Adventure's level-complete batch can merge many unlocks into one card;
+  // show a handful and count the rest.
+  const shown = stickerIds.slice(0, 5);
+  const extra = stickerIds.length - shown.length;
+  const stickers = shown
     .map(id => ALL_STICKERS.find(s => s.id === id))
     .filter(Boolean);
 
@@ -67,6 +71,7 @@ export function NewStickerPopup({stickerIds, visible, colors}: NewStickerPopupPr
               </Text>
             ) : null,
           )}
+          {extra > 0 && <Text style={styles.extraCount}>+{extra}</Text>}
         </View>
         <Text style={styles.label}>{t('rewards.newSticker')}</Text>
       </View>
@@ -109,5 +114,12 @@ const styles = StyleSheet.create({
   },
   emoji: {
     fontSize: 30,
+  },
+  extraCount: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#1E1B4B',
+    alignSelf: 'center',
+    opacity: 0.7,
   },
 });

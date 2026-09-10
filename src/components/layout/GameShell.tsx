@@ -660,6 +660,10 @@ function useShellState(
     billedProblemRef.current = false;
     // answer/compare keep currentProblem null — their own problem objects
     // mark the problem boundary instead.
+    // A new problem also ends the celebration window: pending toasts are
+    // dropped rather than shown over the next challenge.
+    rewardSystem.clearTransientCelebrations();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [game.currentProblem, game.answerProblem, game.compareProblem]);
   useEffect(() => {
     if (game.isCorrect !== null && !billedProblemRef.current) {
@@ -933,19 +937,22 @@ function useShellState(
   const handleAdventureNextLevel = useCallback(() => {
     const nextLevel = adventure.getNextPlayableLevel(adventure.selectedWorld);
     if (nextLevel) {
+      // Fresh level, fresh stage — drop any toast still waiting its turn.
+      rewardSystem.clearTransientCelebrations();
       adventure.startLevel(nextLevel);
       setAdventureStars(null);
       setAdventureIsNewBest(false);
     }
-  }, [adventure]);
+  }, [adventure, rewardSystem]);
 
   const handleAdventureReplay = useCallback(() => {
     if (adventure.activeLevel) {
+      rewardSystem.clearTransientCelebrations();
       adventure.startLevel(adventure.activeLevel.level);
       setAdventureStars(null);
       setAdventureIsNewBest(false);
     }
-  }, [adventure]);
+  }, [adventure, rewardSystem]);
 
   const handleAdventureExitLevel = useCallback(() => {
     adventure.exitLevel();
@@ -1108,7 +1115,7 @@ function GameShellInner() {
 
       {/* Persistent global overlays — these sit OUTSIDE the stack so they
           float above whichever screen the user is on. */}
-      <CorrectAnimation visible={game.showConfetti} />
+      <CorrectAnimation visible={game.showConfetti} colors={colors} />
       <WrongAnimation visible={game.isCorrect === false} />
       <WrongFlash visible={game.isCorrect === false} />
       {/* Celebration queue: exactly one on stage at a time. */}

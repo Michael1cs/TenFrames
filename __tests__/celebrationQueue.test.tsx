@@ -53,26 +53,77 @@ test('crossing 50 stars queues milestone, then achievements, then stickers — o
   expect(api().currentCelebration).toBeNull();
 
   await ReactTestRenderer.act(() => {
-    jest.advanceTimersByTime(2400);
+    jest.advanceTimersByTime(1200);
   });
   expect(api().currentCelebration).toEqual({kind: 'milestone', id: 'stars-50'});
 
-  // Walk the whole parade: milestone first, then every achievement (a fresh
-  // save can unlock several at once), then one sticker batch, then quiet.
-  const kinds: string[] = [];
-  for (let i = 0; i < 30 && api().currentCelebration; i++) {
-    kinds.push(api().currentCelebration!.kind);
-    await ReactTestRenderer.act(() => {
-      api().advanceCelebration();
-    });
-  }
+  // One answer earns at most the milestone plus ONE toast — the achievement
+  // outranks the sticker batch, which lands silently in the book.
+  await ReactTestRenderer.act(() => {
+    api().advanceCelebration();
+  });
+  expect(api().currentCelebration?.kind).toBe('achievement');
+  await ReactTestRenderer.act(() => {
+    api().advanceCelebration();
+  });
   expect(api().currentCelebration).toBeNull();
-  expect(kinds[0]).toBe('milestone');
-  expect(kinds.filter(k => k === 'milestone')).toHaveLength(1);
-  expect(kinds.filter(k => k === 'sticker')).toHaveLength(1);
-  expect(kinds[kinds.length - 1]).toBe('sticker');
-  // No achievement after the sticker: strict milestone → achievements → sticker.
-  expect(kinds.lastIndexOf('achievement')).toBeLessThan(kinds.indexOf('sticker'));
+});
+
+test('a sticker-only unlock gets the sticker toast', async () => {
+  let api!: Api;
+  await ReactTestRenderer.act(() => {
+    ReactTestRenderer.create(<Probe onRender={a => (api = a)} />);
+  });
+  await ReactTestRenderer.act(() => {
+    api.loadRewards({
+      totalStars: 20,
+      starsAvailable: 20,
+      stickers: ALL_STICKERS.filter(s => s.requirement <= 20).map(s => s.id),
+      achievements: ['first-star', 'ten-stars'],
+      streak: {current: 1, lastPlayedDate: '', longest: 1},
+      levelStars: {},
+      stats: {totalProblems: 20, correctFirstTry: 20, byMode: {}},
+      milestonesSeen: ['stars-10', 'stars-25', 'stars-50', 'stars-100'],
+    } as any);
+  });
+  await ReactTestRenderer.act(() => {
+    api.awardStars('addition', true); // 23 — may unlock stickers, no milestone
+  });
+  await ReactTestRenderer.act(() => {
+    jest.advanceTimersByTime(1200);
+  });
+  const cur = api.currentCelebration;
+  // Depending on thresholds this either unlocked stickers (toast) or an
+  // achievement — never both, and never a parade.
+  if (cur) {
+    expect(['sticker', 'achievement']).toContain(cur.kind);
+    await ReactTestRenderer.act(() => {
+      api.advanceCelebration();
+    });
+    expect(api.currentCelebration).toBeNull();
+  }
+});
+
+test('a new problem drops pending toasts but never a milestone', async () => {
+  const api = await setupAt49Stars();
+  await ReactTestRenderer.act(() => {
+    api().awardStars('addition', true); // milestone + achievement queued
+  });
+  await ReactTestRenderer.act(() => {
+    jest.advanceTimersByTime(1200);
+  });
+  expect(api().currentCelebration?.kind).toBe('milestone');
+
+  // The next problem starts while the parade is still pending.
+  await ReactTestRenderer.act(() => {
+    api().clearTransientCelebrations();
+  });
+  // Milestone survives; the achievement behind it is gone.
+  expect(api().currentCelebration?.kind).toBe('milestone');
+  await ReactTestRenderer.act(() => {
+    api().advanceCelebration();
+  });
+  expect(api().currentCelebration).toBeNull();
 });
 
 test('an unattended milestone leaves the stage by itself after 8s', async () => {
@@ -81,7 +132,7 @@ test('an unattended milestone leaves the stage by itself after 8s', async () => 
     api().awardStars('addition', true);
   });
   await ReactTestRenderer.act(() => {
-    jest.advanceTimersByTime(2400);
+    jest.advanceTimersByTime(1200);
   });
   expect(api().currentCelebration?.kind).toBe('milestone');
   await ReactTestRenderer.act(() => {

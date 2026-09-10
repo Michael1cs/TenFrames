@@ -13,12 +13,16 @@ export type Celebration =
   | {kind: 'achievement'; id: string}
   | {kind: 'sticker'; ids: string[]};
 
-// Give the immediate answer feedback (stars burst ~3s) the stage first.
-const CELEBRATION_START_DELAY_MS = 2400;
+// A toast lives entirely inside the pause between problems (Free Play holds
+// ~5s after a correct answer): a short beat for the stars burst, then a 3s
+// card, done before the next problem appears. Anything still pending when a
+// new problem starts is dropped — a celebration is about the moment, and
+// once the next challenge is up the moment is over (milestones excepted).
+const CELEBRATION_START_DELAY_MS = 1200;
 // The milestone card has a Continue button; the timeout is only the escape
 // hatch for a child who never taps.
 const MILESTONE_AUTO_MS = 8000;
-const TOAST_AUTO_MS = 4000;
+const TOAST_AUTO_MS = 3000;
 
 const defaultRewardData: RewardData = {
   totalStars: 0,
@@ -50,6 +54,13 @@ export function useRewards() {
 
   const advanceCelebration = useCallback(() => {
     setCelebrationQueue(q => q.slice(1));
+  }, []);
+
+  // Called when a new problem takes the stage: whatever toast didn't get its
+  // moment is dropped rather than shown over the next challenge. Milestones
+  // survive — they are modal and rare.
+  const clearTransientCelebrations = useCallback(() => {
+    setCelebrationQueue(q => q.filter(c => c.kind === 'milestone'));
   }, []);
 
   // Auto-advance whatever is on stage; a tap (milestone Continue) advances
@@ -160,19 +171,38 @@ export function useRewards() {
           }
         }
 
-        // Everything unlocked by this answer files into the celebration
-        // queue in order of weight; the delay lets the stars burst finish.
+        // At most ONE toast per answer — the milestone modal plus the single
+        // most important unlock. An achievement outranks stickers; extra
+        // unlocks land silently in the book/screen (early game unlocks
+        // something on nearly every answer, and a parade per answer reads as
+        // noise, not reward).
         const queued: Celebration[] = [];
         if (crossedMilestone) queued.push({kind: 'milestone', id: crossedMilestone});
-        for (const achId of newlyUnlocked) {
-          queued.push({kind: 'achievement', id: achId});
-        }
-        if (unlockedStickers.length > 0) {
+        if (newlyUnlocked.length > 0) {
+          queued.push({kind: 'achievement', id: newlyUnlocked[0]});
+        } else if (unlockedStickers.length > 0) {
           queued.push({kind: 'sticker', ids: unlockedStickers});
         }
         if (queued.length > 0) {
           setTimeout(() => {
-            setCelebrationQueue(q => [...q, ...queued]);
+            setCelebrationQueue(q => {
+              // Adventure awards a level's stars as one 5-call batch: merge
+              // back-to-back sticker toasts into a single card instead of
+              // parading five of them.
+              const merged = [...q];
+              for (const c of queued) {
+                const last = merged[merged.length - 1];
+                if (c.kind === 'sticker' && last?.kind === 'sticker') {
+                  merged[merged.length - 1] = {
+                    kind: 'sticker',
+                    ids: [...last.ids, ...c.ids],
+                  };
+                } else {
+                  merged.push(c);
+                }
+              }
+              return merged;
+            });
           }, CELEBRATION_START_DELAY_MS);
         }
 
@@ -239,6 +269,7 @@ export function useRewards() {
     rewards,
     currentCelebration,
     advanceCelebration,
+    clearTransientCelebrations,
     loadRewards,
     updateDailyStreak,
     awardStars,

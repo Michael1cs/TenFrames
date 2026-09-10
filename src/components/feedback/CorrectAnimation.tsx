@@ -1,53 +1,62 @@
 import React, {useEffect, useMemo} from 'react';
 import {View, StyleSheet, useWindowDimensions} from 'react-native';
-import {Text} from '../common/AppText';
-import {Emoji} from '../common/Emoji';
 import {useReduceMotion} from '../../hooks/useReduceMotion';
+import {ThemeColors} from '../../types/game';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   withDelay,
-  withSpring,
 } from 'react-native-reanimated';
 
 interface ConfettiPieceProps {
   index: number;
+  palette: string[];
 }
 
-function ConfettiPiece({index}: ConfettiPieceProps) {
+// One cohesive burst, not a drizzle: pieces spawn together (0-350ms), fall
+// through the play area only (never over the bottom bar), and are gone in
+// under two seconds. Colors come from the active theme so the confetti
+// belongs to the scene instead of sitting on top of it.
+function ConfettiPiece({index, palette}: ConfettiPieceProps) {
   const {width, height} = useWindowDimensions();
-  const translateY = useSharedValue(-50);
+  const translateY = useSharedValue(-30);
   const translateX = useSharedValue(0);
   const rotate = useSharedValue(0);
   const opacity = useSharedValue(1);
 
-  const colors = ['#8B5CF6', '#6366F1', '#A855F7', '#F59E0B', '#EF4444', '#10B981'];
-  const color = colors[index % colors.length];
-  const config = useMemo(() => ({
-    startX: Math.random() * width,
-    size: Math.random() * 8 + 4,
-    delay: Math.random() * 2000,
-    duration: 2500 + Math.random() * 1000,
-    drift: (Math.random() - 0.5) * 100,
-    rotDir: Math.random() > 0.5 ? 1 : -1,
-    round: Math.random() > 0.5,
-  }), [width]);
+  const color = palette[index % palette.length];
+  const config = useMemo(
+    () => ({
+      // Central band of the screen, clear of the edges.
+      startX: width * (0.18 + Math.random() * 0.64),
+      size: 6 + Math.random() * 5,
+      delay: Math.random() * 350,
+      duration: 1400 + Math.random() * 500,
+      drift: (Math.random() - 0.5) * 90,
+      rotDir: Math.random() > 0.5 ? 1 : -1,
+    }),
+    [width],
+  );
 
   useEffect(() => {
     translateY.value = withDelay(
       config.delay,
-      withTiming(height + 50, {duration: config.duration}),
+      withTiming(height * 0.62, {duration: config.duration}),
     );
     translateX.value = withDelay(
       config.delay,
-      withTiming(config.drift, {duration: 2500}),
+      withTiming(config.drift, {duration: config.duration}),
     );
     rotate.value = withDelay(
       config.delay,
-      withTiming(360 * config.rotDir, {duration: 2500}),
+      withTiming(280 * config.rotDir, {duration: config.duration}),
     );
-    opacity.value = withDelay(config.delay + 2000, withTiming(0, {duration: 500}));
+    opacity.value = withDelay(
+      config.delay + 900,
+      withTiming(0, {duration: 450}),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const style = useAnimatedStyle(() => ({
@@ -62,14 +71,15 @@ function ConfettiPiece({index}: ConfettiPieceProps) {
   return (
     <Animated.View
       style={[
+        // Rectangular chips tumble like real confetti; squares read as noise.
         {
           position: 'absolute',
           left: config.startX,
           top: 0,
           width: config.size,
-          height: config.size,
+          height: config.size * 0.6,
           backgroundColor: color,
-          borderRadius: config.round ? config.size / 2 : 0,
+          borderRadius: 2,
         },
         style,
       ]}
@@ -79,36 +89,24 @@ function ConfettiPiece({index}: ConfettiPieceProps) {
 
 interface CorrectAnimationProps {
   visible: boolean;
+  colors: ThemeColors;
 }
 
-export function CorrectAnimation({visible}: CorrectAnimationProps) {
+export function CorrectAnimation({visible, colors}: CorrectAnimationProps) {
   const reduceMotion = useReduceMotion();
-  const scale = useSharedValue(0);
 
-  useEffect(() => {
-    if (visible) {
-      scale.value = withSpring(1, {damping: 6, stiffness: 100});
-    } else {
-      scale.value = 0;
-    }
-  }, [visible]);
+  const palette = useMemo(
+    () => [colors.cellColor1, colors.cellColor2, colors.accent, '#FFFFFF'],
+    [colors],
+  );
 
-  const emojiStyle = useAnimatedStyle(() => ({
-    transform: [{scale: scale.value}],
-    opacity: scale.value,
-  }));
-
-  if (!visible) return null;
+  if (!visible || reduceMotion) return null;
 
   return (
     <View style={styles.container} pointerEvents="none">
-      {!reduceMotion && Array.from({length: 20}).map((_, i) => (
-        <ConfettiPiece key={i} index={i} />
+      {Array.from({length: 14}).map((_, i) => (
+        <ConfettiPiece key={i} index={i} palette={palette} />
       ))}
-      <Animated.View style={[styles.emojiContainer, emojiStyle]}>
-        <Text style={styles.emoji}><Emoji>🎉</Emoji></Text>
-        <Text style={styles.text}><Emoji>🌟</Emoji></Text>
-      </Animated.View>
     </View>
   );
 }
@@ -116,20 +114,6 @@ export function CorrectAnimation({visible}: CorrectAnimationProps) {
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    zIndex: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  emojiContainer: {
-    alignItems: 'center',
-  },
-  emoji: {
-    fontSize: 64,
-  },
-  text: {
-    fontSize: 24,
-    color: '#4ADE80',
-    fontWeight: 'bold',
-    marginTop: 8,
+    zIndex: 40,
   },
 });
