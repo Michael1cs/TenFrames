@@ -53,16 +53,20 @@ export function SubtractionMode({
   //   - exact answer        → submit immediately (fast positive feedback)
   //   - removed too many     → submit after 2s grace (wrong feedback)
   //   - hasn't removed enough → wait, child is still working
-  // Reset the "already submitted" guard whenever a new problem arrives,
-  // otherwise round 2 stays locked (auto-submit bails, and compact mode
-  // hides the manual submit button).
+  // Reset the "already submitted" guard whenever the board is re-opened for
+  // answering — a new problem, or the same problem coming back for retry
+  // after a wrong answer (hasSubmitted drops to false but problemKey doesn't
+  // change). Keying on problemKey alone left the retry locked: compact mode
+  // hides the submit button and auto-submit bailed on the stale ref.
   const autoSubmittedRef = useRef(false);
   const problemKey = currentProblem
     ? `${currentProblem.num1}-${currentProblem.num2}`
     : null;
   useEffect(() => {
-    autoSubmittedRef.current = false;
-  }, [problemKey]);
+    if (!hasSubmitted) {
+      autoSubmittedRef.current = false;
+    }
+  }, [problemKey, hasSubmitted]);
   // Judge where the child STOPS, not where the app catches them. This used to
   // submit 350ms after userAnswer MATCHED the answer, so a child removed
   // counters on the way to a larger, wrong number was stopped and congratulated
