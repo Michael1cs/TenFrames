@@ -12,7 +12,7 @@
  * has to govern both places or the two halves of the app disagree about what
  * an answer is.
  *
- * Tune against a real 4-6 year old: too short judges a slow counter
+ * Tune against a real 4-7 year old: too short judges a slow counter
  * mid-thought, too long makes a correct answer feel ignored.
  */
 export const STOP_JUDGE_MS = 2000;

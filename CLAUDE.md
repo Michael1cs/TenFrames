@@ -1,7 +1,7 @@
 # Ten Frames - React Native Android App
 
 ## Project Overview
-Educational math app for children (grades 0-1, ages 6-7) using the American **Ten Frames** method.
+Educational math app for children (ages 4-7, preschool to grade 1) using the American **Ten Frames** method.
 A 2x5 grid where children place objects to visualize numbers 0-10.
 
 ## Tech Stack
