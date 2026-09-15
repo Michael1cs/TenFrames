@@ -10,6 +10,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export interface EquationPart {
   text: string;
@@ -35,6 +36,7 @@ export function FeedbackSheet({
   equationParts,
 }: FeedbackSheetProps) {
   const {t} = useTranslation();
+  const insets = useSafeAreaInsets();
   const translateY = useSharedValue(160);
   const opacity = useSharedValue(0);
 
@@ -56,7 +58,12 @@ export function FeedbackSheet({
   if (!visible || isCorrect === null) return null;
 
   return (
-    <View pointerEvents="none" style={styles.lane}>
+    // The lane is anchored to the window bottom, so on Android it would sit
+    // under the navigation bar — 48dp with 3-button nav, and opaque. The
+    // equation is the card's last line, so that is exactly what gets eaten.
+    // iOS never showed this: Info.plist locks iPhone to portrait and only
+    // iPad reaches landscape, where the home indicator is ~20pt and see-through.
+    <View pointerEvents="none" style={[styles.lane, {bottom: 10 + insets.bottom}]}>
       <Animated.View
         style={[
           styles.card,

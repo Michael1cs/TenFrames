@@ -4,6 +4,7 @@ import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {GameMode, ThemeColors} from '../../types/game';
 import {Emoji} from '../common/Emoji';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface ModeSelectorProps {
   activeMode: GameMode;
@@ -37,6 +38,7 @@ export function ModeSelector({
   availableModes,
 }: ModeSelectorProps) {
   const {t} = useTranslation();
+  const insets = useSafeAreaInsets();
   const modes = availableModes
     ? allModes.filter(m => availableModes.includes(m.id))
     : allModes;
@@ -187,20 +189,34 @@ export function ModeSelector({
     </>
   );
 
+  // targetSdkVersion 36 means Android 15+ forces the window edge-to-edge —
+  // RN's own edgeToEdgeEnabled=false does not opt out of the platform
+  // enforcement — so this bar's bottom 48dp lands behind an opaque 3-button
+  // navigation bar. These are the mode buttons, so it costs taps, not just
+  // pixels. Pre-dates 1.7.0; fixed here now that a provider exists.
+  const barPaddingBottom = 12 + insets.bottom;
+
   if (scrollable) {
     return (
       <View style={styles.bottomBarWrap}>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.bottomBarScroll}>
+          contentContainerStyle={[
+            styles.bottomBarScroll,
+            {paddingBottom: barPaddingBottom},
+          ]}>
           {bar}
         </ScrollView>
       </View>
     );
   }
 
-  return <View style={styles.bottomBar}>{bar}</View>;
+  return (
+    <View style={[styles.bottomBar, {paddingBottom: barPaddingBottom}]}>
+      {bar}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
