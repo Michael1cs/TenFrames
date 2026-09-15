@@ -61,8 +61,14 @@ export function AdventureWorldsScreen({progress, onSelectWorld, onClose}: Props)
   const width = measuredWidth ?? windowWidth;
   const isTablet = width >= 640;
   const columns = isTablet ? 3 : 2;
-  const cardWidth =
-    (width - GRID_PADDING * 2 - GRID_GAP * (columns - 1)) / columns;
+  // Math.floor, or the row overflows by a fraction of a point: at 820pt
+  // (iPad Air portrait) the exact share is 254.67pt, Yoga rounds each card
+  // up to the pixel grid, 3×255 + gaps lands 1pt past the row, and the third
+  // card WRAPS — tablet-sized cards in two left-hugging columns. Flooring
+  // trades that for a ≤3pt slack on the right, which nobody can see.
+  const cardWidth = Math.floor(
+    (width - GRID_PADDING * 2 - GRID_GAP * (columns - 1)) / columns,
+  );
 
   const allThemes = getAllThemes();
 
