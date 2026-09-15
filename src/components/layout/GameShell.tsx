@@ -161,6 +161,7 @@ function AdventureLevelsRoute({
       worldId={route.params.worldId}
       progress={ctx.adventure.progress}
       fallbackColors={ctx.colors}
+      isPremium={ctx.premium.isPremium}
       onLevelPress={levelId => {
         if (ctx.handleAdventureLevelPress(levelId)) {
           navigation.navigate('AdventureLevel');

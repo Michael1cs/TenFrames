@@ -15,6 +15,7 @@ interface AdventureMapPathProps {
   progress: AdventureProgress;
   colors: ThemeColors;
   onLevelPress: (levelId: string) => void;
+  isPremium: boolean;
 }
 
 export function AdventureMapPath({
@@ -22,6 +23,7 @@ export function AdventureMapPath({
   progress,
   colors,
   onLevelPress,
+  isPremium,
 }: AdventureMapPathProps) {
   const {isTablet, width: screenWidth} = useLayout();
   const nodeSize = isTablet ? 90 : 72;
@@ -150,6 +152,10 @@ export function AdventureMapPath({
                   nodeSize={nodeSize}
                   index={levelsBottomUp.length - 1 - i} // stagger from bottom
                   onPress={() => onLevelPress(level.id)}
+                  premiumLocked={
+                    !isPremium &&
+                    (level.isBonus || level.order > world.freeLevels)
+                  }
                 />
               </View>
             </React.Fragment>

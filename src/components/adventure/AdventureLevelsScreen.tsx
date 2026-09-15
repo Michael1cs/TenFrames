@@ -36,6 +36,7 @@ interface Props {
   onLevelPress: (levelId: string) => void;
   onBack: () => void;
   onClose: () => void;
+  isPremium: boolean;
 }
 
 export function AdventureLevelsScreen({
@@ -45,6 +46,7 @@ export function AdventureLevelsScreen({
   onLevelPress,
   onBack,
   onClose,
+  isPremium,
 }: Props) {
   const {t} = useTranslation();
   const voice = useVoice();
@@ -89,6 +91,7 @@ export function AdventureLevelsScreen({
           progress={progress}
           colors={worldColors}
           onLevelPress={onLevelPress}
+          isPremium={isPremium}
         />
       </View>
     </ImageBackground>

@@ -14,6 +14,11 @@ import {AdventureWorld, AdventureProgress} from '../types/game';
 //   - Memory: 7 niveluri (5 progresive + 2 bonus la cels max)
 //   - Farm Share: 8 niveluri (6 progresive ÷2..÷5 + 2 bonus mix)
 
+// Free tier is GRADUATED (2026-09, was a flat 3 per world = 30 free levels):
+// the first two worlds keep 3 free levels so the child falls in love, the two
+// big arithmetic worlds give 2, and every specialty world gives 1 — a taste
+// of each mechanic, 16 free levels total. The paid frontier is drawn with 👑
+// on the level map (MapNode), and tapping a crowned level opens the upgrade.
 function unlockPrev(prev: string) {
   return {type: 'previous' as const, levelId: prev};
 }
@@ -81,7 +86,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.additionIsland',
     emoji: '🐳',
     theme: 'ocean',
-    freeLevels: 3,
+    freeLevels: 2,
     levels: [
       {id: 'ai-1', worldId: 'addition-island', order: 1, nameKey: 'adventure.levels.ai1', emoji: '🐚', isBonus: false, gameMode: 'addition', modeLevel: 1, problemCount: 5, unlockCondition: {type: 'first'}},
       {id: 'ai-2', worldId: 'addition-island', order: 2, nameKey: 'adventure.levels.ai2', emoji: '🐟', isBonus: false, gameMode: 'addition', modeLevel: 2, problemCount: 5, unlockCondition: unlockPrev('ai-1')},
@@ -104,7 +109,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.subtractionMountain',
     emoji: '🚀',
     theme: 'space',
-    freeLevels: 3,
+    freeLevels: 2,
     levels: [
       {id: 'sm-1', worldId: 'subtraction-mountain', order: 1, nameKey: 'adventure.levels.sm1', emoji: '🌙', isBonus: false, gameMode: 'subtraction', modeLevel: 1, problemCount: 5, unlockCondition: {type: 'first'}},
       {id: 'sm-2', worldId: 'subtraction-mountain', order: 2, nameKey: 'adventure.levels.sm2', emoji: '🚀', isBonus: false, gameMode: 'subtraction', modeLevel: 2, problemCount: 5, unlockCondition: unlockPrev('sm-1')},
@@ -128,7 +133,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.makeTenBeach',
     emoji: '🍬',
     theme: 'candy',
-    freeLevels: 3,
+    freeLevels: 1,
     levels: [
       {id: 'mtb-1', worldId: 'make-ten-beach', order: 1, nameKey: 'adventure.levels.mtb1', emoji: '🍬', isBonus: false, gameMode: 'puzzle', modeLevel: 9, problemCount: 5, unlockCondition: {type: 'first'}},
       {id: 'mtb-2', worldId: 'make-ten-beach', order: 2, nameKey: 'adventure.levels.mtb2', emoji: '🍭', isBonus: false, gameMode: 'puzzle', modeLevel: 7, problemCount: 5, unlockCondition: unlockPrev('mtb-1')},
@@ -150,7 +155,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.mixedTargets',
     emoji: '🧪',
     theme: 'slime',
-    freeLevels: 3,
+    freeLevels: 1,
     levels: [
       {id: 'mt-1', worldId: 'mixed-targets', order: 1, nameKey: 'adventure.levels.mt1', emoji: '🧪', isBonus: false, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, puzzleTarget: 3, unlockCondition: {type: 'first'}},
       {id: 'mt-2', worldId: 'mixed-targets', order: 2, nameKey: 'adventure.levels.mt2', emoji: '🧫', isBonus: false, gameMode: 'puzzle', modeLevel: 0, problemCount: 5, puzzleTarget: 5, unlockCondition: unlockPrev('mt-1')},
@@ -170,7 +175,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.doublesCastle',
     emoji: '🏰',
     theme: 'unicorn',
-    freeLevels: 3,
+    freeLevels: 1,
     levels: [
       {id: 'dc-1', worldId: 'doubles-castle', order: 1, nameKey: 'adventure.levels.dc1', emoji: '✨', isBonus: false, gameMode: 'addition', modeLevel: 21, problemCount: 5, unlockCondition: {type: 'first'}},
       {id: 'dc-2', worldId: 'doubles-castle', order: 2, nameKey: 'adventure.levels.dc2', emoji: '🌈', isBonus: false, gameMode: 'addition', modeLevel: 22, problemCount: 5, unlockCondition: unlockPrev('dc-1')},
@@ -193,7 +198,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.numberTown',
     emoji: '🔟',
     theme: 'pixel',
-    freeLevels: 3,
+    freeLevels: 1,
     levels: [
       {id: 'nt-1', worldId: 'number-town', order: 1, nameKey: 'adventure.levels.nt1', emoji: '⭐', isBonus: false, gameMode: 'answer', modeLevel: 1, problemCount: 5, unlockCondition: {type: 'first'}},
       {id: 'nt-2', worldId: 'number-town', order: 2, nameKey: 'adventure.levels.nt2', emoji: '🚀', isBonus: false, gameMode: 'answer', modeLevel: 2, problemCount: 5, unlockCondition: unlockPrev('nt-1')},
@@ -213,7 +218,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.memoryGarden',
     emoji: '🍄',
     theme: 'unicorn',
-    freeLevels: 3,
+    freeLevels: 1,
     levels: [
       {id: 'mg-1', worldId: 'memory-garden', order: 1, nameKey: 'adventure.levels.mg1', emoji: '🚀', isBonus: false, gameMode: 'memory', modeLevel: 1, problemCount: 5, unlockCondition: {type: 'first'}, theme: 'space'},
       {id: 'mg-2', worldId: 'memory-garden', order: 2, nameKey: 'adventure.levels.mg2', emoji: '🐟', isBonus: false, gameMode: 'memory', modeLevel: 2, problemCount: 5, unlockCondition: unlockPrev('mg-1'), theme: 'ocean'},
@@ -235,7 +240,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     nameKey: 'adventure.worlds.farmShare',
     emoji: '🐰',
     theme: 'farm',
-    freeLevels: 3,
+    freeLevels: 1,
     levels: [
       {id: 'fs-1', worldId: 'farm-share', order: 1, nameKey: 'adventure.levels.fs1', emoji: '🐰', isBonus: false, gameMode: 'share', modeLevel: 1, problemCount: 5, unlockCondition: {type: 'first'}},
       {id: 'fs-2', worldId: 'farm-share', order: 2, nameKey: 'adventure.levels.fs2', emoji: '🐔', isBonus: false, gameMode: 'share', modeLevel: 2, problemCount: 5, unlockCondition: unlockPrev('fs-1')},

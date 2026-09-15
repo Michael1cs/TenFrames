@@ -22,6 +22,10 @@ interface MapNodeProps {
   nodeSize: number;
   index: number; // for staggered entrance
   onPress: () => void;
+  // Free user looking at a level beyond the world's free allowance: the node
+  // wears a 👑 instead of the padlock, and stays TAPPABLE even when the
+  // progression hasn't reached it — every crown leads to the upgrade sheet.
+  premiumLocked?: boolean;
 }
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -34,6 +38,7 @@ export function MapNode({
   nodeSize,
   index,
   onPress,
+  premiumLocked = false,
 }: MapNodeProps) {
   const {unlocked, completed, stars} = levelProgress;
 
@@ -139,7 +144,7 @@ export function MapNode({
         />
       )}
       <AnimatedPressable
-        onPress={unlocked ? onPress : undefined}
+        onPress={unlocked || premiumLocked ? onPress : undefined}
         style={[
           styles.node,
           {
@@ -147,20 +152,26 @@ export function MapNode({
             height: nodeSize,
             borderRadius: level.isBonus ? nodeSize / 4 : nodeSize / 2,
             backgroundColor: nodeColor,
-            borderColor,
+            borderColor: premiumLocked ? '#F59E0B' : borderColor,
             opacity: unlocked ? 1 : 0.55,
           },
         ]}>
         <Text style={[styles.nodeEmoji, {fontSize: nodeSize * 0.5}]}>
           <Emoji>{level.emoji}</Emoji>
         </Text>
-        {!unlocked && (
+        {premiumLocked ? (
+          <View style={[styles.lockBadge, styles.crownBadge]}>
+            <Text style={styles.lockBadgeText}>
+              <Emoji>👑</Emoji>
+            </Text>
+          </View>
+        ) : !unlocked ? (
           <View style={styles.lockBadge}>
             <Text style={styles.lockBadgeText}>
               <Emoji>🔒</Emoji>
             </Text>
           </View>
-        )}
+        ) : null}
         {completed && (
           <View style={styles.checkBadge}>
             <Text style={styles.checkText}>✓</Text>
@@ -209,6 +220,10 @@ const styles = StyleSheet.create({
   },
   lockBadgeText: {
     fontSize: 13,
+  },
+  crownBadge: {
+    backgroundColor: '#B45309',
+    borderColor: '#FCD34D',
   },
   nodeEmoji: {
     fontSize: 28,
