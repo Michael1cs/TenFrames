@@ -15569,10 +15569,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.tenframes.app;
 				PRODUCT_NAME = TenFrames;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -15601,9 +15601,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.tenframes.app;
 				PRODUCT_NAME = TenFrames;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -15789,9 +15789,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.tenframes.school;
 				PRODUCT_NAME = TenFrames;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Release-School";
