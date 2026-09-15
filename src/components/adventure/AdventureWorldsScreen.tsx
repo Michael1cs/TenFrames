@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   Pressable,
@@ -48,11 +48,18 @@ export function AdventureWorldsScreen({progress, onSelectWorld, onClose}: Props)
   // The cards used a flat 47% width, which is right on a phone (two columns)
   // but produced ~485pt squares on a 13" iPad — two and a half of them filled
   // the screen and the world list read as a stack of billboards rather than a
-  // map. Pick the column count from the shortest edge and derive an exact
-  // pixel width, so the last row lines up with the rows above it instead of
-  // being stretched by space-between.
-  const {width, height} = useWindowDimensions();
-  const isTablet = Math.min(width, height) >= 600;
+  // map.
+  //
+  // The width the math runs on is MEASURED from the grid itself (onLayout),
+  // not read from useWindowDimensions: under iPadOS 26's resizable windows
+  // the Dimensions module can keep reporting the window's old size after a
+  // live resize, which left a two-column phone grid hugging the left edge of
+  // a full-width iPad window. The measured width is ground truth no matter
+  // how the window got its size; the window value only seeds the first frame.
+  const {width: windowWidth} = useWindowDimensions();
+  const [measuredWidth, setMeasuredWidth] = useState<number | null>(null);
+  const width = measuredWidth ?? windowWidth;
+  const isTablet = width >= 640;
   const columns = isTablet ? 3 : 2;
   const cardWidth =
     (width - GRID_PADDING * 2 - GRID_GAP * (columns - 1)) / columns;
@@ -78,7 +85,8 @@ export function AdventureWorldsScreen({progress, onSelectWorld, onClose}: Props)
           style={styles.worldsScroll}
           contentContainerStyle={styles.worldsGrid}
           showsVerticalScrollIndicator={false}
-          contentInsetAdjustmentBehavior="never">
+          contentInsetAdjustmentBehavior="never"
+          onLayout={e => setMeasuredWidth(e.nativeEvent.layout.width)}>
           {ADVENTURE_WORLDS.map(w => {
             const isUnlocked = progress.worlds[w.id]?.unlocked;
             const stars = getWorldStars(w.id, progress);
