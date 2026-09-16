@@ -292,7 +292,8 @@
       "memoryGarden": "Gedächtnis-Garten",
       "farmShare": "Bauernhof teilen",
       "highFive": "Gib fünf!",
-      "numberTown": "Zahlenstadt"
+      "numberTown": "Zahlenstadt",
+      "monsterMore": "Hungrige Monster"
     },
     "levels": {
       "cm1": "Zähle bis 2",
@@ -384,7 +385,15 @@
       "nt5": "Mehr fehlt",
       "nt6": "Zahlen-Mix",
       "ntBonusA": "Sternzahlen",
-      "ntBonusB": "Zahlen-Champion"
+      "ntBonusB": "Zahlen-Champion",
+      "mm1": "Groß oder klein?",
+      "mm2": "Leicht zu sehen",
+      "mm3": "Schau genauer",
+      "mm4": "Nur eins mehr",
+      "mm5": "Zähl genau nach",
+      "mm6": "Gleich oder mehr?",
+      "mmBonusA": "Monster-Duell",
+      "mmBonusB": "Vergleichs-Champion"
     },
     "level": "Level",
     "stars": "Sterne",

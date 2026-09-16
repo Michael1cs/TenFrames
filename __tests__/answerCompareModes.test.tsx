@@ -82,8 +82,22 @@ describe('generateCompareProblem', () => {
     expect(equals).toBeGreaterThan(0);
   });
 
+  it('level 4 (boss) asks the finest discrimination: equal or one apart', () => {
+    let equals = 0;
+    for (let i = 0; i < 400; i++) {
+      const p = generateCompareProblem(4);
+      const diff = Math.abs(p.left - p.right);
+      expect(diff).toBeLessThanOrEqual(1);
+      if (diff === 0) {
+        equals++;
+        expect(p.correct).toBe('equal');
+      }
+    }
+    expect(equals).toBeGreaterThan(0);
+  });
+
   it('counts always fit a ten frame (1-10)', () => {
-    for (const level of [1, 2, 3]) {
+    for (const level of [1, 2, 3, 4]) {
       for (let i = 0; i < 200; i++) {
         const p = generateCompareProblem(level);
         expect(p.left).toBeGreaterThanOrEqual(1);

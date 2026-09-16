@@ -6,6 +6,7 @@ import {useTranslation} from 'react-i18next';
 import {
   AdventureLevel,
   AnswerProblem,
+  CompareProblem,
   ThemeColors,
   ThemeConfig,
   Problem,
@@ -16,6 +17,7 @@ import {
 import {
   generateProblem,
   generateAnswerProblem,
+  generateCompareProblem,
   generateCountingChallenge,
   generateMemoryChallenge,
   generatePuzzleNumber,
@@ -29,6 +31,7 @@ import {NumberDisplay} from '../game/NumberDisplay';
 import {NumberPad} from '../game/NumberPad';
 import {MemoryMode} from '../game/MemoryMode';
 import {FarmShareMode} from '../game/FarmShareMode';
+import {CompareMode} from '../game/CompareMode';
 import {useVoice, VOICE_GROUPS, clearPendingVoiceQueue} from '../../hooks/useVoice';
 import {LevelCompleteScreen} from './LevelCompleteScreen';
 import {LevelPlayState} from '../../hooks/useAdventure';
@@ -157,6 +160,9 @@ export function AdventureLevelScreen({
   const [memoryChallenge, setMemoryChallenge] =
     useState<MemoryChallenge | null>(null);
   const [shareProblem, setShareProblem] = useState<ShareProblem | null>(null);
+  const [compareProblem, setCompareProblem] = useState<CompareProblem | null>(
+    null,
+  );
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [attempts, setAttempts] = useState(0);
@@ -192,6 +198,7 @@ export function AdventureLevelScreen({
   const pregenProblemsRef = useRef<Problem[]>([]);
   const pregenMemoryRef = useRef<MemoryChallenge[]>([]);
   const pregenShareRef = useRef<ShareProblem[]>([]);
+  const pregenCompareRef = useRef<CompareProblem[]>([]);
   useEffect(() => {
     if (level.gameMode === 'memory') {
       const challenges: MemoryChallenge[] = [];
@@ -199,6 +206,12 @@ export function AdventureLevelScreen({
         challenges.push(generateMemoryChallenge(level.modeLevel));
       }
       pregenMemoryRef.current = challenges;
+    } else if (level.gameMode === 'compare') {
+      const probs: CompareProblem[] = [];
+      for (let i = 0; i < problemCount; i++) {
+        probs.push(generateCompareProblem(level.modeLevel));
+      }
+      pregenCompareRef.current = probs;
     } else if (level.gameMode === 'share') {
       const probs: ShareProblem[] = [];
       const seen = new Set<string>();
@@ -316,6 +329,13 @@ export function AdventureLevelScreen({
       setCells(prefilled);
       setCurrentProblem(problem);
       setCountingChallenge(null);
+    } else if (level.gameMode === 'compare') {
+      const cp = pregenCompareRef.current[problemIndex]
+        ?? generateCompareProblem(level.modeLevel);
+      setCompareProblem(cp);
+      setCurrentProblem(null);
+      setCountingChallenge(null);
+      setMemoryChallenge(null);
     } else if (level.gameMode === 'share') {
       const sp = pregenShareRef.current[problemIndex]
         ?? generateShareProblem(level.modeLevel);
@@ -836,6 +856,54 @@ export function AdventureLevelScreen({
     ],
   );
 
+  // Compare mode: tapping a frame IS the answer. Correct names the winning
+  // count aloud (reinforcing the count they just compared) and advances;
+  // wrong replays the gentle try-again and lets them pick again.
+  const handleComparePick = useCallback(
+    (side: 'left' | 'right' | 'equal') => {
+      if (finished || !compareProblem || (hasSubmitted && isCorrect)) return;
+      dismissHint();
+
+      if (side === compareProblem.correct) {
+        setHasSubmitted(true);
+        setIsCorrect(true);
+        const wasFirstTry = attempts === 0;
+        let advanced = false;
+        const advance = () => {
+          if (advanced) return;
+          advanced = true;
+          if (advanceFallbackRef.current) {
+            clearTimeout(advanceFallbackRef.current);
+            advanceFallbackRef.current = null;
+          }
+          onRecordResult(wasFirstTry);
+        };
+        if (advanceFallbackRef.current) clearTimeout(advanceFallbackRef.current);
+        clearPendingVoiceQueue();
+        advanceFallbackRef.current = setTimeout(advance, 6000);
+        const winner = Math.max(compareProblem.left, compareProblem.right);
+        const praiseId =
+          VOICE_GROUPS.correct[
+            Math.floor(Math.random() * VOICE_GROUPS.correct.length)
+          ];
+        voiceRef.current.playSequence([`num_${winner}`, praiseId], 350, advance);
+      } else {
+        setAttempts(prev => prev + 1);
+        setHasSubmitted(true);
+        setIsCorrect(false);
+        voiceRef.current.playRandom(VOICE_GROUPS.tryAgain);
+        // Clear the red state shortly so the frames invite another tap.
+        assistTimersRef.current.push(
+          setTimeout(() => {
+            setHasSubmitted(false);
+            setIsCorrect(null);
+          }, 1200),
+        );
+      }
+    },
+    [finished, compareProblem, hasSubmitted, isCorrect, attempts, onRecordResult, dismissHint],
+  );
+
   // Auto-complete level when finished
   useEffect(() => {
     if (finished && completedStars === null) {
@@ -860,7 +928,8 @@ export function AdventureLevelScreen({
     if (
       level.gameMode === 'memory' ||
       level.gameMode === 'share' ||
-      level.gameMode === 'answer'
+      level.gameMode === 'answer' ||
+      level.gameMode === 'compare'
     ) {
       return;
     }
@@ -1157,7 +1226,19 @@ export function AdventureLevelScreen({
           </View>
         </View>
 
-        {level.gameMode === 'share' ? (
+        {level.gameMode === 'compare' ? (
+          <CompareMode
+            problem={compareProblem}
+            onPick={handleComparePick}
+            onReset={() => {}}
+            isCorrect={isCorrect}
+            hasSubmitted={hasSubmitted}
+            colors={themeColors}
+            level={level.modeLevel}
+            ageProfile={{compact: true} as any}
+            hideChrome
+          />
+        ) : level.gameMode === 'share' ? (
           (() => {
             // One consistent food/animal pair per level so the story holds
             // ("Bunnies & Carrots" really shows bunnies and carrots all 5

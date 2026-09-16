@@ -292,7 +292,8 @@
       "memoryGarden": "Grădina Memoriei",
       "farmShare": "Împarte la Fermă",
       "highFive": "Bat palma!",
-      "numberTown": "Orașul Numerelor"
+      "numberTown": "Orașul Numerelor",
+      "monsterMore": "Monștri flămânzi"
     },
     "levels": {
       "cm1": "Numără până la 2",
@@ -384,7 +385,15 @@
       "nt5": "Lipsește mai mult",
       "nt6": "Amestec de numere",
       "ntBonusA": "Numere de stele",
-      "ntBonusB": "Campionul numerelor"
+      "ntBonusB": "Campionul numerelor",
+      "mm1": "Mare sau mic?",
+      "mm2": "Se vede ușor",
+      "mm3": "Uită-te atent",
+      "mm4": "Doar unul în plus",
+      "mm5": "Numără să fii sigur",
+      "mm6": "La fel sau mai multe?",
+      "mmBonusA": "Duel de monștri",
+      "mmBonusB": "Campionul comparării"
     },
     "level": "Nivel",
     "stars": "Stele",

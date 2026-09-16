@@ -301,6 +301,8 @@ function generateAnswerProblemOnce(level: number): AnswerProblem {
  *   1: difference >= 3, never equal (the contrast teaches the idea)
  *   2: difference 1-2, never equal (forces actual counting)
  *   3: full range, ~1 in 4 problems equal
+ *   4: boss — every pair is either equal or one apart, the finest
+ *      discrimination the frame can ask for
  */
 export function generateCompareProblem(level: number): CompareProblem {
   return withoutImmediateRepeat(
@@ -311,12 +313,13 @@ export function generateCompareProblem(level: number): CompareProblem {
 }
 
 function generateCompareProblemOnce(level: number): CompareProblem {
-  if (level >= 3 && Math.random() < 0.25) {
+  const equalChance = level >= 4 ? 0.4 : level === 3 ? 0.25 : 0;
+  if (Math.random() < equalChance) {
     const n = 1 + Math.floor(Math.random() * 10);
     return {left: n, right: n, correct: 'equal'};
   }
   const minDiff = level <= 1 ? 3 : 1;
-  const maxDiff = level <= 1 ? 9 : level === 2 ? 2 : 9;
+  const maxDiff = level <= 1 ? 9 : level === 2 ? 2 : level >= 4 ? 1 : 9;
   const diff =
     minDiff + Math.floor(Math.random() * (maxDiff - minDiff + 1));
   const small = 1 + Math.floor(Math.random() * (10 - diff));

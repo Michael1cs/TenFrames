@@ -292,7 +292,8 @@
       "memoryGarden": "Memory Garden",
       "farmShare": "Farm Share",
       "highFive": "High Five!",
-      "numberTown": "Number Town"
+      "numberTown": "Number Town",
+      "monsterMore": "Hungry Monsters"
     },
     "levels": {
       "cm1": "Count to 2",
@@ -384,7 +385,15 @@
       "nt5": "Missing Bigger",
       "nt6": "Number Mix",
       "ntBonusA": "Star Numbers",
-      "ntBonusB": "Number Champion"
+      "ntBonusB": "Number Champion",
+      "mm1": "Big or Small?",
+      "mm2": "Easy to See",
+      "mm3": "Look Closer",
+      "mm4": "Just One More",
+      "mm5": "Count to Be Sure",
+      "mm6": "Same or More?",
+      "mmBonusA": "Monster Duel",
+      "mmBonusB": "Compare Champion"
     },
     "level": "Level",
     "stars": "Stars",

@@ -80,6 +80,31 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
     ],
   },
 
+  // === World: Hungry Monsters ===
+  // "Which has more?" — comparison and subitizing, the skill that underpins
+  // every later arithmetic judgement. Difficulty is the SIZE OF THE GAP:
+  // levels 1-2 show obvious differences (3+ apart, readable at a glance),
+  // 3-4 narrow it to one or two (the child must actually count), and 5-6
+  // add equal pairs, where "the same" becomes a real answer. The monsters
+  // theme was the only unused background set in the app.
+  {
+    id: 'monster-more',
+    nameKey: 'adventure.worlds.monsterMore',
+    emoji: '\u{1F47E}',
+    theme: 'monsters',
+    freeLevels: 1,
+    levels: [
+      {id: 'mm-1', worldId: 'monster-more', order: 1, nameKey: 'adventure.levels.mm1', emoji: '\u{1F440}', isBonus: false, gameMode: 'compare', modeLevel: 1, problemCount: 5, unlockCondition: {type: 'first'}},
+      {id: 'mm-2', worldId: 'monster-more', order: 2, nameKey: 'adventure.levels.mm2', emoji: '\u{1F441}\u{FE0F}', isBonus: false, gameMode: 'compare', modeLevel: 1, problemCount: 5, unlockCondition: unlockPrev('mm-1')},
+      {id: 'mm-3', worldId: 'monster-more', order: 3, nameKey: 'adventure.levels.mm3', emoji: '\u{1F9FF}', isBonus: false, gameMode: 'compare', modeLevel: 2, problemCount: 5, unlockCondition: unlockPrev('mm-2')},
+      {id: 'mm-4', worldId: 'monster-more', order: 4, nameKey: 'adventure.levels.mm4', emoji: '\u{1F978}', isBonus: false, gameMode: 'compare', modeLevel: 2, problemCount: 5, unlockCondition: unlockPrev('mm-3')},
+      {id: 'mm-5', worldId: 'monster-more', order: 5, nameKey: 'adventure.levels.mm5', emoji: '\u{1F47B}', isBonus: false, gameMode: 'compare', modeLevel: 3, problemCount: 5, unlockCondition: unlockPrev('mm-4')},
+      {id: 'mm-6', worldId: 'monster-more', order: 6, nameKey: 'adventure.levels.mm6', emoji: '\u{1F9DF}', isBonus: false, gameMode: 'compare', modeLevel: 3, problemCount: 5, unlockCondition: unlockPrev('mm-5')},
+      {id: 'mm-bonus-a', worldId: 'monster-more', order: 7, nameKey: 'adventure.levels.mmBonusA', emoji: '\u{2B50}', isBonus: true, gameMode: 'compare', modeLevel: 3, problemCount: 5, unlockCondition: unlockStars('monster-more', 12)},
+      {id: 'mm-bonus-b', worldId: 'monster-more', order: 8, nameKey: 'adventure.levels.mmBonusB', emoji: '\u{1F3C6}', isBonus: true, gameMode: 'compare', modeLevel: 4, problemCount: 5, unlockCondition: unlockStars('monster-more', 16)},
+    ],
+  },
+
   // === World 2: Addition Island ===
   {
     id: 'addition-island',
@@ -262,6 +287,7 @@ export function getDefaultAdventureProgress(): AdventureProgress {
     worlds: {
       'counting-meadow': {unlocked: true, levels: {}},
       'high-five': {unlocked: true, levels: {}},
+      'monster-more': {unlocked: true, levels: {}},
       'addition-island': {unlocked: true, levels: {}},
       'subtraction-mountain': {unlocked: true, levels: {}},
       'make-ten-beach': {unlocked: true, levels: {}},

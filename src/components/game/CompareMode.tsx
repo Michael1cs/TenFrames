@@ -12,10 +12,13 @@ interface CompareModeProps {
   onReset: () => void;
   isCorrect: boolean | null;
   hasSubmitted: boolean;
-  feedback: string;
+  feedback?: string;
   colors: ThemeColors;
   level: number;
   ageProfile?: AgeProfile;
+  // Adventure supplies its own header, progress dots and exit, so the level
+  // badge and the reset button are dropped there.
+  hideChrome?: boolean;
 }
 
 // A 2x5 mini frame drawn with plain dots — small enough that two fit side
@@ -74,6 +77,7 @@ export function CompareMode({
   colors,
   level,
   ageProfile,
+  hideChrome = false,
 }: CompareModeProps) {
   const {t} = useTranslation();
   const compact = ageProfile?.compact ?? false;
@@ -83,7 +87,7 @@ export function CompareMode({
 
   return (
     <View style={styles.container}>
-      {!compact && (
+      {!compact && !hideChrome && (
         <View style={[styles.levelBadge, {backgroundColor: colors.accent}]}>
           <Text style={styles.levelText}><Emoji>⭐</Emoji> Level {level} <Emoji>⭐</Emoji></Text>
         </View>
@@ -142,11 +146,13 @@ export function CompareMode({
       </Pressable>
 
 
-      <Pressable
-        onPress={onReset}
-        style={[styles.resetButton, {backgroundColor: colors.primaryButton}]}>
-        <Text style={styles.resetButtonText}><Emoji>🔄</Emoji></Text>
-      </Pressable>
+      {!hideChrome && (
+        <Pressable
+          onPress={onReset}
+          style={[styles.resetButton, {backgroundColor: colors.primaryButton}]}>
+          <Text style={styles.resetButtonText}><Emoji>🔄</Emoji></Text>
+        </Pressable>
+      )}
     </View>
   );
 }

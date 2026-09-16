@@ -174,7 +174,8 @@ export type WorldId =
   | 'memory-garden'
   | 'farm-share'
   | 'high-five'
-  | 'number-town';
+  | 'number-town'
+  | 'monster-more';
 
 export interface AdventureProgress {
   version: number;
