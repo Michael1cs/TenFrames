@@ -305,6 +305,23 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   // built the answer on the frame but hasn't named it yet.
   {id: 'instr_tap_number', ro: 'Acum apasă pe număr!', en: "Now tap the number!", de: 'Tippe jetzt auf die Zahl!'},
 
+  // ── Hungry Monsters (compare mode) ──
+  // Asks rotate so the instruction never reads as a stuck record: the first
+  // problem of a level gets the explanatory version, later ones the short
+  // reminder. cmp_ask_same is added once on levels where equal pairs appear.
+  {id: 'cmp_ask_1', ro: 'Care are mai multe? Apasă pe el!', en: "Which one has more? Tap it!", de: 'Wo sind mehr? Tippe darauf!'},
+  {id: 'cmp_ask_2', ro: 'Uită-te la amândouă. Unde sunt mai multe bile?', en: "Look at both frames. Where are more dots?", de: 'Schau dir beide an. Wo sind mehr Punkte?'},
+  {id: 'cmp_ask_3', ro: 'Apasă pe cadrul cu mai multe.', en: "Tap the frame that has more.", de: 'Tippe auf das Feld mit mehr Punkten.'},
+  {id: 'cmp_ask_4', ro: 'Numără pe fiecare și alege-l pe cel mai plin.', en: "Count each one, then pick the fuller frame.", de: 'Zähle beide und wähle das vollere Feld.'},
+  {id: 'cmp_ask_same', ro: 'Iar dacă au la fel de multe, apasă pe La fel!', en: "And if they have the same, tap Same!", de: 'Und wenn es gleich viele sind, tippe auf Gleich!'},
+  // Confirmations — six variants so praise stays alive across a level.
+  {id: 'cmp_yes_1', ro: 'Da! Acela are mai multe!', en: "Yes! That one has more!", de: 'Ja! Da sind mehr!'},
+  {id: 'cmp_yes_2', ro: 'Așa e! Acela e mai mare!', en: "Right! That's the bigger one!", de: 'Genau! Das ist das größere!'},
+  {id: 'cmp_yes_3', ro: 'Corect! Acolo sunt mai multe bile!', en: "Correct! More dots on that side!", de: 'Richtig! Dort sind mehr Punkte!'},
+  {id: 'cmp_yes_4', ro: 'Bravo, ai văzut bine!', en: "Well spotted!", de: 'Gut erkannt!'},
+  {id: 'cmp_same_1', ro: 'Da! Au la fel de multe!', en: "Yes! They have the same!", de: 'Ja! Es sind gleich viele!'},
+  {id: 'cmp_same_2', ro: 'Exact la fel! Bravo!', en: "Exactly the same! Well done!", de: 'Genau gleich! Super!'},
+
   // ── Memory Garden phrases ──
   // Phase intros + per-count success announcements.
   {id: 'mem_watch', ro: 'Privește atent!', en: "Watch carefully!", de: 'Schau gut zu!'},

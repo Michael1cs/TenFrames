@@ -698,6 +698,50 @@
       "sha1": "414dc8f121e1781bb8b1deeda396ef5c1d5cd538"
     },
     {
+      "path": "assets/audio/voice_de_cmp_ask_1.mp3",
+      "sha1": "2806aead14ca6b1ab590821f8e255fbcfc56f84b"
+    },
+    {
+      "path": "assets/audio/voice_de_cmp_ask_2.mp3",
+      "sha1": "7817c348eb028cd4252f24c190298221d1d1897a"
+    },
+    {
+      "path": "assets/audio/voice_de_cmp_ask_3.mp3",
+      "sha1": "1d52ea7dfe3d7db4e49bc4e71457dfb1a5c27fbb"
+    },
+    {
+      "path": "assets/audio/voice_de_cmp_ask_4.mp3",
+      "sha1": "046b93acc4aae3453fa786b4ef41b4146db59cfb"
+    },
+    {
+      "path": "assets/audio/voice_de_cmp_ask_same.mp3",
+      "sha1": "b7a51d73538d052aa8e9cdd5b95033f0a702c6ef"
+    },
+    {
+      "path": "assets/audio/voice_de_cmp_same_1.mp3",
+      "sha1": "fc6aeae86f6d1c35313561a4d244d396da217729"
+    },
+    {
+      "path": "assets/audio/voice_de_cmp_same_2.mp3",
+      "sha1": "dd1b9ac42ec741e0efa46713fbe41f45d7b8362b"
+    },
+    {
+      "path": "assets/audio/voice_de_cmp_yes_1.mp3",
+      "sha1": "bc7a9deddeb4344127f8e5f187510c30bc0e26c5"
+    },
+    {
+      "path": "assets/audio/voice_de_cmp_yes_2.mp3",
+      "sha1": "a3e2528b2d08abf0a7b8aa22cdb3b41bdcf3d343"
+    },
+    {
+      "path": "assets/audio/voice_de_cmp_yes_3.mp3",
+      "sha1": "6f2fc2df2c7f4f9a9982505524414ce54efad96b"
+    },
+    {
+      "path": "assets/audio/voice_de_cmp_yes_4.mp3",
+      "sha1": "5aed3e5b39ff9967f2b11e4d44b9b1b07ffa38fc"
+    },
+    {
       "path": "assets/audio/voice_de_count_to_10.mp3",
       "sha1": "2c30c628afec9ec87ebf6cb9f554793aed69ea6d"
     },
@@ -5780,6 +5824,50 @@
     {
       "path": "assets/audio/voice_en_choose_world.mp3",
       "sha1": "c257308e17eec40b468cb0a2a0d37002c69fe4be"
+    },
+    {
+      "path": "assets/audio/voice_en_cmp_ask_1.mp3",
+      "sha1": "af2494d04ff2cd9f66e614182e07581e5949a63a"
+    },
+    {
+      "path": "assets/audio/voice_en_cmp_ask_2.mp3",
+      "sha1": "dcec0cce9a041ce2371c93d85ccaca5897ddfaa9"
+    },
+    {
+      "path": "assets/audio/voice_en_cmp_ask_3.mp3",
+      "sha1": "cc404bb4ad718278b42c76dd258944c13ed35e3a"
+    },
+    {
+      "path": "assets/audio/voice_en_cmp_ask_4.mp3",
+      "sha1": "c92e835d3e63172cdc5fd425919c1945c6f855e6"
+    },
+    {
+      "path": "assets/audio/voice_en_cmp_ask_same.mp3",
+      "sha1": "b3db8fbdb2a23a2ce511a1c4409094d4b6aa6722"
+    },
+    {
+      "path": "assets/audio/voice_en_cmp_same_1.mp3",
+      "sha1": "1413a0e8a14320c490342f7fb9977b18751733b4"
+    },
+    {
+      "path": "assets/audio/voice_en_cmp_same_2.mp3",
+      "sha1": "0bdbbfaa1b5361d222dcd3aff1ce568ce3a37d37"
+    },
+    {
+      "path": "assets/audio/voice_en_cmp_yes_1.mp3",
+      "sha1": "df42aa1cfec725f6ea8caed98997cd3202ba4f9c"
+    },
+    {
+      "path": "assets/audio/voice_en_cmp_yes_2.mp3",
+      "sha1": "ad2f2ff1ef4f63457351939b226972fed23418e1"
+    },
+    {
+      "path": "assets/audio/voice_en_cmp_yes_3.mp3",
+      "sha1": "e326e7ded75eb46f03a7ecc001a89e5038c1da74"
+    },
+    {
+      "path": "assets/audio/voice_en_cmp_yes_4.mp3",
+      "sha1": "f9651f55d0b4a84efacf79a0a15eb5dc6aec2a0c"
     },
     {
       "path": "assets/audio/voice_en_count_to_10.mp3",
@@ -10866,6 +10954,50 @@
       "sha1": "e6c78e0704fa7ab1ee9195d32fe768224b0c701f"
     },
     {
+      "path": "assets/audio/voice_ro_cmp_ask_1.mp3",
+      "sha1": "0c0b1d63e8562a0c3c6b9263ece5c6f48a9ac8ee"
+    },
+    {
+      "path": "assets/audio/voice_ro_cmp_ask_2.mp3",
+      "sha1": "da547c797d6a180e2aa398d19615ce142e760a8b"
+    },
+    {
+      "path": "assets/audio/voice_ro_cmp_ask_3.mp3",
+      "sha1": "b4690980c1a52af7d540495eaeab0a17cc4ac3bc"
+    },
+    {
+      "path": "assets/audio/voice_ro_cmp_ask_4.mp3",
+      "sha1": "28b5e060cd9bb0a37bd2adf975680cf026103718"
+    },
+    {
+      "path": "assets/audio/voice_ro_cmp_ask_same.mp3",
+      "sha1": "282220ea72bbe5705915efa80999e5a249520b2f"
+    },
+    {
+      "path": "assets/audio/voice_ro_cmp_same_1.mp3",
+      "sha1": "a4c52df5a18e37c503f80bebd13735f1354ac7a3"
+    },
+    {
+      "path": "assets/audio/voice_ro_cmp_same_2.mp3",
+      "sha1": "c50eb4154ca370ce42d19ab055640b7711d3e06b"
+    },
+    {
+      "path": "assets/audio/voice_ro_cmp_yes_1.mp3",
+      "sha1": "1dc6d12bfc4d481045fa977fae695ef34b805e7a"
+    },
+    {
+      "path": "assets/audio/voice_ro_cmp_yes_2.mp3",
+      "sha1": "b14e9c6295b8196779d4e3472d5b8bd38a897c1f"
+    },
+    {
+      "path": "assets/audio/voice_ro_cmp_yes_3.mp3",
+      "sha1": "9e84932d2e1d0579762248342a5a8797a0f48e1a"
+    },
+    {
+      "path": "assets/audio/voice_ro_cmp_yes_4.mp3",
+      "sha1": "329ab5d92c103b715a376036ad87885303b1f206"
+    },
+    {
       "path": "assets/audio/voice_ro_count_to_10.mp3",
       "sha1": "05dd3be07ec41360681a6cf302e9251bb80d0749"
     },
@@ -15256,22 +15388,6 @@
     {
       "path": "assets/fonts/Fredoka_bold.ttf",
       "sha1": "e2d2f2e56b6dcdcae07eca340b77721fe2c17957"
-    },
-    {
-      "path": "assets/fonts/Fredoka-Bold.ttf",
-      "sha1": "f7355ee56b4474e9ea73b468d8b347864ac39799"
-    },
-    {
-      "path": "assets/fonts/Fredoka-Medium.ttf",
-      "sha1": "a7efbc75247d434f1f6df96550423017561c8b70"
-    },
-    {
-      "path": "assets/fonts/Fredoka-Regular.ttf",
-      "sha1": "1241ff3b11c6998f5f2dd5301136e27631a32943"
-    },
-    {
-      "path": "assets/fonts/Fredoka-SemiBold.ttf",
-      "sha1": "b74aa2fdad08887d26896d5d3e1dbdca4be87ec1"
     },
     {
       "path": "assets/fonts/Fredoka.ttf",

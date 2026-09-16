@@ -881,12 +881,22 @@ export function AdventureLevelScreen({
         if (advanceFallbackRef.current) clearTimeout(advanceFallbackRef.current);
         clearPendingVoiceQueue();
         advanceFallbackRef.current = setTimeout(advance, 6000);
-        const winner = Math.max(compareProblem.left, compareProblem.right);
-        const praiseId =
-          VOICE_GROUPS.correct[
-            Math.floor(Math.random() * VOICE_GROUPS.correct.length)
-          ];
-        voiceRef.current.playSequence([`num_${winner}`, praiseId], 350, advance);
+        // Name the count that settled it, then confirm in words about the
+        // comparison itself — drawn from a rotating set so five problems in
+        // a row never sound identical.
+        const isEqual = compareProblem.correct === 'equal';
+        const spokenCount = isEqual
+          ? compareProblem.left
+          : Math.max(compareProblem.left, compareProblem.right);
+        const pool = isEqual
+          ? VOICE_GROUPS.compareSame
+          : VOICE_GROUPS.compareYes;
+        const confirmId = pool[Math.floor(Math.random() * pool.length)];
+        voiceRef.current.playSequence(
+          [`num_${spokenCount}`, confirmId],
+          350,
+          advance,
+        );
       } else {
         setAttempts(prev => prev + 1);
         setHasSubmitted(true);
@@ -995,6 +1005,18 @@ export function AdventureLevelScreen({
         voiceRef.current.play(
           target === 10 ? 'instr_make_ten' : `make_${target}`,
         );
+    } else if (level.gameMode === 'compare' && compareProblem) {
+      key = `cmp-${problemIndex}-${compareProblem.left}-${compareProblem.right}`;
+      // First problem explains, later ones nudge — and on the levels where
+      // equal pairs appear, the opener also teaches the "Same" button.
+      const asks = VOICE_GROUPS.compareAsk;
+      const ids =
+        problemIndex === 0
+          ? level.modeLevel >= 3
+            ? [asks[1], 'cmp_ask_same']
+            : [asks[1]]
+          : [asks[1 + ((problemIndex - 1) % 3)]];
+      action = () => voiceRef.current.playSequence(ids, 400);
     } else if (level.gameMode === 'share' && shareProblem) {
       key = `sh-${problemIndex}-${shareProblem.total}-${shareProblem.buckets}`;
       const isFirst = problemIndex === 0;
@@ -1090,7 +1112,7 @@ export function AdventureLevelScreen({
       if (instructionTimerRef.current === timer) instructionTimerRef.current = null;
       if (reminderTimerRef.current) clearTimeout(reminderTimerRef.current);
     };
-  }, [currentProblem, countingChallenge, shareProblem, level, finished]);
+  }, [currentProblem, countingChallenge, shareProblem, compareProblem, problemIndex, level, finished]);
 
   // Stores the last per-problem voice action; tapped by the inactivity timer
   // below to replay the instruction when the child stalls.

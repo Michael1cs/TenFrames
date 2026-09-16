@@ -331,4 +331,9 @@ export function useVoice(opts: UseVoiceOptions = {}) {
 export const VOICE_GROUPS = {
   correct: ['fb_correct_1', 'fb_correct_2', 'fb_correct_3', 'fb_correct_4', 'fb_correct_5', 'fb_correct_6', 'fb_correct_7', 'fb_correct_8'],
   tryAgain: ['fb_again_1', 'fb_again_2', 'fb_again_3', 'fb_again_4', 'fb_again_5'],
+  // Compare mode speaks about WHAT was compared rather than just cheering,
+  // and rotates so a five-problem level never repeats itself.
+  compareAsk: ['cmp_ask_1', 'cmp_ask_2', 'cmp_ask_3', 'cmp_ask_4'],
+  compareYes: ['cmp_yes_1', 'cmp_yes_2', 'cmp_yes_3', 'cmp_yes_4'],
+  compareSame: ['cmp_same_1', 'cmp_same_2'],
 };
