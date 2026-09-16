@@ -1,7 +1,9 @@
 import {
   ADVENTURE_WORLDS,
   getDefaultAdventureProgress,
+  isLevelPremiumLocked,
 } from '../src/config/adventureWorlds';
+import {AdventureLevelProgress} from '../src/types/game';
 
 const ALL_LEVELS = ADVENTURE_WORLDS.flatMap(w => w.levels);
 
@@ -79,5 +81,62 @@ describe('adventure configuration', () => {
   it('includes High Five! as the second world', () => {
     expect(ADVENTURE_WORLDS[1].id).toBe('high-five');
     expect(ADVENTURE_WORLDS[1].levels).toHaveLength(10);
+  });
+});
+
+describe('premium locking', () => {
+  const fresh: AdventureLevelProgress = {
+    unlocked: false,
+    completed: false,
+    stars: 0,
+    bestFirstTry: 0,
+    attempts: 0,
+  };
+  const unlocked = {...fresh, unlocked: true};
+  const completed = {...fresh, unlocked: true, completed: true, stars: 2, attempts: 1};
+
+  const world = (id: string) => ADVENTURE_WORLDS.find(w => w.id === id)!;
+  const level = (worldId: string, order: number) =>
+    world(worldId).levels.find(l => l.order === order)!;
+
+  it('never locks anything for a premium player', () => {
+    for (const w of ADVENTURE_WORLDS) {
+      for (const l of w.levels) {
+        expect(isLevelPremiumLocked(w, l, fresh, true)).toBe(false);
+      }
+    }
+  });
+
+  it("keeps each world's free levels open", () => {
+    for (const w of ADVENTURE_WORLDS) {
+      for (const l of w.levels.filter(x => !x.isBonus && x.order <= w.freeLevels)) {
+        expect(isLevelPremiumLocked(w, l, fresh, false)).toBe(false);
+      }
+    }
+  });
+
+  it('locks levels past the free allowance, and every bonus', () => {
+    const mm = world('monster-more'); // one free level
+    expect(isLevelPremiumLocked(mm, level('monster-more', 2), fresh, false)).toBe(true);
+    for (const w of ADVENTURE_WORLDS) {
+      for (const l of w.levels.filter(x => x.isBonus)) {
+        expect(isLevelPremiumLocked(w, l, fresh, false)).toBe(true);
+      }
+    }
+  });
+
+  it('grandfathers a level the child already completed', () => {
+    // A free player who finished Make 10! level 3 under the old flat
+    // three-free-levels tier must keep it after the tier shrank to one.
+    const mtb = world('make-ten-beach');
+    expect(mtb.freeLevels).toBeLessThan(3);
+    expect(isLevelPremiumLocked(mtb, level('make-ten-beach', 3), completed, false)).toBe(false);
+  });
+
+  it('does NOT grandfather a level that is merely unlocked', () => {
+    // Progression unlocks the next level on a fresh install too, so treating
+    // "unlocked" as owned would hand every new player the paid levels.
+    const mtb = world('make-ten-beach');
+    expect(isLevelPremiumLocked(mtb, level('make-ten-beach', 2), unlocked, false)).toBe(true);
   });
 });

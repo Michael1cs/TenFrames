@@ -8,7 +8,11 @@ import {
 import {MapNode} from './MapNode';
 import {WorldProgressBar} from './WorldProgressBar';
 import {useLayout} from '../../hooks/useLayout';
-import {getWorldStars, getWorldMaxStars} from '../../config/adventureWorlds';
+import {
+  getWorldStars,
+  getWorldMaxStars,
+  isLevelPremiumLocked,
+} from '../../config/adventureWorlds';
 
 interface AdventureMapPathProps {
   world: AdventureWorld;
@@ -152,10 +156,12 @@ export function AdventureMapPath({
                   nodeSize={nodeSize}
                   index={levelsBottomUp.length - 1 - i} // stagger from bottom
                   onPress={() => onLevelPress(level.id)}
-                  premiumLocked={
-                    !isPremium &&
-                    (level.isBonus || level.order > world.freeLevels)
-                  }
+                  premiumLocked={isLevelPremiumLocked(
+                    world,
+                    level,
+                    lp,
+                    isPremium,
+                  )}
                 />
               </View>
             </React.Fragment>

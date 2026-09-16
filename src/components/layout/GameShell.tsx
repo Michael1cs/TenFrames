@@ -55,7 +55,7 @@ import {useIAPConnection} from '../../hooks/useIAP';
 import {FREE_DAILY_LIMIT} from '../../config/limits';
 import {IS_SCHOOL_EDITION} from '../../config/edition';
 import {Language, GameMode, WorldId} from '../../types/game';
-import {ADVENTURE_WORLDS} from '../../config/adventureWorlds';
+import {ADVENTURE_WORLDS, isLevelPremiumLocked} from '../../config/adventureWorlds';
 import {useAdventure} from '../../hooks/useAdventure';
 import {AdventureWorldsScreen} from '../adventure/AdventureWorldsScreen';
 import {AdventureLevelsScreen} from '../adventure/AdventureLevelsScreen';
@@ -980,10 +980,12 @@ function useShellState(
       const level = world?.levels.find(l => l.id === levelId);
       if (!level) return false;
 
-      const freeLevels = world?.freeLevels ?? 2;
-      const premiumLocked =
-        (level.order > freeLevels && !level.isBonus && !premium.isPremium) ||
-        (level.isBonus && !premium.isPremium);
+      const premiumLocked = isLevelPremiumLocked(
+        world!,
+        level,
+        adventure.progress.worlds[world!.id]?.levels[level.id],
+        premium.isPremium,
+      );
       if (premiumLocked) {
         // Bounce out of the Adventure stack so the upgrade screen owns focus.
         //
@@ -1022,13 +1024,33 @@ function useShellState(
   const handleAdventureNextLevel = useCallback(() => {
     const nextLevel = adventure.getNextPlayableLevel(adventure.selectedWorld);
     if (nextLevel) {
+      // "Next" is a way into a level like any other, so it goes through the
+      // same premium rule as tapping the level on the map. It used to start
+      // the next level directly, which let a free player walk an entire
+      // world one "Next" at a time.
+      const world = ADVENTURE_WORLDS.find(w => w.id === nextLevel.worldId);
+      if (
+        world &&
+        isLevelPremiumLocked(
+          world,
+          nextLevel,
+          adventure.progress.worlds[world.id]?.levels[nextLevel.id],
+          premium.isPremium,
+        )
+      ) {
+        adventure.exitLevel();
+        setAdventureStars(null);
+        navigationRef.current?.dispatch(StackActions.popToTop());
+        setShowUpgrade(true);
+        return;
+      }
       // Fresh level, fresh stage — drop any toast still waiting its turn.
       rewardSystem.clearTransientCelebrations();
       adventure.startLevel(nextLevel);
       setAdventureStars(null);
       setAdventureIsNewBest(false);
     }
-  }, [adventure, rewardSystem]);
+  }, [adventure, rewardSystem, premium.isPremium, navigationRef]);
 
   const handleAdventureReplay = useCallback(() => {
     if (adventure.activeLevel) {

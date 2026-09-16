@@ -1,4 +1,9 @@
-import {AdventureWorld, AdventureProgress} from '../types/game';
+import {
+  AdventureWorld,
+  AdventureLevel,
+  AdventureLevelProgress,
+  AdventureProgress,
+} from '../types/game';
 
 // v1.6.2 Adventure: 9 lumi cu progresie completa = 78 niveluri totale.
 // (High Five! adaugata ca lumea 2 — structura de cinci precede aritmetica.)
@@ -313,6 +318,29 @@ export function getDefaultAdventureProgress(): AdventureProgress {
   }
 
   return progress;
+}
+
+/**
+ * The one rule for whether a free player may enter a level. Used by the map
+ * (crowns), by tapping a level, AND by the level-complete "Next" button —
+ * that button used to skip the check entirely, so a free player could walk
+ * a whole world by pressing Next.
+ *
+ * A level the child has already completed stays playable no matter what:
+ * when an update shrinks the free tier, nothing they already had is taken
+ * away. Only completion is a safe signal — a merely unlocked level can be
+ * reached by progression on a fresh install, so grandfathering "unlocked"
+ * would reopen every level for new players too.
+ */
+export function isLevelPremiumLocked(
+  world: AdventureWorld,
+  level: AdventureLevel,
+  levelProgress: AdventureLevelProgress | undefined,
+  isPremium: boolean,
+): boolean {
+  if (isPremium) return false;
+  if (levelProgress?.completed) return false;
+  return level.isBonus || level.order > world.freeLevels;
 }
 
 export function getWorldStars(
