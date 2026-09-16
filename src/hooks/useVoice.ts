@@ -336,4 +336,11 @@ export const VOICE_GROUPS = {
   compareAsk: ['cmp_ask_1', 'cmp_ask_2', 'cmp_ask_3', 'cmp_ask_4'],
   compareYes: ['cmp_yes_1', 'cmp_yes_2', 'cmp_yes_3', 'cmp_yes_4'],
   compareSame: ['cmp_same_1', 'cmp_same_2'],
+  // Mode-aware confirmations: praise that names what the child achieved,
+  // mixed with the generic cheers so neither wears out.
+  okCounting: ['ok_count_1', 'ok_total_2'],
+  okAddition: ['ok_total_1', 'ok_total_2'],
+  okSubtraction: ['ok_left_1'],
+  okPuzzle: ['ok_full_1'],
+  okMemory: ['ok_memory_1'],
 };

@@ -2,6 +2,14 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "assets/audio/voice_de_add_alt_1.mp3",
+      "sha1": "4c4b53fcdc68a694a10fc4ccaa4b8b0556029695"
+    },
+    {
+      "path": "assets/audio/voice_de_add_alt_2.mp3",
+      "sha1": "ffe7321d17db3c56f1d4ebb4fda15f07b1defc31"
+    },
+    {
       "path": "assets/audio/voice_de_add_more_alien_1.mp3",
       "sha1": "07ded7a32b06815be39fb1369dc4dc6c3c652323"
     },
@@ -740,6 +748,30 @@
     {
       "path": "assets/audio/voice_de_cmp_yes_4.mp3",
       "sha1": "5aed3e5b39ff9967f2b11e4d44b9b1b07ffa38fc"
+    },
+    {
+      "path": "assets/audio/voice_de_cnt_ask_1.mp3",
+      "sha1": "09193a9ad3f539e12a61ab7f828478c3a8e3cd37"
+    },
+    {
+      "path": "assets/audio/voice_de_cnt_ask_2.mp3",
+      "sha1": "8a5dfc162e7b4fcb95875e1688729b7d28224f3b"
+    },
+    {
+      "path": "assets/audio/voice_de_cnt_ask_3.mp3",
+      "sha1": "ffa662be93969fbb12fc7de659ad628ca3aa43da"
+    },
+    {
+      "path": "assets/audio/voice_de_cnt_both_long.mp3",
+      "sha1": "9ee6572cf2c7d76d90847d021248086854572cec"
+    },
+    {
+      "path": "assets/audio/voice_de_cnt_bottom_long.mp3",
+      "sha1": "5b26a2fdf58552160bebfde4b7eb291221452a69"
+    },
+    {
+      "path": "assets/audio/voice_de_cnt_top_long.mp3",
+      "sha1": "263bb1ddd0a30edc0a50b3a33167a2319d820c2c"
     },
     {
       "path": "assets/audio/voice_de_count_to_10.mp3",
@@ -2394,6 +2426,14 @@
       "sha1": "181b75ec250fd3cf3140a5ab83d4dbd4242b71cb"
     },
     {
+      "path": "assets/audio/voice_de_mem_now_1.mp3",
+      "sha1": "8152d3816ec75b6feed0f5da411b384858af34fe"
+    },
+    {
+      "path": "assets/audio/voice_de_mem_now_2.mp3",
+      "sha1": "e31df1a4ce2ecbc41ff22edc3f1b834efb1d1f65"
+    },
+    {
       "path": "assets/audio/voice_de_mem_was_1.mp3",
       "sha1": "e894e1f4d9fb3d8dc5c47452f56da5a925b048c1"
     },
@@ -2420,6 +2460,10 @@
     {
       "path": "assets/audio/voice_de_mem_was_7.mp3",
       "sha1": "6cd9359bc5b97ae31702f90e8bac6d1402ec73e8"
+    },
+    {
+      "path": "assets/audio/voice_de_mem_watch_2.mp3",
+      "sha1": "eb3501a0996b1dfdeb2e7da111bc1f103b6088b2"
     },
     {
       "path": "assets/audio/voice_de_mem_watch.mp3",
@@ -2480,6 +2524,30 @@
     {
       "path": "assets/audio/voice_de_num_9.mp3",
       "sha1": "cd2d340cfa7f06cbad9258889a462a989a8dbf3e"
+    },
+    {
+      "path": "assets/audio/voice_de_ok_count_1.mp3",
+      "sha1": "432dbaac6a15d2c74c2f490050223f8f9f4fabad"
+    },
+    {
+      "path": "assets/audio/voice_de_ok_full_1.mp3",
+      "sha1": "78000217a1c6112b686e3839a7f5423dbdd178cf"
+    },
+    {
+      "path": "assets/audio/voice_de_ok_left_1.mp3",
+      "sha1": "07355de062953e3c17cec5f0c1fa35ad75be7c95"
+    },
+    {
+      "path": "assets/audio/voice_de_ok_memory_1.mp3",
+      "sha1": "c63c5bb682cb273e5148508c66a3de3aa2a33c59"
+    },
+    {
+      "path": "assets/audio/voice_de_ok_total_1.mp3",
+      "sha1": "35ecad294e3618be1e943d054096884a2905a617"
+    },
+    {
+      "path": "assets/audio/voice_de_ok_total_2.mp3",
+      "sha1": "497c2fd6b09fe725870e803ba167fee18b9e3e4f"
     },
     {
       "path": "assets/audio/voice_de_post_great_alien_1.mp3",
@@ -4346,6 +4414,18 @@
       "sha1": "335010b18b08f30cdef538709dd2b17ec710a560"
     },
     {
+      "path": "assets/audio/voice_de_pzl_ask_1.mp3",
+      "sha1": "1f1e48bc10be3f95b0578b70f31f5001706bac72"
+    },
+    {
+      "path": "assets/audio/voice_de_pzl_ask_2.mp3",
+      "sha1": "57a826c01b99fdf2e7f75f4c62cdea3ab2d024a6"
+    },
+    {
+      "path": "assets/audio/voice_de_pzl_ask_3.mp3",
+      "sha1": "0ae291017f66b726a901385566632896319546ee"
+    },
+    {
       "path": "assets/audio/voice_de_reward_achievement.mp3",
       "sha1": "4acc5535f00a7f2249189a4a678f3a8d0494c5ba"
     },
@@ -4396,6 +4476,14 @@
     {
       "path": "assets/audio/voice_de_share_unfair.mp3",
       "sha1": "e51bd01925305dbac1f514016b2caa71a8a650b2"
+    },
+    {
+      "path": "assets/audio/voice_de_sub_alt_1.mp3",
+      "sha1": "438c77f7a5586c0de1f9504ca36129840ed7dc43"
+    },
+    {
+      "path": "assets/audio/voice_de_sub_alt_2.mp3",
+      "sha1": "8913dd86915c2c89efc1512dd236542ce0367fa3"
     },
     {
       "path": "assets/audio/voice_de_take_alien_1.mp3",
@@ -5128,6 +5216,14 @@
     {
       "path": "assets/audio/voice_de_world_subtraction.mp3",
       "sha1": "df6da32d8be7972f20ecc77d3af17980aa0b52e3"
+    },
+    {
+      "path": "assets/audio/voice_en_add_alt_1.mp3",
+      "sha1": "3a3ccfc8766c7dfe583f41a375ff36620566ad74"
+    },
+    {
+      "path": "assets/audio/voice_en_add_alt_2.mp3",
+      "sha1": "20685c647dcbf8ab4a526156c4699e6b7603bdc0"
     },
     {
       "path": "assets/audio/voice_en_add_more_alien_1.mp3",
@@ -5868,6 +5964,30 @@
     {
       "path": "assets/audio/voice_en_cmp_yes_4.mp3",
       "sha1": "f9651f55d0b4a84efacf79a0a15eb5dc6aec2a0c"
+    },
+    {
+      "path": "assets/audio/voice_en_cnt_ask_1.mp3",
+      "sha1": "70dae8cad70569aeb077efe2b89ee7262cc08ea9"
+    },
+    {
+      "path": "assets/audio/voice_en_cnt_ask_2.mp3",
+      "sha1": "e56aa2802f855276351db6c57e1906c5bde32516"
+    },
+    {
+      "path": "assets/audio/voice_en_cnt_ask_3.mp3",
+      "sha1": "3b9354487165647f47a5a345c7bdfec604eae5af"
+    },
+    {
+      "path": "assets/audio/voice_en_cnt_both_long.mp3",
+      "sha1": "6279e632eee34e5031948fcb8e008531b1799a55"
+    },
+    {
+      "path": "assets/audio/voice_en_cnt_bottom_long.mp3",
+      "sha1": "8ed700d981be3f7bf1cb834c1d133daeb464f356"
+    },
+    {
+      "path": "assets/audio/voice_en_cnt_top_long.mp3",
+      "sha1": "bc67a3aaa28de1c419125d2643f7d40b550ae12f"
     },
     {
       "path": "assets/audio/voice_en_count_to_10.mp3",
@@ -7522,6 +7642,14 @@
       "sha1": "49a9bb1a6535ee2b78c03f68f977a0675855ce26"
     },
     {
+      "path": "assets/audio/voice_en_mem_now_1.mp3",
+      "sha1": "4ff171c22150f3d14bdad8b5b2fbadfd984d045c"
+    },
+    {
+      "path": "assets/audio/voice_en_mem_now_2.mp3",
+      "sha1": "50d2df346a714354bb2a02e130b2cef1ca47b01a"
+    },
+    {
       "path": "assets/audio/voice_en_mem_was_1.mp3",
       "sha1": "558a69f1e3e17da6dd584334a114fac50afe8033"
     },
@@ -7548,6 +7676,10 @@
     {
       "path": "assets/audio/voice_en_mem_was_7.mp3",
       "sha1": "7dfdbba95e5ab2ba3cc540aec01936afa62ea85a"
+    },
+    {
+      "path": "assets/audio/voice_en_mem_watch_2.mp3",
+      "sha1": "f08d8c98ef712378a719952887ab2cf026d510e3"
     },
     {
       "path": "assets/audio/voice_en_mem_watch.mp3",
@@ -7608,6 +7740,30 @@
     {
       "path": "assets/audio/voice_en_num_9.mp3",
       "sha1": "d8d7dd0fbee4929b6be39f08430e9a59338b8cd3"
+    },
+    {
+      "path": "assets/audio/voice_en_ok_count_1.mp3",
+      "sha1": "f08e6018fbfe4ee6d2c6543bf050e9835d552374"
+    },
+    {
+      "path": "assets/audio/voice_en_ok_full_1.mp3",
+      "sha1": "b38a9a6088e4f4fdbfacb1829492fffc5d049427"
+    },
+    {
+      "path": "assets/audio/voice_en_ok_left_1.mp3",
+      "sha1": "5f5b8acb11ead568328892cd5c64ea985bcfc488"
+    },
+    {
+      "path": "assets/audio/voice_en_ok_memory_1.mp3",
+      "sha1": "87194b69a5fd64ed89222e0e37b13228c31b77f7"
+    },
+    {
+      "path": "assets/audio/voice_en_ok_total_1.mp3",
+      "sha1": "8024354060102256b8701faf45a70c784ff2dda4"
+    },
+    {
+      "path": "assets/audio/voice_en_ok_total_2.mp3",
+      "sha1": "160a70e4593e02d858adcc545681e1b6da91c3bd"
     },
     {
       "path": "assets/audio/voice_en_post_great_alien_1.mp3",
@@ -9474,6 +9630,18 @@
       "sha1": "df58c34293d0755ee5710499402d49cf4618ee42"
     },
     {
+      "path": "assets/audio/voice_en_pzl_ask_1.mp3",
+      "sha1": "fa5a3fd8802cfb12525f24f52cc32871c6b520d8"
+    },
+    {
+      "path": "assets/audio/voice_en_pzl_ask_2.mp3",
+      "sha1": "dff098f14d946cd99641718315bb29c6a35f3479"
+    },
+    {
+      "path": "assets/audio/voice_en_pzl_ask_3.mp3",
+      "sha1": "fb09aaca5bc79692597179469e1e886ad349eecf"
+    },
+    {
       "path": "assets/audio/voice_en_reward_achievement.mp3",
       "sha1": "91ef81d3ea587d275eb8dfefbb955c1c112485b9"
     },
@@ -9524,6 +9692,14 @@
     {
       "path": "assets/audio/voice_en_share_unfair.mp3",
       "sha1": "931633b52b4a0b645195e1337ca5b9ca7c3f3017"
+    },
+    {
+      "path": "assets/audio/voice_en_sub_alt_1.mp3",
+      "sha1": "289e5a1f13589e5fcccf23adc11a3c316607ec77"
+    },
+    {
+      "path": "assets/audio/voice_en_sub_alt_2.mp3",
+      "sha1": "2303690ef891eaa2aacec8d5e8cd275c009b4835"
     },
     {
       "path": "assets/audio/voice_en_take_alien_1.mp3",
@@ -10256,6 +10432,14 @@
     {
       "path": "assets/audio/voice_en_world_subtraction.mp3",
       "sha1": "7dc999acf3a5c75581cf31e45b4d40ab9c24f919"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_alt_1.mp3",
+      "sha1": "1939530ddfb8a74f7cdefe07f8b4f25a7766ee07"
+    },
+    {
+      "path": "assets/audio/voice_ro_add_alt_2.mp3",
+      "sha1": "ee92ce8a2fafd6fb67925288edf0eab6f38fec0b"
     },
     {
       "path": "assets/audio/voice_ro_add_more_alien_1.mp3",
@@ -10996,6 +11180,30 @@
     {
       "path": "assets/audio/voice_ro_cmp_yes_4.mp3",
       "sha1": "329ab5d92c103b715a376036ad87885303b1f206"
+    },
+    {
+      "path": "assets/audio/voice_ro_cnt_ask_1.mp3",
+      "sha1": "e042dec64fc0cde7f8bca6ccabbc7a93a9998c82"
+    },
+    {
+      "path": "assets/audio/voice_ro_cnt_ask_2.mp3",
+      "sha1": "b29885589b3299471f081ed4afb2c8d55700fcdb"
+    },
+    {
+      "path": "assets/audio/voice_ro_cnt_ask_3.mp3",
+      "sha1": "4005b77acbcc3778586c9b858bf2046ea3126b39"
+    },
+    {
+      "path": "assets/audio/voice_ro_cnt_both_long.mp3",
+      "sha1": "d3bc4cf8ecba74e56dd999f7268ef328e153ebc4"
+    },
+    {
+      "path": "assets/audio/voice_ro_cnt_bottom_long.mp3",
+      "sha1": "eef22e6363469c67035abc66a4fe22624c87b600"
+    },
+    {
+      "path": "assets/audio/voice_ro_cnt_top_long.mp3",
+      "sha1": "4ec8fcc8ac747b0669aeffbbaef2115a4768fdcc"
     },
     {
       "path": "assets/audio/voice_ro_count_to_10.mp3",
@@ -12650,6 +12858,14 @@
       "sha1": "b679adc5401aefa8e4d8c892bbc7dfce1d69eac2"
     },
     {
+      "path": "assets/audio/voice_ro_mem_now_1.mp3",
+      "sha1": "2944ff57515688bc78953a9fb565cf84b0cb9bf8"
+    },
+    {
+      "path": "assets/audio/voice_ro_mem_now_2.mp3",
+      "sha1": "6906248312cf44084a9b013f5277d4e040b119ab"
+    },
+    {
       "path": "assets/audio/voice_ro_mem_was_1.mp3",
       "sha1": "bb0032d3233c96b18c3ab516dc5de76dba68a5b0"
     },
@@ -12676,6 +12892,10 @@
     {
       "path": "assets/audio/voice_ro_mem_was_7.mp3",
       "sha1": "4091f4763ff370f3416e6129eae0e8843b52a709"
+    },
+    {
+      "path": "assets/audio/voice_ro_mem_watch_2.mp3",
+      "sha1": "3ff7c20fac32479038257698a8a715d285890b90"
     },
     {
       "path": "assets/audio/voice_ro_mem_watch.mp3",
@@ -12736,6 +12956,30 @@
     {
       "path": "assets/audio/voice_ro_num_9.mp3",
       "sha1": "ec60e59207209bc4c525524d12af9f12c14ec735"
+    },
+    {
+      "path": "assets/audio/voice_ro_ok_count_1.mp3",
+      "sha1": "a6e2c1ea105f59806d826dbd8c1c65a77eeb1c8d"
+    },
+    {
+      "path": "assets/audio/voice_ro_ok_full_1.mp3",
+      "sha1": "dfbdcf714d949c55767b1533f674a6905ee345bc"
+    },
+    {
+      "path": "assets/audio/voice_ro_ok_left_1.mp3",
+      "sha1": "3ba051cba94efba67ff1b15f0d8decb7de114c27"
+    },
+    {
+      "path": "assets/audio/voice_ro_ok_memory_1.mp3",
+      "sha1": "de3d26e98f7ec544e9552743753d049d285e0275"
+    },
+    {
+      "path": "assets/audio/voice_ro_ok_total_1.mp3",
+      "sha1": "ee04d7a60340bdf85510fbc01b117909356215f8"
+    },
+    {
+      "path": "assets/audio/voice_ro_ok_total_2.mp3",
+      "sha1": "b46c69f30bcb5bffc7cff310f6a38fe680a9a3e0"
     },
     {
       "path": "assets/audio/voice_ro_post_great_alien_1.mp3",
@@ -14602,6 +14846,18 @@
       "sha1": "5d21928ea7ba28f7fbbddda7d8f087ff324e9665"
     },
     {
+      "path": "assets/audio/voice_ro_pzl_ask_1.mp3",
+      "sha1": "f450e18bc9e41337a6d31cbeb68a755e8f88158b"
+    },
+    {
+      "path": "assets/audio/voice_ro_pzl_ask_2.mp3",
+      "sha1": "027083371dc8a8ddb3b01eb655e86a4695ac1ff6"
+    },
+    {
+      "path": "assets/audio/voice_ro_pzl_ask_3.mp3",
+      "sha1": "71a20247aa5f2a3956ad80c93547d2b00f90c16e"
+    },
+    {
       "path": "assets/audio/voice_ro_reward_achievement.mp3",
       "sha1": "ace0552f7b3bf9d8160818370dbc7e493cddd693"
     },
@@ -14652,6 +14908,14 @@
     {
       "path": "assets/audio/voice_ro_share_unfair.mp3",
       "sha1": "7ba4b529c28149518dca0d0ab7470e0e0d1758a6"
+    },
+    {
+      "path": "assets/audio/voice_ro_sub_alt_1.mp3",
+      "sha1": "ddf6dc7e0e51cf33b44776b222615b094fd9501c"
+    },
+    {
+      "path": "assets/audio/voice_ro_sub_alt_2.mp3",
+      "sha1": "a1c43de70b2535439c604a6443974fe43545279d"
     },
     {
       "path": "assets/audio/voice_ro_take_alien_1.mp3",

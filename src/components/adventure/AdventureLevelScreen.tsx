@@ -555,11 +555,11 @@ export function AdventureLevelScreen({
       if (level.gameMode === 'memory') {
         advance();
       } else if (level.gameMode === 'puzzle') {
-        // Make 10! — visual total is always 10, so just praise.
-        const praiseId =
-          VOICE_GROUPS.correct[
-            Math.floor(Math.random() * VOICE_GROUPS.correct.length)
-          ];
+        // Make 10! — the visual total is always the target, so name the
+        // achievement ("the frame is full!") half the time.
+        const pool =
+          Math.random() < 0.5 ? VOICE_GROUPS.okPuzzle : VOICE_GROUPS.correct;
+        const praiseId = pool[Math.floor(Math.random() * pool.length)];
         voiceRef.current.play(praiseId, advance);
       } else {
         const themeId = ADVENTURE_WORLDS.find(w => w.id === level.worldId)?.theme;
@@ -577,11 +577,23 @@ export function AdventureLevelScreen({
             : visible >= 0 && visible <= 10
             ? `num_${visible}`
             : null;
-        const withPraise = Math.random() < 0.4; // ~40% of correct answers
+        // Praise now names what was achieved for this mode ("that's the
+        // total", "that's how many are left") half the time, and draws the
+        // generic cheer the rest — so it is both more frequent and less
+        // repetitive than the old 40% of eight identical lines.
+        const modePool =
+          level.gameMode === 'counting'
+            ? VOICE_GROUPS.okCounting
+            : level.gameMode === 'addition'
+            ? VOICE_GROUPS.okAddition
+            : level.gameMode === 'subtraction'
+            ? VOICE_GROUPS.okSubtraction
+            : null;
+        const withPraise = Math.random() < 0.65;
+        const pool =
+          modePool && Math.random() < 0.5 ? modePool : VOICE_GROUPS.correct;
         const praiseId = withPraise
-          ? VOICE_GROUPS.correct[
-              Math.floor(Math.random() * VOICE_GROUPS.correct.length)
-            ]
+          ? pool[Math.floor(Math.random() * pool.length)]
           : null;
 
         if (resultId && praiseId) {
@@ -986,14 +998,23 @@ export function AdventureLevelScreen({
     if (level.gameMode === 'counting' && countingChallenge) {
       const {instruction, targetNumber} = countingChallenge;
       key = `c-${instruction}-${targetNumber}`;
+      // Alternate the short line with the explanatory one, and lead the
+      // plain "fill N" case with a rotating ask so the number arrives
+      // inside a sentence instead of on its own.
+      const longForm = problemIndex % 2 === 1;
       if (instruction === 'fill_top_row') {
-        action = () => voiceRef.current.play('instr_top_row');
+        const id = longForm ? 'cnt_top_long' : 'instr_top_row';
+        action = () => voiceRef.current.play(id);
       } else if (instruction === 'fill_bottom_row') {
-        action = () => voiceRef.current.play('instr_bottom_row');
+        const id = longForm ? 'cnt_bottom_long' : 'instr_bottom_row';
+        action = () => voiceRef.current.play(id);
       } else if (instruction === 'fill_both_equal') {
-        action = () => voiceRef.current.play('instr_both_rows');
+        const id = longForm ? 'cnt_both_long' : 'instr_both_rows';
+        action = () => voiceRef.current.play(id);
       } else {
-        action = () => voiceRef.current.play(`num_${targetNumber}`);
+        const ask = `cnt_ask_${1 + (problemIndex % 3)}`;
+        action = () =>
+          voiceRef.current.playSequence([ask, `num_${targetNumber}`], 300);
       }
     } else if (level.gameMode === 'puzzle' && currentProblem) {
       key = `p-${currentProblem.answer}-${currentProblem.num1}`;
@@ -1001,10 +1022,11 @@ export function AdventureLevelScreen({
       // total. For target=10 use the legacy generic clip; for everything
       // else use the per-target `make_N` clips.
       const target = currentProblem.answer;
-      action = () =>
-        voiceRef.current.play(
-          target === 10 ? 'instr_make_ten' : `make_${target}`,
-        );
+      const targetId = target === 10 ? 'instr_make_ten' : `make_${target}`;
+      // "Make ten!" alone told the child the goal but never the method;
+      // the follow-up names it, rotating across the level.
+      const ask = `pzl_ask_${1 + (problemIndex % 3)}`;
+      action = () => voiceRef.current.playSequence([targetId, ask], 350);
     } else if (level.gameMode === 'compare' && compareProblem) {
       key = `cmp-${problemIndex}-${compareProblem.left}-${compareProblem.right}`;
       // First problem explains, later ones nudge — and on the levels where
@@ -1058,14 +1080,26 @@ export function AdventureLevelScreen({
       // Other levels: voice the level emoji's noun ("3 octopuses", "2 stars")
       // so the narrator matches the cells the child sees.
       const noun = LEVEL_NOUN[level.id];
+      // Every other problem closes with the task restated as a question
+      // ("How many are there now in total?"), so five problems in a row
+      // stop sounding like one sentence on repeat.
+      const altTail =
+        problemIndex % 2 === 1
+          ? mode === 'addition'
+            ? `add_alt_${1 + (problemIndex % 2)}`
+            : `sub_alt_${1 + (problemIndex % 2)}`
+          : null;
       if (isDoubles && currentProblem.num1 >= 1 && currentProblem.num1 <= 5) {
-        action = () => voiceRef.current.play(`doubles_${currentProblem.num1}`);
+        const ids = [`doubles_${currentProblem.num1}`];
+        if (altTail) ids.push(altTail);
+        action = () => voiceRef.current.playSequence(ids, 350);
       } else if (noun) {
         const verb = mode === 'addition' ? 'add_more' : 'take';
         const ids = [
           `have_${noun}_${currentProblem.num1}`,
           `${verb}_${noun}_${currentProblem.num2}`,
         ];
+        if (altTail) ids.push(altTail);
         action = () => voiceRef.current.playSequence(ids, 350);
       } else {
         const act = mode === 'addition' ? 'add' : 'sub';
@@ -1075,6 +1109,7 @@ export function AdventureLevelScreen({
           `pre_have_${themeId}_${currentProblem.num1}`,
           `instr_${act}_${themeId}_${currentProblem.num2}`,
         ];
+        if (altTail) ids.push(altTail);
         action = () => voiceRef.current.playSequence(ids, 350);
       }
     }
@@ -1312,10 +1347,27 @@ export function AdventureLevelScreen({
                 // only at first problem's intro and on correct praise.
                 // Problems 2+ are completely silent during show/input — the
                 // lit cells and the empty grid are unambiguous.
-                if (phase === 'show' && problemIndex === 0) {
-                  voiceRef.current.play('mem_intro');
+                // Problems 2+ used to be completely silent through show and
+                // input. They now get a short watch cue and, once the grid
+                // clears, an explicit prompt to tap what they remember.
+                if (phase === 'show') {
+                  voiceRef.current.play(
+                    problemIndex === 0
+                      ? 'mem_intro'
+                      : problemIndex % 2 === 1
+                      ? 'mem_watch'
+                      : 'mem_watch_2',
+                  );
+                } else if (phase === 'input') {
+                  voiceRef.current.play(
+                    problemIndex % 2 === 0 ? 'mem_now_1' : 'mem_now_2',
+                  );
                 } else if (phase === 'reveal') {
-                  voiceRef.current.playRandom(VOICE_GROUPS.correct);
+                  const pool =
+                    Math.random() < 0.5
+                      ? VOICE_GROUPS.okMemory
+                      : VOICE_GROUPS.correct;
+                  voiceRef.current.playRandom(pool);
                 }
               }}
             />

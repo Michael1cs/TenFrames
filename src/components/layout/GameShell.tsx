@@ -745,6 +745,16 @@ function useShellState(
         queueVoice(`num_${game.answerProblem.expected}`);
         const ids = VOICE_GROUPS.correct;
         queueVoice(ids[Math.floor(Math.random() * ids.length)]);
+      } else if (
+        (game.gameMode === 'addition' || game.gameMode === 'subtraction') &&
+        Math.random() < 0.5
+      ) {
+        // Name the achievement rather than cheering generically.
+        const pool =
+          game.gameMode === 'addition'
+            ? VOICE_GROUPS.okAddition
+            : VOICE_GROUPS.okSubtraction;
+        queueVoice(pool[Math.floor(Math.random() * pool.length)]);
       } else {
         const ids = VOICE_GROUPS.correct;
         queueVoice(ids[Math.floor(Math.random() * ids.length)]);
@@ -816,6 +826,12 @@ function useShellState(
     if (!isFirst) clearPendingVoiceQueue();
     queueVoice(`pre_have_${game.theme}_${n1}`);
     queueVoice(`instr_${action}_${game.theme}_${n2}`);
+    // Roughly every other problem also restates the task as a question, so
+    // a long Free Play session doesn't replay one sentence forever.
+    if (Math.random() < 0.5) {
+      const alt = game.gameMode === 'addition' ? 'add_alt' : 'sub_alt';
+      queueVoice(`${alt}_${1 + Math.floor(Math.random() * 2)}`);
+    }
   }, [game.currentProblem, game.gameMode, game.theme, queueVoice, voice]);
 
   // One voice line per celebration, spoken as it takes the stage — the

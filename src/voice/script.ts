@@ -322,6 +322,44 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'cmp_same_1', ro: 'Da! Au la fel de multe!', en: "Yes! They have the same!", de: 'Ja! Es sind gleich viele!'},
   {id: 'cmp_same_2', ro: 'Exact la fel! Bravo!', en: "Exactly the same! Well done!", de: 'Genau gleich! Super!'},
 
+  // ── Richer, rotating narration for every other challenge ──
+  // Each mode used to own exactly ONE instruction line, so a five-problem
+  // level repeated the same sentence five times. These add explanation and
+  // variety; the per-mode wiring rotates them by problem index.
+
+  // Counting: the ask leads into the spoken number (playSequence with num_N).
+  {id: 'cnt_ask_1', ro: 'Pune în cadru atâtea bile:', en: "Put this many dots in the frame:", de: 'Lege so viele Punkte ins Feld:'},
+  {id: 'cnt_ask_2', ro: 'Umple cadrul până la:', en: "Fill the frame up to:", de: 'Fülle das Feld bis:'},
+  {id: 'cnt_ask_3', ro: 'Apasă pe căsuțe și numără până la:', en: "Tap the cells and count up to:", de: 'Tippe die Felder an und zähle bis:'},
+  {id: 'cnt_top_long', ro: 'Rândul de sus are cinci căsuțe. Umple-l pe tot!', en: "The top row has five cells. Fill them all!", de: 'Die obere Reihe hat fünf Felder. Fülle sie alle!'},
+  {id: 'cnt_bottom_long', ro: 'Rândul de jos are tot cinci. Umple-l!', en: "The bottom row has five too. Fill it!", de: 'Die untere Reihe hat auch fünf. Fülle sie!'},
+  {id: 'cnt_both_long', ro: 'Pune la fel de multe pe fiecare rând.', en: "Put the same number of dots in each row.", de: 'Lege in jede Reihe gleich viele Punkte.'},
+
+  // Puzzle: said after the target ("Make ten!" → "…count the empty cells").
+  {id: 'pzl_ask_1', ro: 'Câte căsuțe goale mai sunt? Umple-le!', en: "How many empty cells are left? Fill them!", de: 'Wie viele leere Felder sind noch da? Fülle sie!'},
+  {id: 'pzl_ask_2', ro: 'Numără căsuțele goale și pune tot atâtea bile.', en: "Count the empty cells and add that many dots.", de: 'Zähle die leeren Felder und lege so viele Punkte.'},
+  {id: 'pzl_ask_3', ro: 'Mai adaugă până se umple cadrul.', en: "Add more until the frame is full.", de: 'Füge hinzu, bis das Feld voll ist.'},
+
+  // Memory: the input phase was completely silent after the first problem.
+  {id: 'mem_watch_2', ro: 'Fii atent unde se aprind!', en: "Watch where they light up!", de: 'Schau, wo sie aufleuchten!'},
+  {id: 'mem_now_1', ro: 'Acum apasă pe căsuțele pe care le-ai văzut!', en: "Now tap the cells you saw!", de: 'Tippe jetzt die Felder an, die du gesehen hast!'},
+  {id: 'mem_now_2', ro: 'Îți mai amintești unde erau? Apasă-le!', en: "Do you remember where they were? Tap them!", de: 'Weißt du noch, wo sie waren? Tippe sie an!'},
+
+  // Addition / subtraction: an occasional second framing of the same task.
+  {id: 'add_alt_1', ro: 'Câte sunt acum în total?', en: "How many are there now in total?", de: 'Wie viele sind es jetzt insgesamt?'},
+  {id: 'add_alt_2', ro: 'Pune-le și numără-le pe toate.', en: "Add them, then count them all.", de: 'Lege sie dazu und zähle alle.'},
+  {id: 'sub_alt_1', ro: 'Câte mai rămân?', en: "How many are left?", de: 'Wie viele bleiben übrig?'},
+  {id: 'sub_alt_2', ro: 'Ia-le și vezi câte mai sunt.', en: "Take them away and see how many remain.", de: 'Nimm sie weg und schau, wie viele bleiben.'},
+
+  // Confirmations that name what was achieved, per mode, so praise stops
+  // sounding like the same eight cheers everywhere.
+  {id: 'ok_total_1', ro: 'Așa e, atâtea sunt în total!', en: "That's right, that's the total!", de: 'Genau, so viele sind es insgesamt!'},
+  {id: 'ok_total_2', ro: 'Le-ai numărat pe toate!', en: "You counted them all!", de: 'Du hast alle gezählt!'},
+  {id: 'ok_left_1', ro: 'Corect, atâtea au rămas!', en: "Correct, that's how many are left!", de: 'Richtig, so viele bleiben übrig!'},
+  {id: 'ok_full_1', ro: 'Cadrul e plin! Bravo!', en: "The frame is full! Well done!", de: 'Das Feld ist voll! Super!'},
+  {id: 'ok_count_1', ro: 'Exact atâtea bile!', en: "Exactly that many dots!", de: 'Genau so viele Punkte!'},
+  {id: 'ok_memory_1', ro: 'Ai ținut minte perfect!', en: "You remembered them all!", de: 'Du hast dir alles gemerkt!'},
+
   // ── Memory Garden phrases ──
   // Phase intros + per-count success announcements.
   {id: 'mem_watch', ro: 'Privește atent!', en: "Watch carefully!", de: 'Schau gut zu!'},
