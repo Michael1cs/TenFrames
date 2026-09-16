@@ -72,6 +72,11 @@ type RootStackParamList = {
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
+// How long the counting frame must sit still before the running total is
+// spoken. Long enough to swallow a burst of taps, short enough that a child
+// placing counters one at a time still hears every number.
+const COUNT_VOICE_SETTLE_MS = 250;
+
 type NavProp = NativeStackNavigationProp<RootStackParamList>;
 
 // All of GameShell's state + handlers piped through a single context so the
@@ -788,11 +793,25 @@ function useShellState(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [game.gameMode]);
 
+  // Counting narrates the running total, but the voice queue is a FIFO with
+  // a gap between clips: a child machine-gunning ten cells queued ten clips
+  // and then heard "one… two… three…" long after the frame was full. The
+  // count is now announced only once the tapping settles, and any count
+  // still waiting its turn is dropped — so fast tapping ends on a single
+  // "ten!" while deliberate tapping still counts along, one number per cell.
   useEffect(() => {
-    if (game.gameMode === 'counting' && game.filledCount !== prevFilledCount.current) {
-      voice.play(`num_${game.filledCount}`);
+    if (game.gameMode !== 'counting') {
+      prevFilledCount.current = game.filledCount;
+      return;
     }
+    if (game.filledCount === prevFilledCount.current) return;
     prevFilledCount.current = game.filledCount;
+    const count = game.filledCount;
+    const timer = setTimeout(() => {
+      clearPendingVoiceQueue();
+      voice.play(`num_${count}`);
+    }, COUNT_VOICE_SETTLE_MS);
+    return () => clearTimeout(timer);
   }, [game.filledCount, game.gameMode, voice]);
 
   // The daily wall waits here. Raising it during the celebration and firing a
