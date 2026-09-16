@@ -497,6 +497,7 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
         getRemainingExercises={premium.getRemainingExercises}
         isPremium={premium.isPremium}
         availableModes={ageProfile.availableModes}
+        compact={ageProfile.compact}
       />
     </View>
   );
@@ -566,6 +567,7 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
             isPremium={premium.isPremium}
             onAdventurePress={handleAdventurePress}
             availableModes={ageProfile.availableModes}
+            compact={ageProfile.compact}
           />
         </View>
       )}

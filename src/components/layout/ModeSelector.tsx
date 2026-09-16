@@ -3,7 +3,7 @@ import {View, Pressable, ScrollView, StyleSheet} from 'react-native';
 import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {GameMode, ThemeColors} from '../../types/game';
-import {Emoji} from '../common/Emoji';
+import {ModeIcon} from './ModeIcon';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface ModeSelectorProps {
@@ -15,16 +15,19 @@ interface ModeSelectorProps {
   isPremium?: boolean;
   onAdventurePress?: () => void;
   availableModes?: GameMode[];
+  // Young profile: icon-only tabs (larger, no labels) — pre-readers navigate
+  // by shape and color, and every icon is drawn from the game's own geometry.
+  compact?: boolean;
 }
 
-const allModes: {id: GameMode; emoji: string; key: string; emojiColor?: string}[] = [
-  {id: 'counting', emoji: '🔢', key: 'modes.counting'},
-  {id: 'addition', emoji: '+', key: 'modes.addition', emojiColor: '#4ADE80'},
-  {id: 'subtraction', emoji: '−', key: 'modes.subtraction', emojiColor: '#F87171'},
-  {id: 'answer', emoji: '🎯', key: 'modes.answer'},
-  {id: 'puzzle', emoji: '🧩', key: 'modes.puzzle'},
-  {id: 'compare', emoji: '⚖️', key: 'modes.compare'},
-  {id: 'workshop', emoji: '🎨', key: 'modes.workshop'},
+const allModes: {id: GameMode; key: string}[] = [
+  {id: 'counting', key: 'modes.counting'},
+  {id: 'addition', key: 'modes.addition'},
+  {id: 'subtraction', key: 'modes.subtraction'},
+  {id: 'answer', key: 'modes.answer'},
+  {id: 'puzzle', key: 'modes.puzzle'},
+  {id: 'compare', key: 'modes.compare'},
+  {id: 'workshop', key: 'modes.workshop'},
 ];
 
 export function ModeSelector({
@@ -36,6 +39,7 @@ export function ModeSelector({
   isPremium = false,
   onAdventurePress,
   availableModes,
+  compact = false,
 }: ModeSelectorProps) {
   const {t} = useTranslation();
   const insets = useSafeAreaInsets();
@@ -71,7 +75,7 @@ export function ModeSelector({
                 },
               ]}>
               <View style={styles.emojiVerticalContainer}>
-                <Text style={[styles.emojiVertical, mode.emojiColor ? {color: mode.emojiColor, fontWeight: 'bold', fontSize: 20} : undefined]}><Emoji>{mode.emoji}</Emoji></Text>
+                <ModeIcon mode={mode.id} size={24} colors={colors} />
               </View>
               <Text
                 style={[
@@ -132,20 +136,22 @@ export function ModeSelector({
                   borderColor: colors.accent,
                 },
               ]}>
-              <View style={styles.bottomEmojiContainer}>
-                <Text style={[styles.bottomEmoji, mode.emojiColor ? {color: mode.emojiColor, fontWeight: 'bold', fontSize: 26} : undefined]}><Emoji>{mode.emoji}</Emoji></Text>
+              <View style={compact ? styles.bottomIconCompact : styles.bottomEmojiContainer}>
+                <ModeIcon mode={mode.id} size={compact ? 36 : 28} colors={colors} />
               </View>
-              <Text
-                style={[
-                  styles.bottomLabel,
-                  {
-                    color: isActive ? '#FFFFFF' : 'rgba(255,255,255,0.85)',
-                    fontWeight: isActive ? 'bold' : '500',
-                  },
-                ]}
-                numberOfLines={1}>
-                {t(mode.key)}
-              </Text>
+              {!compact && (
+                <Text
+                  style={[
+                    styles.bottomLabel,
+                    {
+                      color: isActive ? '#FFFFFF' : 'rgba(255,255,255,0.85)',
+                      fontWeight: isActive ? 'bold' : '500',
+                    },
+                  ]}
+                  numberOfLines={1}>
+                  {t(mode.key)}
+                </Text>
+              )}
               {isLimited && remaining < Infinity ? (
                 <Text
                   style={[
@@ -171,17 +177,19 @@ export function ModeSelector({
                 borderColor: 'rgba(255,255,255,0.25)',
               },
             ]}>
-            <View style={styles.bottomEmojiContainer}>
-              <Text style={styles.bottomEmoji}><Emoji>🗺️</Emoji></Text>
+            <View style={compact ? styles.bottomIconCompact : styles.bottomEmojiContainer}>
+              <ModeIcon mode="adventure" size={compact ? 36 : 28} colors={colors} />
             </View>
-            <Text
-              style={[
-                styles.bottomLabel,
-                {color: 'rgba(255,255,255,0.85)', fontWeight: '500'},
-              ]}
-              numberOfLines={1}>
-              {t('adventure.title')}
-            </Text>
+            {!compact && (
+              <Text
+                style={[
+                  styles.bottomLabel,
+                  {color: 'rgba(255,255,255,0.85)', fontWeight: '500'},
+                ]}
+                numberOfLines={1}>
+                {t('adventure.title')}
+              </Text>
+            )}
             <Text style={styles.remainingPlaceholder}>{' '}</Text>
           </View>
         </Pressable>
@@ -269,8 +277,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  bottomEmoji: {
-    fontSize: 26,
+  bottomIconCompact: {
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   bottomLabel: {
     fontSize: 13,
@@ -308,9 +319,6 @@ const styles = StyleSheet.create({
     height: 26,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  emojiVertical: {
-    fontSize: 22,
   },
   labelVertical: {
     fontSize: 15,
