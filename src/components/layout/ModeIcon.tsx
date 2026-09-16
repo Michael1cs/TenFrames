@@ -1,6 +1,18 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, Image, StyleSheet} from 'react-native';
 import {GameMode, ThemeColors} from '../../types/game';
+
+// Hand-made icon set (glossy clay style, one visual family) for the modes
+// that have one; the remaining modes fall back to the drawn shapes below
+// until their images join the set.
+const ICON_IMAGES: Partial<Record<GameMode | 'adventure', any>> = {
+  counting: require('../../../assets/icons/mode_counting.png'),
+  addition: require('../../../assets/icons/mode_addition.png'),
+  subtraction: require('../../../assets/icons/mode_subtraction.png'),
+  compare: require('../../../assets/icons/mode_compare.png'),
+  workshop: require('../../../assets/icons/mode_workshop.png'),
+  adventure: require('../../../assets/icons/mode_adventure.png'),
+};
 
 interface ModeIconProps {
   mode: GameMode | 'adventure';
@@ -22,6 +34,17 @@ interface ModeIconProps {
 //   adventure   → three path nodes climbing, the top one gold
 export function ModeIcon({mode, size, colors}: ModeIconProps) {
   const s = size;
+
+  const image = ICON_IMAGES[mode];
+  if (image) {
+    return (
+      <Image
+        source={image}
+        style={{width: s, height: s}}
+        resizeMode="contain"
+      />
+    );
+  }
 
   if (mode === 'counting' || mode === 'puzzle') {
     const cell = Math.floor(s / 6);
@@ -188,52 +211,68 @@ export function ModeIcon({mode, size, colors}: ModeIconProps) {
     );
   }
 
-  // adventure: three path nodes climbing to a gold summit
-  const small = s * 0.26;
-  const mid = s * 0.32;
-  const big = s * 0.4;
+  // adventure: a folded map — parchment with two fold lines and a dotted
+  // route climbing to a gold destination. Still only cells and dots.
+  const mapW = s * 0.92;
+  const mapH = s * 0.68;
+  const dot = s * 0.09;
+  const dest = s * 0.16;
   return (
-    <View style={{width: s, height: s}}>
+    <View style={[styles.box, {width: s, height: s}]}>
       <View
-        style={[
-          styles.node,
-          {
-            left: 0,
-            bottom: 0,
-            width: small,
-            height: small,
-            borderRadius: small / 2,
-            backgroundColor: colors.cellColor2,
-          },
-        ]}
-      />
-      <View
-        style={[
-          styles.node,
-          {
-            left: s * 0.3,
-            bottom: s * 0.28,
-            width: mid,
-            height: mid,
-            borderRadius: mid / 2,
-            backgroundColor: colors.cellColor1,
-          },
-        ]}
-      />
-      <View
-        style={[
-          styles.node,
-          {
-            right: 0,
-            top: 0,
-            width: big,
-            height: big,
-            borderRadius: big / 2,
+        style={{
+          width: mapW,
+          height: mapH,
+          borderRadius: s * 0.12,
+          backgroundColor: 'rgba(255,252,242,0.95)',
+          borderWidth: 1.5,
+          borderColor: 'rgba(255,255,255,0.9)',
+          overflow: 'hidden',
+        }}>
+        {/* fold lines */}
+        {[1, 2].map(i => (
+          <View
+            key={i}
+            style={{
+              position: 'absolute',
+              left: (mapW / 3) * i,
+              top: 0,
+              bottom: 0,
+              width: 1.2,
+              backgroundColor: 'rgba(30,27,75,0.16)',
+            }}
+          />
+        ))}
+        {/* dotted route, lower-left to upper-right */}
+        {[0, 1, 2].map(i => (
+          <View
+            key={i}
+            style={{
+              position: 'absolute',
+              left: mapW * (0.12 + i * 0.22),
+              top: mapH * (0.62 - i * 0.18),
+              width: dot,
+              height: dot,
+              borderRadius: dot / 2,
+              backgroundColor: i % 2 === 0 ? colors.cellColor1 : colors.cellColor2,
+            }}
+          />
+        ))}
+        {/* gold destination */}
+        <View
+          style={{
+            position: 'absolute',
+            right: mapW * 0.08,
+            top: mapH * 0.1,
+            width: dest,
+            height: dest,
+            borderRadius: dest / 2,
             backgroundColor: '#FBBF24',
-            borderColor: '#FCD34D',
-          },
-        ]}
-      />
+            borderWidth: 1.2,
+            borderColor: '#B45309',
+          }}
+        />
+      </View>
     </View>
   );
 }
@@ -246,10 +285,5 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  node: {
-    position: 'absolute',
-    borderWidth: 1.5,
-    borderColor: 'rgba(255,255,255,0.85)',
   },
 });
