@@ -17,7 +17,6 @@ const defaultPlayerData: PlayerData = {
   name: '',
   theme: 'space',
   language: 'ro',
-  ageGroup: 'young',
   highScore: 0,
   level: 1,
 };
@@ -49,7 +48,7 @@ export function usePersistence() {
         // causes downstream voice playback / i18n lookups to misbehave.
         const language = isAllowedLang(parsed.language) ? parsed.language : 'en';
         // v1.6: app re-targeted at 4-6 age group — migrate older players to young.
-        return {...defaultPlayerData, ...parsed, language, ageGroup: 'young'};
+        return {...defaultPlayerData, ...parsed, language};
       }
     } catch {
       // Return defaults on error

@@ -4,7 +4,7 @@ import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {TenFrame} from './TenFrame';
 import {AgeProfile} from '../../hooks/useAgeProfile';
-import {AgeGroup, CellState, MemoryChallenge, ThemeColors} from '../../types/game';
+import {CellState, MemoryChallenge, ThemeColors} from '../../types/game';
 
 type Phase = 'show' | 'input' | 'reveal';
 
@@ -13,7 +13,6 @@ interface MemoryModeProps {
   colors: ThemeColors;
   emoji: string;
   tokenImage?: ImageSourcePropType;
-  ageGroup?: AgeGroup;
   ageProfile?: AgeProfile;
   // Called once child reaches the target count.
   onCorrect: () => void;
@@ -28,7 +27,6 @@ export function MemoryMode({
   colors,
   emoji,
   tokenImage,
-  ageGroup = 'young',
   onCorrect,
   onWrong,
   onPhaseChange,
@@ -193,7 +191,6 @@ export function MemoryMode({
         colors={colors}
         emoji={emoji}
         tokenImage={tokenImage}
-        ageGroup={ageGroup}
       />
 
       {/* Counter container — reserved height so layout doesn't shift between

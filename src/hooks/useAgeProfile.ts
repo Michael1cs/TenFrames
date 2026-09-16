@@ -1,5 +1,5 @@
 import {useMemo} from 'react';
-import {AgeGroup, GameMode} from '../types/game';
+import {GameMode} from '../types/game';
 
 export interface AgeProfile {
   compact: boolean;
@@ -10,21 +10,29 @@ export interface AgeProfile {
   cellMinSize: number;
 }
 
-export function useAgeProfile(ageGroup: AgeGroup): AgeProfile {
-  return useMemo(() => {
-    const isYoung = ageGroup === 'young';
-    return {
-      compact: isYoung,
-      autoVoice: isYoung,
-      showHints: !isYoung,
-      // Compare ("which has more?") is pure subitizing, so even the young
-      // profile gets it. Answer mode needs numeral recognition 0-10 — that is
-      // the older band's bridge to written equations.
-      availableModes: isYoung
-        ? (['counting', 'addition', 'subtraction', 'compare', 'workshop'] as GameMode[])
-        : (['counting', 'addition', 'subtraction', 'answer', 'puzzle', 'compare', 'workshop'] as GameMode[]),
-      fontScale: isYoung ? 1.15 : 1.0,
-      cellMinSize: isYoung ? 64 : 56,
-    };
-  }, [ageGroup]);
+// One experience for the whole 4-7 audience. Age turned out to be the wrong
+// axis — a quick five-year-old runs ahead of a slow six-year-old — so every
+// child gets every mode, and DIFFICULTY adapts through the per-mode level
+// ladders (3 correct in a row moves you up). The interaction style keeps the
+// former "young" tuning: auto-judged answers, big targets, voice always on.
+export function useAgeProfile(): AgeProfile {
+  return useMemo(
+    () => ({
+      compact: true,
+      autoVoice: true,
+      showHints: true,
+      availableModes: [
+        'counting',
+        'addition',
+        'subtraction',
+        'answer',
+        'puzzle',
+        'compare',
+        'workshop',
+      ] as GameMode[],
+      fontScale: 1.15,
+      cellMinSize: 64,
+    }),
+    [],
+  );
 }

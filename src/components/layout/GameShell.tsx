@@ -284,7 +284,6 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
             colors={colors}
             emoji={themeConfig.emoji}
             tokenImage={themeConfig.tokenImage}
-            ageGroup={game.ageGroup}
             ageProfile={ageProfile}
             onCelebrate={() => ctx.playSound('star')}
           />
@@ -305,7 +304,6 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
             emoji={themeConfig.emoji}
             tokenImage={themeConfig.tokenImage}
             level={game.additionLevel}
-            ageGroup={game.ageGroup}
             ageProfile={ageProfile}
           />
         );
@@ -325,7 +323,6 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
             emoji={themeConfig.emoji}
             tokenImage={themeConfig.tokenImage}
             level={game.subtractionLevel}
-            ageGroup={game.ageGroup}
             ageProfile={ageProfile}
           />
         );
@@ -360,7 +357,6 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
             emoji={themeConfig.emoji}
             tokenImage={themeConfig.tokenImage}
             level={game.answerLevel}
-            ageGroup={game.ageGroup}
             ageProfile={ageProfile}
           />
         );
@@ -383,7 +379,6 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
           <WorkshopMode
             paletteEmojis={themeConfig.backgroundEmojis}
             colors={colors}
-            ageGroup={game.ageGroup}
           />
         );
       case 'share':
@@ -393,7 +388,6 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
             foodEmoji="🥕"
             animalEmoji="🐰"
             colors={colors}
-            ageGroup={game.ageGroup}
             onMatch={() => {
               ctx.playSound('correct');
               ctx.voice.playRandom(VOICE_GROUPS.correct);
@@ -594,11 +588,11 @@ function useShellState(
     loadRewardData, saveRewardData,
     loadPremiumData, savePremiumData,
   } = usePersistence();
-  const {isLandscape, isTablet: _isTablet, fontScale: _fontScale} = useLayout(game.ageGroup);
+  const {isLandscape, isTablet: _isTablet, fontScale: _fontScale} = useLayout();
   const rewardSystem = useRewards();
   const premium = usePremium();
   const {play: playSound} = useSound();
-  const ageProfile = useAgeProfile(game.ageGroup);
+  const ageProfile = useAgeProfile();
 
   const [showStickerBook, setShowStickerBook] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
@@ -647,7 +641,6 @@ function useShellState(
       // Theme and age group restore unconditionally: loadPlayerData spreads
       // defaults over whatever is stored, so they are always present and valid.
       game.setTheme(data.theme);
-      game.setAgeGroup(data.ageGroup);
       if (data.name) game.setPlayerName(data.name);
 
       if (hasOnboarded) {
@@ -740,10 +733,12 @@ function useShellState(
     if (game.isCorrect === true && prevIsCorrect.current !== true) {
       playSound('correct');
       if (
-        game.ageGroup === 'young' &&
         game.currentProblem &&
+        game.currentProblem.answer <= 5 &&
         (game.gameMode === 'addition' || game.gameMode === 'subtraction')
       ) {
+        // post_great_<theme>_N clips cover 1-5; bigger answers fall through
+        // to the generic praise below.
         queueVoice(`post_great_${game.theme}_${game.currentProblem.answer}`);
       } else if (game.gameMode === 'answer' && game.answerProblem) {
         // Say the number the child just named, then praise.
@@ -784,15 +779,11 @@ function useShellState(
   }, [game.gameMode]);
 
   useEffect(() => {
-    if (game.ageGroup !== 'young') {
-      prevFilledCount.current = game.filledCount;
-      return;
-    }
     if (game.gameMode === 'counting' && game.filledCount !== prevFilledCount.current) {
       voice.play(`num_${game.filledCount}`);
     }
     prevFilledCount.current = game.filledCount;
-  }, [game.filledCount, game.ageGroup, game.gameMode, voice]);
+  }, [game.filledCount, game.gameMode, voice]);
 
   // The daily wall waits here. Raising it during the celebration and firing a
   // modal 2.5s later put "you're done for today" on top of a child's confetti;
@@ -805,7 +796,7 @@ function useShellState(
 
   useEffect(() => {
     if (game.gameMode !== 'addition' && game.gameMode !== 'subtraction') return;
-    if (game.ageGroup !== 'young' || !game.currentProblem) return;
+    if (!game.currentProblem) return;
     // If the child navigated away (e.g. into Adventure) the next-problem
     // setTimeout in useGameState still fires and mutates currentProblem —
     // but we must NOT narrate it because the FreePlay screen isn't on
@@ -825,7 +816,7 @@ function useShellState(
     if (!isFirst) clearPendingVoiceQueue();
     queueVoice(`pre_have_${game.theme}_${n1}`);
     queueVoice(`instr_${action}_${game.theme}_${n2}`);
-  }, [game.currentProblem, game.gameMode, game.ageGroup, game.theme, queueVoice, voice]);
+  }, [game.currentProblem, game.gameMode, game.theme, queueVoice, voice]);
 
   // One voice line per celebration, spoken as it takes the stage — the
   // queue guarantees they no longer pile onto the same instant.
@@ -936,7 +927,6 @@ function useShellState(
       name: game.playerName,
       theme: game.theme,
       language: game.language,
-      ageGroup: game.ageGroup,
       onboarded: true,
     });
   }, [game, savePlayerData]);

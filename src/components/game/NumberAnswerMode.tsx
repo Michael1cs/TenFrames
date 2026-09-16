@@ -7,7 +7,7 @@ import {NumberPad} from './NumberPad';
 import {PadHint} from '../feedback/PadHint';
 import {Emoji} from '../common/Emoji';
 import {AgeProfile} from '../../hooks/useAgeProfile';
-import {AgeGroup, AnswerProblem, CellState, ThemeColors} from '../../types/game';
+import {AnswerProblem, CellState, ThemeColors} from '../../types/game';
 
 interface NumberAnswerModeProps {
   cells: CellState[];
@@ -23,7 +23,6 @@ interface NumberAnswerModeProps {
   emoji: string;
   tokenImage?: ImageSourcePropType;
   level: number;
-  ageGroup?: AgeGroup;
   ageProfile?: AgeProfile;
 }
 
@@ -43,7 +42,6 @@ export function NumberAnswerMode({
   emoji,
   tokenImage,
   level,
-  ageGroup = 'older',
   ageProfile,
 }: NumberAnswerModeProps) {
   const {t} = useTranslation();
@@ -110,7 +108,6 @@ export function NumberAnswerMode({
         colors={colors}
         emoji={emoji}
         tokenImage={tokenImage}
-        ageGroup={ageGroup}
       />
 
       <PadHint visible={showPadHint} />

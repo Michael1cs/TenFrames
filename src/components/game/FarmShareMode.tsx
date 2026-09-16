@@ -11,7 +11,7 @@ import Animated, {
 import {Emoji} from '../common/Emoji';
 import {TenFrame} from './TenFrame';
 import {ShareProblem} from '../../utils/mathProblems';
-import {AgeGroup, CellState, ThemeColors} from '../../types/game';
+import {CellState, ThemeColors} from '../../types/game';
 
 interface FarmShareModeProps {
   problem: ShareProblem | null;
@@ -21,7 +21,6 @@ interface FarmShareModeProps {
   animalEmoji: string;
   colors: ThemeColors;
   tokenImage?: ImageSourcePropType;
-  ageGroup?: AgeGroup;
   // Training-wheel hint: when true and the pool empties unfairly, the
   // baskets with too many items turn red so the child sees what to fix.
   // Off on harder levels so the child has to figure it out from voice alone.
@@ -199,7 +198,6 @@ export function FarmShareMode({
   animalEmoji,
   colors,
   tokenImage,
-  ageGroup = 'young',
   showOverflowHint = false,
   onMatch,
   onUnfair,
@@ -290,7 +288,6 @@ export function FarmShareMode({
         }}
         colors={colors}
         emoji={foodEmoji}
-        ageGroup={ageGroup}
       />
 
       {/* Arrow cue between pool and baskets */}

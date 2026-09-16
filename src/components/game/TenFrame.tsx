@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, ImageSourcePropType} from 'react-native';
 import {TenFrameCell} from './TenFrameCell';
-import {AgeGroup, CellState, ThemeColors} from '../../types/game';
+import {CellState, ThemeColors} from '../../types/game';
 import {useLayout} from '../../hooks/useLayout';
 
 interface TenFrameProps {
@@ -11,7 +11,6 @@ interface TenFrameProps {
   colors: ThemeColors;
   emoji: string;
   tokenImage?: ImageSourcePropType;
-  ageGroup?: AgeGroup;
   // Override the per-cell emoji (used in adventure to make filled cells
   // show the level's icon instead of the theme's generic marble).
   overrideEmoji?: string;
@@ -27,11 +26,10 @@ export function TenFrame({
   colors,
   emoji,
   tokenImage,
-  ageGroup = 'older',
   overrideEmoji,
   hintedCells,
 }: TenFrameProps) {
-  const {cellSize} = useLayout(ageGroup);
+  const {cellSize} = useLayout();
 
   return (
     <View

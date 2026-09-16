@@ -9,7 +9,7 @@ const DRAWS = 400;
 function facts(mode: 'addition' | 'subtraction', level: number): Set<string> {
   const set = new Set<string>();
   for (let i = 0; i < DRAWS; i++) {
-    const p = generateProblem(mode, level, 'older');
+    const p = generateProblem(mode, level);
     set.add(`${p.num1}-${p.num2}`);
   }
   return set;
@@ -44,7 +44,7 @@ describe('problem generation', () => {
   it('never generates a sum above ten', () => {
     for (const level of [12, 13, 14, 15, 16, 17, 18, 26]) {
       for (let i = 0; i < DRAWS; i++) {
-        const p = generateProblem('addition', level, 'older');
+        const p = generateProblem('addition', level);
         expect(p.num1 + p.num2).toBe(p.answer);
         expect(p.answer).toBeLessThanOrEqual(10);
         expect(p.num1).toBeGreaterThanOrEqual(1);
@@ -56,7 +56,7 @@ describe('problem generation', () => {
   it('never generates a negative difference', () => {
     for (const level of [1, 5, 9, 10, 12, 16, 17, 18]) {
       for (let i = 0; i < DRAWS; i++) {
-        const p = generateProblem('subtraction', level, 'older');
+        const p = generateProblem('subtraction', level);
         expect(p.answer).toBe(p.num1 - p.num2);
         expect(p.answer).toBeGreaterThanOrEqual(0);
         expect(p.num1).toBeLessThanOrEqual(10);
@@ -68,7 +68,7 @@ describe('problem generation', () => {
   it('always starts High Five from a full top row', () => {
     for (let level = 30; level <= 35; level++) {
       for (let i = 0; i < DRAWS; i++) {
-        const p = generateProblem('addition', level, 'older');
+        const p = generateProblem('addition', level);
         expect(p.num1).toBe(5);
         expect(p.num2).toBeGreaterThanOrEqual(1);
         expect(p.num2).toBeLessThanOrEqual(5);
@@ -134,7 +134,7 @@ describe('no immediate repeats', () => {
   ] as const)('%s level %i never serves the same fact twice in a row', (mode, level) => {
     let last = '';
     for (let i = 0; i < 300; i++) {
-      const p = generateProblem(mode, level, 'older');
+      const p = generateProblem(mode, level);
       const key = `${p.num1}|${p.num2}`;
       expect(key).not.toBe(last);
       last = key;
@@ -144,7 +144,7 @@ describe('no immediate repeats', () => {
   it('young pools never repeat back-to-back either', () => {
     let last = '';
     for (let i = 0; i < 300; i++) {
-      const p = generateProblem('addition', 1, 'young');
+      const p = generateProblem('addition', 1);
       const key = `${p.num1}|${p.num2}`;
       expect(key).not.toBe(last);
       last = key;

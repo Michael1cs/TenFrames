@@ -244,7 +244,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   bottomTabFixed: {
-    width: 88,
+    // Icon-only tabs: eight of them (7 modes + Adventure) fit a phone with a
+    // gentle scroll at this width.
+    width: 64,
     alignItems: 'center',
   },
   bottomBarWrap: {

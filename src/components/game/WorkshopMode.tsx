@@ -11,7 +11,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {Emoji} from '../common/Emoji';
-import {AgeGroup, BackgroundEmoji, ThemeColors} from '../../types/game';
+import {BackgroundEmoji, ThemeColors} from '../../types/game';
 import {useLayout} from '../../hooks/useLayout';
 import {getAllThemes} from '../../hooks/useTheme';
 import {useVoice, VOICE_GROUPS} from '../../hooks/useVoice';
@@ -20,7 +20,6 @@ import {useSound} from '../../hooks/useSound';
 interface WorkshopModeProps {
   paletteEmojis: BackgroundEmoji[];
   colors: ThemeColors;
-  ageGroup?: AgeGroup;
 }
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -163,10 +162,9 @@ function WorkshopCell({emoji, onPress, cellSize, colors}: WorkshopCellProps) {
 export function WorkshopMode({
   paletteEmojis,
   colors,
-  ageGroup = 'older',
 }: WorkshopModeProps) {
   const {t} = useTranslation();
-  const {cellSize} = useLayout(ageGroup);
+  const {cellSize} = useLayout();
 
   // Build a unique palette of up to 6 emojis from the theme's background set.
   const palette = useMemo(() => {

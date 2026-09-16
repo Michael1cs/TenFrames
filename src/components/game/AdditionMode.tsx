@@ -6,7 +6,7 @@ import {TenFrame} from './TenFrame';
 import {NumberDisplay} from './NumberDisplay';
 import {Emoji} from '../common/Emoji';
 import {AgeProfile} from '../../hooks/useAgeProfile';
-import {AgeGroup, CellState, Problem, ThemeColors} from '../../types/game';
+import {CellState, Problem, ThemeColors} from '../../types/game';
 import {STOP_JUDGE_MS} from '../../config/timing';
 import {hasEngaged} from '../../utils/answerTiming';
 
@@ -24,7 +24,6 @@ interface AdditionModeProps {
   emoji: string;
   tokenImage?: ImageSourcePropType;
   level: number;
-  ageGroup?: AgeGroup;
   ageProfile?: AgeProfile;
 }
 
@@ -40,7 +39,6 @@ export function AdditionMode({
   emoji,
   tokenImage,
   level,
-  ageGroup = 'older',
   ageProfile,
 }: AdditionModeProps) {
   const {t} = useTranslation();
@@ -114,7 +112,6 @@ export function AdditionMode({
         colors={colors}
         emoji={emoji}
         tokenImage={tokenImage}
-        ageGroup={ageGroup}
       />
 
       {userAnswer !== null && (

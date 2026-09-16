@@ -56,7 +56,6 @@ async function expectRetryIsJudged(
     colors: {} as any,
     emoji: '🚀',
     level: 1,
-    ageGroup: 'young' as const,
     ageProfile: {compact: true, fontScale: 1} as any,
   };
 

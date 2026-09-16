@@ -6,7 +6,6 @@ import {
   MascotMood,
   Theme,
   Language,
-  AgeGroup,
 } from '../types/game';
 import {generateProblem, generatePuzzleNumber, generateShareProblem, generateAnswerProblem, generateCompareProblem, ShareProblem} from '../utils/mathProblems';
 import {AnswerProblem, CompareProblem} from '../types/game';
@@ -39,7 +38,6 @@ export function useGameState() {
     i18n.language === 'de' ? 'de' :
     'en',
   );
-  const [ageGroup, setAgeGroup] = useState<AgeGroup>('young');
   const [playerName, setPlayerName] = useState('');
   const [showSetup, setShowSetup] = useState(false);
   const [isThemeChange, setIsThemeChange] = useState(false);
@@ -108,8 +106,6 @@ export function useGameState() {
   additionLevelRef.current = additionLevel;
   const subtractionLevelRef = useRef(subtractionLevel);
   subtractionLevelRef.current = subtractionLevel;
-  const ageGroupRef = useRef(ageGroup);
-  ageGroupRef.current = ageGroup;
   const answerLevelRef = useRef(answerLevel);
   answerLevelRef.current = answerLevel;
   const compareLevelRef = useRef(compareLevel);
@@ -156,7 +152,7 @@ export function useGameState() {
     }
 
     const modeLevel = mode === 'addition' ? additionLevelRef.current : subtractionLevelRef.current;
-    const problem = generateProblem(mode, modeLevel, ageGroupRef.current);
+    const problem = generateProblem(mode, modeLevel);
     setCurrentProblem(problem);
     setFeedback('');
     setIsCorrect(null);
@@ -629,7 +625,6 @@ export function useGameState() {
     color2Count,
     theme,
     language,
-    ageGroup,
     playerName,
     showSetup,
     isThemeChange,
@@ -655,7 +650,6 @@ export function useGameState() {
     shareProblem,
     setTheme,
     setLanguage,
-    setAgeGroup,
     setPlayerName,
     setShowSetup,
     setIsThemeChange,

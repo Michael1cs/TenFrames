@@ -5,7 +5,7 @@ import {useTranslation} from 'react-i18next';
 import {TenFrame} from './TenFrame';
 import {NumberDisplay} from './NumberDisplay';
 import {AgeProfile} from '../../hooks/useAgeProfile';
-import {AgeGroup, CellState, ThemeColors} from '../../types/game';
+import {CellState, ThemeColors} from '../../types/game';
 
 interface CountingModeProps {
   cells: CellState[];
@@ -15,7 +15,6 @@ interface CountingModeProps {
   colors: ThemeColors;
   emoji: string;
   tokenImage?: ImageSourcePropType;
-  ageGroup?: AgeGroup;
   ageProfile?: AgeProfile;
   onCelebrate?: () => void;
 }
@@ -28,7 +27,6 @@ export function CountingMode({
   colors,
   emoji,
   tokenImage,
-  ageGroup = 'older',
   ageProfile,
   onCelebrate,
 }: CountingModeProps) {
@@ -73,7 +71,6 @@ export function CountingMode({
         colors={colors}
         emoji={emoji}
         tokenImage={tokenImage}
-        ageGroup={ageGroup}
       />
 
       <NumberDisplay
