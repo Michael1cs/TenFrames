@@ -30,5 +30,16 @@ target 'TenFrames' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+
+    # Xcode 27 refuses deployment targets below iOS 15 and fails the build
+    # outright. AsyncStorage's resource bundle still declares 13.0 in its
+    # podspec, so lift any pod that sits below the app's own minimum (15.1).
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |build_config|
+        if build_config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 15.1
+          build_config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.1'
+        end
+      end
+    end
   end
 end
