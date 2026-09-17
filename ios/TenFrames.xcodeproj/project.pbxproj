@@ -3931,6 +3931,18 @@
 		FFEFDDE55986B3AC4DBA240D /* voice_de_post_great_fish_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E6B3C1FEF41C09E34B1E4C5F /* voice_de_post_great_fish_3.mp3 */; };
 		FFFE17264B654358BFCF3658 /* voice_en_instr_sub_ocean_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FD441ACA8E0E4C22A3CB9DDF /* voice_en_instr_sub_ocean_1.mp3 */; };
 		FFFEA2E58AC327795BA59A82 /* voice_de_pre_have_space_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BBF765DA0565A71E296952AE /* voice_de_pre_have_space_4.mp3 */; };
+		9AE47AC0A3984F87B2F06663 /* voice_de_world_number_town.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9829204106C4F3CBA7503BD /* voice_de_world_number_town.mp3 */; };
+		8CA7E88C77874CBBBE84A873 /* voice_ro_ask_parent.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 96B8C86B6E85415A95F32403 /* voice_ro_ask_parent.mp3 */; };
+		E5318FD461CB40F9B80D5DFE /* voice_ro_world_monster_more.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D285575383CB43D396BE934C /* voice_ro_world_monster_more.mp3 */; };
+		85A4E18877FD421AA8243CE4 /* voice_ro_world_high_five.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4A3D5F0134D54739B7CDD26D /* voice_ro_world_high_five.mp3 */; };
+		C1EA1195B5C54817AB8243AC /* voice_de_world_monster_more.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 071E6767F9784DB18954340C /* voice_de_world_monster_more.mp3 */; };
+		F88FE4419EB748889451B023 /* voice_de_world_high_five.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E92D2F19FF634750A29D2373 /* voice_de_world_high_five.mp3 */; };
+		441F8D2359344105B2C47C48 /* voice_en_world_monster_more.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BF1407B79C034F96AFB2A651 /* voice_en_world_monster_more.mp3 */; };
+		211C087B817A426DBCAB2D26 /* voice_en_world_high_five.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6882F5607AB74AA8B464B2C4 /* voice_en_world_high_five.mp3 */; };
+		FD7A2B2C0D4B4C10824D7B11 /* voice_ro_world_number_town.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BF355DBABB7249A8B2F765E7 /* voice_ro_world_number_town.mp3 */; };
+		9BAA1CAD24C1472F8CD4940F /* voice_de_ask_parent.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AB597ED911A243D7BD11D206 /* voice_de_ask_parent.mp3 */; };
+		30E4CE219B8A48608C495BED /* voice_en_world_number_town.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 958484A01D8B4FF9B1C7FF08 /* voice_en_world_number_town.mp3 */; };
+		2C1621C439684DF09F3CD7F4 /* voice_en_ask_parent.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F54BBCB0716842F386EA9283 /* voice_en_ask_parent.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -7864,6 +7876,18 @@
 		FFEA7263E1194529924AB28A /* voice_ro_take_dolphin_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_take_dolphin_4.mp3; path = ../assets/audio/voice_ro_take_dolphin_4.mp3; sourceTree = "<group>"; };
 		FFF8669F2F974CBEA7A0D7C0 /* voice_en_instr_addition_easy.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_instr_addition_easy.mp3; path = ../assets/audio/voice_en_instr_addition_easy.mp3; sourceTree = "<group>"; };
 		FFFC0A2C2D594F1987DCCE13 /* voice_ro_take_whale_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_take_whale_7.mp3; path = ../assets/audio/voice_ro_take_whale_7.mp3; sourceTree = "<group>"; };
+		C9829204106C4F3CBA7503BD /* voice_de_world_number_town.mp3 */ = {isa = PBXFileReference; name = "voice_de_world_number_town.mp3"; path = "../assets/audio/voice_de_world_number_town.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		96B8C86B6E85415A95F32403 /* voice_ro_ask_parent.mp3 */ = {isa = PBXFileReference; name = "voice_ro_ask_parent.mp3"; path = "../assets/audio/voice_ro_ask_parent.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D285575383CB43D396BE934C /* voice_ro_world_monster_more.mp3 */ = {isa = PBXFileReference; name = "voice_ro_world_monster_more.mp3"; path = "../assets/audio/voice_ro_world_monster_more.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4A3D5F0134D54739B7CDD26D /* voice_ro_world_high_five.mp3 */ = {isa = PBXFileReference; name = "voice_ro_world_high_five.mp3"; path = "../assets/audio/voice_ro_world_high_five.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		071E6767F9784DB18954340C /* voice_de_world_monster_more.mp3 */ = {isa = PBXFileReference; name = "voice_de_world_monster_more.mp3"; path = "../assets/audio/voice_de_world_monster_more.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E92D2F19FF634750A29D2373 /* voice_de_world_high_five.mp3 */ = {isa = PBXFileReference; name = "voice_de_world_high_five.mp3"; path = "../assets/audio/voice_de_world_high_five.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BF1407B79C034F96AFB2A651 /* voice_en_world_monster_more.mp3 */ = {isa = PBXFileReference; name = "voice_en_world_monster_more.mp3"; path = "../assets/audio/voice_en_world_monster_more.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6882F5607AB74AA8B464B2C4 /* voice_en_world_high_five.mp3 */ = {isa = PBXFileReference; name = "voice_en_world_high_five.mp3"; path = "../assets/audio/voice_en_world_high_five.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BF355DBABB7249A8B2F765E7 /* voice_ro_world_number_town.mp3 */ = {isa = PBXFileReference; name = "voice_ro_world_number_town.mp3"; path = "../assets/audio/voice_ro_world_number_town.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AB597ED911A243D7BD11D206 /* voice_de_ask_parent.mp3 */ = {isa = PBXFileReference; name = "voice_de_ask_parent.mp3"; path = "../assets/audio/voice_de_ask_parent.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		958484A01D8B4FF9B1C7FF08 /* voice_en_world_number_town.mp3 */ = {isa = PBXFileReference; name = "voice_en_world_number_town.mp3"; path = "../assets/audio/voice_en_world_number_town.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F54BBCB0716842F386EA9283 /* voice_en_ask_parent.mp3 */ = {isa = PBXFileReference; name = "voice_en_ask_parent.mp3"; path = "../assets/audio/voice_en_ask_parent.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -11861,6 +11885,18 @@
 				7FCBC40D53B74E44A8B80EA6 /* voice_de_add_alt_1.mp3 */,
 				FD7F93B6734146FCBCDDD4B0 /* voice_de_ok_memory_1.mp3 */,
 				19765D7C3CF54D0CA5B09733 /* voice_ro_sub_alt_2.mp3 */,
+				C9829204106C4F3CBA7503BD /* voice_de_world_number_town.mp3 */,
+				96B8C86B6E85415A95F32403 /* voice_ro_ask_parent.mp3 */,
+				D285575383CB43D396BE934C /* voice_ro_world_monster_more.mp3 */,
+				4A3D5F0134D54739B7CDD26D /* voice_ro_world_high_five.mp3 */,
+				071E6767F9784DB18954340C /* voice_de_world_monster_more.mp3 */,
+				E92D2F19FF634750A29D2373 /* voice_de_world_high_five.mp3 */,
+				BF1407B79C034F96AFB2A651 /* voice_en_world_monster_more.mp3 */,
+				6882F5607AB74AA8B464B2C4 /* voice_en_world_high_five.mp3 */,
+				BF355DBABB7249A8B2F765E7 /* voice_ro_world_number_town.mp3 */,
+				AB597ED911A243D7BD11D206 /* voice_de_ask_parent.mp3 */,
+				958484A01D8B4FF9B1C7FF08 /* voice_en_world_number_town.mp3 */,
+				F54BBCB0716842F386EA9283 /* voice_en_ask_parent.mp3 */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -15847,6 +15883,18 @@
 				5ABEBD6D52A7423DB89D6AEF /* voice_de_add_alt_1.mp3 in Resources */,
 				AA9AB56C07274D4DB9479191 /* voice_de_ok_memory_1.mp3 in Resources */,
 				5DA0C343FFB041F6A7BC4B80 /* voice_ro_sub_alt_2.mp3 in Resources */,
+				9AE47AC0A3984F87B2F06663 /* voice_de_world_number_town.mp3 in Resources */,
+				8CA7E88C77874CBBBE84A873 /* voice_ro_ask_parent.mp3 in Resources */,
+				E5318FD461CB40F9B80D5DFE /* voice_ro_world_monster_more.mp3 in Resources */,
+				85A4E18877FD421AA8243CE4 /* voice_ro_world_high_five.mp3 in Resources */,
+				C1EA1195B5C54817AB8243AC /* voice_de_world_monster_more.mp3 in Resources */,
+				F88FE4419EB748889451B023 /* voice_de_world_high_five.mp3 in Resources */,
+				441F8D2359344105B2C47C48 /* voice_en_world_monster_more.mp3 in Resources */,
+				211C087B817A426DBCAB2D26 /* voice_en_world_high_five.mp3 in Resources */,
+				FD7A2B2C0D4B4C10824D7B11 /* voice_ro_world_number_town.mp3 in Resources */,
+				9BAA1CAD24C1472F8CD4940F /* voice_de_ask_parent.mp3 in Resources */,
+				30E4CE219B8A48608C495BED /* voice_en_world_number_town.mp3 in Resources */,
+				2C1621C439684DF09F3CD7F4 /* voice_en_ask_parent.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

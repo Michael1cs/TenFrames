@@ -698,6 +698,10 @@
       "sha1": "fedc4063f91c72c39eb26493527f64170cbb2e98"
     },
     {
+      "path": "assets/audio/voice_de_ask_parent.mp3",
+      "sha1": "0cd5f4e27d2388766a61774976f0bb42c43394a4"
+    },
+    {
       "path": "assets/audio/voice_de_ask_theme.mp3",
       "sha1": "ce9e990fa6f3bbb8eb1ed438a7fa625bb43623e4"
     },
@@ -5198,6 +5202,10 @@
       "sha1": "c69b3443fa377f4c771d20cd8e959b369a220db1"
     },
     {
+      "path": "assets/audio/voice_de_world_high_five.mp3",
+      "sha1": "5aef45ab862ab4b0f0cad9cc6c77bc65d9362de3"
+    },
+    {
       "path": "assets/audio/voice_de_world_make_ten_beach.mp3",
       "sha1": "841847153436bd7e0b1e740f5799dd24f721f083"
     },
@@ -5208,6 +5216,14 @@
     {
       "path": "assets/audio/voice_de_world_mixed_targets.mp3",
       "sha1": "9f05593450eb9069937c2ea29d3d9e3a474af9f7"
+    },
+    {
+      "path": "assets/audio/voice_de_world_monster_more.mp3",
+      "sha1": "a6ec37b921122e91d837552a8c61a50508cc0e36"
+    },
+    {
+      "path": "assets/audio/voice_de_world_number_town.mp3",
+      "sha1": "95adedfbdeb86f3b0622b5e4fe28fb7141fe7cb5"
     },
     {
       "path": "assets/audio/voice_de_world_subtraction_mountain.mp3",
@@ -5912,6 +5928,10 @@
     {
       "path": "assets/audio/voice_en_ask_age.mp3",
       "sha1": "6b8f99b2c76f45028b51aff806b6d27d6b1b2b71"
+    },
+    {
+      "path": "assets/audio/voice_en_ask_parent.mp3",
+      "sha1": "af71e16b44bfd1f9ac89811abfc9f7e312bc3250"
     },
     {
       "path": "assets/audio/voice_en_ask_theme.mp3",
@@ -10414,6 +10434,10 @@
       "sha1": "0b80360d0adbeb639eb2ac64f5a7a3f70c03a3f6"
     },
     {
+      "path": "assets/audio/voice_en_world_high_five.mp3",
+      "sha1": "8461135d131c3082df5c865ace5d066f3f7e293d"
+    },
+    {
       "path": "assets/audio/voice_en_world_make_ten_beach.mp3",
       "sha1": "6869d5656c90aa77dbec3d0dffb8640d15fe14fc"
     },
@@ -10424,6 +10448,14 @@
     {
       "path": "assets/audio/voice_en_world_mixed_targets.mp3",
       "sha1": "4b9ffbb46ecd0864669041e9ce37f2ac0049032c"
+    },
+    {
+      "path": "assets/audio/voice_en_world_monster_more.mp3",
+      "sha1": "a290e145f453b7382a1addceac09b4e3b20da863"
+    },
+    {
+      "path": "assets/audio/voice_en_world_number_town.mp3",
+      "sha1": "f7e8af65f2d298d28937da188420ef081616ae73"
     },
     {
       "path": "assets/audio/voice_en_world_subtraction_mountain.mp3",
@@ -11128,6 +11160,10 @@
     {
       "path": "assets/audio/voice_ro_ask_age.mp3",
       "sha1": "025540780e595aa7af2d6ff8a60cae4524faaced"
+    },
+    {
+      "path": "assets/audio/voice_ro_ask_parent.mp3",
+      "sha1": "e0c89a985348d5b148ef1b6ef88eedd7e92186bb"
     },
     {
       "path": "assets/audio/voice_ro_ask_theme.mp3",
@@ -15630,6 +15666,10 @@
       "sha1": "f2dc3b985da24156125edd7fc9fa7881bbebec04"
     },
     {
+      "path": "assets/audio/voice_ro_world_high_five.mp3",
+      "sha1": "3116414a5537141a5fe6afb609d09cd4f68b4199"
+    },
+    {
       "path": "assets/audio/voice_ro_world_make_ten_beach.mp3",
       "sha1": "3f23c240510cdbd55f4be2b4363b889a333e5355"
     },
@@ -15640,6 +15680,14 @@
     {
       "path": "assets/audio/voice_ro_world_mixed_targets.mp3",
       "sha1": "23b7a1964da90cb29c68723960e3b5148c23b82c"
+    },
+    {
+      "path": "assets/audio/voice_ro_world_monster_more.mp3",
+      "sha1": "edeca3b8168af8b47125e45e2bb7874bdabcbd07"
+    },
+    {
+      "path": "assets/audio/voice_ro_world_number_town.mp3",
+      "sha1": "a8131c4315a16e0cc03f38690159f2babc7810bd"
     },
     {
       "path": "assets/audio/voice_ro_world_subtraction_mountain.mp3",
