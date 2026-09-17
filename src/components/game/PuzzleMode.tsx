@@ -51,6 +51,7 @@ export function PuzzleMode({
         colors={colors}
         emoji={emoji}
         tokenImage={tokenImage}
+        demo="puzzle"
       />
 
       <NumberDisplay number={filledCount} colors={colors} emoji={emoji} />

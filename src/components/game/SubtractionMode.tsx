@@ -109,6 +109,7 @@ export function SubtractionMode({
         colors={colors}
         emoji={emoji}
         tokenImage={tokenImage}
+        demo="subtraction"
       />
 
       {userAnswer !== null && (

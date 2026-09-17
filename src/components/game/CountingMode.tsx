@@ -71,6 +71,7 @@ export function CountingMode({
         colors={colors}
         emoji={emoji}
         tokenImage={tokenImage}
+        demo="counting"
       />
 
       <NumberDisplay

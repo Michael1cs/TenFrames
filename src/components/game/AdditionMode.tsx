@@ -112,6 +112,7 @@ export function AdditionMode({
         colors={colors}
         emoji={emoji}
         tokenImage={tokenImage}
+        demo="addition"
       />
 
       {userAnswer !== null && (

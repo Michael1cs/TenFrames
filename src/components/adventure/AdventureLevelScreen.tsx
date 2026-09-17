@@ -1400,6 +1400,14 @@ export function AdventureLevelScreen({
                 emoji={worldTheme?.colors?.emojiColor1 ?? '🔵'}
                 overrideEmoji={level.emoji}
                 hintedCells={hintCells}
+                demo={
+                  level.gameMode === 'counting' ||
+                  level.gameMode === 'addition' ||
+                  level.gameMode === 'subtraction' ||
+                  level.gameMode === 'puzzle'
+                    ? level.gameMode
+                    : undefined
+                }
               />
               <TapHint visible={showTapHint && !hasSubmitted && !assisting} />
             </Animated.View>
