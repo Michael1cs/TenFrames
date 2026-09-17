@@ -95,7 +95,7 @@ export function FeedbackSheet({
             answer, scratching its head (never sad) for a wrong one.
             Absolute, so the card keeps its size either way. */}
         <Animated.View style={[styles.mascot, mascotStyle]}>
-          <Mascot pose={isCorrect ? 'jump' : 'think'} height={96} />
+          <Mascot pose={isCorrect ? 'jump' : 'think'} height={78} />
         </Animated.View>
         {isCorrect && stars > 0 && (
           <View style={styles.starsRow}>
@@ -151,12 +151,12 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     minWidth: 240,
     // room on the left for the mascot
-    paddingLeft: 58,
+    paddingLeft: 48,
   },
   mascot: {
     position: 'absolute',
-    left: -34,
-    top: -66,
+    left: -30,
+    top: -52,
   },
   starsRow: {
     flexDirection: 'row',
