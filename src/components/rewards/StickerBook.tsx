@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {
   View,
   StyleSheet,
@@ -11,6 +11,17 @@ import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
 import {ALL_STICKERS} from '../../utils/rewardData';
 import {Emoji} from '../common/Emoji';
+import {Bouncy} from '../common/Bouncy';
+import {useVoice} from '../../hooks/useVoice';
+import {Sticker} from '../../types/game';
+
+// What a sticker says when a child taps it. Number stickers say their
+// number with the clips the counting game already uses; every other one
+// has its own name line.
+function stickerVoiceId(sticker: Sticker): string {
+  const n = /^num-(\d+)$/.exec(sticker.id);
+  return n ? `num_${n[1]}` : `stk_${sticker.id}`;
+}
 
 interface StickerBookProps {
   visible: boolean;
@@ -37,13 +48,29 @@ export function StickerBook({
   onClose,
 }: StickerBookProps) {
   const {t} = useTranslation();
+  const voice = useVoice();
+
+  // An album a pre-reader can use: tap a sticker you've won and it says
+  // its name. The last tap wins, so fast tapping never queues a list.
+  const sayName = useCallback(
+    (sticker: Sticker) => {
+      voice.stop();
+      voice.play(stickerVoiceId(sticker));
+    },
+    [voice],
+  );
+
+  const close = useCallback(() => {
+    voice.stop();
+    onClose();
+  }, [voice, onClose]);
 
   return (
     <Modal
       visible={visible}
       transparent
       animationType="slide"
-      onRequestClose={onClose}>
+      onRequestClose={close}>
       <View style={styles.overlay}>
         <View style={[styles.modal, {backgroundColor: colors.backgroundFrom}]}>
           <View style={styles.header}>
@@ -53,7 +80,7 @@ export function StickerBook({
           <Text style={[styles.progress, {color: colors.text}]}>
             {unlockedStickers.length}/{ALL_STICKERS.length}
           </Text>
-          <Pressable onPress={onClose} style={styles.closeBtn}>
+          <Pressable onPress={close} style={styles.closeBtn}>
             <Text style={styles.closeText}>✕</Text>
           </Pressable>
         </View>
@@ -73,8 +100,13 @@ export function StickerBook({
                   {stickers.map(sticker => {
                     const isUnlocked = unlockedStickers.includes(sticker.id);
                     return (
-                      <View
+                      <Bouncy
                         key={sticker.id}
+                        disabled={!isUnlocked}
+                        pressScale={0.86}
+                        onPress={() => sayName(sticker)}
+                        accessibilityRole="button"
+                        accessibilityLabel={isUnlocked ? t(sticker.nameKey) : undefined}
                         style={[
                           styles.stickerCell,
                           isUnlocked
@@ -93,7 +125,7 @@ export function StickerBook({
                             <Emoji>⭐</Emoji> {sticker.requirement}
                           </Text>
                         )}
-                      </View>
+                      </Bouncy>
                     );
                   })}
                 </View>

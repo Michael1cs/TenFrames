@@ -4482,6 +4482,126 @@
       "sha1": "e51bd01925305dbac1f514016b2caa71a8a650b2"
     },
     {
+      "path": "assets/audio/voice_de_stk_alien.mp3",
+      "sha1": "0f3f73cc92838cd7107454393dcf759a88e449fb"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_apple.mp3",
+      "sha1": "dae878f240e5060f8627daacf3f7281df59903e0"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_bear.mp3",
+      "sha1": "935519206f965cf9d6ebe0f20b0c89270b45b862"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_butterfly.mp3",
+      "sha1": "ce7ca4e346c0f8efa3812661dd5781599a70282c"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_cake.mp3",
+      "sha1": "0af1d0ed0e808767de5472047a9e3572e93a47f6"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_candy.mp3",
+      "sha1": "56820f2543189da7febd5b44275456bdc0d4ab8c"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_cat.mp3",
+      "sha1": "69788f4217b66934c297983629ba4abc4c4825c1"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_crown.mp3",
+      "sha1": "9077796ad23ec62bc01d64c95cb848ce7581cf47"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_diamond.mp3",
+      "sha1": "32b55614ddb0b55483ea23e876fb0c75ab769be2"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_dog.mp3",
+      "sha1": "46f78e6749e61685915d5e96aeb9905fccb4eda2"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_donut.mp3",
+      "sha1": "9641e670a005bb42df19d17f7758cb1601b282c2"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_flower.mp3",
+      "sha1": "de30d8c58f56f02f7752ff52a69d652eff460e17"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_hundred.mp3",
+      "sha1": "0ce09e40411d89fe56145d62a1bc9e72be140bc9"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_icecream.mp3",
+      "sha1": "6da6c078c79be5f0c3f0ba8563a4ac3f5a3c795b"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_medal.mp3",
+      "sha1": "8f1df9d61f2ece5f5824dc896a1ca94916c8f010"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_moon.mp3",
+      "sha1": "306dabdaeb71095ce32fea84efe0e9271c47cb24"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_mushroom.mp3",
+      "sha1": "0d641bd917cf158060f81458189e2f57c6e5394f"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_panda.mp3",
+      "sha1": "1ce10859a44c7c0c42e229a5ae58aa030ac2add2"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_pizza.mp3",
+      "sha1": "cea905f68ba5c874fc6115920fb8a2ed3b083cf9"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_planet.mp3",
+      "sha1": "55c7f8a889d7e1b66bc87ff38a315d361edb7fbe"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_rabbit.mp3",
+      "sha1": "87ca439d3f238baa8b56d902ee9650c255730e72"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_rainbow.mp3",
+      "sha1": "79f1560440047424aa258e006413a6e6340c183c"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_rocket.mp3",
+      "sha1": "de3cdf693f24da2d6d9f573ca8ae8d1684ec5146"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_soccer.mp3",
+      "sha1": "a020fd1d9bb83be0b0794abf378b718df77797f1"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_star.mp3",
+      "sha1": "3e922a001fe62b760f9a6b1457e1f147ec000325"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_sun.mp3",
+      "sha1": "574ae850bfbf0ea14b5d2a1341da9b080cb25923"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_tree.mp3",
+      "sha1": "bfa5095122508f5495574401993cdd4088da1c25"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_trophy.mp3",
+      "sha1": "f309769c3c20bf9c2c1fbee81000851f8cf29d67"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_ufo.mp3",
+      "sha1": "279fe23de6d9cf514a2e2b3171bd9d1cbd5614ae"
+    },
+    {
+      "path": "assets/audio/voice_de_stk_unicorn.mp3",
+      "sha1": "a7b2ed0c83555cd49ff7d6fdc222f32bd614e9b6"
+    },
+    {
       "path": "assets/audio/voice_de_sub_alt_1.mp3",
       "sha1": "438c77f7a5586c0de1f9504ca36129840ed7dc43"
     },
@@ -9714,6 +9834,126 @@
       "sha1": "931633b52b4a0b645195e1337ca5b9ca7c3f3017"
     },
     {
+      "path": "assets/audio/voice_en_stk_alien.mp3",
+      "sha1": "238dd40b992e515f42cae1a17cbdc33f718744a5"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_apple.mp3",
+      "sha1": "f019d6506146204e0d7bd25821428fce87f30ef1"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_bear.mp3",
+      "sha1": "d370c27a420760921689bde50250de9e113e24b3"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_butterfly.mp3",
+      "sha1": "30604704b723a09ed3d37e101598f9a21371f905"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_cake.mp3",
+      "sha1": "a9b079c03f46302556df95dfe3bd17845149aae2"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_candy.mp3",
+      "sha1": "7e288dc252c1cef2b0b0306380ad6ff0bd87574d"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_cat.mp3",
+      "sha1": "a0d0d7e28d4fc3d2901b3d1b2791a337efbe6c1d"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_crown.mp3",
+      "sha1": "4e8c58395f191d47c8529acc92d00cb1c568593f"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_diamond.mp3",
+      "sha1": "064e0fc0a71633d3a0a4895b54892a29abb287fc"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_dog.mp3",
+      "sha1": "a919fc4964abfdf554f857c3ae20178cd5d87b29"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_donut.mp3",
+      "sha1": "932005a81c2cae49f2480f3dd238ac7ddf4887c6"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_flower.mp3",
+      "sha1": "a8b078d90731ab4733d24fa924aaa302280e9472"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_hundred.mp3",
+      "sha1": "8fd13ad411c70358a15d7369ef11d17e7688f2ab"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_icecream.mp3",
+      "sha1": "990e04b49b646394ba82ec588faa61165ffec8b8"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_medal.mp3",
+      "sha1": "e70cccabb8dc22fb19071549fb99f6c66fa78b35"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_moon.mp3",
+      "sha1": "65ce20df793c680b38f14a3244db2c499b03da09"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_mushroom.mp3",
+      "sha1": "f7117f7210f28a72f9f84dfe8503d4f8c41b3cfc"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_panda.mp3",
+      "sha1": "66958930dbee7f5f4aadad547d8e794e22d642c1"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_pizza.mp3",
+      "sha1": "10011b80a766eed37d48112a1cab9ce7e9784855"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_planet.mp3",
+      "sha1": "f3d18a18b586a442e6f8e8b944c22ddc94d94a9f"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_rabbit.mp3",
+      "sha1": "f730fe5308d90e503b5c139e05e5078c7e1889dd"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_rainbow.mp3",
+      "sha1": "fa08ff0ec5c3fa186dee186e8f6afd220ef0c52a"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_rocket.mp3",
+      "sha1": "c5315bcd94fa93c6bfe94488a95014a47ed0840b"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_soccer.mp3",
+      "sha1": "32fa995faed124fde31e31a7dab64a6c203341fe"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_star.mp3",
+      "sha1": "60b60dd91ad5634752da9c013188c646910d41bb"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_sun.mp3",
+      "sha1": "bb2ae061022ab85f89909c560a61fc9a1b6b2bc3"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_tree.mp3",
+      "sha1": "569771bbd0fc249e7a792464b13da83b23c52708"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_trophy.mp3",
+      "sha1": "5f737cbf83194e8acf0a0992a0d2a3a4722f6429"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_ufo.mp3",
+      "sha1": "4dba36f97a05fae1eb28749667f3a2ce73ab3454"
+    },
+    {
+      "path": "assets/audio/voice_en_stk_unicorn.mp3",
+      "sha1": "bb7978597e5311146d7d58569db9c2a0e1ac3efd"
+    },
+    {
       "path": "assets/audio/voice_en_sub_alt_1.mp3",
       "sha1": "289e5a1f13589e5fcccf23adc11a3c316607ec77"
     },
@@ -14944,6 +15184,126 @@
     {
       "path": "assets/audio/voice_ro_share_unfair.mp3",
       "sha1": "7ba4b529c28149518dca0d0ab7470e0e0d1758a6"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_alien.mp3",
+      "sha1": "ec834bb1182c56a8fea284079447f5bcee8095fa"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_apple.mp3",
+      "sha1": "8780878195831233b3c404cd1cd563054441f490"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_bear.mp3",
+      "sha1": "271e5ac3096792c5aa396b6e64b438f339b867ee"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_butterfly.mp3",
+      "sha1": "ce0edc067c3b9b744159aa1861b91f7c9eabd63b"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_cake.mp3",
+      "sha1": "8da790a7d903766a3d55df011eabb1534c34ff2b"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_candy.mp3",
+      "sha1": "2928a0afeefd6ecfa4e0e9ce238a2eaebdb3146b"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_cat.mp3",
+      "sha1": "72a352f36f7e2b98e2f88734e4b13a94ce091353"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_crown.mp3",
+      "sha1": "537f6d8b9f8097394915f43302f60f4e9fe7133f"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_diamond.mp3",
+      "sha1": "6e606107918694030105797cf68479c586fa38cc"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_dog.mp3",
+      "sha1": "d723a131ff6ace10e5aa2d58eef1eaa81b102a15"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_donut.mp3",
+      "sha1": "481efa3caeb4343f73bd181afbab77122c6267f7"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_flower.mp3",
+      "sha1": "15462bb823b5b1d1c2ea50cc5dbeddb06e98cdcf"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_hundred.mp3",
+      "sha1": "ce47fe5f0f2de1c4edce2aebacb9fa3284a29538"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_icecream.mp3",
+      "sha1": "51ff122a298b9de6900e580a70caff21c06b10c8"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_medal.mp3",
+      "sha1": "dee5a322d473cd783f702d163c097af8a3ece88c"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_moon.mp3",
+      "sha1": "5606ed46bb32a23cfdde5d43c03d5293b64ecb4b"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_mushroom.mp3",
+      "sha1": "21717fed8717fba2164fc6b58d6b4c11e4dc6b32"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_panda.mp3",
+      "sha1": "6770409fae910f3fb11d701374d5bb60e085c3df"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_pizza.mp3",
+      "sha1": "824aaa75e76cee8b05b75245fe26afb60ebd1ab9"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_planet.mp3",
+      "sha1": "eee48566250d4d53222fc6a95c1361cc921c29fb"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_rabbit.mp3",
+      "sha1": "acfbfe2779d3332eb4d815cebd8341cde858644a"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_rainbow.mp3",
+      "sha1": "dd4e968956ec593cf6cbe09bfccc32f27ca3b2fc"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_rocket.mp3",
+      "sha1": "1710be06cfd796cbae583e53ee66a5c61dbc6bec"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_soccer.mp3",
+      "sha1": "2b639a6fc86ada82834beeaa1dcf98c7bc7f93b2"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_star.mp3",
+      "sha1": "d0ec678a74c92136617b828bef4bc3cbbdb0d313"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_sun.mp3",
+      "sha1": "0c98586b33001510abb0e9ec7191bd9a108c4dd2"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_tree.mp3",
+      "sha1": "70836bd909e0400b120b931f416df64052f92aaa"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_trophy.mp3",
+      "sha1": "bed00db5ad8bbed69b240674854fe6a79285453b"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_ufo.mp3",
+      "sha1": "d84889c34c28db8e2f83da12e5b8e17b1789fa7a"
+    },
+    {
+      "path": "assets/audio/voice_ro_stk_unicorn.mp3",
+      "sha1": "85790eb3e419aa27362c5d90413db48aed9c763e"
     },
     {
       "path": "assets/audio/voice_ro_sub_alt_1.mp3",
