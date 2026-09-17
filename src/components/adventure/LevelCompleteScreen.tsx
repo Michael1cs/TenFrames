@@ -18,6 +18,7 @@ import Animated, {
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
 import {Emoji} from '../common/Emoji';
+import {Mascot} from '../common/Mascot';
 import {useReduceMotion} from '../../hooks/useReduceMotion';
 
 interface LevelCompleteScreenProps {
@@ -103,7 +104,8 @@ export function LevelCompleteScreen({
       ? t('adventure.great')
       : t('adventure.good');
 
-  const messageEmoji = stars === 3 ? '🎉' : stars === 2 ? '👏' : '👍';
+  // Three stars get the jump for joy; any finished level gets a thumbs up.
+  const mascotPose = stars === 3 ? 'jump' : 'wink';
 
   const confettiEmojis = ['🎉', '⭐', '🌟', '✨', '🎊', '💫', '🏆', '🎯'];
 
@@ -123,11 +125,9 @@ export function LevelCompleteScreen({
         entering={ZoomIn.springify().damping(12)}
         style={[styles.card, {borderColor: colors.accent}]}>
         {/* Big emoji reaction */}
-        <Animated.Text
-          entering={BounceIn.delay(300)}
-          style={styles.bigEmoji}>
-          <Emoji>{messageEmoji}</Emoji>
-        </Animated.Text>
+        <Animated.View entering={BounceIn.delay(300)} style={styles.mascot}>
+          <Mascot pose={mascotPose} height={110} />
+        </Animated.View>
 
         {/* Title */}
         <Animated.Text
@@ -212,9 +212,9 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 360,
   },
-  bigEmoji: {
-    fontSize: 56,
-    marginBottom: 8,
+  mascot: {
+    marginTop: -64,
+    marginBottom: 4,
   },
   title: {
     fontFamily: FREDOKA_FAMILY,

@@ -4,6 +4,7 @@ import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
 import {Emoji} from '../common/Emoji';
+import {Mascot} from '../common/Mascot';
 
 interface DailyLimitModalProps {
   visible: boolean;
@@ -28,7 +29,8 @@ export function DailyLimitModal({
       onRequestClose={onDismiss}>
       <View style={styles.overlay}>
         <View style={[styles.card, {borderColor: colors.accent}]}>
-          <Text style={styles.emoji}><Emoji>🌟</Emoji></Text>
+          {/* Done for today: the mascot has gone to sleep in its frame. */}
+          <Mascot pose="sleep" width={170} style={styles.mascot} />
           <Text style={[styles.title, {color: colors.text}]}>
             {t('premium.dailyLimitTitle')}
           </Text>
@@ -72,8 +74,7 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 340,
   },
-  emoji: {
-    fontSize: 48,
+  mascot: {
     marginBottom: 12,
   },
   title: {

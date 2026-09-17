@@ -25,6 +25,7 @@ import {useVoice} from '../../hooks/useVoice';
 import {LanguageSwitcher} from '../layout/LanguageSwitcher';
 import {Bouncy} from '../common/Bouncy';
 import {WorldIcon} from '../adventure/WorldIcon';
+import {Mascot} from '../common/Mascot';
 import {Language} from '../../types/game';
 
 interface ModeChoiceProps {
@@ -356,6 +357,11 @@ export function ModeChoice({
                 ))}
               </View>
             </Bouncy>
+            {/* The mascot says hello from the corner of the first door. It
+                sits outside the card, which clips its own content. */}
+            <View style={styles.mascotHello} pointerEvents="none">
+              <Mascot pose="hello" height={isTablet ? 116 : 80} />
+            </View>
           </Animated.View>
 
           {/* Free Play Card */}
@@ -588,6 +594,13 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 3},
     shadowOpacity: 0.12,
     shadowRadius: 8,
+  },
+  // Over the card's empty top-right corner, rising a little above its edge
+  // but clear of the question above the cards.
+  mascotHello: {
+    position: 'absolute',
+    right: 12,
+    top: -26,
   },
   cardHighlighted: {
     borderWidth: 3,

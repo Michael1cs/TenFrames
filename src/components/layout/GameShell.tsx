@@ -32,7 +32,6 @@ import {CompareMode} from '../game/CompareMode';
 import {WorkshopMode} from '../game/WorkshopMode';
 import {FarmShareMode} from '../game/FarmShareMode';
 import {CorrectAnimation} from '../feedback/CorrectAnimation';
-import {WrongAnimation} from '../feedback/WrongAnimation';
 import {WrongFlash} from '../feedback/WrongFlash';
 import {FeedbackSheet, EquationPart} from '../feedback/FeedbackSheet';
 import {MilestoneAnimation} from '../feedback/MilestoneAnimation';
@@ -1268,7 +1267,6 @@ function GameShellInner() {
       {/* Persistent global overlays — these sit OUTSIDE the stack so they
           float above whichever screen the user is on. */}
       <CorrectAnimation visible={game.showConfetti} colors={colors} />
-      <WrongAnimation visible={game.isCorrect === false} />
       <WrongFlash visible={game.isCorrect === false} />
       {/* Celebration queue: exactly one on stage at a time. */}
       <NewStickerPopup

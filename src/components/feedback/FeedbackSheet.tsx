@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Text} from '../common/AppText';
 import {Emoji} from '../common/Emoji';
+import {Mascot} from '../common/Mascot';
 import Animated, {
   BounceIn,
   useAnimatedStyle,
@@ -70,6 +71,12 @@ export function FeedbackSheet({
           {borderColor: isCorrect ? '#22C55E' : '#F59E0B'},
           animStyle,
         ]}>
+        {/* The mascot reacts from the card's corner — jumping for a right
+            answer, scratching its head (never sad) for a wrong one.
+            Absolute, so the card keeps its size either way. */}
+        <View style={styles.mascot}>
+          <Mascot pose={isCorrect ? 'jump' : 'think'} height={72} />
+        </View>
         {isCorrect && stars > 0 && (
           <View style={styles.starsRow}>
             {Array.from({length: 3}).map((_, i) => (
@@ -123,6 +130,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 8,
     minWidth: 240,
+    // room on the left for the mascot's peek
+    paddingLeft: 44,
+  },
+  mascot: {
+    position: 'absolute',
+    left: -30,
+    top: -46,
   },
   starsRow: {
     flexDirection: 'row',
