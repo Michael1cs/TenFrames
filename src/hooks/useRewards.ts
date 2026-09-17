@@ -135,7 +135,11 @@ export function useRewards() {
             ...prev.stats.byMode,
             [mode]: {
               attempted: modeStats.attempted + 1,
-              correct: modeStats.correct + 1,
+              // Only a first-try success counts as correct. This used to
+              // add one for every solved problem, however many tries it
+              // took, so the paid parent dashboard reported 100% in every
+              // mode and could never point at what needed practice.
+              correct: modeStats.correct + (wasFirstTry ? 1 : 0),
             },
           },
         };

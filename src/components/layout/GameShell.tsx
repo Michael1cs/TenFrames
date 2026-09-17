@@ -684,6 +684,17 @@ function useShellState(
       game.setTheme(data.theme);
       if (data.name) game.setPlayerName(data.name);
 
+      // A language the family picked outlives setup: a Romanian family on an
+      // English phone taps RO on Home, and it used to be back in English at
+      // the next launch, with every spoken instruction in a language the
+      // child may not understand.
+      if (!hasOnboarded && data.languagePicked) {
+        game.setLanguage(data.language);
+        i18n.changeLanguage(data.language);
+        if (data.lastMode === 'adventure') target = 'AdventureWorlds';
+        else if (data.lastMode === 'freeplay') target = 'FreePlay';
+      }
+
       if (hasOnboarded) {
         // Language is the one preference that must NOT be taken from the
         // defaults: defaultPlayerData hard-codes 'ro', so applying it on a
@@ -973,7 +984,7 @@ function useShellState(
     (lang: Language) => {
       game.setLanguage(lang);
       i18n.changeLanguage(lang);
-      savePlayerData({language: lang});
+      savePlayerData({language: lang, languagePicked: true});
     },
     [game, savePlayerData],
   );

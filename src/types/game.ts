@@ -58,6 +58,12 @@ export interface PlayerData {
   // '' and cannot mark anything. Absent on saves written before v1.6.1 —
   // read it through the `data.onboarded ?? data.name !== ''` migration.
   onboarded?: boolean;
+  // Someone actually picked a language (the flags on Home, in About, or in
+  // setup). `language` alone cannot say that: defaultPlayerData carries 'ro',
+  // so a stored value may simply be the default. Children who only play
+  // Adventure never go through setup, and their choice used to be dropped on
+  // every launch.
+  languagePicked?: boolean;
 }
 
 // === Reward System Types ===
