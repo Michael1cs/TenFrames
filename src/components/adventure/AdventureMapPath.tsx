@@ -46,15 +46,6 @@ export function AdventureMapPath({
   // level, inviting a tap that ends at the price sheet.
   const nextPlayableId = nextPlayableLevel(world, progress, isPremium)?.id;
 
-  // Auto-scroll to current level (near bottom since reversed)
-  useEffect(() => {
-    if (scrollRef.current) {
-      // Scroll to bottom on mount (where level 1 is)
-      setTimeout(() => {
-        scrollRef.current?.scrollToEnd({animated: true});
-      }, 400);
-    }
-  }, [world.id]);
 
   const worldStars = getWorldStars(world.id, progress);
   const maxStars = getWorldMaxStars(world.id);
@@ -69,6 +60,24 @@ export function AdventureMapPath({
   };
 
   const verticalSpacing = isTablet ? 160 : 124;
+
+  // Open on the level the child is at. The map always scrolled to the
+  // bottom (level 1), so past level ~5 the pulsing "you are here" node was
+  // off-screen and the child had to know to scroll up.
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const index = levelsBottomUp.findIndex(l => l.id === nextPlayableId);
+      if (index < 0) {
+        scrollRef.current?.scrollToEnd({animated: true});
+        return;
+      }
+      const y = Math.max(0, index * verticalSpacing - 220);
+      scrollRef.current?.scrollTo({y, animated: true});
+    }, 400);
+    return () => clearTimeout(timer);
+    // Runs when the world changes or a level is finished (the marker moves).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [world.id, nextPlayableId]);
 
   return (
     <ScrollView

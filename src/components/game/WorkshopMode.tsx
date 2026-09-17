@@ -14,7 +14,10 @@ import {Emoji} from '../common/Emoji';
 import {BackgroundEmoji, ThemeColors} from '../../types/game';
 import {useLayout} from '../../hooks/useLayout';
 import {getAllThemes} from '../../hooks/useTheme';
-import {useVoice, VOICE_GROUPS} from '../../hooks/useVoice';
+import {useVoice, VOICE_GROUPS, clearPendingVoiceQueue} from '../../hooks/useVoice';
+
+// Same settle as Free Play counting: the number is said once tapping stops.
+const COUNT_VOICE_SETTLE_MS = 250;
 import {useSound} from '../../hooks/useSound';
 
 interface WorkshopModeProps {
@@ -224,20 +227,22 @@ export function WorkshopMode({
   const prevCountRef = useRef(filledCount);
   useEffect(() => {
     const prev = prevCountRef.current;
-    if (filledCount !== prev) {
-      if (filledCount > prev) playSoundRef.current('tap');
-      if (filledCount >= 1 && filledCount <= 10) {
-        voiceRef.current.play(`num_${filledCount}`);
-      }
-      if (filledCount > prev && (filledCount === 5 || filledCount === 10)) {
-        // Brief celebratory praise on milestones; star sound for full.
-        setTimeout(() => {
-          voiceRef.current.playRandom(VOICE_GROUPS.correct);
-          if (filledCount === 10) playSoundRef.current('star');
-        }, 700);
-      }
-    }
     prevCountRef.current = filledCount;
+    if (filledCount === prev) return;
+    if (filledCount > prev) playSoundRef.current('tap');
+    if (filledCount < 1 || filledCount > 10) return;
+    // Spoken once the tapping settles, as Counting does: a child stamping
+    // ten cells in two seconds used to queue ten seconds of "one... two...",
+    // with the cheer landing somewhere in the middle of it.
+    const timer = setTimeout(() => {
+      clearPendingVoiceQueue();
+      voiceRef.current.play(`num_${filledCount}`);
+      if (filledCount === 10 && filledCount > prev) {
+        voiceRef.current.playRandom(VOICE_GROUPS.correct);
+        playSoundRef.current('star');
+      }
+    }, COUNT_VOICE_SETTLE_MS);
+    return () => clearTimeout(timer);
   }, [filledCount]);
 
   const handleCellPress = (idx: number) => {

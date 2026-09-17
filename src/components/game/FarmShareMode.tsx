@@ -30,6 +30,10 @@ interface FarmShareModeProps {
   // Fires when the pool empties but the split is unfair, so the parent can
   // play the "make it fair" voice cue.
   onUnfair?: () => void;
+  // Fires on every give/take, so the level can tell a busy child from a
+  // stalled one: the 10s instruction replay used to talk over a child who
+  // was in the middle of sharing.
+  onInteract?: () => void;
 }
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -201,6 +205,7 @@ export function FarmShareMode({
   showOverflowHint = false,
   onMatch,
   onUnfair,
+  onInteract,
 }: FarmShareModeProps) {
   const [baskets, setBaskets] = useState<number[]>([]);
   const matchedRef = useRef(false);
@@ -208,6 +213,8 @@ export function FarmShareMode({
   const onUnfairRef = useRef(onUnfair);
   onMatchRef.current = onMatch;
   onUnfairRef.current = onUnfair;
+  const onInteractRef = useRef(onInteract);
+  onInteractRef.current = onInteract;
 
   // Reset whenever the problem changes.
   useEffect(() => {
@@ -254,10 +261,12 @@ export function FarmShareMode({
     .map((_, i) => (i < remaining ? 'filled' : 'empty')) as CellState[];
 
   const addTo = (i: number) => {
+    onInteractRef.current?.();
     if (remaining <= 0) return;
     setBaskets(prev => prev.map((c, j) => (j === i ? c + 1 : c)));
   };
   const removeFrom = (i: number) => {
+    onInteractRef.current?.();
     setBaskets(prev => prev.map((c, j) => (j === i && c > 0 ? c - 1 : c)));
   };
 

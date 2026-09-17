@@ -194,6 +194,19 @@ export function AdventureLevelScreen({
   // walkthrough builds the answer cell by cell.
   const [hintCells, setHintCells] = useState<number[]>([]);
   const [assisting, setAssisting] = useState(false);
+  // The success moment must last even when the voice is off: useVoice calls
+  // the completion callback at once then, and the level jumped straight to
+  // the next problem — the child never saw that they were right. With the
+  // voice on, the praise itself is longer than the beat, so nothing changes.
+  const afterBeat = useCallback((fn: () => void, ms = 1100) => {
+    const at = Date.now();
+    return () => {
+      const wait = Math.max(0, ms - (Date.now() - at));
+      const t = setTimeout(fn, wait);
+      assistTimersRef.current.push(t);
+    };
+  }, []);
+
   const assistTimersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   // Identifies the current walkthrough. A voice callback that arrives after
   // the child has moved on (next problem, level closed) must do nothing.
@@ -586,7 +599,7 @@ export function AdventureLevelScreen({
           VOICE_GROUPS.correct,
         );
         const praiseId = pool[Math.floor(Math.random() * pool.length)];
-        voiceRef.current.play(praiseId, advance);
+        voiceRef.current.play(praiseId, afterBeat(advance));
       } else {
         const themeId = ADVENTURE_WORLDS.find(w => w.id === level.worldId)?.theme;
         const noun = LEVEL_NOUN[level.id];
@@ -623,11 +636,11 @@ export function AdventureLevelScreen({
           : null;
 
         if (resultId && praiseId) {
-          voiceRef.current.playSequence([resultId, praiseId], 350, advance);
+          voiceRef.current.playSequence([resultId, praiseId], 350, afterBeat(advance));
         } else if (resultId) {
-          voiceRef.current.play(resultId, advance);
+          voiceRef.current.play(resultId, afterBeat(advance));
         } else if (praiseId) {
-          voiceRef.current.play(praiseId, advance);
+          voiceRef.current.play(praiseId, afterBeat(advance));
         } else {
           advance();
         }
@@ -681,7 +694,8 @@ export function AdventureLevelScreen({
         // Same request, different sentence — a repeat reads as a stuck record.
         voiceRef.current.playRandom(VOICE_GROUPS.tryAgain);
         if (level.gameMode === 'counting') {
-          voiceRef.current.play('instr_counting');
+          // Just the instruction again. The generic "tap the boxes and count"
+          // line in front of it made a first miss ~7s of speech.
           lastInstructionVoiceRef.current?.();
         } else if (level.gameMode === 'puzzle' && currentProblem) {
           for (const id of puzzleRetryIds(currentProblem.answer)) {
@@ -860,7 +874,7 @@ export function AdventureLevelScreen({
               ]
             : null;
         const ids = praiseId ? [`num_${n}`, praiseId] : [`num_${n}`];
-        voiceRef.current.playSequence(ids, 350, advance);
+        voiceRef.current.playSequence(ids, 350, afterBeat(advance));
         return;
       }
 
@@ -926,6 +940,11 @@ export function AdventureLevelScreen({
       if (finished || !compareProblem || (hasSubmitted && isCorrect)) return;
       dismissHint();
 
+      // A wrong tap schedules a 1.2s reset of the submitted state; a correct
+      // tap inside that window used to be wiped by it — the green highlight
+      // vanished and "Almost!" followed "Yes!". Cancel it first.
+      for (const t of assistTimersRef.current) clearTimeout(t);
+      assistTimersRef.current = [];
       if (side === compareProblem.correct) {
         setHasSubmitted(true);
         setIsCorrect(true);
@@ -1279,12 +1298,14 @@ export function AdventureLevelScreen({
                     styles.dot,
                     isActive && styles.dotActive,
                     {
+                      // Done / current / still to come. Finished pips used
+                      // to be green or RED by first-try result, so a problem
+                      // the child got through with help sat there as a
+                      // failure for the rest of the level — in a colour pair
+                      // a colour-blind child cannot tell apart. Quality is
+                      // rewarded by the stars at the end, not here.
                       backgroundColor:
-                        i < problemIndex
-                          ? levelState.results[i]
-                            ? '#22C55E'
-                            : '#EF4444'
-                          : isActive
+                        i < problemIndex || isActive
                           ? '#FFFFFF'
                           : 'rgba(255,255,255,0.3)',
                     },
@@ -1339,6 +1360,7 @@ export function AdventureLevelScreen({
                   setAttempts(prev => prev + 1);
                   voiceRef.current.play('share_unfair');
                 }}
+                onInteract={dismissHint}
               />
             );
           })()

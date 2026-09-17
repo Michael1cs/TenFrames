@@ -22,6 +22,7 @@ import Animated, {
 import {useTranslation} from 'react-i18next';
 import {Emoji} from '../common/Emoji';
 import {useVoice} from '../../hooks/useVoice';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {LanguageSwitcher} from '../layout/LanguageSwitcher';
 import {Bouncy} from '../common/Bouncy';
 import {WorldIcon} from '../adventure/WorldIcon';
@@ -183,6 +184,11 @@ export function ModeChoice({
 
   const {width, height} = useWindowDimensions();
   const isLandscape = width > height;
+  // The bar used to float at a fixed 50pt: no safe-area inset, and on a
+  // 667pt phone the centred column started at the same height, so the flags
+  // pill sat on the logo frame. The column now keeps clear of the bar.
+  const insets = useSafeAreaInsets();
+  const barTop = insets.top + 8;
   // Everything on this screen was sized for a phone: a 360pt card column, a
   // 22pt wordmark and 28pt brand cells. On a 13" iPad that column occupies a
   // third of a 1032pt-wide screen and the whole composition collapses into a
@@ -218,7 +224,7 @@ export function ModeChoice({
             reads cleanly against the cosmic art. On first-run pickers (no
             homeBar) the screen renders without any chrome. */}
         {homeBar ? (
-          <View style={styles.topBar} pointerEvents="box-none">
+          <View style={[styles.topBar, {top: barTop}]} pointerEvents="box-none">
             <Pressable
               onPress={homeBar.onDashboard}
               style={styles.topPillSingle}>
@@ -237,14 +243,14 @@ export function ModeChoice({
             </View>
           </View>
         ) : (
-          <View style={styles.langPicker} pointerEvents="box-none">
+          <View style={[styles.langPicker, {top: barTop}]} pointerEvents="box-none">
             <LanguageSwitcher
               language={language}
               onLanguageChange={onLanguageChange}
             />
           </View>
         )}
-        <View style={styles.overlay}>
+        <View style={[styles.overlay, {paddingTop: barTop + 52}]}>
           {/* Decorative floating emojis */}
           <FloatingSpark size={14} style={styles.bgEmoji1} />
           <FloatingSpark size={10} style={styles.bgEmoji2} />
@@ -420,13 +426,11 @@ const styles = StyleSheet.create({
   },
   langPicker: {
     position: 'absolute',
-    top: 50,
     right: 16,
     zIndex: 10,
   },
   topBar: {
     position: 'absolute',
-    top: 50,
     left: 12,
     right: 12,
     zIndex: 10,
