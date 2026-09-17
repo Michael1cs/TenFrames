@@ -1052,6 +1052,8 @@ function useShellState(
         // undefined and calling it directly threw a TypeError — which, in a
         // release build, is a hard crash the moment a free user taps a
         // premium-locked Adventure level.
+        // Said to the child, who can't read the sheet that's about to open.
+        voice.play('ask_parent');
         navigationRef.current?.dispatch(StackActions.popToTop());
         setShowUpgrade(true);
         return false;
@@ -1062,7 +1064,7 @@ function useShellState(
       setAdventureIsNewBest(false);
       return true;
     },
-    [adventure, premium.isPremium, navigationRef],
+    [adventure, premium.isPremium, navigationRef, voice],
   );
 
   const handleAdventureLevelComplete = useCallback(() => {
@@ -1097,6 +1099,8 @@ function useShellState(
       ) {
         adventure.exitLevel();
         setAdventureStars(null);
+        // Said to the child, who can't read the sheet that's about to open.
+        voice.play('ask_parent');
         navigationRef.current?.dispatch(StackActions.popToTop());
         setShowUpgrade(true);
         return;

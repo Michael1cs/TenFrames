@@ -288,6 +288,11 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'world_doubles_castle', ro: 'Castelul dublurilor!', en: "Doubles Castle!", de: 'Doppel-Schloss!'},
   {id: 'world_memory_garden', ro: 'Grădina memoriei!', en: "Memory Garden!", de: 'Gedächtnis-Garten!'},
   {id: 'world_farm_share', ro: 'Împarte la fermă!', en: "Farm Share!", de: 'Bauernhof teilen!'},
+  {id: 'world_high_five', ro: 'Bat palma!', en: "High Five!", de: 'Gib fünf!'},
+  {id: 'world_monster_more', ro: 'Monștri flămânzi!', en: "Hungry Monsters!", de: 'Hungrige Monster!'},
+  {id: 'world_number_town', ro: 'Orașul numerelor!', en: "Number Town!", de: 'Zahlenstadt!'},
+  // A crowned level was tapped by a child who can't read the upgrade sheet.
+  {id: 'ask_parent', ro: 'Aici e nevoie de un părinte. Roagă-l să te ajute!', en: "This one needs a grown-up. Ask a parent to help!", de: 'Hier brauchst du einen Erwachsenen. Frag deine Eltern!'},
   {id: 'share_intro', ro: 'Împarte mâncarea la fel pentru fiecare!', en: "Share the food fairly with everyone!", de: 'Teile das Essen gerecht für alle!'},
   {id: 'share_again', ro: 'Fă-o corect, fiecare la fel!', en: "Make it fair, the same for each!", de: 'Mach es gerecht, gleich viele für jeden!'},
   {id: 'share_unfair', ro: 'Unul are mai mult. Încearcă să fie egal.', en: "One has more. Try to make it fair.", de: 'Einer hat mehr. Versuch es gerecht zu machen.'},

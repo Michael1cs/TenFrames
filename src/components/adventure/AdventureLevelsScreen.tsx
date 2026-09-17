@@ -27,6 +27,9 @@ const WORLD_VOICE: Partial<Record<WorldId, string>> = {
   'doubles-castle': 'world_doubles_castle',
   'memory-garden': 'world_memory_garden',
   'farm-share': 'world_farm_share',
+  'high-five': 'world_high_five',
+  'monster-more': 'world_monster_more',
+  'number-town': 'world_number_town',
 };
 
 interface Props {
