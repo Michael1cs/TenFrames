@@ -98,3 +98,19 @@ jest.mock('react-native-iap', () => ({
   getAvailablePurchases: jest.fn(async () => []),
   PurchaseStateAndroid: {PENDING: 2, PURCHASED: 1, UNSPECIFIED: 0},
 }));
+
+// Haptics are a no-op under test; the enum is mirrored so useSound's map
+// builds without the native module.
+jest.mock('react-native-haptic-feedback', () => ({
+  __esModule: true,
+  default: {trigger: jest.fn()},
+  HapticFeedbackTypes: {
+    impactLight: 'impactLight',
+    impactMedium: 'impactMedium',
+    impactHeavy: 'impactHeavy',
+    notificationSuccess: 'notificationSuccess',
+    notificationWarning: 'notificationWarning',
+    notificationError: 'notificationError',
+    selection: 'selection',
+  },
+}));
