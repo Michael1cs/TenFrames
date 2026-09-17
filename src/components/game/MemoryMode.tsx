@@ -75,14 +75,30 @@ export function MemoryMode({
   // Used to record an attempt even if they self-correct before grace expires.
   const hadWrongRef = useRef(false);
   const retryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const advanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // A child who simply isn't tapping gets the pattern shown again ONCE.
+  // Without this latch the show/input cues repeated every ~10s forever, which
+  // is the "talks too much" complaint at its worst: a child who looked away
+  // came back to an app that had been calling after them the whole time.
+  const idleReshownRef = useRef(false);
   useEffect(() => {
     correctFiredRef.current = false;
     hadWrongRef.current = false;
+    idleReshownRef.current = false;
     if (retryTimerRef.current) {
       clearTimeout(retryTimerRef.current);
       retryTimerRef.current = null;
     }
   }, [challenge]);
+
+  // Nothing may keep talking once the level is closed mid-show.
+  useEffect(
+    () => () => {
+      if (retryTimerRef.current) clearTimeout(retryTimerRef.current);
+      if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
+    },
+    [],
+  );
 
   // Inactivity guard: if the child stares at the input phase without
   // touching anything for ~8s, re-show the pattern automatically. Otherwise
@@ -94,12 +110,14 @@ export function MemoryMode({
     if (correctFiredRef.current) return;
     if (filledCount === challenge.targetCount && patternMatches) return;
 
+    if (idleReshownRef.current) return;
+
     const timer = setTimeout(() => {
       if (correctFiredRef.current) return;
-      if (!hadWrongRef.current) {
-        hadWrongRef.current = true;
-        onWrongRef.current();
-      }
+      // Showing the pattern again is help, not a verdict. This used to call
+      // onWrong, so a child who was only thinking lost the first-try stars
+      // and heard "Almost!" without having touched a single cell.
+      idleReshownRef.current = true;
       setUserCells(Array(10).fill('empty'));
       setPhase('show');
       onPhaseChangeRef.current?.('show', challenge.targetCount);
@@ -125,7 +143,7 @@ export function MemoryMode({
         setPhase('reveal');
         onPhaseChangeRef.current?.('reveal', challenge.targetCount);
         // Brief pause so the praise clip finishes before advancing.
-        setTimeout(() => onCorrectRef.current(), 1200);
+        advanceTimerRef.current = setTimeout(() => onCorrectRef.current(), 1200);
       }, 1500);
       return () => clearTimeout(timer);
     }
