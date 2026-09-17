@@ -42,7 +42,6 @@ export interface GameState {
   isCorrect: boolean | null;
   hasSubmitted: boolean;
   mascotMood: MascotMood;
-  showConfetti: boolean;
 }
 
 export interface PlayerData {

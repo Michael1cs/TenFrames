@@ -23,7 +23,6 @@ export function useGameState() {
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [mascotMood, setMascotMood] = useState<MascotMood>('happy');
-  const [showConfetti, setShowConfetti] = useState(false);
   const [puzzleAnswer, setPuzzleAnswer] = useState(5);
   const [shareProblem, setShareProblem] = useState<ShareProblem | null>(null);
   const [showPuzzleAnswer, setShowPuzzleAnswer] = useState(false);
@@ -226,8 +225,6 @@ export function useGameState() {
     if (shouldLevelUp(score, level)) {
       setLevel(prev => prev + 1);
       setMascotMood('celebrating');
-      setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 3000);
     }
   }, [score, level]);
 
@@ -391,7 +388,6 @@ export function useGameState() {
       setScore(prev => prev + 1);
       setStreak(prev => prev + 1);
       setHasSubmitted(true);
-      setShowConfetti(true);
       setMascotMood('excited');
 
       // Level-up: after 3 correct in a row at current level
@@ -412,7 +408,6 @@ export function useGameState() {
       // the kid hears the full sentence + has a beat to settle before the
       // next problem appears. A frame tap skips ahead.
       scheduleAdvance(() => {
-        setShowConfetti(false);
         doGenerateProblem();
       }, 5000);
     } else {
@@ -458,7 +453,6 @@ export function useGameState() {
         setScore(prev => prev + 1);
         setStreak(prev => prev + 1);
         setHasSubmitted(true);
-        setShowConfetti(true);
         setMascotMood('excited');
         setLevelCorrectStreak(prev => {
           const newStreak = prev + 1;
@@ -469,7 +463,6 @@ export function useGameState() {
           return newStreak;
         });
         scheduleAdvance(() => {
-          setShowConfetti(false);
           doGenerateProblem();
         }, 5000);
       } else {
@@ -499,7 +492,6 @@ export function useGameState() {
         setScore(prev => prev + 1);
         setStreak(prev => prev + 1);
         setHasSubmitted(true);
-        setShowConfetti(true);
         setMascotMood('excited');
         setLevelCorrectStreak(prev => {
           const newStreak = prev + 1;
@@ -510,7 +502,6 @@ export function useGameState() {
           return newStreak;
         });
         scheduleAdvance(() => {
-          setShowConfetti(false);
           doGenerateProblem();
         }, 4000);
       } else {
@@ -537,10 +528,8 @@ export function useGameState() {
       setMascotMood('excited');
       setScore(prev => prev + 1);
       setStreak(prev => prev + 1);
-      setShowConfetti(true);
 
       scheduleAdvance(() => {
-        setShowConfetti(false);
         setShowPuzzleAnswer(false);
         setIsCorrect(null);
         const newNum = generatePuzzleNumber();
@@ -616,7 +605,6 @@ export function useGameState() {
     isCorrect,
     hasSubmitted,
     mascotMood,
-    showConfetti,
     puzzleAnswer,
     showPuzzleAnswer,
     feedback,

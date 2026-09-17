@@ -57,6 +57,7 @@ import {
 } from '../../voice/adventureNarration';
 import {WrongFlash} from '../feedback/WrongFlash';
 import {TapHint} from '../feedback/TapHint';
+import {Mascot} from '../common/Mascot';
 import {PadHint} from '../feedback/PadHint';
 import {useReduceMotion} from '../../hooks/useReduceMotion';
 import {buildAssistPlan, cellsToChange} from '../../utils/hintLadder';
@@ -1437,7 +1438,7 @@ export function AdventureLevelScreen({
                   <Animated.View
                     entering={BounceIn.duration(400)}
                     style={styles.feedbackBox}>
-                    <Text style={styles.feedbackEmoji}><Emoji>🎉</Emoji></Text>
+                    <Mascot pose="jump" height={64} />
                     <Text style={styles.feedbackCorrect}>{t('feedback.correct')}</Text>
                   </Animated.View>
                 )}
@@ -1445,7 +1446,7 @@ export function AdventureLevelScreen({
                   <Animated.View
                     entering={FadeIn.duration(300)}
                     style={styles.feedbackBox}>
-                    <Text style={styles.feedbackEmoji}><Emoji>🤔</Emoji></Text>
+                    <Mascot pose="think" height={64} />
                     <Text style={styles.feedbackWrong}>{t('feedback.tryAgain')}</Text>
                   </Animated.View>
                 )}
@@ -1598,9 +1599,6 @@ const styles = StyleSheet.create({
   feedbackBox: {
     alignItems: 'center',
     gap: 4,
-  },
-  feedbackEmoji: {
-    fontSize: 40,
   },
   feedbackCorrect: {
     fontSize: 16,
