@@ -341,6 +341,5 @@ export const VOICE_GROUPS = {
   okCounting: ['ok_count_1', 'ok_total_2'],
   okAddition: ['ok_total_1', 'ok_total_2'],
   okSubtraction: ['ok_left_1'],
-  okPuzzle: ['ok_full_1'],
   okMemory: ['ok_memory_1'],
 };
