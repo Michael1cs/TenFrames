@@ -138,7 +138,7 @@ Touchpoints to verify before publishing on Google Play:
 ## Pending follow-ups (after release)
 
 - Drag-and-drop alternative for Farm Share (current is +/− buttons,
-  which already works for 4–6yo; drag is a polish step).
+  which already works for 4–7yo; drag is a polish step).
 - Mascot Zee Lottie animation + per-world ambient music (B3 from prior
   session, deferred — needs art/audio assets).
 - More worlds long-term (Compare, Twins, Skip-counting, Patterns).

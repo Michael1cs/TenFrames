@@ -8,7 +8,10 @@ import {
   ThemeColors,
   ThemeConfig,
 } from '../../types/game';
-import {ADVENTURE_WORLDS} from '../../config/adventureWorlds';
+import {
+  ADVENTURE_WORLDS,
+  WORLD_VOICE_IDS,
+} from '../../config/adventureWorlds';
 import {AdventureMapPath} from './AdventureMapPath';
 import {getAllThemes} from '../../hooks/useTheme';
 import {useVoice} from '../../hooks/useVoice';
@@ -18,19 +21,6 @@ import {WorldIcon} from './WorldIcon';
 // without one simply isn't announced, because the call site below guards with
 // `if (clip)`. That is the whole trade that lets a new world ship at zero voice
 // cost — its levels are fully narrated, only its title is silent.
-const WORLD_VOICE: Partial<Record<WorldId, string>> = {
-  'counting-meadow': 'world_counting_meadow',
-  'addition-island': 'world_addition_island',
-  'subtraction-mountain': 'world_subtraction_mountain',
-  'make-ten-beach': 'world_make_ten_beach',
-  'mixed-targets': 'world_mixed_targets',
-  'doubles-castle': 'world_doubles_castle',
-  'memory-garden': 'world_memory_garden',
-  'farm-share': 'world_farm_share',
-  'high-five': 'world_high_five',
-  'monster-more': 'world_monster_more',
-  'number-town': 'world_number_town',
-};
 
 interface Props {
   worldId: WorldId;
@@ -65,8 +55,7 @@ export function AdventureLevelsScreen({
   const worldColors = worldTheme?.colors ?? fallbackColors;
 
   useEffect(() => {
-    const clip = WORLD_VOICE[worldId];
-    if (clip) voiceRef.current.play(clip);
+    voiceRef.current.play(WORLD_VOICE_IDS[worldId]);
   }, [worldId]);
 
   if (!world) return null;

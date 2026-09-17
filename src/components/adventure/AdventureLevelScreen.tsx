@@ -1448,7 +1448,7 @@ export function AdventureLevelScreen({
                     <Text style={styles.feedbackWrong}>{t('feedback.tryAgain')}</Text>
                   </Animated.View>
                 )}
-                {/* Manual ✓ button removed — auto-submit handles it for 4-6 ages. */}
+                {/* Manual ✓ button removed — auto-submit handles it for 4-7 ages. */}
               </View>
             )}
           </>

@@ -59,6 +59,7 @@ import {ADVENTURE_WORLDS, isLevelPremiumLocked} from '../../config/adventureWorl
 import {useAdventure} from '../../hooks/useAdventure';
 import {AdventureWorldsScreen} from '../adventure/AdventureWorldsScreen';
 import {TapHint} from '../feedback/TapHint';
+import {useStallNudge} from '../../hooks/useStallNudge';
 import {AdventureLevelsScreen} from '../adventure/AdventureLevelsScreen';
 import {AdventureLevelScreen} from '../adventure/AdventureLevelScreen';
 import i18n from '../../i18n';
@@ -594,32 +595,13 @@ function useShellState(
   // and generates the next problem, but we don't want to narrate it).
   const freePlayFocusedRef = useRef(false);
 
-  // When a child stalls on a Free Play problem: a pulsing hand at 4s, and
-  // the instruction spoken once more at 10s — the same two nudges the
-  // Adventure levels give. Any tap on a cell, or the answer landing, cancels
-  // both. The replay is the instruction only, without the optional
-  // restatement, so a stuck child hears the shortest possible cue.
-  const [showTapHint, setShowTapHint] = useState(false);
-  const stallHintTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const stallReplayTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const cancelStallNudge = useCallback(() => {
-    if (stallHintTimerRef.current) clearTimeout(stallHintTimerRef.current);
-    if (stallReplayTimerRef.current) clearTimeout(stallReplayTimerRef.current);
-    stallHintTimerRef.current = null;
-    stallReplayTimerRef.current = null;
-    setShowTapHint(false);
-  }, []);
-  const armStallNudge = useCallback(
-    (replay: () => void) => {
-      cancelStallNudge();
-      stallHintTimerRef.current = setTimeout(() => setShowTapHint(true), 4000);
-      stallReplayTimerRef.current = setTimeout(() => {
-        if (freePlayFocusedRef.current) replay();
-      }, 10000);
-    },
-    [cancelStallNudge],
-  );
-  useEffect(() => cancelStallNudge, [cancelStallNudge]);
+  // A child who stalls on an addition or subtraction problem gets the same
+  // two nudges as in Adventure: the hand at 4s, the instruction again at 10s.
+  const {
+    showHint: showTapHint,
+    arm: armStallNudge,
+    cancel: cancelStallNudge,
+  } = useStallNudge({canReplay: () => freePlayFocusedRef.current});
   const game = useGameState();
   const themeConfig = useTheme(game.theme);
   const {colors} = themeConfig;

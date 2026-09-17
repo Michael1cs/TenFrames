@@ -47,7 +47,7 @@ export function usePersistence() {
         // doesn't match our supported set). Falling through to a bad value
         // causes downstream voice playback / i18n lookups to misbehave.
         const language = isAllowedLang(parsed.language) ? parsed.language : 'en';
-        // v1.6: app re-targeted at 4-6 age group — migrate older players to young.
+        // v1.6: app re-targeted at 4-7 age group — migrate older players to young.
         return {...defaultPlayerData, ...parsed, language};
       }
     } catch {

@@ -25,7 +25,7 @@ import {
 } from '../../types/game';
 import {
   ADVENTURE_WORLDS,
-  isLevelPremiumLocked,
+  pickRecommendedWorld,
 } from '../../config/adventureWorlds';
 import {getAllThemes} from '../../hooks/useTheme';
 import {useVoice} from '../../hooks/useVoice';
@@ -40,50 +40,6 @@ const GRID_GAP = 12;
 // The same clay map icon the Free Play bar uses for Adventure, so the title
 // carries the picture the child just tapped to get here.
 const ADVENTURE_ICON = require('../../../assets/icons/mode_adventure.png');
-
-// How many of a world's levels the child has finished. Bonus levels count:
-// the progress frame only fills completely when the whole world is done.
-function countCompleted(
-  world: AdventureWorld,
-  progress: AdventureProgress,
-): number {
-  const levels = progress.worlds[world.id]?.levels ?? {};
-  return world.levels.reduce(
-    (n, level) => n + (levels[level.id]?.completed ? 1 : 0),
-    0,
-  );
-}
-
-// The card the child should tap next. "Playable" means the world has a
-// level the child can open right now: reached by progression and not behind
-// the crown for a free user (the same rule the map's crowns use, so the
-// pulse never points at a locked level). Among playable worlds, prefer the
-// furthest one the child has already started — that's where they are —
-// and fall back to the first playable one on a fresh install. A pre-reader
-// can't scan eleven names for "where was I?", so this card pulses instead,
-// the way the current level pulses on the map inside.
-function pickRecommended(
-  progress: AdventureProgress,
-  isPremium: boolean,
-): WorldId | null {
-  const playable = (w: AdventureWorld) => {
-    const wp = progress.worlds[w.id];
-    if (!wp?.unlocked) return false;
-    return w.levels.some(level => {
-      const lp = wp.levels[level.id];
-      return (
-        !!lp?.unlocked &&
-        !lp.completed &&
-        !isLevelPremiumLocked(w, level, lp, isPremium)
-      );
-    });
-  };
-  const started = (w: AdventureWorld) => countCompleted(w, progress) > 0;
-  const furthestStarted = [...ADVENTURE_WORLDS]
-    .reverse()
-    .find(w => started(w) && playable(w));
-  return (furthestStarted ?? ADVENTURE_WORLDS.find(playable))?.id ?? null;
-}
 
 interface Props {
   progress: AdventureProgress;
@@ -134,7 +90,7 @@ export function AdventureWorldsScreen({
   );
 
   const allThemes = getAllThemes();
-  const recommended = pickRecommended(progress, isPremium);
+  const recommended = pickRecommendedWorld(progress, isPremium);
 
   return (
     <ImageBackground

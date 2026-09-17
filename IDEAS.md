@@ -75,7 +75,7 @@ so the tension is visible, not so it gets re-argued:
 
 | Concept | School years | Voice cost | Expands the range? |
 |---|---|---|---|
-| Ten Frames *(shipped)* | Reception / K, ages 4–6 | — | beachhead |
+| Ten Frames *(shipped)* | Reception / K, ages 4–7 | — | beachhead |
 | **Rekenrek** | same as Ten Frames | ~30 clips | **no — overlaps** |
 | **Number Bonds** | K–Y1 | ~30 clips | barely |
 | **Base Ten / Place Value** | Y1–Y3, ages 6–8 | ~270 clips + regrouping | **yes, one full band up** |

@@ -8,20 +8,12 @@ import {
 } from 'react-native';
 import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
-import {ThemeColors} from '../../types/game';
-import {ALL_STICKERS} from '../../utils/rewardData';
+import {Sticker, ThemeColors} from '../../types/game';
+import {ALL_STICKERS, stickerVoiceId} from '../../utils/rewardData';
 import {Emoji} from '../common/Emoji';
 import {Bouncy} from '../common/Bouncy';
 import {useVoice} from '../../hooks/useVoice';
-import {Sticker} from '../../types/game';
 
-// What a sticker says when a child taps it. Number stickers say their
-// number with the clips the counting game already uses; every other one
-// has its own name line.
-function stickerVoiceId(sticker: Sticker): string {
-  const n = /^num-(\d+)$/.exec(sticker.id);
-  return n ? `num_${n[1]}` : `stk_${sticker.id}`;
-}
 
 interface StickerBookProps {
   visible: boolean;

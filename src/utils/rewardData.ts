@@ -169,3 +169,11 @@ export const WRONG_FEEDBACK_KEYS = [
   'feedback.almostThere',
   'feedback.keepTrying',
 ];
+
+// What a sticker says when a child taps it in the album. Number stickers
+// say their number with the clips the counting game already uses; every
+// other sticker has its own name line (stk_<id>).
+export function stickerVoiceId(sticker: Sticker): string {
+  const n = /^num-(\d+)$/.exec(sticker.id);
+  return n ? `num_${n[1]}` : `stk_${sticker.id}`;
+}

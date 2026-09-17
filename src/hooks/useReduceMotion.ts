@@ -7,7 +7,7 @@ import {AccessibilityInfo} from 'react-native';
  *
  * The app's celebrations are deliberately busy — twenty particles on a correct
  * answer, falling confetti between problems, a full-screen burst on level
- * complete. That is right for most 4-6 year olds and wrong for a child with
+ * complete. That is right for most 4-7 year olds and wrong for a child with
  * vestibular sensitivity or a seizure disorder, whose parent has already set
  * this switch and expects apps to honour it.
  *

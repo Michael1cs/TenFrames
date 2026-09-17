@@ -2,8 +2,9 @@ import {
   ADVENTURE_WORLDS,
   getDefaultAdventureProgress,
   isLevelPremiumLocked,
+  pickRecommendedWorld,
 } from '../src/config/adventureWorlds';
-import {AdventureLevelProgress} from '../src/types/game';
+import {AdventureLevelProgress, AdventureProgress, WorldId} from '../src/types/game';
 
 const ALL_LEVELS = ADVENTURE_WORLDS.flatMap(w => w.levels);
 
@@ -138,5 +139,57 @@ describe('premium locking', () => {
     // "unlocked" as owned would hand every new player the paid levels.
     const mtb = world('make-ten-beach');
     expect(isLevelPremiumLocked(mtb, level('make-ten-beach', 2), unlocked, false)).toBe(true);
+  });
+});
+
+describe('recommended world', () => {
+  // Finish the first `count` levels of a world and unlock the one after,
+  // the way playing through them would.
+  function play(progress: AdventureProgress, worldId: WorldId, count: number) {
+    const world = ADVENTURE_WORLDS.find(w => w.id === worldId)!;
+    world.levels.forEach((level, i) => {
+      const lp = progress.worlds[worldId].levels[level.id];
+      if (i < count) Object.assign(lp, {unlocked: true, completed: true, stars: 3, attempts: 1});
+      if (i === count) lp.unlocked = true;
+    });
+    return progress;
+  }
+
+  it('points a new player at the first world', () => {
+    expect(pickRecommendedWorld(getDefaultAdventureProgress(), false)).toBe('counting-meadow');
+  });
+
+  it('stays on the world the child is playing', () => {
+    const p = play(getDefaultAdventureProgress(), 'counting-meadow', 2);
+    expect(pickRecommendedWorld(p, false)).toBe('counting-meadow');
+  });
+
+  it('prefers the furthest world the child has started', () => {
+    const p = getDefaultAdventureProgress();
+    play(p, 'counting-meadow', 1);
+    play(p, 'addition-island', 1);
+    expect(pickRecommendedWorld(p, false)).toBe('addition-island');
+  });
+
+  it("never points a free player at a crown", () => {
+    // Hungry Monsters has one free level: once it's done, the next level is
+    // premium, so the pulse moves on to a world with something free left.
+    const p = play(getDefaultAdventureProgress(), 'monster-more', 1);
+    const mm = ADVENTURE_WORLDS.find(w => w.id === 'monster-more')!;
+    expect(mm.freeLevels).toBe(1);
+    const pick = pickRecommendedWorld(p, false);
+    expect(pick).not.toBe('monster-more');
+    expect(pick).toBe('counting-meadow');
+  });
+
+  it('keeps a premium player on the world they started', () => {
+    const p = play(getDefaultAdventureProgress(), 'monster-more', 1);
+    expect(pickRecommendedWorld(p, true)).toBe('monster-more');
+  });
+
+  it('moves on from a finished world', () => {
+    const cm = ADVENTURE_WORLDS.find(w => w.id === 'counting-meadow')!;
+    const p = play(getDefaultAdventureProgress(), 'counting-meadow', cm.levels.length);
+    expect(pickRecommendedWorld(p, true)).toBe('high-five');
   });
 });
