@@ -15,7 +15,11 @@ const emojiFont: TextStyle =
 
 export function Emoji({children, size, style}: EmojiProps) {
   return (
-    <Text style={[emojiFont, size ? {fontSize: size} : undefined, style]}>
+    // Emoji are sized from the layout (a cell, a card), so system text
+    // scaling only breaks them.
+    <Text
+      allowFontScaling={false}
+      style={[emojiFont, size ? {fontSize: size} : undefined, style]}>
       {children}
     </Text>
   );

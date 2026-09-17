@@ -222,7 +222,7 @@
   },
   "premium": {
     "dailyLimitTitle": "Great job today!",
-    "dailyLimitMessage": "You played awesome today! Come back tomorrow, or unlock everything!",
+    "dailyLimitMessage": "You played awesome today! Come back tomorrow.",
     "unlockAll": "Unlock everything",
     "comeBackTomorrow": "See you tomorrow!",
     "upgradeTitle": "Math with Smiles Premium",

@@ -249,12 +249,19 @@ export function AdventureLevelScreen({
       const probs: ShareProblem[] = [];
       const seen = new Set<string>();
       let tries = 0;
+      let lastKey: string | null = null;
       while (probs.length < problemCount && tries < 50) {
         const p = generateShareProblem(level.modeLevel);
         const key = `${p.total}-${p.buckets}`;
-        if (!seen.has(key) || tries > 30) {
+        // After 30 tries duplicates are allowed, but never the problem just
+        // pushed: on a two-value pool the generator alternates a,b,a,b, so
+        // try 31 always equalled the last one and the level ran a,b,b,a,b —
+        // and the repeated problem got no instruction, since its voice key
+        // had not changed.
+        if (!seen.has(key) || (tries > 30 && key !== lastKey)) {
           seen.add(key);
           probs.push(p);
+          lastKey = key;
         }
         tries++;
       }
@@ -263,12 +270,14 @@ export function AdventureLevelScreen({
       const challenges: CountingChallenge[] = [];
       const seen = new Set<string>();
       let tries = 0;
+      let lastKey: string | null = null;
       while (challenges.length < problemCount && tries < 50) {
         const c = generateCountingChallenge(level.modeLevel);
         const key = `${c.instruction}-${c.targetNumber}`;
-        if (!seen.has(key) || tries > 30) {
+        if (!seen.has(key) || (tries > 30 && key !== lastKey)) {
           seen.add(key);
           challenges.push(c);
+          lastKey = key;
         }
         tries++;
       }
@@ -277,6 +286,7 @@ export function AdventureLevelScreen({
       const problems: Problem[] = [];
       const seen = new Set<string>();
       let tries = 0;
+      let lastKey: string | null = null;
       while (problems.length < problemCount && tries < 50) {
         const rawTarget = level.puzzleTarget ?? 10;
         const target = rawTarget === 'mixed'
@@ -298,9 +308,10 @@ export function AdventureLevelScreen({
         const key = level.gameMode === 'answer'
           ? `${(p as AnswerProblem).slot}-${p.num1}-${p.num2}`
           : `${p.num1}-${p.num2}`;
-        if (!seen.has(key) || tries > 30) {
+        if (!seen.has(key) || (tries > 30 && key !== lastKey)) {
           seen.add(key);
           problems.push(p);
+          lastKey = key;
         }
         tries++;
       }
@@ -1354,7 +1365,11 @@ export function AdventureLevelScreen({
                 tokenImage={worldTheme?.tokenImage}
                 // Training-wheels: highlight overflowing baskets in red on
                 // the first two levels; later levels rely on voice alone.
-                showOverflowHint={level.modeLevel <= 2}
+                // Every level gets one voice-only try per problem; after an
+                // unfair split the cue shows. Six of eight levels used to be
+                // voice-only throughout, which excludes a child who cannot
+                // hear it.
+                showOverflowHint={level.modeLevel <= 2 || attempts > 0}
                 onMatch={() => onRecordResult(attempts === 0)}
                 onUnfair={() => {
                   setAttempts(prev => prev + 1);

@@ -38,17 +38,21 @@ export function DailyLimitModal({
             {t('premium.dailyLimitMessage')}
           </Text>
 
+          {/* The child sees this screen. Its one big button is the goodbye;
+              the purchase is a small line for the parent, and opens behind
+              the parental gate. It used to be the other way round, with
+              "Unlock everything ✨" as the bright button. */}
           <Pressable
-            onPress={onUpgrade}
+            onPress={onDismiss}
             style={[styles.upgradeButton, {backgroundColor: colors.primaryButton}]}>
             <Text style={styles.upgradeButtonText}>
-              {t('premium.unlockAll')} <Emoji>✨</Emoji>
+              {t('premium.comeBackTomorrow')}
             </Text>
           </Pressable>
 
-          <Pressable onPress={onDismiss} style={styles.dismissButton}>
-            <Text style={[styles.dismissText, {color: colors.accent}]}>
-              {t('premium.comeBackTomorrow')}
+          <Pressable onPress={onUpgrade} style={styles.dismissButton}>
+            <Text style={[styles.dismissText, {color: colors.text, opacity: 0.6}]}>
+              {t('premium.unlockAll')}
             </Text>
           </Pressable>
         </View>
