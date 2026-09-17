@@ -687,6 +687,7 @@ function useShellState(
       // Theme and age group restore unconditionally: loadPlayerData spreads
       // defaults over whatever is stored, so they are always present and valid.
       game.setTheme(data.theme);
+      game.restoreLevels(data.additionLevel, data.subtractionLevel);
       if (data.name) game.setPlayerName(data.name);
 
       // A language the family picked outlives setup: a Romanian family on an
@@ -741,10 +742,16 @@ function useShellState(
 
   useEffect(() => {
     if (game.score > 0) {
-      savePlayerData({highScore: game.score, level: game.level});
+      // One save for all four: separate saves would overwrite each other.
+      savePlayerData({
+        highScore: game.score,
+        level: game.level,
+        additionLevel: game.additionLevel,
+        subtractionLevel: game.subtractionLevel,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [game.score, game.level]);
+  }, [game.score, game.level, game.additionLevel, game.subtractionLevel]);
 
   useEffect(() => {
     // NOT before boot has read storage. Until then `premium` still holds its

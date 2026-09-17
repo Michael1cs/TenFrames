@@ -63,6 +63,10 @@ export interface PlayerData {
   // Adventure never go through setup, and their choice used to be dropped on
   // every launch.
   languagePicked?: boolean;
+  // Free Play difficulty ladders (1-11). They lived only in memory, so every
+  // launch started a child back at level 1 whatever they had reached.
+  additionLevel?: number;
+  subtractionLevel?: number;
 }
 
 // === Reward System Types ===

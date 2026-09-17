@@ -54,6 +54,10 @@ export function useGameState() {
   const [compareProblem, setCompareProblem] = useState<CompareProblem | null>(null);
   // Consecutive correct answers at current level (level up after 3)
   const [levelCorrectStreak, setLevelCorrectStreak] = useState(0);
+  // Misses in a row at the current level. The ladder used to climb only:
+  // three right in a row moved a child up, and nothing ever moved them
+  // back down, so one good run left them stuck above their level.
+  const [levelWrongStreak, setLevelWrongStreak] = useState(0);
 
   // Refs for stale closure prevention
   const hasSubmittedRef = useRef(hasSubmitted);
@@ -390,6 +394,7 @@ export function useGameState() {
       setHasSubmitted(true);
       setMascotMood('excited');
 
+      setLevelWrongStreak(0);
       // Level-up: after 3 correct in a row at current level
       setLevelCorrectStreak(prev => {
         const newStreak = prev + 1;
@@ -416,6 +421,19 @@ export function useGameState() {
       setFeedback('wrong');
       setStreak(0);
       setLevelCorrectStreak(0); // Reset level streak on wrong answer
+      // Two misses in a row: one step easier. Never below 1.
+      setLevelWrongStreak(prev => {
+        const misses = prev + 1;
+        if (misses >= 2) {
+          if (mode === 'addition') {
+            setAdditionLevel(l => Math.max(1, l - 1));
+          } else if (mode === 'subtraction') {
+            setSubtractionLevel(l => Math.max(1, l - 1));
+          }
+          return 0;
+        }
+        return misses;
+      });
       setHasSubmitted(true);
       setMascotMood('thinking');
 
@@ -593,7 +611,15 @@ export function useGameState() {
     setHasSubmitted(false);
   }, []);
 
+  // Boot: the ladders a returning child had reached.
+  const restoreLevels = useCallback((addition?: number, subtraction?: number) => {
+    const clamp = (n: number) => Math.min(11, Math.max(1, Math.round(n)));
+    if (typeof addition === 'number') setAdditionLevel(clamp(addition));
+    if (typeof subtraction === 'number') setSubtractionLevel(clamp(subtraction));
+  }, []);
+
   return {
+    restoreLevels,
     // State
     gameMode,
     cells,
