@@ -29,6 +29,9 @@ interface FarmShareModeProps {
   onMatch?: () => void;
   // Fires when the pool empties but the split is unfair.
   onUnfair?: () => void;
+  // True while a piece is being carried, so the screen around it can stop
+  // scrolling — otherwise the scroll view fights the drag.
+  onDragStateChange?: (dragging: boolean) => void;
 }
 
 // Sharing is a physical idea — you hand food out, one piece at a time — so
@@ -39,32 +42,28 @@ interface FarmShareModeProps {
 // What is deliberately gone: tapping the food used to deal it to whichever
 // basket had least, which is the app doing the sharing for the child.
 
+// The pool is a fixed grid: five across, like the top row of a ten frame.
+const POOL_COLUMNS = 5;
+const POOL_GAP = 10;
+
 const TRAY = '#FFF4DC';
 const TRAY_EDGE = '#E9D9B4';
 const SLOT = 'rgba(34,48,90,0.22)';
 
-function Slot({size, children}: {size: number; children?: React.ReactNode}) {
-  return (
-    <View
-      style={[
-        styles.slot,
-        {width: size, height: size, borderRadius: Math.round(size / 4)},
-      ]}>
-      {children}
-    </View>
-  );
-}
-
 // One piece of food waiting in the pool. Draggable; springs home if it is
 // dropped somewhere that is not an animal.
 function PoolItem({
+  id,
   foodEmoji,
   size,
   onDropAt,
+  onDragStateChange,
 }: {
+  id: number;
   foodEmoji: string;
   size: number;
-  onDropAt: (x: number, y: number) => boolean;
+  onDropAt: (x: number, y: number, id: number) => boolean;
+  onDragStateChange?: (dragging: boolean) => void;
 }) {
   const tx = useSharedValue(0);
   const ty = useSharedValue(0);
@@ -78,17 +77,19 @@ function PoolItem({
 
   const handleDrop = useCallback(
     (x: number, y: number) => {
-      // Taken by a basket: the item disappears with the state change, so
+      onDragStateChange?.(false);
+      // Taken by a basket: the piece disappears with the state change, so
       // there is nothing to animate back.
-      if (!onDropAt(x, y)) settle();
+      if (!onDropAt(x, y, id)) settle();
     },
-    [onDropAt, settle],
+    [onDropAt, settle, id, onDragStateChange],
   );
 
   const pan = Gesture.Pan()
     .minDistance(3)
-    .onBegin(() => {
+    .onStart(() => {
       lifted.value = withTiming(1, {duration: 120});
+      if (onDragStateChange) runOnJS(onDragStateChange)(true);
     })
     .onUpdate(e => {
       tx.value = e.translationX;
@@ -129,7 +130,6 @@ function Basket({
   poolEmpty,
   showOverflowHint,
   slotSize,
-  slots,
   onAdd,
   onTakeBack,
   onMeasure,
@@ -141,7 +141,6 @@ function Basket({
   poolEmpty: boolean;
   showOverflowHint: boolean;
   slotSize: number;
-  slots: number;
   onAdd: () => void;
   onTakeBack: () => void;
   onMeasure: (r: DropRect) => void;
@@ -183,15 +182,15 @@ function Basket({
             ref.current?.measureInWindow((x, y, w, h) => onMeasure({x, y, w, h}))
           }
           style={[styles.tray, {borderColor: edge}, style]}>
-          {Array.from({length: slots}).map((_, i) => (
-            <Slot key={i} size={slotSize}>
-              {i < count ? (
-                <Text style={{fontSize: slotSize * 0.72}}>
-                  <Emoji>{foodEmoji}</Emoji>
-                </Text>
-              ) : null}
-            </Slot>
-          ))}
+          {count === 0 ? (
+            <View style={{width: slotSize, height: slotSize}} />
+          ) : (
+            Array.from({length: count}).map((_, i) => (
+              <Text key={i} style={{fontSize: slotSize * 0.8}}>
+                <Emoji>{foodEmoji}</Emoji>
+              </Text>
+            ))
+          )}
         </Animated.View>
       </GestureDetector>
       <Text style={styles.count}>{count}</Text>
@@ -203,12 +202,15 @@ export function FarmShareMode({
   problem,
   foodEmoji,
   animalEmoji,
-  colors,
   showOverflowHint = false,
   onMatch,
   onUnfair,
+  onDragStateChange,
 }: FarmShareModeProps) {
   const [baskets, setBaskets] = useState<number[]>([]);
+  // The ids still in the pool. Each id owns a fixed place in the grid, so
+  // giving one away leaves a gap rather than shifting the rest.
+  const [pool, setPool] = useState<number[]>([]);
   const matchedRef = useRef(false);
   const rectsRef = useRef<DropRect[]>([]);
   const onMatchRef = useRef(onMatch);
@@ -219,6 +221,7 @@ export function FarmShareMode({
   useEffect(() => {
     if (!problem) return;
     setBaskets(Array(problem.buckets).fill(0));
+    setPool(Array.from({length: problem.total}, (_, i) => i));
     rectsRef.current = [];
     matchedRef.current = false;
   }, [problem]);
@@ -243,25 +246,46 @@ export function FarmShareMode({
     onUnfairRef.current?.();
   }, [remaining, distributed, baskets, problem]);
 
-  const addTo = useCallback((i: number) => {
-    setBaskets(prev => {
-      const total = prev.reduce((a, b) => a + b, 0);
-      if (!problem || total >= problem.total) return prev;
-      return prev.map((c, j) => (j === i ? c + 1 : c));
-    });
-  }, [problem]);
+  // `id` is the piece that was dragged; a tap on a basket takes the last one
+  // still in the pool.
+  const addTo = useCallback(
+    (i: number, id?: number) => {
+      let taken = false;
+      setPool(prev => {
+        if (!prev.length) return prev;
+        const pick = id !== undefined && prev.includes(id) ? id : prev[prev.length - 1];
+        taken = true;
+        return prev.filter(p => p !== pick);
+      });
+      if (!taken) return;
+      setBaskets(prev => prev.map((c, j) => (j === i ? c + 1 : c)));
+    },
+    [],
+  );
 
-  const takeBackFrom = useCallback((i: number) => {
-    setBaskets(prev => prev.map((c, j) => (j === i && c > 0 ? c - 1 : c)));
-  }, []);
+  const takeBackFrom = useCallback(
+    (i: number) => {
+      if ((baskets[i] ?? 0) <= 0) return;
+      setBaskets(prev => prev.map((c, j) => (j === i ? c - 1 : c)));
+      // The piece goes back to the first free place in the grid, so the pool
+      // fills up again in the order it emptied.
+      setPool(prev => {
+        const free = [...Array(problem?.total ?? 0).keys()].find(
+          n => !prev.includes(n),
+        );
+        return free === undefined ? prev : [...prev, free].sort((a, b) => a - b);
+      });
+    },
+    [baskets, problem],
+  );
 
   // A drop counts for the animal whose tray is under the finger, with a
   // forgiving margin — a four-year-old aims roughly.
   const dropAt = useCallback(
-    (x: number, y: number) => {
+    (x: number, y: number, id: number) => {
       const hit = dropTargetAt(rectsRef.current, x, y);
       if (hit < 0) return false;
-      addTo(hit);
+      addTo(hit, id);
       return true;
     },
     [addTo],
@@ -269,27 +293,44 @@ export function FarmShareMode({
 
   if (!problem) return null;
 
-  const slots = Math.max(problem.target + 1, 3);
-  const slotSize = baskets.length >= 4 ? 24 : baskets.length === 3 ? 30 : 34;
+  const slotSize = baskets.length >= 4 ? 24 : baskets.length === 3 ? 28 : 32;
   const poolSize = 34;
+  const poolRows = Math.max(1, Math.ceil(problem.total / POOL_COLUMNS));
+  const poolWidth =
+    POOL_COLUMNS * poolSize + (POOL_COLUMNS - 1) * POOL_GAP;
+  const poolHeight = poolRows * poolSize + (poolRows - 1) * POOL_GAP;
 
   return (
     <View style={styles.container}>
-      {/* The pool: what is still to be shared. Drag a piece to an animal. */}
-      <View style={styles.pool}>
-        {Array.from({length: remaining}).map((_, i) => (
-          <PoolItem
-            key={`${problem.total}-${i}`}
-            foodEmoji={foodEmoji}
-            size={poolSize}
-            onDropAt={dropAt}
-          />
-        ))}
-        {remaining === 0 && (
-          <Text style={styles.poolEmptyText}>
-            <Emoji>{foodEmoji}</Emoji>
-          </Text>
-        )}
+      {/* The pool. Every piece keeps its own place: taking one leaves a gap
+          instead of re-flowing the row under the child's finger. The row sits
+          above the baskets so a dragged piece never slides behind a tray. */}
+      <View style={[styles.pool, {width: poolWidth, height: poolHeight}]}>
+        {pool.map(id => {
+          const slot = id % POOL_COLUMNS;
+          const row = Math.floor(id / POOL_COLUMNS);
+          return (
+            <View
+              key={id}
+              style={[
+                styles.poolSlot,
+                {
+                  left: slot * (poolSize + POOL_GAP),
+                  top: row * (poolSize + POOL_GAP),
+                  width: poolSize,
+                  height: poolSize,
+                },
+              ]}>
+              <PoolItem
+                id={id}
+                foodEmoji={foodEmoji}
+                size={poolSize}
+                onDragStateChange={onDragStateChange}
+                onDropAt={dropAt}
+              />
+            </View>
+          );
+        })}
       </View>
 
       <View style={styles.basketsRow}>
@@ -303,7 +344,6 @@ export function FarmShareMode({
             poolEmpty={remaining <= 0}
             showOverflowHint={showOverflowHint}
             slotSize={slotSize}
-            slots={slots}
             onAdd={() => addTo(i)}
             onTakeBack={() => takeBackFrom(i)}
             onMeasure={r => {
@@ -322,13 +362,15 @@ const styles = StyleSheet.create({
     gap: 14,
   },
   pool: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    // Above the baskets: a piece being carried must never slide behind a
+    // tray, which is what made the drag look broken.
+    zIndex: 5,
+    elevation: 5,
+  },
+  poolSlot: {
+    position: 'absolute',
     alignItems: 'center',
-    gap: 10,
-    minHeight: 54,
-    paddingHorizontal: 12,
+    justifyContent: 'center',
   },
   poolEmptyText: {
     fontSize: 26,
