@@ -3,7 +3,6 @@ import {View, Pressable, StyleSheet, Modal} from 'react-native';
 import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
-import {Emoji} from '../common/Emoji';
 import {Mascot} from '../common/Mascot';
 
 interface DailyLimitModalProps {

@@ -52,6 +52,9 @@ function ConfettiParticle({emoji, delay, left}: {emoji: string; delay: number; l
       delay + 2000,
       withTiming(0, {duration: 1000}),
     );
+    // A one-shot burst on mount; shared values are stable and `delay` is
+    // fixed per particle.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const style = useAnimatedStyle(() => ({

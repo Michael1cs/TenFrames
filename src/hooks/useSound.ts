@@ -63,12 +63,15 @@ export function useSound() {
       });
     }
 
+    // Captured now: by the time the cleanup runs the ref could point at
+    // another map.
+    const players = loaded.current;
     return () => {
       mounted = false;
-      for (const sound of loaded.current.values()) {
+      for (const sound of players.values()) {
         sound.release();
       }
-      loaded.current.clear();
+      players.clear();
     };
   }, []);
 

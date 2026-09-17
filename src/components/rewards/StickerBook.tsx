@@ -35,7 +35,6 @@ const CATEGORIES = [
 export function StickerBook({
   visible,
   unlockedStickers,
-  totalStars,
   colors,
   onClose,
 }: StickerBookProps) {

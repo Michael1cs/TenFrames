@@ -28,6 +28,8 @@ function FloatingEmoji({config}: FloatingEmojiProps) {
         true,
       ),
     );
+    // Starts once on mount; the shared value is stable and the delay fixed.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const animStyle = useAnimatedStyle(() => ({

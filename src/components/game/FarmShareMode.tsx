@@ -36,8 +36,6 @@ interface FarmShareModeProps {
   onInteract?: () => void;
 }
 
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
-
 type Density = 'roomy' | 'compact' | 'tiny';
 
 function Basket({
@@ -50,7 +48,6 @@ function Basket({
   density,
   onAdd,
   onRemove,
-  colors,
 }: {
   animalEmoji: string;
   foodEmoji: string;
@@ -63,7 +60,6 @@ function Basket({
   density: Density;
   onAdd: () => void;
   onRemove: () => void;
-  colors: ThemeColors;
 }) {
   const compact = density !== 'roomy';
   const tiny = density === 'tiny';
@@ -201,7 +197,6 @@ export function FarmShareMode({
   foodEmoji,
   animalEmoji,
   colors,
-  tokenImage,
   showOverflowHint = false,
   onMatch,
   onUnfair,
@@ -310,7 +305,6 @@ export function FarmShareMode({
               density={density}
               onAdd={() => addTo(i)}
               onRemove={() => removeFrom(i)}
-              colors={colors}
             />
           );
         })}

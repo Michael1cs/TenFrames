@@ -39,8 +39,6 @@ interface PlayerSetupProps {
 
 export function PlayerSetup({
   visible,
-  playerName,
-  onNameChange,
   theme,
   onThemeChange,
   language,

@@ -99,7 +99,7 @@ export function TenFrameCell({
       damping: 8,
       stiffness: 150,
     });
-  }, [state, isFilled]);
+  }, [state, isFilled, marbleScale]);
 
   const handlePress = () => {
     if (disabled) return;

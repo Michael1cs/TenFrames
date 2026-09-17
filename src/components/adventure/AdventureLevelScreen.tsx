@@ -812,7 +812,7 @@ export function AdventureLevelScreen({
         assistTimersRef.current.push(setTimeout(() => step(0), 500));
       }
     }
-  }, [cells, currentProblem, countingChallenge, level, attempts, onRecordResult, reduceMotion]);
+  }, [cells, currentProblem, countingChallenge, level, attempts, onRecordResult, reduceMotion, afterBeat]);
 
   // Answer-mode pad nudge: when the frame holds exactly the target quantity
   // and the child pauses, point at the pad — building the board is not the
@@ -940,6 +940,7 @@ export function AdventureLevelScreen({
       attempts,
       onRecordResult,
       dismissHint,
+      afterBeat,
     ],
   );
 
@@ -1012,7 +1013,7 @@ export function AdventureLevelScreen({
       const result = onComplete();
       setCompletedStars(result.stars);
     }
-  }, [finished, completedStars, onComplete]);
+  }, [finished, completedStars, onComplete, afterBeat]);
 
   // Judge where the child STOPS, not where the app catches them. Every cell
   // change re-arms one timer; when the child leaves the board alone for

@@ -1,7 +1,6 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {View, StyleSheet, Pressable, Modal, ScrollView} from 'react-native';
 import {Text} from '../common/AppText';
-import {useTranslation} from 'react-i18next';
 import Animated, {
   BounceIn,
   useAnimatedStyle,
@@ -166,7 +165,6 @@ export function WorkshopMode({
   paletteEmojis,
   colors,
 }: WorkshopModeProps) {
-  const {t} = useTranslation();
   const {cellSize} = useLayout();
 
   // Build a unique palette of up to 6 emojis from the theme's background set.

@@ -171,7 +171,7 @@ export function MemoryMode({
       }, 1800);
       return () => clearTimeout(timer);
     }
-  }, [filledCount, phase, challenge.targetCount, patternMatches]);
+  }, [filledCount, phase, challenge.targetCount, challenge.showDurationMs, patternMatches]);
 
   const handleCellClick = (index: number) => {
     if (phase !== 'input') return;

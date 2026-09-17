@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback, useState, useRef, useMemo, useContext} from 'react';
+import React, {useEffect, useCallback, useState, useRef, useContext} from 'react';
 import {View, StyleSheet, StatusBar, Pressable, ScrollView, ImageBackground} from 'react-native';
 import {Text} from '../common/AppText';
 import LinearGradient from 'react-native-linear-gradient';
@@ -226,7 +226,6 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
     ageProfile,
     premium,
     rewardSystem,
-    iap,
     handleCellClick,
     handleModeChange,
     handleAdventurePress,
@@ -234,7 +233,6 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
     setShowAbout,
     setShowUpgrade,
     setShowStickerBook,
-    setShowParentDash,
     mascotEmoji,
   } = ctx;
 
@@ -600,7 +598,6 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
 function useShellState(
   navigationRef: NavigationContainerRefWithCurrent<RootStackParamList>,
 ) {
-  const {t: _t} = useTranslation(); // keep i18n active for any descendants
   // Flipped by FreePlayScreen's useFocusEffect. Used by the post-correct
   // voice useEffect below to suppress queueing when the child has
   // navigated to Adventure (the setTimeout in useGameState still fires
@@ -622,7 +619,7 @@ function useShellState(
     loadRewardData, saveRewardData,
     loadPremiumData, savePremiumData,
   } = usePersistence();
-  const {isLandscape, isTablet: _isTablet, fontScale: _fontScale} = useLayout();
+  const {isLandscape} = useLayout();
   const rewardSystem = useRewards();
   const premium = usePremium();
   const {play: playSound} = useSound();
@@ -631,7 +628,6 @@ function useShellState(
   const [showStickerBook, setShowStickerBook] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
   const [lastStarsAwarded, setLastStarsAwarded] = useState(0);
-  const [showStarsDisplay, setShowStarsDisplay] = useState(false);
   const [showDailyLimit, setShowDailyLimit] = useState(false);
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
@@ -833,11 +829,7 @@ function useShellState(
       const wasFirstTry = game.streak > 0;
       const stars = rewardSystem.awardStars(game.gameMode, wasFirstTry);
       setLastStarsAwarded(stars);
-      setShowStarsDisplay(true);
-      setTimeout(() => {
-        setShowStarsDisplay(false);
-        playSound('star');
-      }, 3000);
+      setTimeout(() => playSound('star'), 3000);
     } else if (game.isCorrect === false && prevIsCorrect.current !== false) {
       playSound('wrong');
       // Route through the queue so this never overlaps the praise/reward
@@ -1150,7 +1142,7 @@ function useShellState(
       setAdventureStars(null);
       setAdventureIsNewBest(false);
     }
-  }, [adventure, rewardSystem, premium.isPremium, navigationRef]);
+  }, [adventure, rewardSystem, premium.isPremium]);
 
   const handleAdventureReplay = useCallback(() => {
     if (adventure.activeLevel) {
@@ -1191,7 +1183,6 @@ function useShellState(
     showStickerBook, setShowStickerBook,
     showAchievements, setShowAchievements,
     lastStarsAwarded,
-    showStarsDisplay,
     showDailyLimit, setShowDailyLimit,
     showUpgrade, setShowUpgrade,
     showAbout, setShowAbout,

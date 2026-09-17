@@ -23,7 +23,7 @@ export function NumberDisplay({number, colors, emoji, scale = 1}: NumberDisplayP
     popScale.value = withSpring(1.1, {damping: 4}, () => {
       popScale.value = withSpring(1);
     });
-  }, [number]);
+  }, [number, popScale]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{scale: popScale.value}],

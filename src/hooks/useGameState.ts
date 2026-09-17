@@ -53,11 +53,11 @@ export function useGameState() {
   const [compareLevel, setCompareLevel] = useState(1);
   const [compareProblem, setCompareProblem] = useState<CompareProblem | null>(null);
   // Consecutive correct answers at current level (level up after 3)
-  const [levelCorrectStreak, setLevelCorrectStreak] = useState(0);
+  const [, setLevelCorrectStreak] = useState(0);
   // Misses in a row at the current level. The ladder used to climb only:
   // three right in a row moved a child up, and nothing ever moved them
   // back down, so one good run left them stuck above their level.
-  const [levelWrongStreak, setLevelWrongStreak] = useState(0);
+  const [, setLevelWrongStreak] = useState(0);
 
   // Refs for stale closure prevention
   const hasSubmittedRef = useRef(hasSubmitted);
@@ -222,6 +222,9 @@ export function useGameState() {
       setHasSubmitted(false);
       setMascotMood('happy');
     }
+    // Runs on a mode switch only; the setup helpers are stable enough and
+    // re-running this on their identity would regenerate the problem.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameMode]);
 
   // Level up check
