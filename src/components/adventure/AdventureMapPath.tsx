@@ -30,7 +30,10 @@ export function AdventureMapPath({
   isPremium,
 }: AdventureMapPathProps) {
   const {isTablet, width: screenWidth} = useLayout();
-  const nodeSize = isTablet ? 90 : 72;
+  // Sized for a four-year-old's finger, not Apple's 44pt minimum: the node
+  // is the whole target, and a miss on a map is a child giving up. The
+  // vertical step grows with it so neighbours keep clear water between them.
+  const nodeSize = isTablet ? 112 : 88;
   const worldProgress = progress.worlds[world.id];
   const scrollRef = useRef<ScrollView>(null);
 
@@ -65,7 +68,7 @@ export function AdventureMapPath({
     return centerX + wave * amplitude;
   };
 
-  const verticalSpacing = isTablet ? 130 : 110;
+  const verticalSpacing = isTablet ? 160 : 124;
 
   return (
     <ScrollView
@@ -114,7 +117,7 @@ export function AdventureMapPath({
                 const dotColor = isSegmentCompleted
                   ? colors.primaryButton
                   : 'rgba(255,255,255,0.25)';
-                const dotSize = isSegmentCompleted ? 8 : 6;
+                const dotSize = isSegmentCompleted ? 10 : 8;
 
                 return Array.from({length: dotCount}).map((_, d) => {
                   const t = (d + 1) / (dotCount + 1);

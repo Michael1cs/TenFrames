@@ -145,6 +145,8 @@ export function MapNode({
       )}
       <AnimatedPressable
         onPress={unlocked || premiumLocked ? onPress : undefined}
+        // Forgive a finger that lands just outside the circle.
+        hitSlop={10}
         style={[
           styles.node,
           {
