@@ -339,6 +339,11 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'pzl_ask_1', ro: 'Câte căsuțe goale mai sunt? Umple-le!', en: "How many empty cells are left? Fill them!", de: 'Wie viele leere Felder sind noch da? Fülle sie!'},
   {id: 'pzl_ask_2', ro: 'Numără căsuțele goale și pune tot atâtea bile.', en: "Count the empty cells and add that many dots.", de: 'Zähle die leeren Felder und lege so viele Punkte.'},
   {id: 'pzl_ask_3', ro: 'Mai adaugă până se umple cadrul.', en: "Add more until the frame is full.", de: 'Füge hinzu, bis das Feld voll ist.'},
+  // Make N for targets below ten (Number Bubbles): the frame is never full,
+  // so these hold for any number.
+  {id: 'pzl_part_ask_1', ro: 'Numără ce ai, apoi mai adaugă.', en: "Count what you have, then add more.", de: 'Zähl, was du hast, und leg dann mehr dazu.'},
+  {id: 'pzl_part_ask_2', ro: 'Câte bile îți mai trebuie?', en: "How many more dots do you need?", de: 'Wie viele Punkte brauchst du noch?'},
+  {id: 'pzl_part_ask_3', ro: 'Pune bilele una câte una și numără.', en: "Add the dots one by one and count.", de: 'Leg die Punkte einzeln dazu und zähl mit.'},
 
   // Memory: the input phase was completely silent after the first problem.
   {id: 'mem_watch_2', ro: 'Fii atent unde se aprind!', en: "Watch where they light up!", de: 'Schau, wo sie aufleuchten!'},

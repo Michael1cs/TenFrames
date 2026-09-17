@@ -3931,6 +3931,15 @@
 		FFEFDDE55986B3AC4DBA240D /* voice_de_post_great_fish_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E6B3C1FEF41C09E34B1E4C5F /* voice_de_post_great_fish_3.mp3 */; };
 		FFFE17264B654358BFCF3658 /* voice_en_instr_sub_ocean_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FD441ACA8E0E4C22A3CB9DDF /* voice_en_instr_sub_ocean_1.mp3 */; };
 		FFFEA2E58AC327795BA59A82 /* voice_de_pre_have_space_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BBF765DA0565A71E296952AE /* voice_de_pre_have_space_4.mp3 */; };
+		698ECA2F5EA14BA3B8DFCC2F /* voice_ro_pzl_part_ask_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 644CD9F2D9064AE8A13C8897 /* voice_ro_pzl_part_ask_1.mp3 */; };
+		514F6E495051488D95F9F7A7 /* voice_ro_pzl_part_ask_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C56DB31AA0D64610A52352CF /* voice_ro_pzl_part_ask_2.mp3 */; };
+		EFD23D74E37B4ABAB450CECC /* voice_ro_pzl_part_ask_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE89A51665434E6CA727EA77 /* voice_ro_pzl_part_ask_3.mp3 */; };
+		789430ECE4DF4CB9A05B9E14 /* voice_de_pzl_part_ask_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BAAA6BBD88554F518212C8A8 /* voice_de_pzl_part_ask_1.mp3 */; };
+		05640A36CF8046CFA34E96F5 /* voice_de_pzl_part_ask_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8D37C4497DD0446889F6A0F0 /* voice_de_pzl_part_ask_2.mp3 */; };
+		C3CDE2ABA3AF4CAAA5F4D0BD /* voice_de_pzl_part_ask_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E8DA42DB6BC04CADA5625116 /* voice_de_pzl_part_ask_3.mp3 */; };
+		A4ABA66353BA4B98BB6DF299 /* voice_en_pzl_part_ask_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B427AD9000DD49409622BF76 /* voice_en_pzl_part_ask_3.mp3 */; };
+		F184D3BC21744737BD2267E3 /* voice_en_pzl_part_ask_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 909EE4EF5F934A83B7A95D52 /* voice_en_pzl_part_ask_2.mp3 */; };
+		C7CDFC09997A478DB4628F4D /* voice_en_pzl_part_ask_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E796CBA20CDD49F6A8FB3A24 /* voice_en_pzl_part_ask_1.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -7864,6 +7873,15 @@
 		FFEA7263E1194529924AB28A /* voice_ro_take_dolphin_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_take_dolphin_4.mp3; path = ../assets/audio/voice_ro_take_dolphin_4.mp3; sourceTree = "<group>"; };
 		FFF8669F2F974CBEA7A0D7C0 /* voice_en_instr_addition_easy.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_instr_addition_easy.mp3; path = ../assets/audio/voice_en_instr_addition_easy.mp3; sourceTree = "<group>"; };
 		FFFC0A2C2D594F1987DCCE13 /* voice_ro_take_whale_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_take_whale_7.mp3; path = ../assets/audio/voice_ro_take_whale_7.mp3; sourceTree = "<group>"; };
+		644CD9F2D9064AE8A13C8897 /* voice_ro_pzl_part_ask_1.mp3 */ = {isa = PBXFileReference; name = "voice_ro_pzl_part_ask_1.mp3"; path = "../assets/audio/voice_ro_pzl_part_ask_1.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C56DB31AA0D64610A52352CF /* voice_ro_pzl_part_ask_2.mp3 */ = {isa = PBXFileReference; name = "voice_ro_pzl_part_ask_2.mp3"; path = "../assets/audio/voice_ro_pzl_part_ask_2.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CE89A51665434E6CA727EA77 /* voice_ro_pzl_part_ask_3.mp3 */ = {isa = PBXFileReference; name = "voice_ro_pzl_part_ask_3.mp3"; path = "../assets/audio/voice_ro_pzl_part_ask_3.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BAAA6BBD88554F518212C8A8 /* voice_de_pzl_part_ask_1.mp3 */ = {isa = PBXFileReference; name = "voice_de_pzl_part_ask_1.mp3"; path = "../assets/audio/voice_de_pzl_part_ask_1.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8D37C4497DD0446889F6A0F0 /* voice_de_pzl_part_ask_2.mp3 */ = {isa = PBXFileReference; name = "voice_de_pzl_part_ask_2.mp3"; path = "../assets/audio/voice_de_pzl_part_ask_2.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E8DA42DB6BC04CADA5625116 /* voice_de_pzl_part_ask_3.mp3 */ = {isa = PBXFileReference; name = "voice_de_pzl_part_ask_3.mp3"; path = "../assets/audio/voice_de_pzl_part_ask_3.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B427AD9000DD49409622BF76 /* voice_en_pzl_part_ask_3.mp3 */ = {isa = PBXFileReference; name = "voice_en_pzl_part_ask_3.mp3"; path = "../assets/audio/voice_en_pzl_part_ask_3.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		909EE4EF5F934A83B7A95D52 /* voice_en_pzl_part_ask_2.mp3 */ = {isa = PBXFileReference; name = "voice_en_pzl_part_ask_2.mp3"; path = "../assets/audio/voice_en_pzl_part_ask_2.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E796CBA20CDD49F6A8FB3A24 /* voice_en_pzl_part_ask_1.mp3 */ = {isa = PBXFileReference; name = "voice_en_pzl_part_ask_1.mp3"; path = "../assets/audio/voice_en_pzl_part_ask_1.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -11861,6 +11879,15 @@
 				7FCBC40D53B74E44A8B80EA6 /* voice_de_add_alt_1.mp3 */,
 				FD7F93B6734146FCBCDDD4B0 /* voice_de_ok_memory_1.mp3 */,
 				19765D7C3CF54D0CA5B09733 /* voice_ro_sub_alt_2.mp3 */,
+				644CD9F2D9064AE8A13C8897 /* voice_ro_pzl_part_ask_1.mp3 */,
+				C56DB31AA0D64610A52352CF /* voice_ro_pzl_part_ask_2.mp3 */,
+				CE89A51665434E6CA727EA77 /* voice_ro_pzl_part_ask_3.mp3 */,
+				BAAA6BBD88554F518212C8A8 /* voice_de_pzl_part_ask_1.mp3 */,
+				8D37C4497DD0446889F6A0F0 /* voice_de_pzl_part_ask_2.mp3 */,
+				E8DA42DB6BC04CADA5625116 /* voice_de_pzl_part_ask_3.mp3 */,
+				B427AD9000DD49409622BF76 /* voice_en_pzl_part_ask_3.mp3 */,
+				909EE4EF5F934A83B7A95D52 /* voice_en_pzl_part_ask_2.mp3 */,
+				E796CBA20CDD49F6A8FB3A24 /* voice_en_pzl_part_ask_1.mp3 */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -15847,6 +15874,15 @@
 				5ABEBD6D52A7423DB89D6AEF /* voice_de_add_alt_1.mp3 in Resources */,
 				AA9AB56C07274D4DB9479191 /* voice_de_ok_memory_1.mp3 in Resources */,
 				5DA0C343FFB041F6A7BC4B80 /* voice_ro_sub_alt_2.mp3 in Resources */,
+				698ECA2F5EA14BA3B8DFCC2F /* voice_ro_pzl_part_ask_1.mp3 in Resources */,
+				514F6E495051488D95F9F7A7 /* voice_ro_pzl_part_ask_2.mp3 in Resources */,
+				EFD23D74E37B4ABAB450CECC /* voice_ro_pzl_part_ask_3.mp3 in Resources */,
+				789430ECE4DF4CB9A05B9E14 /* voice_de_pzl_part_ask_1.mp3 in Resources */,
+				05640A36CF8046CFA34E96F5 /* voice_de_pzl_part_ask_2.mp3 in Resources */,
+				C3CDE2ABA3AF4CAAA5F4D0BD /* voice_de_pzl_part_ask_3.mp3 in Resources */,
+				A4ABA66353BA4B98BB6DF299 /* voice_en_pzl_part_ask_3.mp3 in Resources */,
+				F184D3BC21744737BD2267E3 /* voice_en_pzl_part_ask_2.mp3 in Resources */,
+				C7CDFC09997A478DB4628F4D /* voice_en_pzl_part_ask_1.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -15946,7 +15982,7 @@
 				APP_DISPLAY_NAME = "Ten Frames";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = WLYF4PNB2M;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TenFrames/Info.plist;
@@ -15979,7 +16015,7 @@
 				APP_DISPLAY_NAME = "Ten Frames";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = WLYF4PNB2M;
 				INFOPLIST_FILE = TenFrames/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -16166,7 +16202,7 @@
 				APP_DISPLAY_NAME = "Ten Frames";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconSchool;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = WLYF4PNB2M;
 				ENTRY_FILE = index.school.js;
 				INFOPLIST_FILE = TenFrames/Info.plist;

@@ -4426,6 +4426,18 @@
       "sha1": "0ae291017f66b726a901385566632896319546ee"
     },
     {
+      "path": "assets/audio/voice_de_pzl_part_ask_1.mp3",
+      "sha1": "e570f26365a4fa153fa4e5293523466431fa0f0d"
+    },
+    {
+      "path": "assets/audio/voice_de_pzl_part_ask_2.mp3",
+      "sha1": "4792fb257143d6b42cede24f4392e19266e0376d"
+    },
+    {
+      "path": "assets/audio/voice_de_pzl_part_ask_3.mp3",
+      "sha1": "a1990f92c08261c14fe846bf7b47616503ca607c"
+    },
+    {
       "path": "assets/audio/voice_de_reward_achievement.mp3",
       "sha1": "4acc5535f00a7f2249189a4a678f3a8d0494c5ba"
     },
@@ -9642,6 +9654,18 @@
       "sha1": "fb09aaca5bc79692597179469e1e886ad349eecf"
     },
     {
+      "path": "assets/audio/voice_en_pzl_part_ask_1.mp3",
+      "sha1": "ec3a6e1b0e76aca403562d759e4f6638aa0b92d5"
+    },
+    {
+      "path": "assets/audio/voice_en_pzl_part_ask_2.mp3",
+      "sha1": "abc4a69c522f339a2bfd25443d2fac48d7000da3"
+    },
+    {
+      "path": "assets/audio/voice_en_pzl_part_ask_3.mp3",
+      "sha1": "1f937772f9cd7b82b522318d649f0e9339edb036"
+    },
+    {
       "path": "assets/audio/voice_en_reward_achievement.mp3",
       "sha1": "91ef81d3ea587d275eb8dfefbb955c1c112485b9"
     },
@@ -14856,6 +14880,18 @@
     {
       "path": "assets/audio/voice_ro_pzl_ask_3.mp3",
       "sha1": "71a20247aa5f2a3956ad80c93547d2b00f90c16e"
+    },
+    {
+      "path": "assets/audio/voice_ro_pzl_part_ask_1.mp3",
+      "sha1": "8f03c6ebdad73ac8e627af098fb809a33cfb6a12"
+    },
+    {
+      "path": "assets/audio/voice_ro_pzl_part_ask_2.mp3",
+      "sha1": "984b04c2e527d280d3ed075dfa332dbfc8b52a52"
+    },
+    {
+      "path": "assets/audio/voice_ro_pzl_part_ask_3.mp3",
+      "sha1": "a4566b500f7d1161312407531e3eee355c51be5a"
     },
     {
       "path": "assets/audio/voice_ro_reward_achievement.mp3",

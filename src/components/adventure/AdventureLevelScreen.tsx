@@ -38,6 +38,11 @@ import {LevelPlayState} from '../../hooks/useAdventure';
 import {getAllThemes} from '../../hooks/useTheme';
 import {ADVENTURE_WORLDS} from '../../config/adventureWorlds';
 import {Emoji} from '../common/Emoji';
+import {
+  puzzleInstructionIds,
+  puzzlePraisePool,
+  puzzleRetryIds,
+} from '../../voice/puzzleNarration';
 import {WrongFlash} from '../feedback/WrongFlash';
 import {TapHint} from '../feedback/TapHint';
 import {PadHint} from '../feedback/PadHint';
@@ -555,10 +560,12 @@ export function AdventureLevelScreen({
       if (level.gameMode === 'memory') {
         advance();
       } else if (level.gameMode === 'puzzle') {
-        // Make 10! — the visual total is always the target, so name the
-        // achievement ("the frame is full!") half the time.
-        const pool =
-          Math.random() < 0.5 ? VOICE_GROUPS.okPuzzle : VOICE_GROUPS.correct;
+        // Half the time the praise names what the child built — "the frame
+        // is full!" only when the target was 10.
+        const pool = puzzlePraisePool(
+          currentProblem?.answer ?? 10,
+          VOICE_GROUPS.correct,
+        );
         const praiseId = pool[Math.floor(Math.random() * pool.length)];
         voiceRef.current.play(praiseId, advance);
       } else {
@@ -650,9 +657,9 @@ export function AdventureLevelScreen({
           voiceRef.current.play('instr_counting');
           lastInstructionVoiceRef.current?.();
         } else if (level.gameMode === 'puzzle' && currentProblem) {
-          voiceRef.current.play('instr_puzzle');
-          const target = currentProblem.answer;
-          voiceRef.current.play(target === 10 ? 'instr_make_ten' : `make_${target}`);
+          for (const id of puzzleRetryIds(currentProblem.answer)) {
+            voiceRef.current.play(id);
+          }
         } else if (currentProblem) {
           if (isDoubles) {
             voiceRef.current.play(`doubles_${currentProblem.num1}`);
@@ -1018,15 +1025,10 @@ export function AdventureLevelScreen({
       }
     } else if (level.gameMode === 'puzzle' && currentProblem) {
       key = `p-${currentProblem.answer}-${currentProblem.num1}`;
-      // Voice the target ("Make 7!" / "Fă 6!") — the answer is the puzzle's
-      // total. For target=10 use the legacy generic clip; for everything
-      // else use the per-target `make_N` clips.
-      const target = currentProblem.answer;
-      const targetId = target === 10 ? 'instr_make_ten' : `make_${target}`;
-      // "Make ten!" alone told the child the goal but never the method;
-      // the follow-up names it, rotating across the level.
-      const ask = `pzl_ask_${1 + (problemIndex % 3)}`;
-      action = () => voiceRef.current.playSequence([targetId, ask], 350);
+      // The target ("Make 7!"), then how to get there — worded for the
+      // target, since only 10 fills the frame. See puzzleNarration.ts.
+      const ids = puzzleInstructionIds(currentProblem.answer, problemIndex);
+      action = () => voiceRef.current.playSequence(ids, 350);
     } else if (level.gameMode === 'compare' && compareProblem) {
       key = `cmp-${problemIndex}-${compareProblem.left}-${compareProblem.right}`;
       // First problem explains, later ones nudge — and on the levels where
