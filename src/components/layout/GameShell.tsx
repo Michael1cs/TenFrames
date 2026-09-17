@@ -39,6 +39,7 @@ import {AchievementPopup} from '../feedback/AchievementPopup';
 import {StickerBook} from '../rewards/StickerBook';
 import {AchievementsScreen} from '../rewards/AchievementsScreen';
 import {ParentalGate} from '../premium/ParentalGate';
+import {isGrownUp, markGrownUp} from '../../utils/grownUp';
 import {DailyLimitModal} from '../premium/DailyLimitModal';
 import {UpgradeScreen} from '../premium/UpgradeScreen';
 import {PlayerSetup} from '../onboarding/PlayerSetup';
@@ -642,7 +643,15 @@ function useShellState(
     'settings' | 'dashboard' | null
   >(null);
   const askGrownUp = useCallback(
-    (target: 'settings' | 'dashboard') => setPendingGrownUp(target),
+    (target: 'settings' | 'dashboard') => {
+      // One answer opens every grown-up door for a few minutes.
+      if (isGrownUp()) {
+        if (target === 'settings') setShowSettings(true);
+        else setShowParentDash(true);
+        return;
+      }
+      setPendingGrownUp(target);
+    },
     [],
   );
   const [voiceEnabled, setVoiceEnabledState] = useState(true);
@@ -1414,6 +1423,7 @@ function GameShellInner() {
         visible={pendingGrownUp !== null}
         colors={colors}
         onSuccess={() => {
+          markGrownUp();
           const target = pendingGrownUp;
           setPendingGrownUp(null);
           if (target === 'settings') setShowSettings(true);

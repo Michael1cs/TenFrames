@@ -13,6 +13,7 @@ import {ThemeColors} from '../../types/game';
 import type {Product} from 'react-native-iap';
 import {Emoji} from '../common/Emoji';
 import {ParentalGate} from './ParentalGate';
+import {isGrownUp, markGrownUp} from '../../utils/grownUp';
 
 interface UpgradeScreenProps {
   visible: boolean;
@@ -46,7 +47,9 @@ export function UpgradeScreen({
   // price itself is not for the child.
   const [passedGate, setPassedGate] = useState(false);
   useEffect(() => {
-    if (!visible) setPassedGate(false);
+    // A grown-up who answered the gate a moment ago (in settings, say) is
+    // not asked again here.
+    setPassedGate(visible ? isGrownUp() : false);
   }, [visible]);
 
   // Only what premium actually unlocks. The list used to sell all themes,
@@ -86,7 +89,10 @@ export function UpgradeScreen({
       <ParentalGate
         visible
         colors={colors}
-        onSuccess={() => setPassedGate(true)}
+        onSuccess={() => {
+          markGrownUp();
+          setPassedGate(true);
+        }}
         onCancel={onClose}
       />
     );

@@ -13,6 +13,8 @@ jest.mock('react-i18next', () => ({
 
 const colors = {accent: '#fff', text: '#fff', primaryButton: '#000'} as any;
 
+beforeEach(() => require('../src/utils/grownUp').forgetGrownUp());
+
 function render(visible: boolean) {
   let root!: ReactTestRenderer.ReactTestRenderer;
   ReactTestRenderer.act(() => {
@@ -86,5 +88,29 @@ describe('the parental gate itself', () => {
     expect(closers.length).toBeGreaterThan(0);
     ReactTestRenderer.act(() => closers[0].props.onPress());
     expect(onCancel).toHaveBeenCalled();
+  });
+});
+
+describe('one answer opens every grown-up door for a while', () => {
+  const {isGrownUp, markGrownUp, forgetGrownUp} = require('../src/utils/grownUp');
+
+  afterEach(() => forgetGrownUp());
+
+  it('is not a grown-up until the gate is answered', () => {
+    expect(isGrownUp(1_000)).toBe(false);
+  });
+
+  it('stays verified for five minutes, then asks again', () => {
+    markGrownUp(1_000);
+    expect(isGrownUp(1_000 + 4 * 60 * 1000)).toBe(true);
+    expect(isGrownUp(1_000 + 6 * 60 * 1000)).toBe(false);
+  });
+
+  it('lets the price screen skip the gate right after settings were opened', () => {
+    markGrownUp();
+    const root = render(true);
+    const shown = texts(root);
+    expect(shown).not.toContain('premium.parentalGate');
+    expect(shown).toContain('4,99');
   });
 });
