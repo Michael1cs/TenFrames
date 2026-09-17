@@ -1334,6 +1334,7 @@ export function AdventureLevelScreen({
                 foodEmoji={pair.food}
                 animalEmoji={pair.animal}
                 colors={themeColors}
+                tokenImage={worldTheme?.tokenImage}
                 // Training-wheels: highlight overflowing baskets in red on
                 // the first two levels; later levels rely on voice alone.
                 showOverflowHint={level.modeLevel <= 2}

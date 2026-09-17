@@ -403,6 +403,7 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
             foodEmoji="🥕"
             animalEmoji="🐰"
             colors={colors}
+            tokenImage={themeConfig.tokenImage}
             onMatch={() => {
               ctx.playSound('correct');
               ctx.voice.playRandom(VOICE_GROUPS.correct);
