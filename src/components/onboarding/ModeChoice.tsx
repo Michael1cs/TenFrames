@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {Text} from '../common/AppText';
 import {FREDOKA_FAMILY} from '../../utils/fonts';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useIsFocused} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
   BounceIn,
@@ -184,6 +184,10 @@ export function ModeChoice({
 
   const {width, height} = useWindowDimensions();
   const isLandscape = width > height;
+  // Home sits under every other screen for the whole session. Its sparks
+  // are the one thing here that animates forever, so they leave when the
+  // screen is covered.
+  const focused = useIsFocused();
   // The bar used to float at a fixed 50pt: no safe-area inset, and on a
   // 667pt phone the centred column started at the same height, so the flags
   // pill sat on the logo frame. The column now keeps clear of the bar.
@@ -252,10 +256,14 @@ export function ModeChoice({
         )}
         <View style={[styles.overlay, {paddingTop: barTop + 52}]}>
           {/* Decorative floating emojis */}
-          <FloatingSpark size={14} style={styles.bgEmoji1} />
-          <FloatingSpark size={10} style={styles.bgEmoji2} />
-          <FloatingSpark size={12} style={styles.bgEmoji3} />
-          <FloatingSpark size={9} style={styles.bgEmoji4} />
+          {focused && (
+            <>
+              <FloatingSpark size={14} style={styles.bgEmoji1} />
+              <FloatingSpark size={10} style={styles.bgEmoji2} />
+              <FloatingSpark size={12} style={styles.bgEmoji3} />
+              <FloatingSpark size={9} style={styles.bgEmoji4} />
+            </>
+          )}
 
           {/* Brand mark — a mini ten-frame that mirrors the in-game cells:
               filled cells carry the space theme's rocket emoji, empties show
