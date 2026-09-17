@@ -114,3 +114,11 @@ jest.mock('react-native-haptic-feedback', () => ({
     selection: 'selection',
   },
 }));
+
+// Without this the provider never receives insets in tests and renders
+// nothing, so mounting <App /> produced an empty tree — which is how a
+// premium-wipe bug lived behind a green suite.
+jest.mock('react-native-safe-area-context', () => {
+  const mock = require('react-native-safe-area-context/jest/mock');
+  return mock.default ?? mock;
+});

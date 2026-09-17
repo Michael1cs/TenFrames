@@ -712,9 +712,17 @@ function useShellState(
   }, [game.score, game.level]);
 
   useEffect(() => {
+    // NOT before boot has read storage. Until then `premium` still holds its
+    // initial values — isPremium false in a release build, empty counts —
+    // and this effect runs on mount, so it wrote those over the stored data:
+    // a paid unlock was erased on every cold start (invisible in development,
+    // where the hook starts premium), and force-quitting reset the daily
+    // limit. bootLoaded flips in the same continuation that loads the data,
+    // so the first save this allows already carries the stored values.
+    if (!bootLoaded) return;
     savePremiumData(premium.getPremiumData());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [premium.dailyUsage, premium.isPremium]);
+  }, [bootLoaded, premium.dailyUsage, premium.isPremium]);
 
   // The queueing layer lives in useVoice now — every voice.play() goes
   // through a module-level FIFO so calls from different screens never
