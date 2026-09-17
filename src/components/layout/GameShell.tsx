@@ -39,6 +39,7 @@ import {NewStickerPopup} from '../feedback/NewStickerPopup';
 import {AchievementPopup} from '../feedback/AchievementPopup';
 import {StickerBook} from '../rewards/StickerBook';
 import {AchievementsScreen} from '../rewards/AchievementsScreen';
+import {ParentalGate} from '../premium/ParentalGate';
 import {DailyLimitModal} from '../premium/DailyLimitModal';
 import {UpgradeScreen} from '../premium/UpgradeScreen';
 import {PlayerSetup} from '../onboarding/PlayerSetup';
@@ -111,11 +112,11 @@ function HomeScreen() {
       homeBar={{
         onDashboard: () => {
           ctx.voice.stop();
-          ctx.setShowParentDash(true);
+          ctx.askGrownUp('dashboard');
         },
         onSettings: () => {
           ctx.voice.stop();
-          ctx.setShowSettings(true);
+          ctx.askGrownUp('settings');
         },
       }}
     />
@@ -480,7 +481,10 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
       <Pressable
         onPress={() => {
           ctx.voice.stop();
-          setShowParentDash(true);
+          // The child's own trophies. This used to open the parent dashboard,
+          // which is paid, so tapping a trophy showed a price screen — and the
+          // achievements screen was never reachable at all.
+          ctx.setShowAchievements(true);
         }}
         style={[styles.statBadge, {borderColor: '#EAB308'}]}>
         <Text style={styles.statBadgeText}>
@@ -628,6 +632,18 @@ function useShellState(
   const [showAbout, setShowAbout] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showParentDash, setShowParentDash] = useState(false);
+  // Settings and the parent dashboard are for grown-ups: settings can silence
+  // every spoken instruction in the app with one tap, and the dashboard is the
+  // paid progress view. A child reaches both from the home bar, so both ask
+  // the maths question first. The language flags stay outside the gate — a
+  // parent has to be able to switch language quickly.
+  const [pendingGrownUp, setPendingGrownUp] = useState<
+    'settings' | 'dashboard' | null
+  >(null);
+  const askGrownUp = useCallback(
+    (target: 'settings' | 'dashboard') => setPendingGrownUp(target),
+    [],
+  );
   const [voiceEnabled, setVoiceEnabledState] = useState(true);
   const [onboarded, setOnboarded] = useState(false);
   // Declared after voiceEnabled on purpose: the babel preset downlevels const
@@ -1147,6 +1163,8 @@ function useShellState(
     showAbout, setShowAbout,
     showSettings, setShowSettings,
     showParentDash, setShowParentDash,
+    pendingGrownUp, setPendingGrownUp,
+    askGrownUp,
     voiceEnabled,
     onboarded,
     handleToggleVoice,
@@ -1190,6 +1208,7 @@ function GameShellInner() {
     showAbout, setShowAbout,
     showSettings, setShowSettings,
     showParentDash, setShowParentDash,
+    pendingGrownUp, setPendingGrownUp,
     voiceEnabled,
     adventure,
     handleLanguageChange,
@@ -1356,6 +1375,17 @@ function GameShellInner() {
         language={game.language}
         onLanguageChange={handleLanguageChange}
         onClose={() => setShowAbout(false)}
+      />
+      <ParentalGate
+        visible={pendingGrownUp !== null}
+        colors={colors}
+        onSuccess={() => {
+          const target = pendingGrownUp;
+          setPendingGrownUp(null);
+          if (target === 'settings') setShowSettings(true);
+          else if (target === 'dashboard') setShowParentDash(true);
+        }}
+        onCancel={() => setPendingGrownUp(null)}
       />
       <SettingsModal
         visible={showSettings}

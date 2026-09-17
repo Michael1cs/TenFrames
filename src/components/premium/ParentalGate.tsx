@@ -5,6 +5,9 @@ import {
   Pressable,
   StyleSheet,
   Modal,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from 'react-native';
 import {Text} from '../common/AppText';
 import {FREDOKA_FAMILY} from '../../utils/fonts';
@@ -70,8 +73,25 @@ export function ParentalGate({
       transparent
       animationType="fade"
       onRequestClose={onCancel}>
-      <View style={styles.overlay}>
+      <KeyboardAvoidingView
+        style={styles.overlay}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}>
         <View style={[styles.card, {borderColor: colors.accent}]}>
+          {/* A way out that the keyboard can never cover. On an iPhone SE the
+              keyboard pushed Cancel off the screen, leaving a child who had
+              tapped a crown stuck on a multiplication with no exit. */}
+          <Pressable
+            onPress={onCancel}
+            hitSlop={12}
+            accessibilityRole="button"
+            accessibilityLabel={t('premium.parentalGateCancel')}
+            style={styles.closeCorner}>
+            <Text style={styles.closeCornerText}>✕</Text>
+          </Pressable>
           <Text style={styles.title}>{t('premium.parentalGateTitle')}</Text>
           <Text style={styles.message}>
             {t('premium.parentalGateMessage')}
@@ -89,7 +109,8 @@ export function ParentalGate({
             placeholderTextColor="#9CA3AF"
             keyboardType="number-pad"
             style={styles.input}
-            autoFocus
+            returnKeyType="done"
+            onSubmitEditing={handleSubmit}
           />
 
           {error && (
@@ -112,12 +133,34 @@ export function ParentalGate({
             </Text>
           </Pressable>
         </View>
-      </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  closeCorner: {
+    position: 'absolute',
+    top: 8,
+    right: 10,
+    width: 34,
+    height: 34,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 2,
+  },
+  closeCornerText: {
+    color: '#9CA3AF',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
   overlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.7)',

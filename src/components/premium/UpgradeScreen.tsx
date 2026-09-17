@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Pressable,
@@ -40,41 +40,23 @@ export function UpgradeScreen({
   onClearError,
 }: UpgradeScreenProps) {
   const {t} = useTranslation();
-  const [showParentalGate, setShowParentalGate] = useState(false);
-  const [pendingAction, setPendingAction] = useState<'purchase' | 'restore' | null>(null);
+  // The gate now guards the WHOLE screen: a child reaching a crown used to
+  // see the price, the plan and an 'Unlock now' button, with the maths
+  // question appearing only after they tapped it. In a Made for Kids app the
+  // price itself is not for the child.
+  const [passedGate, setPassedGate] = useState(false);
+  useEffect(() => {
+    if (!visible) setPassedGate(false);
+  }, [visible]);
 
-  const handlePurchasePress = useCallback(() => {
-    setPendingAction('purchase');
-    setShowParentalGate(true);
-  }, []);
-
-  const handleRestorePress = useCallback(() => {
-    setPendingAction('restore');
-    setShowParentalGate(true);
-  }, []);
-
-  const handleGateSuccess = useCallback(() => {
-    setShowParentalGate(false);
-    if (pendingAction === 'purchase') {
-      onPurchase();
-    } else if (pendingAction === 'restore') {
-      onRestore();
-    }
-    setPendingAction(null);
-  }, [pendingAction, onPurchase, onRestore]);
-
-  const handleGateCancel = useCallback(() => {
-    setShowParentalGate(false);
-    setPendingAction(null);
-  }, []);
-
+  // Only what premium actually unlocks. The list used to sell all themes,
+  // the sticker book and the achievements, which every free player already
+  // has — a purchase described inaccurately, which store reviewers flag and
+  // parents notice the moment they look.
   const features = [
     {emoji: '🗺️', key: 'premium.featureAllWorlds'},
     {emoji: '♾️', key: 'premium.featureUnlimitedModes'},
-    {emoji: '🎨', key: 'premium.featureAllThemes'},
-    {emoji: '📖', key: 'premium.featureStickerBook'},
     {emoji: '📊', key: 'premium.featureParentDashboard'},
-    {emoji: '🏆', key: 'premium.featureAchievements'},
   ];
 
   // Only ever show a price the store gave us. There used to be a hardcoded
@@ -97,6 +79,18 @@ export function UpgradeScreen({
     }
     return t('premium.purchaseError');
   };
+
+  // Until a grown-up answers, this screen is only the gate.
+  if (visible && !passedGate) {
+    return (
+      <ParentalGate
+        visible
+        colors={colors}
+        onSuccess={() => setPassedGate(true)}
+        onCancel={onClose}
+      />
+    );
+  }
 
   return (
     <Modal
@@ -150,7 +144,7 @@ export function UpgradeScreen({
 
             {/* Purchase button */}
             <Pressable
-              onPress={handlePurchasePress}
+              onPress={onPurchase}
               disabled={isLoading}
               style={[
                 styles.purchaseButton,
@@ -173,7 +167,7 @@ export function UpgradeScreen({
 
             {/* Restore purchases button */}
             <Pressable
-              onPress={handleRestorePress}
+              onPress={onRestore}
               disabled={isLoading}
               style={[styles.restoreButton, isLoading && styles.disabledButton]}>
               {restoring ? (
@@ -199,12 +193,6 @@ export function UpgradeScreen({
         </View>
       </View>
 
-      <ParentalGate
-        visible={showParentalGate}
-        colors={colors}
-        onSuccess={handleGateSuccess}
-        onCancel={handleGateCancel}
-      />
     </Modal>
   );
 }
