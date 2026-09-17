@@ -82,21 +82,48 @@ jest.mock('react-native-sound', () => {
   return MockSound;
 });
 
+// react-native-iap 15 (NitroIap). The previous mock imitated the removed
+// v12 API (getProducts, currentPurchase, withIAPContext), so nothing the app
+// actually calls was covered and any error path threw on ErrorCode. Tests
+// drive the store through global.mockIap: flip `connected`, seed
+// `availablePurchases`, make `finishTransaction` reject, and call the
+// callbacks the hook registered via `lastOptions`.
+const mockIap = {
+  connected: true,
+  products: [{id: 'com.tenframes.premium_unlock', displayPrice: '4,99 €'}],
+  availablePurchases: [],
+  lastOptions: null,
+  fetchProducts: jest.fn(async () => {}),
+  finishTransaction: jest.fn(async () => {}),
+  requestPurchase: jest.fn(async () => {}),
+  reset() {
+    this.connected = true;
+    this.availablePurchases = [];
+    this.lastOptions = null;
+    this.fetchProducts.mockReset().mockImplementation(async () => {});
+    this.finishTransaction.mockReset().mockImplementation(async () => {});
+    this.requestPurchase.mockReset().mockImplementation(async () => {});
+  },
+};
+global.mockIap = mockIap;
+
 jest.mock('react-native-iap', () => ({
-  useIAP: jest.fn(() => ({
-    connected: false,
-    products: [],
-    getProducts: jest.fn(async () => []),
-    currentPurchase: null,
-    currentPurchaseError: null,
-    finishTransaction: jest.fn(async () => {}),
-    requestPurchase: jest.fn(async () => {}),
-    getAvailablePurchases: jest.fn(async () => []),
-    availablePurchases: [],
-  })),
-  withIAPContext: component => component,
-  getAvailablePurchases: jest.fn(async () => []),
-  PurchaseStateAndroid: {PENDING: 2, PURCHASED: 1, UNSPECIFIED: 0},
+  useIAP: jest.fn(options => {
+    mockIap.lastOptions = options;
+    return {
+      connected: mockIap.connected,
+      products: mockIap.products,
+      fetchProducts: mockIap.fetchProducts,
+      finishTransaction: mockIap.finishTransaction,
+      requestPurchase: mockIap.requestPurchase,
+    };
+  }),
+  getAvailablePurchases: jest.fn(async () => mockIap.availablePurchases),
+  ErrorCode: {
+    UserCancelled: 'user-cancelled',
+    DeferredPayment: 'deferred-payment',
+    Unknown: 'unknown',
+  },
 }));
 
 // Haptics are a no-op under test; the enum is mirrored so useSound's map
