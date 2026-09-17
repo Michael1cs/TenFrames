@@ -198,6 +198,9 @@ export function AdventureLevelScreen({
   const [hintCells, setHintCells] = useState<number[]>([]);
   const [assisting, setAssisting] = useState(false);
   const assistTimersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  // Identifies the current walkthrough. A voice callback that arrives after
+  // the child has moved on (next problem, level closed) must do nothing.
+  const assistRunRef = useRef(0);
   const hintFlashRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const reduceMotion = useReduceMotion();
   const [completedStars, setCompletedStars] = useState<number | null>(stars);
@@ -306,6 +309,8 @@ export function AdventureLevelScreen({
     setPadReveal(false);
     setHintCells([]);
     setAssisting(false);
+    // Any walkthrough still running belongs to a problem that is over.
+    assistRunRef.current++;
     for (const t of assistTimersRef.current) clearTimeout(t);
     assistTimersRef.current = [];
     if (hintFlashRef.current) {
@@ -403,7 +408,9 @@ export function AdventureLevelScreen({
     () => () => {
       if (instructionTimerRef.current) clearTimeout(instructionTimerRef.current);
       if (advanceFallbackRef.current) clearTimeout(advanceFallbackRef.current);
-      for (const t of assistTimersRef.current) clearTimeout(t);
+      // Any walkthrough still running belongs to a problem that is over.
+    assistRunRef.current++;
+    for (const t of assistTimersRef.current) clearTimeout(t);
       if (hintFlashRef.current) clearTimeout(hintFlashRef.current);
     },
     [],
@@ -740,33 +747,47 @@ export function AdventureLevelScreen({
         const {base, steps} = buildAssistPlan(ladderCtx);
 
         setCells(base);
-        steps.forEach((st, i) => {
+        // Paced by the VOICE, not by a fixed 600ms interval. The clips are a
+        // queue, so on a fixed schedule the spoken count fell further behind
+        // the counters with every step — worst in German, where the numbers
+        // are longest — and the next problem's voice cut the count off before
+        // it reached the answer. Each step now places its counter, says its
+        // number, and only then schedules the next one.
+        const run = ++assistRunRef.current;
+        const finish = () => {
+          setHasSubmitted(true);
+          setIsCorrect(true);
+          voiceRef.current.playRandom(VOICE_GROUPS.correct);
           assistTimersRef.current.push(
             setTimeout(() => {
-              setCells(prev => {
-                const n = [...prev];
-                n[st.index] = st.state;
-                return n;
-              });
-              voiceRef.current.play(`num_${i + 1}`);
-            }, 500 + i * 600),
+              if (assistRunRef.current !== run) return;
+              setAssisting(false);
+              // wasFirstTry false → one star. Helped is still finished.
+              onRecordResult(false);
+            }, 2200),
           );
-        });
-        const doneAt = 500 + steps.length * 600 + 300;
-        assistTimersRef.current.push(
-          setTimeout(() => {
-            setHasSubmitted(true);
-            setIsCorrect(true);
-            voiceRef.current.playRandom(VOICE_GROUPS.correct);
-          }, doneAt),
-        );
-        assistTimersRef.current.push(
-          setTimeout(() => {
-            setAssisting(false);
-            // wasFirstTry false → one star. Helped is still finished.
-            onRecordResult(false);
-          }, doneAt + 2200),
-        );
+        };
+        const step = (i: number) => {
+          if (assistRunRef.current !== run) return;
+          if (i >= steps.length) {
+            finish();
+            return;
+          }
+          const st = steps[i];
+          setCells(prev => {
+            const n = [...prev];
+            n[st.index] = st.state;
+            return n;
+          });
+          voiceRef.current.play(`num_${i + 1}`, () => {
+            if (assistRunRef.current !== run) return;
+            // A short beat between counters, and the floor that keeps the
+            // rhythm human when the voice is switched off (the queue calls
+            // back immediately then).
+            assistTimersRef.current.push(setTimeout(() => step(i + 1), 320));
+          });
+        };
+        assistTimersRef.current.push(setTimeout(() => step(0), 500));
       }
     }
   }, [cells, currentProblem, countingChallenge, level, attempts, onRecordResult, reduceMotion]);
