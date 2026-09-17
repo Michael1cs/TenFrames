@@ -12,6 +12,7 @@ import {
   getWorldStars,
   getWorldMaxStars,
   isLevelPremiumLocked,
+  nextPlayableLevel,
 } from '../../config/adventureWorlds';
 
 interface AdventureMapPathProps {
@@ -40,11 +41,10 @@ export function AdventureMapPath({
   // Levels reversed so first level is at the bottom (climb up!)
   const levelsBottomUp = [...world.levels].reverse();
 
-  // Find next playable level
-  const nextPlayableId = world.levels.find(l => {
-    const lp = worldProgress?.levels[l.id];
-    return lp?.unlocked && !lp?.completed;
-  })?.id;
+  // The pulsing "you are here" marker must point at a level this child can
+  // actually open: for a free player it used to sit on the first crowned
+  // level, inviting a tap that ends at the price sheet.
+  const nextPlayableId = nextPlayableLevel(world, progress, isPremium)?.id;
 
   // Auto-scroll to current level (near bottom since reversed)
   useEffect(() => {

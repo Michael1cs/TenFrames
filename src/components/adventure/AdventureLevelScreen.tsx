@@ -131,6 +131,7 @@ interface AdventureLevelScreenProps {
   stars: number | null; // null = still playing, number = completed
   isNewBest: boolean;
   hasNextLevel: boolean;
+  worldComplete?: boolean;
   onRecordResult: (wasFirstTry: boolean) => void;
   onComplete: () => {stars: number; isNewBest: boolean};
   onNextLevel: () => void;
@@ -153,6 +154,7 @@ export function AdventureLevelScreen({
   stars,
   isNewBest,
   hasNextLevel,
+  worldComplete,
   onRecordResult,
   onComplete,
   onNextLevel,
@@ -1444,6 +1446,7 @@ export function AdventureLevelScreen({
             isNewBest={isNewBest}
             colors={themeColors}
             hasNextLevel={hasNextLevel}
+          worldComplete={worldComplete}
             onNextLevel={onNextLevel}
             onReplay={onReplay}
             onBackToMap={onBackToMap}

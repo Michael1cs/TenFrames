@@ -332,6 +332,9 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   // ── Level transition cues (between adventure levels) ──
   {id: 'lvl_next', ro: 'Hai la următorul nivel!', en: "Let's go to the next level!", de: 'Auf zum nächsten Level!'},
   {id: 'lvl_world_done', ro: 'Ai terminat insula! Bravo!', en: "You finished the island! Amazing!", de: 'Du hast die Insel geschafft! Fantastisch!'},
+  // Every world, not just the island: lvl_world_done says "island" and was
+  // played in the meadow, the mountain, the castle, the garden and the farm.
+  {id: 'lvl_world_done_any', ro: 'Ai terminat lumea asta! Bravo!', en: "You finished this world! Amazing!", de: 'Du hast diese Welt geschafft! Fantastisch!'},
 
   // ── Adventure level challenge intros ──
   {id: 'instr_top_row', ro: 'Umple rândul de sus!', en: "Fill the top row!", de: 'Fülle die obere Reihe!'},

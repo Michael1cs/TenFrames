@@ -359,6 +359,32 @@ export function getWorldMaxStars(worldId: string): number {
   return world.levels.length * 3;
 }
 
+/**
+ * The next level this child can actually open in a world: unlocked by
+ * progression, not finished, and not behind the crown for a free player.
+ *
+ * "Next" used to ignore the crown, so the level-complete screen offered a
+ * Next button and the voice said "Let's go to the next level!" to a free
+ * child whose next level was paid — and following either one threw them out
+ * of the world into the price sheet. The map's pulsing marker had the same
+ * drift. All three read this now.
+ */
+export function nextPlayableLevel(
+  world: AdventureWorld,
+  progress: AdventureProgress,
+  isPremium: boolean,
+): AdventureLevel | null {
+  const levels = progress.worlds[world.id]?.levels;
+  if (!progress.worlds[world.id]?.unlocked || !levels) return null;
+  for (const level of world.levels) {
+    const lp = levels[level.id];
+    if (!lp?.unlocked || lp.completed) continue;
+    if (isLevelPremiumLocked(world, level, lp, isPremium)) continue;
+    return level;
+  }
+  return null;
+}
+
 // How many of a world's levels the child has finished, bonus included.
 export function countCompletedLevels(
   world: AdventureWorld,
@@ -386,18 +412,7 @@ export function pickRecommendedWorld(
   progress: AdventureProgress,
   isPremium: boolean,
 ): WorldId | null {
-  const playable = (w: AdventureWorld) => {
-    const wp = progress.worlds[w.id];
-    if (!wp?.unlocked) return false;
-    return w.levels.some(level => {
-      const lp = wp.levels[level.id];
-      return (
-        !!lp?.unlocked &&
-        !lp.completed &&
-        !isLevelPremiumLocked(w, level, lp, isPremium)
-      );
-    });
-  };
+  const playable = (w: AdventureWorld) => !!nextPlayableLevel(w, progress, isPremium);
   const furthestStarted = [...ADVENTURE_WORLDS]
     .reverse()
     .find(w => countCompletedLevels(w, progress) > 0 && playable(w));

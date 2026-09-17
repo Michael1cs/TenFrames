@@ -2,6 +2,7 @@ import {
   ADVENTURE_WORLDS,
   getDefaultAdventureProgress,
   isLevelPremiumLocked,
+  nextPlayableLevel,
   pickRecommendedWorld,
 } from '../src/config/adventureWorlds';
 import {AdventureLevelProgress, AdventureProgress, WorldId} from '../src/types/game';
@@ -191,5 +192,40 @@ describe('recommended world', () => {
     const cm = ADVENTURE_WORLDS.find(w => w.id === 'counting-meadow')!;
     const p = play(getDefaultAdventureProgress(), 'counting-meadow', cm.levels.length);
     expect(pickRecommendedWorld(p, true)).toBe('high-five');
+  });
+});
+
+describe('what a child can play next', () => {
+  const fresh = {unlocked: false, completed: false, stars: 0, bestFirstTry: 0, attempts: 0};
+  const done = {...fresh, unlocked: true, completed: true, stars: 3, attempts: 1};
+  const open = {...fresh, unlocked: true};
+
+  function worldWithProgress(worldId: string, completedCount: number) {
+    const progress = getDefaultAdventureProgress();
+    const world = ADVENTURE_WORLDS.find(w => w.id === worldId)!;
+    world.levels.forEach((level, i) => {
+      progress.worlds[world.id].levels[level.id] =
+        i < completedCount ? {...done} : i === completedCount ? {...open} : {...fresh};
+    });
+    return {world, progress};
+  }
+
+  it('never offers a free child a crowned level', () => {
+    // Hungry Monsters has one free level; after it, everything is crowned.
+    const {world, progress} = worldWithProgress('monster-more', 1);
+    expect(world.freeLevels).toBe(1);
+    expect(nextPlayableLevel(world, progress, false)).toBeNull();
+    expect(nextPlayableLevel(world, progress, true)?.order).toBe(2);
+  });
+
+  it('offers the next unfinished level while free ones remain', () => {
+    const {world, progress} = worldWithProgress('counting-meadow', 1);
+    expect(nextPlayableLevel(world, progress, false)?.order).toBe(2);
+  });
+
+  it('returns nothing once a premium player has finished a world', () => {
+    const world = ADVENTURE_WORLDS.find(w => w.id === 'counting-meadow')!;
+    const {progress} = worldWithProgress('counting-meadow', world.levels.length);
+    expect(nextPlayableLevel(world, progress, true)).toBeNull();
   });
 });

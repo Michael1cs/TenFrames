@@ -26,6 +26,9 @@ interface LevelCompleteScreenProps {
   isNewBest: boolean;
   colors: ThemeColors;
   hasNextLevel: boolean;
+  // Every level of the world finished — as opposed to a free child who has
+  // simply reached the crowned ones.
+  worldComplete?: boolean;
   onNextLevel: () => void;
   onReplay: () => void;
   onBackToMap: () => void;
@@ -73,6 +76,7 @@ export function LevelCompleteScreen({
   isNewBest,
   colors,
   hasNextLevel,
+  worldComplete = false,
   onNextLevel,
   onReplay,
   onBackToMap,
@@ -89,13 +93,24 @@ export function LevelCompleteScreen({
   // milestone) from the 5 batched awardStars calls; without the stop the
   // transition cue overlaps mid-word with whichever reward voice is current.
   useEffect(() => {
-    const id = hasNextLevel ? 'lvl_next' : 'lvl_world_done';
+    // "Let's go to the next level!" only when there is one the child can
+    // open, and the world line only when the world is really finished —
+    // it used to congratulate a free child who had just hit the crowns, and
+    // it said "You finished the island!" in the meadow, the castle and the
+    // farm alike. When neither applies, the screen stays quiet: the stars
+    // and the buttons carry the moment.
+    const id = hasNextLevel
+      ? 'lvl_next'
+      : worldComplete
+      ? 'lvl_world_done_any'
+      : null;
+    if (!id) return;
     const t = setTimeout(() => {
       voiceRef.current.stop();
       voiceRef.current.play(id);
     }, 2500);
     return () => clearTimeout(t);
-  }, [hasNextLevel]);
+  }, [hasNextLevel, worldComplete]);
 
   const message =
     stars === 3

@@ -2422,6 +2422,10 @@
       "sha1": "21744753ae5bc6ef165b87cf71fa2682fb25ece7"
     },
     {
+      "path": "assets/audio/voice_de_lvl_world_done_any.mp3",
+      "sha1": "93bfe524caa93fb12684cddd42467f42f46d1079"
+    },
+    {
       "path": "assets/audio/voice_de_lvl_world_done.mp3",
       "sha1": "455af9be080ac108f2ab77c71aa3755a559adbc4"
     },
@@ -7818,6 +7822,10 @@
       "sha1": "e534a3968d3389bae815b940c6ac68fb3e9e42e0"
     },
     {
+      "path": "assets/audio/voice_en_lvl_world_done_any.mp3",
+      "sha1": "ef2d80fb0440a1d5a42bfe5b293ac9ebe654cc3c"
+    },
+    {
       "path": "assets/audio/voice_en_lvl_world_done.mp3",
       "sha1": "099d9cd36dd323f8541db5b5eb120b55fceda843"
     },
@@ -13212,6 +13220,10 @@
     {
       "path": "assets/audio/voice_ro_lvl_next.mp3",
       "sha1": "15608904ad1e3dd54a7b1c7482edee126b7b842d"
+    },
+    {
+      "path": "assets/audio/voice_ro_lvl_world_done_any.mp3",
+      "sha1": "386455d2a7075048ebea7a107839ba9e2d384be5"
     },
     {
       "path": "assets/audio/voice_ro_lvl_world_done.mp3",

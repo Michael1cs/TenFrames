@@ -196,8 +196,12 @@ function AdventureLevelRoute() {
       stars={ctx.adventureStars}
       isNewBest={ctx.adventureIsNewBest}
       hasNextLevel={
-        !!ctx.adventure.getNextPlayableLevel(ctx.adventure.selectedWorld)
+        !!ctx.adventure.getNextPlayableLevel(
+          ctx.adventure.selectedWorld,
+          ctx.premium.isPremium,
+        )
       }
+      worldComplete={ctx.isWorldComplete(ctx.adventure.selectedWorld)}
       onRecordResult={ctx.adventure.recordProblemResult}
       onComplete={ctx.handleAdventureLevelComplete}
       onNextLevel={ctx.handleAdventureNextLevel}
@@ -1068,31 +1072,28 @@ function useShellState(
     return result;
   }, [adventure, rewardSystem]);
 
+  // True only when every level of the world is finished — not when the
+  // child has merely run out of free ones.
+  const isWorldComplete = useCallback(
+    (worldId: WorldId) => {
+      const world = ADVENTURE_WORLDS.find(w => w.id === worldId);
+      const levels = adventure.progress.worlds[worldId]?.levels;
+      if (!world || !levels) return false;
+      return world.levels.every(l => levels[l.id]?.completed);
+    },
+    [adventure.progress],
+  );
+
   const handleAdventureNextLevel = useCallback(() => {
-    const nextLevel = adventure.getNextPlayableLevel(adventure.selectedWorld);
+    const nextLevel = adventure.getNextPlayableLevel(
+      adventure.selectedWorld,
+      premium.isPremium,
+    );
     if (nextLevel) {
-      // "Next" is a way into a level like any other, so it goes through the
-      // same premium rule as tapping the level on the map. It used to start
-      // the next level directly, which let a free player walk an entire
-      // world one "Next" at a time.
-      const world = ADVENTURE_WORLDS.find(w => w.id === nextLevel.worldId);
-      if (
-        world &&
-        isLevelPremiumLocked(
-          world,
-          nextLevel,
-          adventure.progress.worlds[world.id]?.levels[nextLevel.id],
-          premium.isPremium,
-        )
-      ) {
-        adventure.exitLevel();
-        setAdventureStars(null);
-        // Said to the child, who can't read the sheet that's about to open.
-        voice.play('ask_parent');
-        navigationRef.current?.dispatch(StackActions.popToTop());
-        setShowUpgrade(true);
-        return;
-      }
+      // nextLevel is already premium-checked: getNextPlayableLevel skips
+      // crowned levels, and the button that calls this is hidden when there
+      // is none. A free child is never sent from a finished level into the
+      // price sheet; the crowns on the map remain the deliberate way there.
       // Fresh level, fresh stage — drop any toast still waiting its turn.
       rewardSystem.clearTransientCelebrations();
       adventure.startLevel(nextLevel);
@@ -1163,6 +1164,7 @@ function useShellState(
     handleAdventureLevelPress,
     handleAdventureLevelComplete,
     handleAdventureNextLevel,
+    isWorldComplete,
     handleAdventureReplay,
     handleAdventureExitLevel,
     mascotEmoji,
