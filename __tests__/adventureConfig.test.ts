@@ -229,3 +229,18 @@ describe('what a child can play next', () => {
     expect(nextPlayableLevel(world, progress, true)).toBeNull();
   });
 });
+
+describe('bonus levels stay reachable', () => {
+  it('never asks for more than 80% of the stars available before it', () => {
+    // Memory Garden's last bonus used to require every star of the world:
+    // perfection on all six levels before it, or the level never opened.
+    for (const w of ADVENTURE_WORLDS) {
+      w.levels.forEach((level, i) => {
+        const cond = level.unlockCondition as {type: string; stars?: number};
+        if (cond.type !== 'stars') return;
+        const available = 3 * i; // levels before this one, three stars each
+        expect(cond.stars ?? 0).toBeLessThanOrEqual(Math.ceil(available * 0.8));
+      });
+    }
+  });
+});

@@ -1,49 +1,56 @@
 import {Sticker, Achievement} from '../types/game';
 
-// 36 stickers unlocked progressively by total stars earned
+// 36 stickers unlocked progressively by total stars earned.
+//
+// The thresholds run to 630 stars. They used to top out at 100: a perfect
+// Adventure level is 15 stars (5 problems x 3), so 15 of the 36 stickers
+// came from the first level and the album was full after ~7 of 98 levels —
+// then nothing, for the rest of the journey. The curve is quick at the
+// start (a sticker on the first answer, five in the first level) and long
+// at the end, so there is always a next one coming.
 export const ALL_STICKERS: Sticker[] = [
   // Numbers (unlocked early)
   {id: 'num-1', emoji: '1️⃣', nameKey: 'stickers.num1', category: 'numbers', requirement: 1},
   {id: 'num-2', emoji: '2️⃣', nameKey: 'stickers.num2', category: 'numbers', requirement: 2},
   {id: 'num-3', emoji: '3️⃣', nameKey: 'stickers.num3', category: 'numbers', requirement: 3},
-  {id: 'num-4', emoji: '4️⃣', nameKey: 'stickers.num4', category: 'numbers', requirement: 5},
-  {id: 'num-5', emoji: '5️⃣', nameKey: 'stickers.num5', category: 'numbers', requirement: 7},
-  {id: 'num-10', emoji: '🔟', nameKey: 'stickers.num10', category: 'numbers', requirement: 10},
+  {id: 'num-4', emoji: '4️⃣', nameKey: 'stickers.num4', category: 'numbers', requirement: 7},
+  {id: 'num-5', emoji: '5️⃣', nameKey: 'stickers.num5', category: 'numbers', requirement: 13},
+  {id: 'num-10', emoji: '🔟', nameKey: 'stickers.num10', category: 'numbers', requirement: 25},
   // Animals
-  {id: 'cat', emoji: '🐱', nameKey: 'stickers.cat', category: 'animals', requirement: 4},
-  {id: 'dog', emoji: '🐶', nameKey: 'stickers.dog', category: 'animals', requirement: 6},
-  {id: 'rabbit', emoji: '🐰', nameKey: 'stickers.rabbit', category: 'animals', requirement: 9},
-  {id: 'bear', emoji: '🐻', nameKey: 'stickers.bear', category: 'animals', requirement: 12},
-  {id: 'panda', emoji: '🐼', nameKey: 'stickers.panda', category: 'animals', requirement: 18},
-  {id: 'unicorn', emoji: '🦄', nameKey: 'stickers.unicorn', category: 'animals', requirement: 25},
+  {id: 'cat', emoji: '🐱', nameKey: 'stickers.cat', category: 'animals', requirement: 5},
+  {id: 'dog', emoji: '🐶', nameKey: 'stickers.dog', category: 'animals', requirement: 10},
+  {id: 'rabbit', emoji: '🐰', nameKey: 'stickers.rabbit', category: 'animals', requirement: 20},
+  {id: 'bear', emoji: '🐻', nameKey: 'stickers.bear', category: 'animals', requirement: 36},
+  {id: 'panda', emoji: '🐼', nameKey: 'stickers.panda', category: 'animals', requirement: 85},
+  {id: 'unicorn', emoji: '🦄', nameKey: 'stickers.unicorn', category: 'animals', requirement: 150},
   // Space
-  {id: 'rocket', emoji: '🚀', nameKey: 'stickers.rocket', category: 'space', requirement: 8},
-  {id: 'star', emoji: '⭐', nameKey: 'stickers.star', category: 'space', requirement: 11},
-  {id: 'moon', emoji: '🌙', nameKey: 'stickers.moon', category: 'space', requirement: 15},
-  {id: 'planet', emoji: '🪐', nameKey: 'stickers.planet', category: 'space', requirement: 20},
-  {id: 'ufo', emoji: '🛸', nameKey: 'stickers.ufo', category: 'space', requirement: 30},
-  {id: 'alien', emoji: '👽', nameKey: 'stickers.alien', category: 'space', requirement: 40},
+  {id: 'rocket', emoji: '🚀', nameKey: 'stickers.rocket', category: 'space', requirement: 16},
+  {id: 'star', emoji: '⭐', nameKey: 'stickers.star', category: 'space', requirement: 30},
+  {id: 'moon', emoji: '🌙', nameKey: 'stickers.moon', category: 'space', requirement: 58},
+  {id: 'planet', emoji: '🪐', nameKey: 'stickers.planet', category: 'space', requirement: 105},
+  {id: 'ufo', emoji: '🛸', nameKey: 'stickers.ufo', category: 'space', requirement: 210},
+  {id: 'alien', emoji: '👽', nameKey: 'stickers.alien', category: 'space', requirement: 360},
   // Nature
-  {id: 'flower', emoji: '🌸', nameKey: 'stickers.flower', category: 'nature', requirement: 13},
-  {id: 'tree', emoji: '🌳', nameKey: 'stickers.tree', category: 'nature', requirement: 16},
-  {id: 'rainbow', emoji: '🌈', nameKey: 'stickers.rainbow', category: 'nature', requirement: 22},
-  {id: 'sun', emoji: '☀️', nameKey: 'stickers.sun', category: 'nature', requirement: 28},
-  {id: 'butterfly', emoji: '🦋', nameKey: 'stickers.butterfly', category: 'nature', requirement: 35},
-  {id: 'mushroom', emoji: '🍄', nameKey: 'stickers.mushroom', category: 'nature', requirement: 45},
+  {id: 'flower', emoji: '🌸', nameKey: 'stickers.flower', category: 'nature', requirement: 42},
+  {id: 'tree', emoji: '🌳', nameKey: 'stickers.tree', category: 'nature', requirement: 66},
+  {id: 'rainbow', emoji: '🌈', nameKey: 'stickers.rainbow', category: 'nature', requirement: 120},
+  {id: 'sun', emoji: '☀️', nameKey: 'stickers.sun', category: 'nature', requirement: 190},
+  {id: 'butterfly', emoji: '🦋', nameKey: 'stickers.butterfly', category: 'nature', requirement: 290},
+  {id: 'mushroom', emoji: '🍄', nameKey: 'stickers.mushroom', category: 'nature', requirement: 450},
   // Food
-  {id: 'apple', emoji: '🍎', nameKey: 'stickers.apple', category: 'food', requirement: 14},
-  {id: 'cake', emoji: '🎂', nameKey: 'stickers.cake', category: 'food', requirement: 19},
-  {id: 'icecream', emoji: '🍦', nameKey: 'stickers.icecream', category: 'food', requirement: 24},
-  {id: 'pizza', emoji: '🍕', nameKey: 'stickers.pizza', category: 'food', requirement: 32},
-  {id: 'candy', emoji: '🍬', nameKey: 'stickers.candy', category: 'food', requirement: 38},
-  {id: 'donut', emoji: '🍩', nameKey: 'stickers.donut', category: 'food', requirement: 50},
+  {id: 'apple', emoji: '🍎', nameKey: 'stickers.apple', category: 'food', requirement: 50},
+  {id: 'cake', emoji: '🎂', nameKey: 'stickers.cake', category: 'food', requirement: 95},
+  {id: 'icecream', emoji: '🍦', nameKey: 'stickers.icecream', category: 'food', requirement: 135},
+  {id: 'pizza', emoji: '🍕', nameKey: 'stickers.pizza', category: 'food', requirement: 235},
+  {id: 'candy', emoji: '🍬', nameKey: 'stickers.candy', category: 'food', requirement: 320},
+  {id: 'donut', emoji: '🍩', nameKey: 'stickers.donut', category: 'food', requirement: 500},
   // Sports/Fun
-  {id: 'soccer', emoji: '⚽', nameKey: 'stickers.soccer', category: 'sports', requirement: 17},
-  {id: 'trophy', emoji: '🏆', nameKey: 'stickers.trophy', category: 'sports', requirement: 26},
-  {id: 'medal', emoji: '🥇', nameKey: 'stickers.medal', category: 'sports', requirement: 33},
-  {id: 'crown', emoji: '👑', nameKey: 'stickers.crown', category: 'sports', requirement: 42},
-  {id: 'diamond', emoji: '💎', nameKey: 'stickers.diamond', category: 'sports', requirement: 55},
-  {id: 'hundred', emoji: '💯', nameKey: 'stickers.hundred', category: 'sports', requirement: 100},
+  {id: 'soccer', emoji: '⚽', nameKey: 'stickers.soccer', category: 'sports', requirement: 75},
+  {id: 'trophy', emoji: '🏆', nameKey: 'stickers.trophy', category: 'sports', requirement: 170},
+  {id: 'medal', emoji: '🥇', nameKey: 'stickers.medal', category: 'sports', requirement: 260},
+  {id: 'crown', emoji: '👑', nameKey: 'stickers.crown', category: 'sports', requirement: 400},
+  {id: 'diamond', emoji: '💎', nameKey: 'stickers.diamond', category: 'sports', requirement: 560},
+  {id: 'hundred', emoji: '💯', nameKey: 'stickers.hundred', category: 'sports', requirement: 630},
 ];
 
 // Achievements / Badges

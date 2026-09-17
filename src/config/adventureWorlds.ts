@@ -257,7 +257,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
       {id: 'mg-4', worldId: 'memory-garden', order: 4, nameKey: 'adventure.levels.mg4', emoji: '🐰', isBonus: false, gameMode: 'memory', modeLevel: 4, problemCount: 5, unlockCondition: unlockPrev('mg-3'), theme: 'farm'},
       {id: 'mg-5', worldId: 'memory-garden', order: 5, nameKey: 'adventure.levels.mg5', emoji: '🍬', isBonus: false, gameMode: 'memory', modeLevel: 5, problemCount: 5, unlockCondition: unlockPrev('mg-4'), theme: 'candy'},
       {id: 'mg-bonus-a', worldId: 'memory-garden', order: 6, nameKey: 'adventure.levels.mgBonusA', emoji: '🦄', isBonus: true, gameMode: 'memory', modeLevel: 6, problemCount: 5, unlockCondition: unlockStars('memory-garden', 12), theme: 'unicorn'},
-      {id: 'mg-bonus-b', worldId: 'memory-garden', order: 7, nameKey: 'adventure.levels.mgBonusB', emoji: '👾', isBonus: true, gameMode: 'memory', modeLevel: 7, problemCount: 5, unlockCondition: unlockStars('memory-garden', 18), theme: 'pixel'},
+      {id: 'mg-bonus-b', worldId: 'memory-garden', order: 7, nameKey: 'adventure.levels.mgBonusB', emoji: '👾', isBonus: true, gameMode: 'memory', modeLevel: 7, problemCount: 5, unlockCondition: unlockStars('memory-garden', 14), theme: 'pixel'},
     ],
   },
 
