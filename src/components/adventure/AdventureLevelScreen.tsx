@@ -1,5 +1,11 @@
 import React, {useState, useCallback, useRef, useEffect} from 'react';
-import {View, Pressable, StyleSheet, ImageBackground} from 'react-native';
+import {
+  View,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  ImageBackground,
+} from 'react-native';
 import {Text} from '../common/AppText';
 import Animated, {BounceIn, FadeIn} from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
@@ -1219,7 +1225,17 @@ export function AdventureLevelScreen({
         total={problemCount}
         colors={themeColors}
       />
-      <View style={styles.overlay}>
+      {/* Scrollable, because the level does not fit every window: on short
+          ones (a small phone in a system font size, an iPad in Split View,
+          an Android phone with a tall navigation bar) the ✕ and the header
+          were pushed off the top while the number pad and the submit row
+          fell off the bottom, with no way to reach either. It still centres
+          when there is room. */}
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.overlay}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled">
         {/* Back button + Progress header */}
         <View style={styles.header}>
           <Pressable onPress={onBackToMap} style={styles.backBtn}>
@@ -1452,7 +1468,7 @@ export function AdventureLevelScreen({
             onBackToMap={onBackToMap}
           />
         )}
-      </View>
+      </ScrollView>
     </ImageBackground>
     </View>
   );
@@ -1468,12 +1484,16 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
   },
-  overlay: {
+  scroll: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.25)',
+  },
+  overlay: {
+    flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 20,
+    paddingBottom: 16,
   },
   header: {
     alignItems: 'center',
