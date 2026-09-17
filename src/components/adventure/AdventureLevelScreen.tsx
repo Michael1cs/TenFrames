@@ -189,9 +189,6 @@ export function AdventureLevelScreen({
   // Shown once the child has built the answer on the frame but hasn't named
   // it yet — the board is done, the missing step is the pad.
   const [showPadHint, setShowPadHint] = useState(false);
-  // While a piece of food is being dragged, the surrounding ScrollView must
-  // not also follow the finger.
-  const [dragging, setDragging] = useState(false);
   // Hint ladder state. hintCells pulse (they need changing); everything else
   // dims while a hint is up. assisting locks input while the third-attempt
   // walkthrough builds the answer cell by cell.
@@ -1257,7 +1254,6 @@ export function AdventureLevelScreen({
         style={styles.scroll}
         contentContainerStyle={styles.overlay}
         showsVerticalScrollIndicator={false}
-        scrollEnabled={!dragging}
         keyboardShouldPersistTaps="handled">
         {/* Back button + Progress header */}
         <View style={styles.header}>
@@ -1343,7 +1339,6 @@ export function AdventureLevelScreen({
                   setAttempts(prev => prev + 1);
                   voiceRef.current.play('share_unfair');
                 }}
-                onDragStateChange={setDragging}
               />
             );
           })()

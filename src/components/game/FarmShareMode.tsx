@@ -1,28 +1,17 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {View, Image, StyleSheet, ImageSourcePropType} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {View, Pressable, StyleSheet, ImageSourcePropType} from 'react-native';
 import {Text} from '../common/AppText';
-import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import Animated, {
-  FadeOut,
-  ZoomIn,
-  runOnJS,
   useAnimatedStyle,
   useSharedValue,
+  withSequence,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import {Emoji} from '../common/Emoji';
+import {TenFrame} from './TenFrame';
 import {ShareProblem} from '../../utils/mathProblems';
-import {ThemeColors} from '../../types/game';
-import {DropRect, dropTargetAt} from '../../utils/dropTarget';
-import {
-  ShareState,
-  give,
-  isFair,
-  remaining as poolRemaining,
-  startShare,
-  takeBack,
-} from '../../utils/shareState';
+import {CellState, ThemeColors} from '../../types/game';
 
 interface FarmShareModeProps {
   problem: ShareProblem | null;
@@ -31,210 +20,174 @@ interface FarmShareModeProps {
   foodEmoji: string;
   animalEmoji: string;
   colors: ThemeColors;
-  // The theme's counter image. When present it IS the food: a real picture
-  // never clips the way an emoji in a fixed box does, and it is the same
-  // piece the child places in the frame everywhere else.
   tokenImage?: ImageSourcePropType;
   // Training-wheel hint: when true and the pool empties unfairly, the
-  // baskets holding too much turn red so the child sees what to fix.
+  // baskets with too many items turn red so the child sees what to fix.
+  // Off on harder levels so the child has to figure it out from voice alone.
   showOverflowHint?: boolean;
   // Fires once the pool empties and every basket has the same count.
   onMatch?: () => void;
-  // Fires when the pool empties but the split is unfair.
+  // Fires when the pool empties but the split is unfair, so the parent can
+  // play the "make it fair" voice cue.
   onUnfair?: () => void;
-  // True while a piece is being carried, so the screen around it can stop
-  // scrolling — otherwise the scroll view fights the drag.
-  onDragStateChange?: (dragging: boolean) => void;
 }
 
-// Sharing is a physical idea — you hand food out one piece at a time — so
-// the child drags each piece from the pool to an animal. Tapping an animal's
-// tray also gives it one, because a small hand's drag can miss and the child
-// must never be stuck; with the pool empty, a tap takes one back.
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-const TRAY = '#FFF4DC';
-const TRAY_EDGE = '#E9D9B4';
-
-// The pool is a fixed grid, five across like a ten frame's top row. Every
-// piece keeps its place, so giving one away leaves a gap instead of
-// re-flowing the food under the child's finger.
-const POOL_COLUMNS = 5;
-const POOL_CELL = 46;
-const POOL_PIECE = 38;
-
-function Food({source, emoji, size}: {source?: ImageSourcePropType; emoji: string; size: number}) {
-  if (source) {
-    return <Image source={source} style={{width: size, height: size}} resizeMode="contain" />;
-  }
-  // Emoji fallback: the line box is taller than the glyph, so give it room
-  // or the top and bottom are cut off.
-  return (
-    <Text style={{fontSize: size * 0.82, lineHeight: size * 1.15, textAlign: 'center'}}>
-      <Emoji>{emoji}</Emoji>
-    </Text>
-  );
-}
-
-// One piece of food in the pool. Drag it to an animal; it springs home if
-// dropped anywhere else, and disappears (into the tray) when it is taken.
-function PoolPiece({
-  id,
-  source,
-  emoji,
-  onDropAt,
-  onDragStateChange,
-}: {
-  id: number;
-  source?: ImageSourcePropType;
-  emoji: string;
-  onDropAt: (x: number, y: number, id: number) => Promise<boolean>;
-  onDragStateChange?: (dragging: boolean) => void;
-}) {
-  const tx = useSharedValue(0);
-  const ty = useSharedValue(0);
-  const lifted = useSharedValue(0);
-
-  const settle = useCallback(() => {
-    tx.value = withSpring(0, {damping: 14, stiffness: 220});
-    ty.value = withSpring(0, {damping: 14, stiffness: 220});
-  }, [tx, ty]);
-
-  const finishDrag = useCallback(
-    (x: number, y: number) => {
-      onDragStateChange?.(false);
-      onDropAt(x, y, id).then(taken => {
-        if (!taken) settle();
-      });
-    },
-    [onDropAt, settle, id, onDragStateChange],
-  );
-  const startDrag = useCallback(() => onDragStateChange?.(true), [onDragStateChange]);
-
-  const pan = Gesture.Pan()
-    // Inside a scrolling screen a vertical drag would be claimed by the
-    // scroll view before this pan could start. A short press first —
-    // natural for a small hand — activates the pan, and an active pan
-    // keeps the finger.
-    .activateAfterLongPress(120)
-    .shouldCancelWhenOutside(false)
-    .onStart(() => {
-      lifted.value = withTiming(1, {duration: 120});
-      runOnJS(startDrag)();
-    })
-    .onUpdate(e => {
-      tx.value = e.translationX;
-      ty.value = e.translationY;
-    })
-    .onEnd(e => {
-      runOnJS(finishDrag)(e.absoluteX, e.absoluteY);
-    })
-    .onFinalize(() => {
-      lifted.value = withTiming(0, {duration: 140});
-    });
-
-  const style = useAnimatedStyle(() => ({
-    transform: [
-      {translateX: tx.value},
-      {translateY: ty.value},
-      {scale: 1 + lifted.value * 0.2},
-    ],
-    zIndex: lifted.value > 0 ? 10 : 1,
-  }));
-
-  return (
-    <GestureDetector gesture={pan}>
-      <Animated.View style={style} exiting={FadeOut.duration(160)}>
-        <Food source={source} emoji={emoji} size={POOL_PIECE} />
-      </Animated.View>
-    </GestureDetector>
-  );
-}
+type Density = 'roomy' | 'compact' | 'tiny';
 
 function Basket({
   animalEmoji,
-  source,
   foodEmoji,
-  pieces,
+  count,
   target,
   poolEmpty,
   showOverflowHint,
-  columns,
-  pieceSize,
-  onTap,
-  register,
+  density,
+  onAdd,
+  onRemove,
+  colors,
 }: {
   animalEmoji: string;
-  source?: ImageSourcePropType;
   foodEmoji: string;
-  pieces: number[];
+  count: number;
   target: number;
   poolEmpty: boolean;
   showOverflowHint: boolean;
-  columns: number;
-  pieceSize: number;
-  onTap: () => void;
-  // Registers a way to measure this tray, used at drop time.
-  register: (measure: () => Promise<DropRect | undefined>) => void;
+  // roomy = 2 baskets, compact = 3, tiny = 4+ (stacks the animal over the
+  // + button vertically so each card stays narrow enough to fit on one row).
+  density: Density;
+  onAdd: () => void;
+  onRemove: () => void;
+  colors: ThemeColors;
 }) {
-  const ref = useRef<View>(null);
+  const compact = density !== 'roomy';
+  const tiny = density === 'tiny';
+  const scale = useSharedValue(1);
   useEffect(() => {
-    register(
-      () =>
-        new Promise(resolve => {
-          if (!ref.current) return resolve(undefined);
-          ref.current.measureInWindow((x, y, w, h) => resolve({x, y, w, h}));
-        }),
+    scale.value = withSequence(
+      withTiming(1.06, {duration: 120}),
+      withSpring(1, {damping: 5, stiffness: 200}),
     );
-  });
-  const pop = useSharedValue(0);
-  useEffect(() => {
-    pop.value = 0;
-    pop.value = withSpring(1, {damping: 7, stiffness: 240});
-  }, [pieces.length, pop]);
-  const style = useAnimatedStyle(() => ({
-    transform: [{scale: 1 + pop.value * 0.04}],
-  }));
+  }, [count, scale]);
+  const style = useAnimatedStyle(() => ({transform: [{scale: scale.value}]}));
 
-  // Once the pool is empty: right (green), too much (red — only with the
-  // training hint on), otherwise amber for "still hungry", never "wrong".
-  let edge = TRAY_EDGE;
+  const filled = Math.max(0, Math.min(10, count));
+  // Three visual states once the pool empties: correct (green); too many
+  // with overflow hint on (red — "this one has too much, remove some");
+  // otherwise amber. Baskets with too few stay amber so the child reads
+  // them as "still hungry" rather than "wrong".
+  let borderColor = '#F59E0B';
+  let bgColor = 'rgba(245,158,11,0.18)';
   if (poolEmpty) {
-    if (pieces.length === target) edge = '#22C55E';
-    else if (showOverflowHint && pieces.length > target) edge = '#EF4444';
-    else edge = '#F59E0B';
+    if (count === target) {
+      borderColor = '#22C55E';
+      bgColor = 'rgba(34,197,94,0.22)';
+    } else if (showOverflowHint && count > target) {
+      borderColor = '#EF4444';
+      bgColor = 'rgba(239,68,68,0.22)';
+    }
   }
-
-  const tap = Gesture.Tap().onEnd((_e, success) => {
-    if (success) runOnJS(onTap)();
-  });
-
-  const gap = 4;
-  const pad = 8;
-  const width = columns * pieceSize + (columns - 1) * gap + pad * 2;
-  const rows = Math.max(1, Math.ceil(pieces.length / columns));
-  const height = rows * pieceSize + (rows - 1) * gap + pad * 2;
-
   return (
     <View style={styles.basketWrap}>
-      <Text style={styles.animal}>
-        <Emoji>{animalEmoji}</Emoji>
-      </Text>
-      <GestureDetector gesture={tap}>
+      {/* Whole basket card is the add tap target — easier than aiming at the
+          small ＋ chip. The chip stays as a visual cue. − sits outside the
+          basket below so add/remove never share the same hit area. */}
+      <Pressable
+        onPress={() => {
+          if (!poolEmpty) onAdd();
+        }}
+        disabled={poolEmpty}>
         <Animated.View
-          ref={ref}
           style={[
-            styles.tray,
-            {width, height, gap, padding: pad, borderColor: edge},
+            styles.basket,
+            density === 'compact' && styles.basketCompact,
+            density === 'tiny' && styles.basketTiny,
             style,
+            {borderColor, backgroundColor: bgColor},
           ]}>
-          {pieces.map(id => (
-            <Animated.View key={id} entering={ZoomIn.duration(220)} exiting={FadeOut.duration(140)}>
-              <Food source={source} emoji={foodEmoji} size={pieceSize} />
-            </Animated.View>
+          <View style={styles.basketHeader}>
+            <Text
+              style={[
+                styles.animal,
+                compact && styles.animalCompact,
+                tiny && styles.animalTiny,
+              ]}>
+              <Emoji>{animalEmoji}</Emoji>
+            </Text>
+            {!poolEmpty && (
+              <View
+                style={[
+                  styles.ctrlBtn,
+                  compact && styles.ctrlBtnCompact,
+                  tiny && styles.ctrlBtnTiny,
+                  styles.addBtn,
+                ]}
+                pointerEvents="none">
+                <Text
+                  style={[
+                    styles.ctrlBtnText,
+                    compact && styles.ctrlBtnTextCompact,
+                    tiny && styles.ctrlBtnTextTiny,
+                  ]}>
+                  ＋
+                </Text>
+              </View>
+            )}
+          </View>
+        <View style={[styles.basketContents, tiny && styles.basketContentsTiny]}>
+          {Array.from({length: filled}).map((_, i) => (
+            <Text
+              key={i}
+              style={[
+                styles.basketFood,
+                compact && styles.basketFoodCompact,
+                tiny && styles.basketFoodTiny,
+              ]}>
+              <Emoji>{foodEmoji}</Emoji>
+            </Text>
           ))}
+        </View>
+          <Text
+            style={[
+              styles.basketCount,
+              compact && styles.basketCountCompact,
+              tiny && styles.basketCountTiny,
+            ]}>
+            {filled}
+          </Text>
         </Animated.View>
-      </GestureDetector>
-      <Text style={styles.count}>{pieces.length}</Text>
+      </Pressable>
+      {/* Remove (−) lives BELOW the basket so add and remove read as
+          distinct gestures (give above, take below). Hidden when empty. */}
+      {count > 0 ? (
+        <Pressable
+          onPress={onRemove}
+          style={({pressed}) => [
+            styles.ctrlBtn,
+            compact && styles.ctrlBtnCompact,
+            tiny && styles.ctrlBtnTiny,
+            styles.removeBtnBelow,
+            {opacity: pressed ? 0.7 : 1},
+          ]}>
+          <Text
+            style={[
+              styles.ctrlBtnText,
+              compact && styles.ctrlBtnTextCompact,
+              tiny && styles.ctrlBtnTextTiny,
+            ]}>
+            −
+          </Text>
+        </Pressable>
+      ) : (
+        <View
+          style={[
+            styles.removeBtnSpacer,
+            compact && styles.removeBtnSpacerCompact,
+            tiny && styles.removeBtnSpacerTiny,
+          ]}
+        />
+      )}
     </View>
   );
 }
@@ -243,124 +196,115 @@ export function FarmShareMode({
   problem,
   foodEmoji,
   animalEmoji,
+  colors,
   tokenImage,
   showOverflowHint = false,
   onMatch,
   onUnfair,
-  onDragStateChange,
 }: FarmShareModeProps) {
-  const [state, setState] = useState<ShareState | null>(null);
+  const [baskets, setBaskets] = useState<number[]>([]);
   const matchedRef = useRef(false);
-  // One measurer per tray; the trays are measured at the moment of a drop,
-  // so a layout that settled after mount (the level fades in) can't leave
-  // stale coordinates behind.
-  const measurersRef = useRef<Array<() => Promise<DropRect | undefined>>>([]);
   const onMatchRef = useRef(onMatch);
   const onUnfairRef = useRef(onUnfair);
   onMatchRef.current = onMatch;
   onUnfairRef.current = onUnfair;
 
+  // Reset whenever the problem changes.
   useEffect(() => {
     if (!problem) return;
-    setState(startShare(problem.total, problem.buckets));
-    measurersRef.current = [];
+    setBaskets(Array(problem.buckets).fill(0));
     matchedRef.current = false;
   }, [problem]);
 
-  const remaining = state ? poolRemaining(state) : 0;
+  // Derived values — safe to compute even when `problem` is null so all hooks
+  // below run in the same order on every render (React's hooks rules).
+  const distributed = baskets.reduce((a, b) => a + b, 0);
+  const remaining = problem ? Math.max(0, problem.total - distributed) : 0;
+
+  // Auto-validate when pool empties. Equal split = onMatch; otherwise nudge.
   useEffect(() => {
-    if (!problem || !state) return;
+    if (!problem) return;
+    // Child rearranged the pool — clear the match latch so a fresh equal
+    // split below re-triggers the timer. Without this, a kid who reaches
+    // 4+4, has second thoughts mid-grace, and returns to 4+4 stays frozen
+    // because matchedRef would still be true while the timer was cleared.
     if (remaining > 0) {
-      // The child rearranged: a fresh fair split may trigger again.
       matchedRef.current = false;
       return;
     }
     if (matchedRef.current) return;
-    if (isFair(state, problem.target)) {
+    if (distributed !== problem.total) return; // nothing distributed yet
+    const equal = baskets.every(c => c === problem.target);
+    if (equal) {
       matchedRef.current = true;
       const t = setTimeout(() => onMatchRef.current?.(), 900);
       return () => clearTimeout(t);
+    } else {
+      onUnfairRef.current?.();
     }
-    onUnfairRef.current?.();
-  }, [remaining, state, problem]);
+  }, [remaining, distributed, baskets, problem]);
 
-  const giveTo = useCallback((basket: number, id?: number) => {
-    setState(prev => (prev ? give(prev, basket, id) : prev));
-  }, []);
+  if (!problem) return null;
 
-  // A drop lands with the animal whose tray is under the finger, with a
-  // forgiving margin: a four-year-old lets go near the basket, not on it.
-  const dropAt = useCallback(
-    async (x: number, y: number, id: number) => {
-      const rects = await Promise.all(measurersRef.current.map(m => m()));
-      const hit = dropTargetAt(rects, x, y);
-      if (hit < 0) return false;
-      giveTo(hit, id);
-      return true;
-    },
-    [giveTo],
-  );
+  // Pool ten-frame cells: first `remaining` are 'filled' (so the cell falls
+  // through to rendering the food emoji we pass below, instead of the
+  // theme's color1 marble like the red dot).
+  const cells: CellState[] = Array(10)
+    .fill('empty')
+    .map((_, i) => (i < remaining ? 'filled' : 'empty')) as CellState[];
 
-  if (!problem || !state) return null;
-
-  const baskets = state.baskets.length;
-  const columns = baskets >= 4 ? 3 : baskets === 3 ? 4 : 5;
-  const pieceSize = baskets >= 4 ? 22 : baskets === 3 ? 26 : 30;
-  const poolRows = Math.max(1, Math.ceil(problem.total / POOL_COLUMNS));
+  const addTo = (i: number) => {
+    if (remaining <= 0) return;
+    setBaskets(prev => prev.map((c, j) => (j === i ? c + 1 : c)));
+  };
+  const removeFrom = (i: number) => {
+    setBaskets(prev => prev.map((c, j) => (j === i && c > 0 ? c - 1 : c)));
+  };
 
   return (
     <View style={styles.container}>
-      {/* The pool, above the baskets so a piece being carried never slides
-          behind a tray. */}
-      <View
-        style={[
-          styles.pool,
-          {width: POOL_COLUMNS * POOL_CELL, height: poolRows * POOL_CELL},
-        ]}>
-        {state.pool.map(id => (
-          <View
-            key={id}
-            style={[
-              styles.poolCell,
-              {
-                left: (id % POOL_COLUMNS) * POOL_CELL,
-                top: Math.floor(id / POOL_COLUMNS) * POOL_CELL,
-              },
-            ]}>
-            <PoolPiece
-              id={id}
-              source={tokenImage}
-              emoji={foodEmoji}
-              onDropAt={dropAt}
-              onDragStateChange={onDragStateChange}
-            />
-          </View>
-        ))}
+      {/* Pool — remaining food shown in ten frame */}
+      <View style={styles.poolLabel}>
+        <Text style={styles.poolEmoji}>
+          <Emoji>{foodEmoji}</Emoji>
+        </Text>
+        <Text style={styles.poolText}>×{remaining}</Text>
       </View>
+      {/* The pool is only for looking at. Tapping the food used to deal it
+          to whichever basket had least — the app doing the sharing for the
+          child. The child gives by tapping an animal's basket. */}
+      <TenFrame
+        cells={cells}
+        onCellClick={() => {}}
+        disabled
+        colors={colors}
+        emoji={foodEmoji}
+      />
 
+      {/* Arrow cue between pool and baskets */}
+      <Text style={styles.arrow}>↓</Text>
+
+      {/* Baskets — tap to add one from pool, tap a food item to take back */}
       <View style={styles.basketsRow}>
-        {state.baskets.map((pieces, i) => (
-          <Basket
-            key={i}
-            animalEmoji={animalEmoji}
-            source={tokenImage}
-            foodEmoji={foodEmoji}
-            pieces={pieces}
-            target={problem.target}
-            poolEmpty={remaining === 0}
-            showOverflowHint={showOverflowHint}
-            columns={columns}
-            pieceSize={pieceSize}
-            onTap={() =>
-              remaining === 0 && pieces.length > 0
-                ? setState(prev => (prev ? takeBack(prev, i) : prev))
-                : giveTo(i)
-            }
-            register={measure => {
-              measurersRef.current[i] = measure;
-            }}
-          />
-        ))}
+        {baskets.map((count, i) => {
+          const density: Density =
+            baskets.length >= 4 ? 'tiny' : baskets.length === 3 ? 'compact' : 'roomy';
+          return (
+            <Basket
+              key={i}
+              animalEmoji={animalEmoji}
+              foodEmoji={foodEmoji}
+              count={count}
+              target={problem.target}
+              poolEmpty={remaining <= 0}
+              showOverflowHint={showOverflowHint}
+              density={density}
+              onAdd={() => addTo(i)}
+              onRemove={() => removeFrom(i)}
+              colors={colors}
+            />
+          );
+        })}
       </View>
     </View>
   );
@@ -369,48 +313,175 @@ export function FarmShareMode({
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    gap: 16,
+    gap: 8,
   },
-  pool: {
-    zIndex: 5,
-    elevation: 5,
-  },
-  poolCell: {
-    position: 'absolute',
-    width: POOL_CELL,
-    height: POOL_CELL,
+  poolLabel: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    gap: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    backgroundColor: 'rgba(0,0,0,0.35)',
+    borderRadius: 14,
+  },
+  poolEmoji: {
+    fontSize: 28,
+  },
+  poolText: {
+    fontSize: 22,
+    fontWeight: '900',
+    color: '#FFFFFF',
+  },
+  arrow: {
+    fontSize: 30,
+    color: '#FFFFFF',
+    textShadowColor: 'rgba(0,0,0,0.5)',
+    textShadowOffset: {width: 0, height: 1},
+    textShadowRadius: 2,
   },
   basketsRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 12,
+    gap: 10,
     justifyContent: 'center',
     alignItems: 'flex-start',
+    paddingHorizontal: 4,
   },
   basketWrap: {
     alignItems: 'center',
-    gap: 2,
+    gap: 6,
+  },
+  // Each density tier uses a FIXED width so the basket never resizes when
+  // food is added/removed. Wrap on the row places extra baskets on a new
+  // row (e.g. 3 baskets → 2 on top + 1 below).
+  basket: {
+    width: 140,
+    paddingHorizontal: 8,
+    paddingVertical: 10,
+    borderRadius: 18,
+    borderWidth: 3,
+    alignItems: 'center',
+    gap: 4,
+  },
+  basketCompact: {
+    width: 130,
+  },
+  basketTiny: {
+    width: 110,
+  },
+  basketHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  basketHeaderTiny: {
+    // unused — kept harmless; could be removed if/when we collapse styles.
   },
   animal: {
     fontSize: 38,
-    lineHeight: 46,
   },
-  tray: {
+  animalCompact: {
+    fontSize: 26,
+  },
+  animalTiny: {
+    fontSize: 22,
+  },
+  ctrlBtn: {
+    width: 44,
+    height: 36,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.5)',
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+  },
+  ctrlBtnCompact: {
+    width: 32,
+    height: 28,
+    borderRadius: 9,
+  },
+  ctrlBtnTiny: {
+    width: 28,
+    height: 24,
+    borderRadius: 8,
+  },
+  addBtn: {
+    backgroundColor: '#22C55E',
+  },
+  removeBtnBelow: {
+    backgroundColor: '#EF4444',
+    marginTop: 2,
+  },
+  removeBtnSpacer: {
+    height: 36,
+    marginTop: 2,
+  },
+  removeBtnSpacerCompact: {
+    height: 28,
+  },
+  removeBtnSpacerTiny: {
+    height: 24,
+  },
+  ctrlBtnText: {
+    fontSize: 26,
+    fontWeight: '900',
+    color: '#FFFFFF',
+    lineHeight: 30,
+    includeFontPadding: false,
+  },
+  ctrlBtnTextCompact: {
+    fontSize: 18,
+    lineHeight: 22,
+  },
+  ctrlBtnTextTiny: {
+    fontSize: 15,
+    lineHeight: 18,
+  },
+  basketContents: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignContent: 'flex-start',
-    backgroundColor: TRAY,
-    borderRadius: 16,
-    borderWidth: 3,
+    justifyContent: 'center',
+    minHeight: 28,
+    alignItems: 'center',
+    gap: 2,
+    // Span the full interior width so we never push the basket wider when
+    // a child adds food. The basket itself has a fixed width per density.
+    alignSelf: 'stretch',
   },
-  count: {
-    fontSize: 20,
+  basketFood: {
+    fontSize: 22,
+  },
+  basketFoodCompact: {
+    fontSize: 16,
+  },
+  basketFoodTiny: {
+    fontSize: 14,
+  },
+  basketContentsTiny: {
+    minHeight: 22,
+  },
+  basketEmpty: {
+    fontSize: 28,
+    color: 'rgba(255,255,255,0.4)',
+    fontWeight: '700',
+  },
+  basketCount: {
+    fontSize: 22,
     fontWeight: '900',
     color: '#FFFFFF',
     textShadowColor: 'rgba(0,0,0,0.5)',
     textShadowOffset: {width: 0, height: 1},
     textShadowRadius: 2,
+  },
+  basketCountCompact: {
+    fontSize: 18,
+  },
+  basketCountTiny: {
+    fontSize: 15,
   },
 });
