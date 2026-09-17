@@ -1,5 +1,5 @@
 import {useMemo} from 'react';
-import {Theme, ThemeColors, ThemeConfig, BackgroundEmoji} from '../types/game';
+import {Theme, ThemeConfig} from '../types/game';
 
 const themeConfigs: Record<Theme, ThemeConfig> = {
   space: {

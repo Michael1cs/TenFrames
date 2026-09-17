@@ -1,7 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {
   View,
-  TextInput,
   Pressable,
   StyleSheet,
   Modal,

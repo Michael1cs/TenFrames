@@ -7,7 +7,6 @@ import Animated, {
   useAnimatedStyle,
   withDelay,
   withSpring,
-  withSequence,
 } from 'react-native-reanimated';
 
 interface StarsDisplayProps {

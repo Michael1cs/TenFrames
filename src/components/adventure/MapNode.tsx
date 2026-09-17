@@ -9,7 +9,6 @@ import Animated, {
   withSpring,
   withDelay,
   useSharedValue,
-  interpolateColor,
 } from 'react-native-reanimated';
 import {AdventureLevel, AdventureLevelProgress, ThemeColors} from '../../types/game';
 import {Emoji} from '../common/Emoji';

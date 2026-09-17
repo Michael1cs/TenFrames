@@ -1,6 +1,6 @@
 import {Bouncy} from '../common/Bouncy';
 import React from 'react';
-import {View, Pressable, ScrollView, StyleSheet} from 'react-native';
+import {View, ScrollView, StyleSheet} from 'react-native';
 import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {GameMode, ThemeColors} from '../../types/game';

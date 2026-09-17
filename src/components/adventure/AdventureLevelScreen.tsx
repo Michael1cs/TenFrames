@@ -10,7 +10,6 @@ import {Text} from '../common/AppText';
 import Animated, {BounceIn, FadeIn} from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
 import {
-  AdventureLevel,
   AnswerProblem,
   CompareProblem,
   ThemeColors,
@@ -30,7 +29,6 @@ import {
   generateShareProblem,
   ShareProblem,
   checkAnswer,
-  checkPuzzleAnswer,
 } from '../../utils/mathProblems';
 import {TenFrame} from '../game/TenFrame';
 import {NumberDisplay} from '../game/NumberDisplay';
@@ -43,7 +41,6 @@ import {LevelCompleteScreen} from './LevelCompleteScreen';
 import {LevelPlayState} from '../../hooks/useAdventure';
 import {getAllThemes} from '../../hooks/useTheme';
 import {ADVENTURE_WORLDS} from '../../config/adventureWorlds';
-import {Emoji} from '../common/Emoji';
 import {
   puzzleInstructionIds,
   puzzlePraisePool,
@@ -483,7 +480,7 @@ export function AdventureLevelScreen({
         setIsCorrect(null);
       }
     },
-    [hasSubmitted, isCorrect, level.gameMode, assisting],
+    [hasSubmitted, isCorrect, level.gameMode, assisting, dismissHint],
   );
 
   const handleSubmit = useCallback(() => {
