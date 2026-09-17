@@ -1,3 +1,4 @@
+import {Bouncy} from '../common/Bouncy';
 import React from 'react';
 import {View, Pressable, ScrollView, StyleSheet} from 'react-native';
 import {Text} from '../common/AppText';
@@ -61,7 +62,7 @@ export function ModeSelector({
           const isExhausted = isLimited && remaining <= 0;
 
           return (
-            <Pressable
+            <Bouncy
               key={mode.id}
               onPress={() => onModeChange(mode.id)}
               style={[
@@ -97,7 +98,7 @@ export function ModeSelector({
                   {remaining}/5
                 </Text>
               )}
-            </Pressable>
+            </Bouncy>
           );
         })}
       </View>
@@ -121,7 +122,7 @@ export function ModeSelector({
         const isExhausted = isLimited && remaining <= 0;
 
         return (
-          <Pressable
+          <Bouncy
             key={mode.id}
             onPress={() => onModeChange(mode.id)}
             style={[
@@ -164,11 +165,11 @@ export function ModeSelector({
                 <Text style={styles.remainingPlaceholder}>{' '}</Text>
               )}
             </View>
-          </Pressable>
+          </Bouncy>
         );
       })}
       {onAdventurePress && (
-        <Pressable onPress={onAdventurePress} style={tabStyle}>
+        <Bouncy onPress={onAdventurePress} style={tabStyle}>
           <View
             style={[
               styles.bottomTabInner,
@@ -192,7 +193,7 @@ export function ModeSelector({
             )}
             <Text style={styles.remainingPlaceholder}>{' '}</Text>
           </View>
-        </Pressable>
+        </Bouncy>
       )}
     </>
   );

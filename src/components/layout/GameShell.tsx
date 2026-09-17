@@ -58,6 +58,7 @@ import {Language, GameMode, WorldId} from '../../types/game';
 import {ADVENTURE_WORLDS, isLevelPremiumLocked} from '../../config/adventureWorlds';
 import {useAdventure} from '../../hooks/useAdventure';
 import {AdventureWorldsScreen} from '../adventure/AdventureWorldsScreen';
+import {TapHint} from '../feedback/TapHint';
 import {AdventureLevelsScreen} from '../adventure/AdventureLevelsScreen';
 import {AdventureLevelScreen} from '../adventure/AdventureLevelScreen';
 import i18n from '../../i18n';
@@ -533,6 +534,9 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
               showsVerticalScrollIndicator={false}>
               {renderGameMode()}
             </ScrollView>
+            <View style={styles.stallHint} pointerEvents="none">
+              <TapHint visible={ctx.showTapHint} />
+            </View>
             <FeedbackSheet
               visible={showAnswerFeedback}
               isCorrect={game.isCorrect}
@@ -552,6 +556,9 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
               showsVerticalScrollIndicator={false}>
               {renderGameMode()}
             </ScrollView>
+            <View style={styles.stallHint} pointerEvents="none">
+              <TapHint visible={ctx.showTapHint} />
+            </View>
             <FeedbackSheet
               visible={showAnswerFeedback}
               isCorrect={game.isCorrect}
@@ -586,6 +593,33 @@ function useShellState(
   // navigated to Adventure (the setTimeout in useGameState still fires
   // and generates the next problem, but we don't want to narrate it).
   const freePlayFocusedRef = useRef(false);
+
+  // When a child stalls on a Free Play problem: a pulsing hand at 4s, and
+  // the instruction spoken once more at 10s — the same two nudges the
+  // Adventure levels give. Any tap on a cell, or the answer landing, cancels
+  // both. The replay is the instruction only, without the optional
+  // restatement, so a stuck child hears the shortest possible cue.
+  const [showTapHint, setShowTapHint] = useState(false);
+  const stallHintTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const stallReplayTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cancelStallNudge = useCallback(() => {
+    if (stallHintTimerRef.current) clearTimeout(stallHintTimerRef.current);
+    if (stallReplayTimerRef.current) clearTimeout(stallReplayTimerRef.current);
+    stallHintTimerRef.current = null;
+    stallReplayTimerRef.current = null;
+    setShowTapHint(false);
+  }, []);
+  const armStallNudge = useCallback(
+    (replay: () => void) => {
+      cancelStallNudge();
+      stallHintTimerRef.current = setTimeout(() => setShowTapHint(true), 4000);
+      stallReplayTimerRef.current = setTimeout(() => {
+        if (freePlayFocusedRef.current) replay();
+      }, 10000);
+    },
+    [cancelStallNudge],
+  );
+  useEffect(() => cancelStallNudge, [cancelStallNudge]);
   const game = useGameState();
   const themeConfig = useTheme(game.theme);
   const {colors} = themeConfig;
@@ -844,15 +878,36 @@ function useShellState(
     // variant so the currently-playing praise (post_great_…) finishes
     // naturally — cutting it mid-word was the previous complaint.
     if (!isFirst) clearPendingVoiceQueue();
-    queueVoice(`pre_have_${game.theme}_${n1}`);
-    queueVoice(`instr_${action}_${game.theme}_${n2}`);
+    const instruction = () => {
+      queueVoice(`pre_have_${game.theme}_${n1}`);
+      queueVoice(`instr_${action}_${game.theme}_${n2}`);
+    };
+    instruction();
     // Roughly every other problem also restates the task as a question, so
     // a long Free Play session doesn't replay one sentence forever.
     if (Math.random() < 0.5) {
       const alt = game.gameMode === 'addition' ? 'add_alt' : 'sub_alt';
       queueVoice(`${alt}_${1 + Math.floor(Math.random() * 2)}`);
     }
-  }, [game.currentProblem, game.gameMode, game.theme, queueVoice, voice]);
+    armStallNudge(instruction);
+  }, [
+    game.currentProblem,
+    game.gameMode,
+    game.theme,
+    queueVoice,
+    voice,
+    armStallNudge,
+  ]);
+
+  // The answer landing, or a switch to another mode, ends the nudge.
+  useEffect(() => {
+    if (game.hasSubmitted) cancelStallNudge();
+  }, [game.hasSubmitted, cancelStallNudge]);
+  useEffect(() => {
+    if (game.gameMode !== 'addition' && game.gameMode !== 'subtraction') {
+      cancelStallNudge();
+    }
+  }, [game.gameMode, cancelStallNudge]);
 
   // One voice line per celebration, spoken as it takes the stage — the
   // queue guarantees they no longer pile onto the same instant.
@@ -933,10 +988,11 @@ function useShellState(
 
   const handleCellClick = useCallback(
     (index: number) => {
+      cancelStallNudge();
       playSound('tap');
       game.handleCellClick(index);
     },
-    [game, playSound],
+    [game, playSound, cancelStallNudge],
   );
 
   const handleModeChange = useCallback(
@@ -1088,6 +1144,7 @@ function useShellState(
     voice,
     playSound,
     freePlayFocusedRef,
+    showTapHint,
     showStickerBook, setShowStickerBook,
     showAchievements, setShowAchievements,
     lastStarsAwarded,
@@ -1345,6 +1402,15 @@ function GameShellInner() {
 }
 
 const styles = StyleSheet.create({
+  // The stall hand floats over the game area's bottom edge; absolute so its
+  // arrival never shifts the frame above it.
+  stallHint: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 4,
+    alignItems: 'center',
+  },
   container: {flex: 1},
   background: {flex: 1},
   adventureBackdrop: {flex: 1, backgroundColor: '#1E1B4B'},

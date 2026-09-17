@@ -30,6 +30,7 @@ import {
 import {getAllThemes} from '../../hooks/useTheme';
 import {useVoice} from '../../hooks/useVoice';
 import {WorldIcon} from './WorldIcon';
+import {Bouncy} from '../common/Bouncy';
 
 // Grid geometry, shared between the container padding and the per-card
 // width so the columns always add up to the available width exactly.
@@ -237,7 +238,7 @@ function WorldCard({
 
   return (
     <Animated.View style={[{width}, pulseStyle]}>
-      <Pressable
+      <Bouncy
         onPress={onPress}
         disabled={!unlocked}
         style={[
@@ -263,7 +264,7 @@ function WorldCard({
           minimumFontScale={0.7}>
           {t(world.nameKey)}
         </Text>
-      </Pressable>
+      </Bouncy>
     </Animated.View>
   );
 }
