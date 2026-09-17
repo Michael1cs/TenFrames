@@ -11,6 +11,9 @@ import {STOP_JUDGE_MS} from '../../config/timing';
 import {hasEngaged} from '../../utils/answerTiming';
 
 interface SubtractionModeProps {
+  // False while something covers the frame (the setup modal on first run):
+  // the ghost-hand demo would play unseen and mark itself as shown.
+  demoEnabled?: boolean;
   cells: CellState[];
   onCellClick: (index: number) => void;
   onSubmit: () => void;
@@ -28,6 +31,7 @@ interface SubtractionModeProps {
 }
 
 export function SubtractionMode({
+  demoEnabled,
   cells,
   onCellClick,
   onSubmit,
@@ -109,7 +113,7 @@ export function SubtractionMode({
         colors={colors}
         emoji={emoji}
         tokenImage={tokenImage}
-        demo="subtraction"
+        demo={demoEnabled === false ? undefined : 'subtraction'}
       />
 
       {userAnswer !== null && (

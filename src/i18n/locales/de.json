@@ -415,7 +415,8 @@
     "fillTopRow": "Fülle nur die obere Reihe!",
     "fillBottomRow": "Fülle nur die untere Reihe!",
     "fillBothEqual": "Gleich viele in beiden Reihen!",
-    "pickTheNumber": "Tippe die Zahl!"
+    "pickTheNumber": "Tippe die Zahl!",
+    "newBest": "Neue Bestleistung!"
   },
   "memory": {
     "watch": "Schau gut zu!",

@@ -415,7 +415,8 @@
     "fillTopRow": "Umple doar rândul de sus!",
     "fillBottomRow": "Umple doar rândul de jos!",
     "fillBothEqual": "La fel pe ambele rânduri!",
-    "pickTheNumber": "Apasă numărul!"
+    "pickTheNumber": "Apasă numărul!",
+    "newBest": "Cel mai bun rezultat!"
   },
   "memory": {
     "watch": "Privește atent!",

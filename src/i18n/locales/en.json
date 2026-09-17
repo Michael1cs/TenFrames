@@ -415,7 +415,8 @@
     "fillTopRow": "Fill only the top row!",
     "fillBottomRow": "Fill only the bottom row!",
     "fillBothEqual": "Same on both rows!",
-    "pickTheNumber": "Tap the number!"
+    "pickTheNumber": "Tap the number!",
+    "newBest": "New best!"
   },
   "memory": {
     "watch": "Watch carefully!",

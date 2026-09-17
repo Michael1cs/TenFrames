@@ -18,12 +18,16 @@ import {
 
 // Keys owned by this app. Wiping them is the last-ditch escape from a save
 // file that crashes the app on every launch.
+// Progress and state this screen may delete to get a crashing app running
+// again. '@tenframes_premium' is deliberately NOT here: a purchase is not
+// progress, and a parent whose child hit "Delete and restart" would have lost
+// the paid content with no way back except Restore.
 const APP_KEYS = [
   '@tenframes_player',
   '@tenframes_rewards',
-  '@tenframes_premium',
   '@tenframes_adventure',
   '@tenframes_lasterror',
+  '@tenframes_demos_seen',
 ];
 
 // The boundary must render even if i18n itself is what broke, so every string

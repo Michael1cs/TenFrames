@@ -122,6 +122,14 @@ function useConsumerIAPConnection(onPurchaseSuccess: () => void): IAPState {
       if (err.code === ErrorCode.UserCancelled) {
         return;
       }
+      // "Ask to Buy": the child's request went to the family organiser and is
+      // waiting for their approval. Nothing failed, so it must not say
+      // "Purchase failed. Please try again" — a parent who tried again would
+      // send a second request. Same sentinel as the pending purchase above.
+      if (err.code === ErrorCode.DeferredPayment) {
+        setError('purchase_pending');
+        return;
+      }
       setError(err.message || 'Purchase failed');
     },
     // Non-purchase errors (fetchProducts, connection). Silent on purpose: the

@@ -289,6 +289,7 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
       case 'counting':
         return (
           <CountingMode
+            demoEnabled={!game.showSetup}
             cells={game.cells}
             onCellClick={handleCellClick}
             onReset={game.resetGame}
@@ -303,6 +304,7 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
       case 'addition':
         return (
           <AdditionMode
+            demoEnabled={!game.showSetup}
             cells={game.cells}
             onCellClick={handleCellClick}
             onSubmit={game.handleSubmit}
@@ -322,6 +324,7 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
       case 'subtraction':
         return (
           <SubtractionMode
+            demoEnabled={!game.showSetup}
             cells={game.cells}
             onCellClick={handleCellClick}
             onSubmit={game.handleSubmit}
@@ -341,6 +344,7 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
       case 'puzzle':
         return (
           <PuzzleMode
+            demoEnabled={!game.showSetup}
             cells={game.cells}
             onCellClick={handleCellClick}
             onSubmit={game.handlePuzzleSubmit}

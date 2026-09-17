@@ -170,7 +170,7 @@ export function LevelCompleteScreen({
           <Animated.Text
             entering={BounceIn.delay(1400)}
             style={styles.newBest}>
-            <Emoji>🏆</Emoji> New Best!
+            <Emoji>🏆</Emoji> {t('adventure.newBest')}
           </Animated.Text>
         )}
 
