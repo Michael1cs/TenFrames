@@ -503,6 +503,7 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
         onModeChange={handleModeChange}
         colors={colors}
         vertical
+        onAdventurePress={handleAdventurePress}
         getRemainingExercises={premium.getRemainingExercises}
         isPremium={premium.isPremium}
         availableModes={ageProfile.availableModes}
@@ -875,12 +876,26 @@ function useShellState(
   useEffect(() => {
     if (!limitPendingRef.current) return;
     limitPendingRef.current = false;
+    // The problem underneath is one the child is not allowed to play. Its
+    // instruction was still being spoken under the silent wall, and the
+    // stall nudge repeated it ten seconds later.
+    voice.stop();
+    clearPendingVoiceQueue();
+    cancelStallNudge();
     setShowDailyLimit(true);
-  }, [game.currentProblem, game.answerProblem, game.compareProblem]);
+  }, [
+    game.currentProblem,
+    game.answerProblem,
+    game.compareProblem,
+    voice,
+    cancelStallNudge,
+  ]);
 
   useEffect(() => {
     if (game.gameMode !== 'addition' && game.gameMode !== 'subtraction') return;
     if (!game.currentProblem) return;
+    // Nothing is narrated behind the daily wall.
+    if (showDailyLimit || limitPendingRef.current) return;
     // If the child navigated away (e.g. into Adventure) the next-problem
     // setTimeout in useGameState still fires and mutates currentProblem —
     // but we must NOT narrate it because the FreePlay screen isn't on
@@ -916,6 +931,7 @@ function useShellState(
     queueVoice,
     voice,
     armStallNudge,
+    showDailyLimit,
   ]);
 
   // The answer landing, or a switch to another mode, ends the nudge.
@@ -951,15 +967,12 @@ function useShellState(
     prevCelebration.current = cur;
   }, [rewardSystem.currentCelebration, queueVoice]);
 
-  const prevAdventureStars = useRef<number | null>(null);
-  useEffect(() => {
-    if (adventureStars !== null && adventureStars !== prevAdventureStars.current) {
-      if (adventureStars === 3) queueVoice('reward_level_perfect');
-      else if (adventureStars === 2) queueVoice('reward_level_great');
-      else if (adventureStars === 1) queueVoice('reward_level_good');
-    }
-    prevAdventureStars.current = adventureStars;
-  }, [adventureStars, queueVoice]);
+  // Finishing a level used to set off up to five lines at once: the star
+  // verdict queued here, whatever sticker/achievement/milestone toasts the
+  // batch of awardStars produced, and the screen's own transition cue, which
+  // stopped the queue mid-word to get in. The screen now speaks the single
+  // line that belongs to the moment (see LevelCompleteScreen), and the star
+  // verdict is what it says.
 
   const prevAddLevel = useRef(game.additionLevel);
   const prevSubLevel = useRef(game.subtractionLevel);

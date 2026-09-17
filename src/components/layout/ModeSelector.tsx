@@ -101,6 +101,27 @@ export function ModeSelector({
             </Bouncy>
           );
         })}
+        {/* In landscape the sidebar was the only navigation, and it had no
+            way into Adventure or back Home: on an iPad held sideways — the
+            classroom and School Edition setup — Free Play was a dead end
+            whose only exit was the iOS edge-swipe. */}
+        {onAdventurePress && (
+          <Bouncy
+            onPress={onAdventurePress}
+            accessibilityRole="button"
+            accessibilityLabel={t('adventure.title')}
+            style={[
+              styles.tabVertical,
+              {
+                backgroundColor: 'rgba(255,255,255,0.18)',
+                borderColor: 'rgba(255,255,255,0.25)',
+              },
+            ]}>
+            <View style={styles.emojiVerticalContainer}>
+              <ModeIcon mode="adventure" size={26} colors={colors} />
+            </View>
+          </Bouncy>
+        )}
       </View>
     );
   }

@@ -87,30 +87,25 @@ export function LevelCompleteScreen({
   const voiceRef = useRef(voice);
   voiceRef.current = voice;
 
-  // Play a transition cue ~2.5s after the screen mounts so the praise/stars
-  // animation finishes first. Stop any in-flight voice first — opening this
-  // screen triggers a cascade of reward-system voices (sticker, achievement,
-  // milestone) from the 5 batched awardStars calls; without the stop the
-  // transition cue overlaps mid-word with whichever reward voice is current.
+  // One line, spoken shortly after the screen appears. The queue in useVoice
+  // keeps it behind whatever praise is still finishing, so nothing is cut.
   useEffect(() => {
-    // "Let's go to the next level!" only when there is one the child can
-    // open, and the world line only when the world is really finished —
-    // it used to congratulate a free child who had just hit the crowns, and
-    // it said "You finished the island!" in the meadow, the castle and the
-    // farm alike. When neither applies, the screen stays quiet: the stars
-    // and the buttons carry the moment.
-    const id = hasNextLevel
-      ? 'lvl_next'
-      : worldComplete
-      ? 'lvl_world_done_any'
-      : null;
-    if (!id) return;
-    const t = setTimeout(() => {
-      voiceRef.current.stop();
-      voiceRef.current.play(id);
-    }, 2500);
+    // How it went, and nothing else. Up to five lines used to land here —
+    // the star verdict, the reward toasts, and a transition cue that cut
+    // whatever was speaking to say "Let's go to the next level!", including
+    // to a free child whose next level is crowned. The world line is kept
+    // for a world that is really finished, and says "this world", not
+    // "the island".
+    const verdict =
+      stars === 3
+        ? 'reward_level_perfect'
+        : stars === 2
+        ? 'reward_level_great'
+        : 'reward_level_good';
+    const id = worldComplete && !hasNextLevel ? 'lvl_world_done_any' : verdict;
+    const t = setTimeout(() => voiceRef.current.play(id), 900);
     return () => clearTimeout(t);
-  }, [hasNextLevel, worldComplete]);
+  }, [hasNextLevel, worldComplete, stars]);
 
   const message =
     stars === 3
