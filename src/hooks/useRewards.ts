@@ -1,5 +1,5 @@
 import {useState, useCallback, useEffect, useRef} from 'react';
-import {GameMode, RewardData} from '../types/game';
+import {GameMode, RewardData, StreakData} from '../types/game';
 import {ALL_STICKERS, ALL_ACHIEVEMENTS} from '../utils/rewardData';
 
 // One correct answer can unlock a milestone, an achievement AND stickers at
@@ -44,6 +44,16 @@ function getToday(): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
+/** The streak after a day of practice on `today` (YYYY-MM-DD). */
+export function nextStreak(streak: StreakData, today: string): StreakData {
+  if (streak.lastPlayedDate === today) return streak;
+  const [y, m, d] = today.split('-').map(Number);
+  const yesterday = new Date(y, m - 1, d - 1);
+  const yesterdayStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`;
+  const current = streak.lastPlayedDate === yesterdayStr ? streak.current + 1 : 1;
+  return {current, lastPlayedDate: today, longest: Math.max(streak.longest, current)};
+}
+
 export function useRewards() {
   const [rewards, setRewards] = useState<RewardData>(defaultRewardData);
   const [celebrationQueue, setCelebrationQueue] = useState<Celebration[]>([]);
@@ -51,6 +61,10 @@ export function useRewards() {
 
   const rewardsRef = useRef(rewards);
   rewardsRef.current = rewards;
+
+  const celebrationGenRef = useRef(0);
+  const awardSeqRef = useRef(0);
+  const scheduledAwardsRef = useRef(new Set<number>());
 
   const advanceCelebration = useCallback(() => {
     setCelebrationQueue(q => q.slice(1));
@@ -60,6 +74,7 @@ export function useRewards() {
   // moment is dropped rather than shown over the next challenge. Milestones
   // survive — they are modal and rare.
   const clearTransientCelebrations = useCallback(() => {
+    celebrationGenRef.current++;
     setCelebrationQueue(q => q.filter(c => c.kind === 'milestone'));
   }, []);
 
@@ -84,32 +99,12 @@ export function useRewards() {
   }, []);
 
   // Update daily streak
+  // Kept for callers; the streak now moves from awardStars, so that
+  // practising — not launching the app — is what counts as a day played.
   const updateDailyStreak = useCallback(() => {
     setRewards(prev => {
-      const today = getToday();
-      if (prev.streak.lastPlayedDate === today) {
-        return prev; // Already updated today
-      }
-
-      const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
-      const yesterdayStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`;
-
-      let newCurrent: number;
-      if (prev.streak.lastPlayedDate === yesterdayStr) {
-        newCurrent = prev.streak.current + 1;
-      } else {
-        newCurrent = 1;
-      }
-
-      return {
-        ...prev,
-        streak: {
-          current: newCurrent,
-          lastPlayedDate: today,
-          longest: Math.max(prev.streak.longest, newCurrent),
-        },
-      };
+      const streak = nextStreak(prev.streak, getToday());
+      return streak === prev.streak ? prev : {...prev, streak};
     });
   }, []);
 
@@ -119,9 +114,18 @@ export function useRewards() {
     (mode: GameMode, wasFirstTry: boolean): number => {
       const stars = wasFirstTry ? 3 : 1;
 
+      // Toasts are scheduled from inside the updater below. React may run
+      // an updater twice, so each award carries a token that schedules at
+      // most once; and a toast whose timer has not fired yet is dropped if
+      // a new problem clears the stage first (celebrationGen moves on).
+      const token = ++awardSeqRef.current;
       setRewards(prev => {
         const newTotalStars = prev.totalStars + stars;
         const newStarsAvailable = prev.starsAvailable + stars;
+        // A right answer is a day of practice: the streak used to move only
+        // on a cold start, so the streak achievements and the dashboard's
+        // "last activity" lagged, and merely opening the app counted.
+        const streak = nextStreak(prev.streak, getToday());
 
         // Update mode stats
         const modeStats = prev.stats.byMode[mode] || {attempted: 0, correct: 0};
@@ -135,7 +139,11 @@ export function useRewards() {
             ...prev.stats.byMode,
             [mode]: {
               attempted: modeStats.attempted + 1,
-              correct: modeStats.correct + 1,
+              // Only a first-try success counts as correct. This used to
+              // add one for every solved problem, however many tries it
+              // took, so the paid parent dashboard reported 100% in every
+              // mode and could never point at what needed practice.
+              correct: modeStats.correct + (wasFirstTry ? 1 : 0),
             },
           },
         };
@@ -153,6 +161,7 @@ export function useRewards() {
             totalStars: newTotalStars,
             stickers: allStickers,
             stats: newStats,
+            streak,
           },
           prev.achievements,
         );
@@ -183,8 +192,15 @@ export function useRewards() {
         } else if (unlockedStickers.length > 0) {
           queued.push({kind: 'sticker', ids: unlockedStickers});
         }
-        if (queued.length > 0) {
+        if (queued.length > 0 && !scheduledAwardsRef.current.has(token)) {
+          scheduledAwardsRef.current.add(token);
+          const gen = celebrationGenRef.current;
           setTimeout(() => {
+            scheduledAwardsRef.current.delete(token);
+            // The stage was cleared for a new problem while this toast was
+            // still waiting its 1.2s: it would land, with its voice line,
+            // on top of the next challenge.
+            if (gen !== celebrationGenRef.current) return;
             setCelebrationQueue(q => {
               // Adventure awards a level's stars as one 5-call batch: merge
               // back-to-back sticker toasts into a single card instead of
@@ -208,6 +224,7 @@ export function useRewards() {
 
         return {
           ...prev,
+          streak,
           totalStars: newTotalStars,
           starsAvailable: newStarsAvailable,
           stickers: allStickers,

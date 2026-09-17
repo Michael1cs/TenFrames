@@ -11,6 +11,9 @@ import {STOP_JUDGE_MS} from '../../config/timing';
 import {hasEngaged} from '../../utils/answerTiming';
 
 interface AdditionModeProps {
+  // False while something covers the frame (the setup modal on first run):
+  // the ghost-hand demo would play unseen and mark itself as shown.
+  demoEnabled?: boolean;
   cells: CellState[];
   onCellClick: (index: number) => void;
   onSubmit: () => void;
@@ -28,6 +31,7 @@ interface AdditionModeProps {
 }
 
 export function AdditionMode({
+  demoEnabled,
   cells,
   onCellClick,
   onSubmit,
@@ -112,6 +116,7 @@ export function AdditionMode({
         colors={colors}
         emoji={emoji}
         tokenImage={tokenImage}
+        demo={demoEnabled === false ? undefined : 'addition'}
       />
 
       {userAnswer !== null && (

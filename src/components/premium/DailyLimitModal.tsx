@@ -3,7 +3,7 @@ import {View, Pressable, StyleSheet, Modal} from 'react-native';
 import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
-import {Emoji} from '../common/Emoji';
+import {Mascot} from '../common/Mascot';
 
 interface DailyLimitModalProps {
   visible: boolean;
@@ -28,7 +28,8 @@ export function DailyLimitModal({
       onRequestClose={onDismiss}>
       <View style={styles.overlay}>
         <View style={[styles.card, {borderColor: colors.accent}]}>
-          <Text style={styles.emoji}><Emoji>🌟</Emoji></Text>
+          {/* Done for today: the mascot has gone to sleep in its frame. */}
+          <Mascot pose="sleep" width={170} style={styles.mascot} />
           <Text style={[styles.title, {color: colors.text}]}>
             {t('premium.dailyLimitTitle')}
           </Text>
@@ -36,17 +37,21 @@ export function DailyLimitModal({
             {t('premium.dailyLimitMessage')}
           </Text>
 
+          {/* The child sees this screen. Its one big button is the goodbye;
+              the purchase is a small line for the parent, and opens behind
+              the parental gate. It used to be the other way round, with
+              "Unlock everything ✨" as the bright button. */}
           <Pressable
-            onPress={onUpgrade}
+            onPress={onDismiss}
             style={[styles.upgradeButton, {backgroundColor: colors.primaryButton}]}>
             <Text style={styles.upgradeButtonText}>
-              {t('premium.unlockAll')} <Emoji>✨</Emoji>
+              {t('premium.comeBackTomorrow')}
             </Text>
           </Pressable>
 
-          <Pressable onPress={onDismiss} style={styles.dismissButton}>
-            <Text style={[styles.dismissText, {color: colors.accent}]}>
-              {t('premium.comeBackTomorrow')}
+          <Pressable onPress={onUpgrade} style={styles.dismissButton}>
+            <Text style={[styles.dismissText, {color: colors.text, opacity: 0.6}]}>
+              {t('premium.unlockAll')}
             </Text>
           </Pressable>
         </View>
@@ -72,8 +77,7 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 340,
   },
-  emoji: {
-    fontSize: 48,
+  mascot: {
     marginBottom: 12,
   },
   title: {

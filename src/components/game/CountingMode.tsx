@@ -8,6 +8,9 @@ import {AgeProfile} from '../../hooks/useAgeProfile';
 import {CellState, ThemeColors} from '../../types/game';
 
 interface CountingModeProps {
+  // False while something covers the frame (the setup modal on first run):
+  // the ghost-hand demo would play unseen and mark itself as shown.
+  demoEnabled?: boolean;
   cells: CellState[];
   onCellClick: (index: number) => void;
   onReset: () => void;
@@ -20,6 +23,7 @@ interface CountingModeProps {
 }
 
 export function CountingMode({
+  demoEnabled,
   cells,
   onCellClick,
   onReset,
@@ -71,6 +75,7 @@ export function CountingMode({
         colors={colors}
         emoji={emoji}
         tokenImage={tokenImage}
+        demo={demoEnabled === false ? undefined : 'counting'}
       />
 
       <NumberDisplay

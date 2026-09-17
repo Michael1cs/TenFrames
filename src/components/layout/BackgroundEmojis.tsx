@@ -10,6 +10,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import {BackgroundEmoji as BackgroundEmojiType} from '../../types/game';
 import {Emoji} from '../common/Emoji';
+import {useIsFocused} from '@react-navigation/native';
 
 interface FloatingEmojiProps {
   config: BackgroundEmojiType;
@@ -28,6 +29,8 @@ function FloatingEmoji({config}: FloatingEmojiProps) {
         true,
       ),
     );
+    // Starts once on mount; the shared value is stable and the delay fixed.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const animStyle = useAnimatedStyle(() => ({
@@ -54,6 +57,10 @@ interface BackgroundEmojisProps {
 }
 
 export function BackgroundEmojis({emojis}: BackgroundEmojisProps) {
+  // Free Play stays mounted underneath Adventure; its floating decorations
+  // kept animating on the UI thread the whole time nobody could see them.
+  const focused = useIsFocused();
+  if (!focused) return null;
   return (
     <View style={styles.container} pointerEvents="none">
       {emojis.map((config, index) => (

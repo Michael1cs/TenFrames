@@ -23,7 +23,6 @@ export function useGameState() {
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [mascotMood, setMascotMood] = useState<MascotMood>('happy');
-  const [showConfetti, setShowConfetti] = useState(false);
   const [puzzleAnswer, setPuzzleAnswer] = useState(5);
   const [shareProblem, setShareProblem] = useState<ShareProblem | null>(null);
   const [showPuzzleAnswer, setShowPuzzleAnswer] = useState(false);
@@ -54,7 +53,11 @@ export function useGameState() {
   const [compareLevel, setCompareLevel] = useState(1);
   const [compareProblem, setCompareProblem] = useState<CompareProblem | null>(null);
   // Consecutive correct answers at current level (level up after 3)
-  const [levelCorrectStreak, setLevelCorrectStreak] = useState(0);
+  const [, setLevelCorrectStreak] = useState(0);
+  // Misses in a row at the current level. The ladder used to climb only:
+  // three right in a row moved a child up, and nothing ever moved them
+  // back down, so one good run left them stuck above their level.
+  const [, setLevelWrongStreak] = useState(0);
 
   // Refs for stale closure prevention
   const hasSubmittedRef = useRef(hasSubmitted);
@@ -219,6 +222,9 @@ export function useGameState() {
       setHasSubmitted(false);
       setMascotMood('happy');
     }
+    // Runs on a mode switch only; the setup helpers are stable enough and
+    // re-running this on their identity would regenerate the problem.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameMode]);
 
   // Level up check
@@ -226,8 +232,6 @@ export function useGameState() {
     if (shouldLevelUp(score, level)) {
       setLevel(prev => prev + 1);
       setMascotMood('celebrating');
-      setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 3000);
     }
   }, [score, level]);
 
@@ -391,9 +395,9 @@ export function useGameState() {
       setScore(prev => prev + 1);
       setStreak(prev => prev + 1);
       setHasSubmitted(true);
-      setShowConfetti(true);
       setMascotMood('excited');
 
+      setLevelWrongStreak(0);
       // Level-up: after 3 correct in a row at current level
       setLevelCorrectStreak(prev => {
         const newStreak = prev + 1;
@@ -412,7 +416,6 @@ export function useGameState() {
       // the kid hears the full sentence + has a beat to settle before the
       // next problem appears. A frame tap skips ahead.
       scheduleAdvance(() => {
-        setShowConfetti(false);
         doGenerateProblem();
       }, 5000);
     } else {
@@ -421,6 +424,19 @@ export function useGameState() {
       setFeedback('wrong');
       setStreak(0);
       setLevelCorrectStreak(0); // Reset level streak on wrong answer
+      // Two misses in a row: one step easier. Never below 1.
+      setLevelWrongStreak(prev => {
+        const misses = prev + 1;
+        if (misses >= 2) {
+          if (mode === 'addition') {
+            setAdditionLevel(l => Math.max(1, l - 1));
+          } else if (mode === 'subtraction') {
+            setSubtractionLevel(l => Math.max(1, l - 1));
+          }
+          return 0;
+        }
+        return misses;
+      });
       setHasSubmitted(true);
       setMascotMood('thinking');
 
@@ -458,7 +474,6 @@ export function useGameState() {
         setScore(prev => prev + 1);
         setStreak(prev => prev + 1);
         setHasSubmitted(true);
-        setShowConfetti(true);
         setMascotMood('excited');
         setLevelCorrectStreak(prev => {
           const newStreak = prev + 1;
@@ -469,7 +484,6 @@ export function useGameState() {
           return newStreak;
         });
         scheduleAdvance(() => {
-          setShowConfetti(false);
           doGenerateProblem();
         }, 5000);
       } else {
@@ -499,7 +513,6 @@ export function useGameState() {
         setScore(prev => prev + 1);
         setStreak(prev => prev + 1);
         setHasSubmitted(true);
-        setShowConfetti(true);
         setMascotMood('excited');
         setLevelCorrectStreak(prev => {
           const newStreak = prev + 1;
@@ -510,7 +523,6 @@ export function useGameState() {
           return newStreak;
         });
         scheduleAdvance(() => {
-          setShowConfetti(false);
           doGenerateProblem();
         }, 4000);
       } else {
@@ -537,10 +549,8 @@ export function useGameState() {
       setMascotMood('excited');
       setScore(prev => prev + 1);
       setStreak(prev => prev + 1);
-      setShowConfetti(true);
 
       scheduleAdvance(() => {
-        setShowConfetti(false);
         setShowPuzzleAnswer(false);
         setIsCorrect(null);
         const newNum = generatePuzzleNumber();
@@ -604,7 +614,15 @@ export function useGameState() {
     setHasSubmitted(false);
   }, []);
 
+  // Boot: the ladders a returning child had reached.
+  const restoreLevels = useCallback((addition?: number, subtraction?: number) => {
+    const clamp = (n: number) => Math.min(11, Math.max(1, Math.round(n)));
+    if (typeof addition === 'number') setAdditionLevel(clamp(addition));
+    if (typeof subtraction === 'number') setSubtractionLevel(clamp(subtraction));
+  }, []);
+
   return {
+    restoreLevels,
     // State
     gameMode,
     cells,
@@ -616,7 +634,6 @@ export function useGameState() {
     isCorrect,
     hasSubmitted,
     mascotMood,
-    showConfetti,
     puzzleAnswer,
     showPuzzleAnswer,
     feedback,

@@ -11,13 +11,13 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withRepeat,
-  withSequence,
   withTiming,
   withDelay,
 } from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
 import {ThemeColors} from '../../types/game';
 import {Emoji} from '../common/Emoji';
+import {Mascot} from '../common/Mascot';
 import {useReduceMotion} from '../../hooks/useReduceMotion';
 
 interface LevelCompleteScreenProps {
@@ -25,6 +25,9 @@ interface LevelCompleteScreenProps {
   isNewBest: boolean;
   colors: ThemeColors;
   hasNextLevel: boolean;
+  // Every level of the world finished — as opposed to a free child who has
+  // simply reached the crowned ones.
+  worldComplete?: boolean;
   onNextLevel: () => void;
   onReplay: () => void;
   onBackToMap: () => void;
@@ -49,6 +52,9 @@ function ConfettiParticle({emoji, delay, left}: {emoji: string; delay: number; l
       delay + 2000,
       withTiming(0, {duration: 1000}),
     );
+    // A one-shot burst on mount; shared values are stable and `delay` is
+    // fixed per particle.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const style = useAnimatedStyle(() => ({
@@ -72,6 +78,7 @@ export function LevelCompleteScreen({
   isNewBest,
   colors,
   hasNextLevel,
+  worldComplete = false,
   onNextLevel,
   onReplay,
   onBackToMap,
@@ -82,19 +89,25 @@ export function LevelCompleteScreen({
   const voiceRef = useRef(voice);
   voiceRef.current = voice;
 
-  // Play a transition cue ~2.5s after the screen mounts so the praise/stars
-  // animation finishes first. Stop any in-flight voice first — opening this
-  // screen triggers a cascade of reward-system voices (sticker, achievement,
-  // milestone) from the 5 batched awardStars calls; without the stop the
-  // transition cue overlaps mid-word with whichever reward voice is current.
+  // One line, spoken shortly after the screen appears. The queue in useVoice
+  // keeps it behind whatever praise is still finishing, so nothing is cut.
   useEffect(() => {
-    const id = hasNextLevel ? 'lvl_next' : 'lvl_world_done';
-    const t = setTimeout(() => {
-      voiceRef.current.stop();
-      voiceRef.current.play(id);
-    }, 2500);
+    // How it went, and nothing else. Up to five lines used to land here —
+    // the star verdict, the reward toasts, and a transition cue that cut
+    // whatever was speaking to say "Let's go to the next level!", including
+    // to a free child whose next level is crowned. The world line is kept
+    // for a world that is really finished, and says "this world", not
+    // "the island".
+    const verdict =
+      stars === 3
+        ? 'reward_level_perfect'
+        : stars === 2
+        ? 'reward_level_great'
+        : 'reward_level_good';
+    const id = worldComplete && !hasNextLevel ? 'lvl_world_done_any' : verdict;
+    const t = setTimeout(() => voiceRef.current.play(id), 900);
     return () => clearTimeout(t);
-  }, [hasNextLevel]);
+  }, [hasNextLevel, worldComplete, stars]);
 
   const message =
     stars === 3
@@ -103,7 +116,8 @@ export function LevelCompleteScreen({
       ? t('adventure.great')
       : t('adventure.good');
 
-  const messageEmoji = stars === 3 ? '🎉' : stars === 2 ? '👏' : '👍';
+  // Three stars get the jump for joy; any finished level gets a thumbs up.
+  const mascotPose = stars === 3 ? 'jump' : 'wink';
 
   const confettiEmojis = ['🎉', '⭐', '🌟', '✨', '🎊', '💫', '🏆', '🎯'];
 
@@ -123,11 +137,9 @@ export function LevelCompleteScreen({
         entering={ZoomIn.springify().damping(12)}
         style={[styles.card, {borderColor: colors.accent}]}>
         {/* Big emoji reaction */}
-        <Animated.Text
-          entering={BounceIn.delay(300)}
-          style={styles.bigEmoji}>
-          <Emoji>{messageEmoji}</Emoji>
-        </Animated.Text>
+        <Animated.View entering={BounceIn.delay(300)} style={styles.mascot}>
+          <Mascot pose={mascotPose} height={110} />
+        </Animated.View>
 
         {/* Title */}
         <Animated.Text
@@ -160,7 +172,7 @@ export function LevelCompleteScreen({
           <Animated.Text
             entering={BounceIn.delay(1400)}
             style={styles.newBest}>
-            <Emoji>🏆</Emoji> New Best!
+            <Emoji>🏆</Emoji> {t('adventure.newBest')}
           </Animated.Text>
         )}
 
@@ -212,9 +224,9 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 360,
   },
-  bigEmoji: {
-    fontSize: 56,
-    marginBottom: 8,
+  mascot: {
+    marginTop: -64,
+    marginBottom: 4,
   },
   title: {
     fontFamily: FREDOKA_FAMILY,

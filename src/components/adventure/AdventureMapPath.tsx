@@ -12,6 +12,7 @@ import {
   getWorldStars,
   getWorldMaxStars,
   isLevelPremiumLocked,
+  nextPlayableLevel,
 } from '../../config/adventureWorlds';
 
 interface AdventureMapPathProps {
@@ -30,28 +31,21 @@ export function AdventureMapPath({
   isPremium,
 }: AdventureMapPathProps) {
   const {isTablet, width: screenWidth} = useLayout();
-  const nodeSize = isTablet ? 90 : 72;
+  // Sized for a four-year-old's finger, not Apple's 44pt minimum: the node
+  // is the whole target, and a miss on a map is a child giving up. The
+  // vertical step grows with it so neighbours keep clear water between them.
+  const nodeSize = isTablet ? 112 : 88;
   const worldProgress = progress.worlds[world.id];
   const scrollRef = useRef<ScrollView>(null);
 
   // Levels reversed so first level is at the bottom (climb up!)
   const levelsBottomUp = [...world.levels].reverse();
 
-  // Find next playable level
-  const nextPlayableId = world.levels.find(l => {
-    const lp = worldProgress?.levels[l.id];
-    return lp?.unlocked && !lp?.completed;
-  })?.id;
+  // The pulsing "you are here" marker must point at a level this child can
+  // actually open: for a free player it used to sit on the first crowned
+  // level, inviting a tap that ends at the price sheet.
+  const nextPlayableId = nextPlayableLevel(world, progress, isPremium)?.id;
 
-  // Auto-scroll to current level (near bottom since reversed)
-  useEffect(() => {
-    if (scrollRef.current) {
-      // Scroll to bottom on mount (where level 1 is)
-      setTimeout(() => {
-        scrollRef.current?.scrollToEnd({animated: true});
-      }, 400);
-    }
-  }, [world.id]);
 
   const worldStars = getWorldStars(world.id, progress);
   const maxStars = getWorldMaxStars(world.id);
@@ -65,7 +59,25 @@ export function AdventureMapPath({
     return centerX + wave * amplitude;
   };
 
-  const verticalSpacing = isTablet ? 130 : 110;
+  const verticalSpacing = isTablet ? 160 : 124;
+
+  // Open on the level the child is at. The map always scrolled to the
+  // bottom (level 1), so past level ~5 the pulsing "you are here" node was
+  // off-screen and the child had to know to scroll up.
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const index = levelsBottomUp.findIndex(l => l.id === nextPlayableId);
+      if (index < 0) {
+        scrollRef.current?.scrollToEnd({animated: true});
+        return;
+      }
+      const y = Math.max(0, index * verticalSpacing - 220);
+      scrollRef.current?.scrollTo({y, animated: true});
+    }, 400);
+    return () => clearTimeout(timer);
+    // Runs when the world changes or a level is finished (the marker moves).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [world.id, nextPlayableId]);
 
   return (
     <ScrollView
@@ -114,7 +126,7 @@ export function AdventureMapPath({
                 const dotColor = isSegmentCompleted
                   ? colors.primaryButton
                   : 'rgba(255,255,255,0.25)';
-                const dotSize = isSegmentCompleted ? 8 : 6;
+                const dotSize = isSegmentCompleted ? 10 : 8;
 
                 return Array.from({length: dotCount}).map((_, d) => {
                   const t = (d + 1) / (dotCount + 1);

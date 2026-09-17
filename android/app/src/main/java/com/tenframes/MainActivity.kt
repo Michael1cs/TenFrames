@@ -1,5 +1,6 @@
 package com.tenframes
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
@@ -31,6 +32,14 @@ class MainActivity : ReactActivity() {
    */
   override fun onCreate(savedInstanceState: Bundle?) {
     supportFragmentManager.fragmentFactory = RNScreensFragmentFactory()
+    // Phones stay portrait, tablets keep both orientations (res/values/bools
+    // and res/values-sw600dp/bools). iPhone is locked in Info.plist and the
+    // portrait layouts assume it; on Android a rotated phone broke the
+    // Adventure map, while a tablet in landscape is the classroom layout.
+    requestedOrientation =
+        if (resources.getBoolean(R.bool.lock_portrait))
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        else ActivityInfo.SCREEN_ORIENTATION_FULL_USER
     super.onCreate(savedInstanceState)
   }
 

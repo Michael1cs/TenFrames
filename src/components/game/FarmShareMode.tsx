@@ -30,9 +30,11 @@ interface FarmShareModeProps {
   // Fires when the pool empties but the split is unfair, so the parent can
   // play the "make it fair" voice cue.
   onUnfair?: () => void;
+  // Fires on every give/take, so the level can tell a busy child from a
+  // stalled one: the 10s instruction replay used to talk over a child who
+  // was in the middle of sharing.
+  onInteract?: () => void;
 }
-
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 type Density = 'roomy' | 'compact' | 'tiny';
 
@@ -46,7 +48,6 @@ function Basket({
   density,
   onAdd,
   onRemove,
-  colors,
 }: {
   animalEmoji: string;
   foodEmoji: string;
@@ -59,7 +60,6 @@ function Basket({
   density: Density;
   onAdd: () => void;
   onRemove: () => void;
-  colors: ThemeColors;
 }) {
   const compact = density !== 'roomy';
   const tiny = density === 'tiny';
@@ -197,10 +197,10 @@ export function FarmShareMode({
   foodEmoji,
   animalEmoji,
   colors,
-  tokenImage,
   showOverflowHint = false,
   onMatch,
   onUnfair,
+  onInteract,
 }: FarmShareModeProps) {
   const [baskets, setBaskets] = useState<number[]>([]);
   const matchedRef = useRef(false);
@@ -208,6 +208,8 @@ export function FarmShareMode({
   const onUnfairRef = useRef(onUnfair);
   onMatchRef.current = onMatch;
   onUnfairRef.current = onUnfair;
+  const onInteractRef = useRef(onInteract);
+  onInteractRef.current = onInteract;
 
   // Reset whenever the problem changes.
   useEffect(() => {
@@ -254,21 +256,13 @@ export function FarmShareMode({
     .map((_, i) => (i < remaining ? 'filled' : 'empty')) as CellState[];
 
   const addTo = (i: number) => {
+    onInteractRef.current?.();
     if (remaining <= 0) return;
     setBaskets(prev => prev.map((c, j) => (j === i ? c + 1 : c)));
   };
   const removeFrom = (i: number) => {
+    onInteractRef.current?.();
     setBaskets(prev => prev.map((c, j) => (j === i && c > 0 ? c - 1 : c)));
-  };
-  // Tap on a food cell in the ten frame: route it to the basket with the
-  // fewest items so the child can blast through with one-finger taps.
-  const sendToBalancedBasket = () => {
-    if (remaining <= 0) return;
-    setBaskets(prev => {
-      const minVal = Math.min(...prev);
-      const target = prev.indexOf(minVal);
-      return prev.map((c, j) => (j === target ? c + 1 : c));
-    });
   };
 
   return (
@@ -280,12 +274,13 @@ export function FarmShareMode({
         </Text>
         <Text style={styles.poolText}>×{remaining}</Text>
       </View>
+      {/* The pool is only for looking at. Tapping the food used to deal it
+          to whichever basket had least — the app doing the sharing for the
+          child. The child gives by tapping an animal's basket. */}
       <TenFrame
         cells={cells}
-        onCellClick={(i) => {
-          // Only food cells respond — empty cells (already shared) do nothing.
-          if (cells[i] === 'filled') sendToBalancedBasket();
-        }}
+        onCellClick={() => {}}
+        disabled
         colors={colors}
         emoji={foodEmoji}
       />
@@ -310,7 +305,6 @@ export function FarmShareMode({
               density={density}
               onAdd={() => addTo(i)}
               onRemove={() => removeFrom(i)}
-              colors={colors}
             />
           );
         })}

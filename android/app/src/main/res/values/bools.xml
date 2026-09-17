@@ -1,0 +1,8 @@
+<resources>
+    <!-- Phones play in portrait, like iPhone (Info.plist locks it there): the
+         Adventure map, the mode bar and the frame are laid out for it, and a
+         sideways phone broke the map. Tablets override this to false below,
+         because the landscape sidebar is the classroom and School Edition
+         layout. -->
+    <bool name="lock_portrait">true</bool>
+</resources>

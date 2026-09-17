@@ -2,10 +2,13 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Text} from '../common/AppText';
 import {Emoji} from '../common/Emoji';
+import {Mascot} from '../common/Mascot';
 import Animated, {
   BounceIn,
   useAnimatedStyle,
   useSharedValue,
+  withDelay,
+  withSequence,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
@@ -39,20 +42,38 @@ export function FeedbackSheet({
   const insets = useSafeAreaInsets();
   const translateY = useSharedValue(160);
   const opacity = useSharedValue(0);
+  // The mascot's own little jump when the answer is right. This is the
+  // celebration now — the confetti burst that used to fire over the play
+  // area was generic, and the owner asked for the character instead.
+  const hop = useSharedValue(0);
 
   React.useEffect(() => {
     if (visible && isCorrect !== null) {
       translateY.value = withSpring(0, {damping: 15, stiffness: 160});
       opacity.value = withTiming(1, {duration: 200});
+      if (isCorrect) {
+        hop.value = 0;
+        hop.value = withSequence(
+          withDelay(120, withSpring(1, {damping: 6, stiffness: 260})),
+          withSpring(0, {damping: 9, stiffness: 200}),
+        );
+      }
     } else {
       translateY.value = withTiming(160, {duration: 180});
       opacity.value = withTiming(0, {duration: 150});
     }
-  }, [visible, isCorrect, translateY, opacity]);
+  }, [visible, isCorrect, translateY, opacity, hop]);
 
   const animStyle = useAnimatedStyle(() => ({
     transform: [{translateY: translateY.value}],
     opacity: opacity.value,
+  }));
+
+  const mascotStyle = useAnimatedStyle(() => ({
+    transform: [
+      {translateY: -hop.value * 16},
+      {scale: 1 + hop.value * 0.08},
+    ],
   }));
 
   if (!visible || isCorrect === null) return null;
@@ -70,6 +91,12 @@ export function FeedbackSheet({
           {borderColor: isCorrect ? '#22C55E' : '#F59E0B'},
           animStyle,
         ]}>
+        {/* The mascot reacts from the card's corner — jumping for a right
+            answer, scratching its head (never sad) for a wrong one.
+            Absolute, so the card keeps its size either way. */}
+        <Animated.View style={[styles.mascot, mascotStyle]}>
+          <Mascot pose={isCorrect ? 'jump' : 'think'} height={78} />
+        </Animated.View>
         {isCorrect && stars > 0 && (
           <View style={styles.starsRow}>
             {Array.from({length: 3}).map((_, i) => (
@@ -123,6 +150,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 8,
     minWidth: 240,
+    // room on the left for the mascot
+    paddingLeft: 48,
+  },
+  mascot: {
+    position: 'absolute',
+    left: -30,
+    top: -52,
   },
   starsRow: {
     flexDirection: 'row',

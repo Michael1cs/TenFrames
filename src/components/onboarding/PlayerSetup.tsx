@@ -1,7 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {
   View,
-  TextInput,
   Pressable,
   StyleSheet,
   Modal,
@@ -40,8 +39,6 @@ interface PlayerSetupProps {
 
 export function PlayerSetup({
   visible,
-  playerName,
-  onNameChange,
   theme,
   onThemeChange,
   language,
@@ -81,20 +78,24 @@ export function PlayerSetup({
   voiceRef.current = voice;
   useEffect(() => {
     if (!visible) return;
-    // Welcome already played on ModeChoice; here jump straight to the theme
-    // prompt + a nudge to press play if the child idles.
+    // Welcome already played on ModeChoice; here just the theme prompt, and
+    // on first run a nudge towards Play if the child idles. Opened from the
+    // 🎨 button there is no Play button — tapping a theme closes the picker —
+    // so the nudge used to tell the child to press something that wasn't
+    // there. The 3.5s "let's play!" is gone too: it fired before the child
+    // could have chosen anything.
     const t1 = setTimeout(() => voiceRef.current.play('ask_theme'), 500);
-    const t2 = setTimeout(() => voiceRef.current.play('lets_play'), 3500);
-    const t3 = setTimeout(() => voiceRef.current.play('press_play'), 12000);
+    const t3 = isSettings
+      ? null
+      : setTimeout(() => voiceRef.current.play('press_play'), 12000);
     return () => {
       clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
+      if (t3) clearTimeout(t3);
       // Kid picks a theme and taps Play before the narration finishes —
       // cut the audio so the next screen doesn't get talked over.
       voiceRef.current.stop();
     };
-  }, [visible]);
+  }, [visible, isSettings]);
 
   // The card is capped at 420pt, which is most of a phone's width but barely
   // 40% of a 13" iPad — the modal ended up as a narrow strip with the theme

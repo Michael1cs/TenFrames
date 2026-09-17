@@ -1,5 +1,8 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import Sound from 'react-native-sound';
+import ReactNativeHapticFeedback, {
+  HapticFeedbackTypes,
+} from 'react-native-haptic-feedback';
 
 // Must match useVoice.ts: setCategory is a process-wide AVAudioSession call,
 // so whichever of the two modules imports last would otherwise win. Passing
@@ -7,6 +10,21 @@ import Sound from 'react-native-sound';
 Sound.setCategory('Playback', true);
 
 type SoundName = 'tap' | 'correct' | 'wrong' | 'levelup' | 'star';
+
+// Each sound carries its own touch, so the app is felt as well as heard —
+// a counter dropping into a cell has a little weight, a right answer lands
+// as a success tap. 'wrong' deliberately has none: a buzz on a mistake
+// reads as a scolding to a four-year-old, and this app never scolds.
+const HAPTICS: Partial<Record<SoundName, HapticFeedbackTypes>> = {
+  tap: HapticFeedbackTypes.impactLight,
+  correct: HapticFeedbackTypes.notificationSuccess,
+  levelup: HapticFeedbackTypes.notificationSuccess,
+  star: HapticFeedbackTypes.impactMedium,
+};
+const HAPTIC_OPTIONS = {
+  enableVibrateFallback: false,
+  ignoreAndroidSystemSettings: false,
+};
 
 const SOUNDS: {name: SoundName; file: string; volume: number}[] = [
   {name: 'tap', file: 'tap.wav', volume: 0.5},
@@ -45,16 +63,21 @@ export function useSound() {
       });
     }
 
+    // Captured now: by the time the cleanup runs the ref could point at
+    // another map.
+    const players = loaded.current;
     return () => {
       mounted = false;
-      for (const sound of loaded.current.values()) {
+      for (const sound of players.values()) {
         sound.release();
       }
-      loaded.current.clear();
+      players.clear();
     };
   }, []);
 
   const play = useCallback((name: SoundName) => {
+    const haptic = HAPTICS[name];
+    if (haptic) ReactNativeHapticFeedback.trigger(haptic, HAPTIC_OPTIONS);
     const sound = loaded.current.get(name);
     if (!sound) return;
     // Stop any current playback and replay from start

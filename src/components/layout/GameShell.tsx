@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback, useState, useRef, useMemo, useContext} from 'react';
+import React, {useEffect, useCallback, useState, useRef, useContext} from 'react';
 import {View, StyleSheet, StatusBar, Pressable, ScrollView, ImageBackground} from 'react-native';
 import {Text} from '../common/AppText';
 import LinearGradient from 'react-native-linear-gradient';
@@ -31,8 +31,6 @@ import {NumberAnswerMode} from '../game/NumberAnswerMode';
 import {CompareMode} from '../game/CompareMode';
 import {WorkshopMode} from '../game/WorkshopMode';
 import {FarmShareMode} from '../game/FarmShareMode';
-import {CorrectAnimation} from '../feedback/CorrectAnimation';
-import {WrongAnimation} from '../feedback/WrongAnimation';
 import {WrongFlash} from '../feedback/WrongFlash';
 import {FeedbackSheet, EquationPart} from '../feedback/FeedbackSheet';
 import {MilestoneAnimation} from '../feedback/MilestoneAnimation';
@@ -40,6 +38,8 @@ import {NewStickerPopup} from '../feedback/NewStickerPopup';
 import {AchievementPopup} from '../feedback/AchievementPopup';
 import {StickerBook} from '../rewards/StickerBook';
 import {AchievementsScreen} from '../rewards/AchievementsScreen';
+import {ParentalGate} from '../premium/ParentalGate';
+import {isGrownUp, markGrownUp} from '../../utils/grownUp';
 import {DailyLimitModal} from '../premium/DailyLimitModal';
 import {UpgradeScreen} from '../premium/UpgradeScreen';
 import {PlayerSetup} from '../onboarding/PlayerSetup';
@@ -58,6 +58,8 @@ import {Language, GameMode, WorldId} from '../../types/game';
 import {ADVENTURE_WORLDS, isLevelPremiumLocked} from '../../config/adventureWorlds';
 import {useAdventure} from '../../hooks/useAdventure';
 import {AdventureWorldsScreen} from '../adventure/AdventureWorldsScreen';
+import {TapHint} from '../feedback/TapHint';
+import {useStallNudge} from '../../hooks/useStallNudge';
 import {AdventureLevelsScreen} from '../adventure/AdventureLevelsScreen';
 import {AdventureLevelScreen} from '../adventure/AdventureLevelScreen';
 import i18n from '../../i18n';
@@ -110,11 +112,11 @@ function HomeScreen() {
       homeBar={{
         onDashboard: () => {
           ctx.voice.stop();
-          ctx.setShowParentDash(true);
+          ctx.askGrownUp('dashboard');
         },
         onSettings: () => {
           ctx.voice.stop();
-          ctx.setShowSettings(true);
+          ctx.askGrownUp('settings');
         },
       }}
     />
@@ -145,6 +147,7 @@ function AdventureWorldsRoute() {
   return (
     <AdventureWorldsScreen
       progress={ctx.adventure.progress}
+      isPremium={ctx.premium.isPremium}
       onSelectWorld={worldId => {
         ctx.adventure.setSelectedWorld(worldId);
         navigation.navigate('AdventureLevels', {worldId});
@@ -194,8 +197,12 @@ function AdventureLevelRoute() {
       stars={ctx.adventureStars}
       isNewBest={ctx.adventureIsNewBest}
       hasNextLevel={
-        !!ctx.adventure.getNextPlayableLevel(ctx.adventure.selectedWorld)
+        !!ctx.adventure.getNextPlayableLevel(
+          ctx.adventure.selectedWorld,
+          ctx.premium.isPremium,
+        )
       }
+      worldComplete={ctx.isWorldComplete(ctx.adventure.selectedWorld)}
       onRecordResult={ctx.adventure.recordProblemResult}
       onComplete={ctx.handleAdventureLevelComplete}
       onNextLevel={ctx.handleAdventureNextLevel}
@@ -220,7 +227,6 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
     ageProfile,
     premium,
     rewardSystem,
-    iap,
     handleCellClick,
     handleModeChange,
     handleAdventurePress,
@@ -228,7 +234,6 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
     setShowAbout,
     setShowUpgrade,
     setShowStickerBook,
-    setShowParentDash,
     mascotEmoji,
   } = ctx;
 
@@ -282,6 +287,7 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
       case 'counting':
         return (
           <CountingMode
+            demoEnabled={!game.showSetup}
             cells={game.cells}
             onCellClick={handleCellClick}
             onReset={game.resetGame}
@@ -296,6 +302,7 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
       case 'addition':
         return (
           <AdditionMode
+            demoEnabled={!game.showSetup}
             cells={game.cells}
             onCellClick={handleCellClick}
             onSubmit={game.handleSubmit}
@@ -315,6 +322,7 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
       case 'subtraction':
         return (
           <SubtractionMode
+            demoEnabled={!game.showSetup}
             cells={game.cells}
             onCellClick={handleCellClick}
             onSubmit={game.handleSubmit}
@@ -334,6 +342,7 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
       case 'puzzle':
         return (
           <PuzzleMode
+            demoEnabled={!game.showSetup}
             cells={game.cells}
             onCellClick={handleCellClick}
             onSubmit={game.handlePuzzleSubmit}
@@ -393,6 +402,7 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
             foodEmoji="🥕"
             animalEmoji="🐰"
             colors={colors}
+            tokenImage={themeConfig.tokenImage}
             onMatch={() => {
               ctx.playSound('correct');
               ctx.voice.playRandom(VOICE_GROUPS.correct);
@@ -474,7 +484,10 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
       <Pressable
         onPress={() => {
           ctx.voice.stop();
-          setShowParentDash(true);
+          // The child's own trophies. This used to open the parent dashboard,
+          // which is paid, so tapping a trophy showed a price screen — and the
+          // achievements screen was never reachable at all.
+          ctx.setShowAchievements(true);
         }}
         style={[styles.statBadge, {borderColor: '#EAB308'}]}>
         <Text style={styles.statBadgeText}>
@@ -493,6 +506,7 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
         onModeChange={handleModeChange}
         colors={colors}
         vertical
+        onAdventurePress={handleAdventurePress}
         getRemainingExercises={premium.getRemainingExercises}
         isPremium={premium.isPremium}
         availableModes={ageProfile.availableModes}
@@ -532,6 +546,9 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
               showsVerticalScrollIndicator={false}>
               {renderGameMode()}
             </ScrollView>
+            <View style={styles.stallHint} pointerEvents="none">
+              <TapHint visible={ctx.showTapHint} />
+            </View>
             <FeedbackSheet
               visible={showAnswerFeedback}
               isCorrect={game.isCorrect}
@@ -551,6 +568,9 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
               showsVerticalScrollIndicator={false}>
               {renderGameMode()}
             </ScrollView>
+            <View style={styles.stallHint} pointerEvents="none">
+              <TapHint visible={ctx.showTapHint} />
+            </View>
             <FeedbackSheet
               visible={showAnswerFeedback}
               isCorrect={game.isCorrect}
@@ -579,12 +599,19 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
 function useShellState(
   navigationRef: NavigationContainerRefWithCurrent<RootStackParamList>,
 ) {
-  const {t: _t} = useTranslation(); // keep i18n active for any descendants
   // Flipped by FreePlayScreen's useFocusEffect. Used by the post-correct
   // voice useEffect below to suppress queueing when the child has
   // navigated to Adventure (the setTimeout in useGameState still fires
   // and generates the next problem, but we don't want to narrate it).
   const freePlayFocusedRef = useRef(false);
+
+  // A child who stalls on an addition or subtraction problem gets the same
+  // two nudges as in Adventure: the hand at 4s, the instruction again at 10s.
+  const {
+    showHint: showTapHint,
+    arm: armStallNudge,
+    cancel: cancelStallNudge,
+  } = useStallNudge({canReplay: () => freePlayFocusedRef.current});
   const game = useGameState();
   const themeConfig = useTheme(game.theme);
   const {colors} = themeConfig;
@@ -593,7 +620,7 @@ function useShellState(
     loadRewardData, saveRewardData,
     loadPremiumData, savePremiumData,
   } = usePersistence();
-  const {isLandscape, isTablet: _isTablet, fontScale: _fontScale} = useLayout();
+  const {isLandscape} = useLayout();
   const rewardSystem = useRewards();
   const premium = usePremium();
   const {play: playSound} = useSound();
@@ -602,12 +629,31 @@ function useShellState(
   const [showStickerBook, setShowStickerBook] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
   const [lastStarsAwarded, setLastStarsAwarded] = useState(0);
-  const [showStarsDisplay, setShowStarsDisplay] = useState(false);
   const [showDailyLimit, setShowDailyLimit] = useState(false);
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showParentDash, setShowParentDash] = useState(false);
+  // Settings and the parent dashboard are for grown-ups: settings can silence
+  // every spoken instruction in the app with one tap, and the dashboard is the
+  // paid progress view. A child reaches both from the home bar, so both ask
+  // the maths question first. The language flags stay outside the gate — a
+  // parent has to be able to switch language quickly.
+  const [pendingGrownUp, setPendingGrownUp] = useState<
+    'settings' | 'dashboard' | null
+  >(null);
+  const askGrownUp = useCallback(
+    (target: 'settings' | 'dashboard') => {
+      // One answer opens every grown-up door for a few minutes.
+      if (isGrownUp()) {
+        if (target === 'settings') setShowSettings(true);
+        else setShowParentDash(true);
+        return;
+      }
+      setPendingGrownUp(target);
+    },
+    [],
+  );
   const [voiceEnabled, setVoiceEnabledState] = useState(true);
   const [onboarded, setOnboarded] = useState(false);
   // Declared after voiceEnabled on purpose: the babel preset downlevels const
@@ -646,7 +692,19 @@ function useShellState(
       // Theme and age group restore unconditionally: loadPlayerData spreads
       // defaults over whatever is stored, so they are always present and valid.
       game.setTheme(data.theme);
+      game.restoreLevels(data.additionLevel, data.subtractionLevel);
       if (data.name) game.setPlayerName(data.name);
+
+      // A language the family picked outlives setup: a Romanian family on an
+      // English phone taps RO on Home, and it used to be back in English at
+      // the next launch, with every spoken instruction in a language the
+      // child may not understand.
+      if (!hasOnboarded && data.languagePicked) {
+        game.setLanguage(data.language);
+        i18n.changeLanguage(data.language);
+        if (data.lastMode === 'adventure') target = 'AdventureWorlds';
+        else if (data.lastMode === 'freeplay') target = 'FreePlay';
+      }
 
       if (hasOnboarded) {
         // Language is the one preference that must NOT be taken from the
@@ -674,7 +732,6 @@ function useShellState(
       setInitialRoute(target);
       const rewards = await loadRewardData();
       rewardSystem.loadRewards(rewards);
-      rewardSystem.updateDailyStreak();
       const premiumData = await loadPremiumData();
       premium.loadPremiumData(premiumData);
       setBootLoaded(true);
@@ -690,15 +747,29 @@ function useShellState(
 
   useEffect(() => {
     if (game.score > 0) {
-      savePlayerData({highScore: game.score, level: game.level});
+      // One save for all four: separate saves would overwrite each other.
+      savePlayerData({
+        highScore: game.score,
+        level: game.level,
+        additionLevel: game.additionLevel,
+        subtractionLevel: game.subtractionLevel,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [game.score, game.level]);
+  }, [game.score, game.level, game.additionLevel, game.subtractionLevel]);
 
   useEffect(() => {
+    // NOT before boot has read storage. Until then `premium` still holds its
+    // initial values — isPremium false in a release build, empty counts —
+    // and this effect runs on mount, so it wrote those over the stored data:
+    // a paid unlock was erased on every cold start (invisible in development,
+    // where the hook starts premium), and force-quitting reset the daily
+    // limit. bootLoaded flips in the same continuation that loads the data,
+    // so the first save this allows already carries the stored values.
+    if (!bootLoaded) return;
     savePremiumData(premium.getPremiumData());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [premium.dailyUsage, premium.isPremium]);
+  }, [bootLoaded, premium.dailyUsage, premium.isPremium]);
 
   // The queueing layer lives in useVoice now — every voice.play() goes
   // through a module-level FIFO so calls from different screens never
@@ -767,11 +838,7 @@ function useShellState(
       const wasFirstTry = game.streak > 0;
       const stars = rewardSystem.awardStars(game.gameMode, wasFirstTry);
       setLastStarsAwarded(stars);
-      setShowStarsDisplay(true);
-      setTimeout(() => {
-        setShowStarsDisplay(false);
-        playSound('star');
-      }, 3000);
+      setTimeout(() => playSound('star'), 3000);
     } else if (game.isCorrect === false && prevIsCorrect.current !== false) {
       playSound('wrong');
       // Route through the queue so this never overlaps the praise/reward
@@ -820,12 +887,26 @@ function useShellState(
   useEffect(() => {
     if (!limitPendingRef.current) return;
     limitPendingRef.current = false;
+    // The problem underneath is one the child is not allowed to play. Its
+    // instruction was still being spoken under the silent wall, and the
+    // stall nudge repeated it ten seconds later.
+    voice.stop();
+    clearPendingVoiceQueue();
+    cancelStallNudge();
     setShowDailyLimit(true);
-  }, [game.currentProblem, game.answerProblem, game.compareProblem]);
+  }, [
+    game.currentProblem,
+    game.answerProblem,
+    game.compareProblem,
+    voice,
+    cancelStallNudge,
+  ]);
 
   useEffect(() => {
     if (game.gameMode !== 'addition' && game.gameMode !== 'subtraction') return;
     if (!game.currentProblem) return;
+    // Nothing is narrated behind the daily wall.
+    if (showDailyLimit || limitPendingRef.current) return;
     // If the child navigated away (e.g. into Adventure) the next-problem
     // setTimeout in useGameState still fires and mutates currentProblem —
     // but we must NOT narrate it because the FreePlay screen isn't on
@@ -843,15 +924,36 @@ function useShellState(
     // variant so the currently-playing praise (post_great_…) finishes
     // naturally — cutting it mid-word was the previous complaint.
     if (!isFirst) clearPendingVoiceQueue();
-    queueVoice(`pre_have_${game.theme}_${n1}`);
-    queueVoice(`instr_${action}_${game.theme}_${n2}`);
-    // Roughly every other problem also restates the task as a question, so
-    // a long Free Play session doesn't replay one sentence forever.
-    if (Math.random() < 0.5) {
-      const alt = game.gameMode === 'addition' ? 'add_alt' : 'sub_alt';
-      queueVoice(`${alt}_${1 + Math.floor(Math.random() * 2)}`);
+    const instruction = () => {
+      queueVoice(`pre_have_${game.theme}_${n1}`);
+      queueVoice(`instr_${action}_${game.theme}_${n2}`);
+    };
+    instruction();
+    // No second question here. "How many are there now in total?" used to
+    // follow the instruction on half the problems — it reached the child
+    // while they were still placing counters, and it is the single thing the
+    // owner named when he said the app talks too much. A child who stalls
+    // still gets the instruction again from the nudge below.
+    armStallNudge(instruction);
+  }, [
+    game.currentProblem,
+    game.gameMode,
+    game.theme,
+    queueVoice,
+    voice,
+    armStallNudge,
+    showDailyLimit,
+  ]);
+
+  // The answer landing, or a switch to another mode, ends the nudge.
+  useEffect(() => {
+    if (game.hasSubmitted) cancelStallNudge();
+  }, [game.hasSubmitted, cancelStallNudge]);
+  useEffect(() => {
+    if (game.gameMode !== 'addition' && game.gameMode !== 'subtraction') {
+      cancelStallNudge();
     }
-  }, [game.currentProblem, game.gameMode, game.theme, queueVoice, voice]);
+  }, [game.gameMode, cancelStallNudge]);
 
   // One voice line per celebration, spoken as it takes the stage — the
   // queue guarantees they no longer pile onto the same instant.
@@ -876,15 +978,12 @@ function useShellState(
     prevCelebration.current = cur;
   }, [rewardSystem.currentCelebration, queueVoice]);
 
-  const prevAdventureStars = useRef<number | null>(null);
-  useEffect(() => {
-    if (adventureStars !== null && adventureStars !== prevAdventureStars.current) {
-      if (adventureStars === 3) queueVoice('reward_level_perfect');
-      else if (adventureStars === 2) queueVoice('reward_level_great');
-      else if (adventureStars === 1) queueVoice('reward_level_good');
-    }
-    prevAdventureStars.current = adventureStars;
-  }, [adventureStars, queueVoice]);
+  // Finishing a level used to set off up to five lines at once: the star
+  // verdict queued here, whatever sticker/achievement/milestone toasts the
+  // batch of awardStars produced, and the screen's own transition cue, which
+  // stopped the queue mid-word to get in. The screen now speaks the single
+  // line that belongs to the moment (see LevelCompleteScreen), and the star
+  // verdict is what it says.
 
   const prevAddLevel = useRef(game.additionLevel);
   const prevSubLevel = useRef(game.subtractionLevel);
@@ -909,7 +1008,7 @@ function useShellState(
     (lang: Language) => {
       game.setLanguage(lang);
       i18n.changeLanguage(lang);
-      savePlayerData({language: lang});
+      savePlayerData({language: lang, languagePicked: true});
     },
     [game, savePlayerData],
   );
@@ -932,10 +1031,11 @@ function useShellState(
 
   const handleCellClick = useCallback(
     (index: number) => {
+      cancelStallNudge();
       playSound('tap');
       game.handleCellClick(index);
     },
-    [game, playSound],
+    [game, playSound, cancelStallNudge],
   );
 
   const handleModeChange = useCallback(
@@ -995,6 +1095,8 @@ function useShellState(
         // undefined and calling it directly threw a TypeError — which, in a
         // release build, is a hard crash the moment a free user taps a
         // premium-locked Adventure level.
+        // Said to the child, who can't read the sheet that's about to open.
+        voice.play('ask_parent');
         navigationRef.current?.dispatch(StackActions.popToTop());
         setShowUpgrade(true);
         return false;
@@ -1005,7 +1107,7 @@ function useShellState(
       setAdventureIsNewBest(false);
       return true;
     },
-    [adventure, premium.isPremium, navigationRef],
+    [adventure, premium.isPremium, navigationRef, voice],
   );
 
   const handleAdventureLevelComplete = useCallback(() => {
@@ -1021,36 +1123,35 @@ function useShellState(
     return result;
   }, [adventure, rewardSystem]);
 
+  // True only when every level of the world is finished — not when the
+  // child has merely run out of free ones.
+  const isWorldComplete = useCallback(
+    (worldId: WorldId) => {
+      const world = ADVENTURE_WORLDS.find(w => w.id === worldId);
+      const levels = adventure.progress.worlds[worldId]?.levels;
+      if (!world || !levels) return false;
+      return world.levels.every(l => levels[l.id]?.completed);
+    },
+    [adventure.progress],
+  );
+
   const handleAdventureNextLevel = useCallback(() => {
-    const nextLevel = adventure.getNextPlayableLevel(adventure.selectedWorld);
+    const nextLevel = adventure.getNextPlayableLevel(
+      adventure.selectedWorld,
+      premium.isPremium,
+    );
     if (nextLevel) {
-      // "Next" is a way into a level like any other, so it goes through the
-      // same premium rule as tapping the level on the map. It used to start
-      // the next level directly, which let a free player walk an entire
-      // world one "Next" at a time.
-      const world = ADVENTURE_WORLDS.find(w => w.id === nextLevel.worldId);
-      if (
-        world &&
-        isLevelPremiumLocked(
-          world,
-          nextLevel,
-          adventure.progress.worlds[world.id]?.levels[nextLevel.id],
-          premium.isPremium,
-        )
-      ) {
-        adventure.exitLevel();
-        setAdventureStars(null);
-        navigationRef.current?.dispatch(StackActions.popToTop());
-        setShowUpgrade(true);
-        return;
-      }
+      // nextLevel is already premium-checked: getNextPlayableLevel skips
+      // crowned levels, and the button that calls this is hidden when there
+      // is none. A free child is never sent from a finished level into the
+      // price sheet; the crowns on the map remain the deliberate way there.
       // Fresh level, fresh stage — drop any toast still waiting its turn.
       rewardSystem.clearTransientCelebrations();
       adventure.startLevel(nextLevel);
       setAdventureStars(null);
       setAdventureIsNewBest(false);
     }
-  }, [adventure, rewardSystem, premium.isPremium, navigationRef]);
+  }, [adventure, rewardSystem, premium.isPremium]);
 
   const handleAdventureReplay = useCallback(() => {
     if (adventure.activeLevel) {
@@ -1087,15 +1188,17 @@ function useShellState(
     voice,
     playSound,
     freePlayFocusedRef,
+    showTapHint,
     showStickerBook, setShowStickerBook,
     showAchievements, setShowAchievements,
     lastStarsAwarded,
-    showStarsDisplay,
     showDailyLimit, setShowDailyLimit,
     showUpgrade, setShowUpgrade,
     showAbout, setShowAbout,
     showSettings, setShowSettings,
     showParentDash, setShowParentDash,
+    pendingGrownUp, setPendingGrownUp,
+    askGrownUp,
     voiceEnabled,
     onboarded,
     handleToggleVoice,
@@ -1113,6 +1216,7 @@ function useShellState(
     handleAdventureLevelPress,
     handleAdventureLevelComplete,
     handleAdventureNextLevel,
+    isWorldComplete,
     handleAdventureReplay,
     handleAdventureExitLevel,
     mascotEmoji,
@@ -1138,6 +1242,7 @@ function GameShellInner() {
     showAbout, setShowAbout,
     showSettings, setShowSettings,
     showParentDash, setShowParentDash,
+    pendingGrownUp, setPendingGrownUp,
     voiceEnabled,
     adventure,
     handleLanguageChange,
@@ -1223,8 +1328,6 @@ function GameShellInner() {
 
       {/* Persistent global overlays — these sit OUTSIDE the stack so they
           float above whichever screen the user is on. */}
-      <CorrectAnimation visible={game.showConfetti} colors={colors} />
-      <WrongAnimation visible={game.isCorrect === false} />
       <WrongFlash visible={game.isCorrect === false} />
       {/* Celebration queue: exactly one on stage at a time. */}
       <NewStickerPopup
@@ -1290,7 +1393,17 @@ function GameShellInner() {
       <UpgradeScreen
         visible={showUpgrade}
         colors={colors}
-        onClose={() => setShowUpgrade(false)}
+        onClose={() => {
+          setShowUpgrade(false);
+          // Closing the price sheet leaves the child wherever they were — and
+          // if that is a mode whose daily exercises are used up, the app
+          // silently keeps handing out problems it will not count. Land them
+          // in Counting, which is free forever, exactly as the daily wall's
+          // own dismiss does.
+          if (!premium.canPlayMode(game.gameMode)) {
+            game.setGameMode('counting');
+          }
+        }}
         onPurchase={handleUpgrade}
         onRestore={iap.restorePurchases}
         product={iap.product}
@@ -1305,6 +1418,18 @@ function GameShellInner() {
         language={game.language}
         onLanguageChange={handleLanguageChange}
         onClose={() => setShowAbout(false)}
+      />
+      <ParentalGate
+        visible={pendingGrownUp !== null}
+        colors={colors}
+        onSuccess={() => {
+          markGrownUp();
+          const target = pendingGrownUp;
+          setPendingGrownUp(null);
+          if (target === 'settings') setShowSettings(true);
+          else if (target === 'dashboard') setShowParentDash(true);
+        }}
+        onCancel={() => setPendingGrownUp(null)}
       />
       <SettingsModal
         visible={showSettings}
@@ -1344,6 +1469,15 @@ function GameShellInner() {
 }
 
 const styles = StyleSheet.create({
+  // The stall hand floats over the game area's bottom edge; absolute so its
+  // arrival never shifts the frame above it.
+  stallHint: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 4,
+    alignItems: 'center',
+  },
   container: {flex: 1},
   background: {flex: 1},
   adventureBackdrop: {flex: 1, backgroundColor: '#1E1B4B'},

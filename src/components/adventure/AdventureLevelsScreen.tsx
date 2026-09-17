@@ -8,26 +8,19 @@ import {
   ThemeColors,
   ThemeConfig,
 } from '../../types/game';
-import {ADVENTURE_WORLDS} from '../../config/adventureWorlds';
+import {
+  ADVENTURE_WORLDS,
+  WORLD_VOICE_IDS,
+} from '../../config/adventureWorlds';
 import {AdventureMapPath} from './AdventureMapPath';
 import {getAllThemes} from '../../hooks/useTheme';
 import {useVoice} from '../../hooks/useVoice';
-import {Emoji} from '../common/Emoji';
+import {WorldIcon} from './WorldIcon';
 
 // Partial on purpose. Every world here has a recorded name clip; a world added
 // without one simply isn't announced, because the call site below guards with
 // `if (clip)`. That is the whole trade that lets a new world ship at zero voice
 // cost — its levels are fully narrated, only its title is silent.
-const WORLD_VOICE: Partial<Record<WorldId, string>> = {
-  'counting-meadow': 'world_counting_meadow',
-  'addition-island': 'world_addition_island',
-  'subtraction-mountain': 'world_subtraction_mountain',
-  'make-ten-beach': 'world_make_ten_beach',
-  'mixed-targets': 'world_mixed_targets',
-  'doubles-castle': 'world_doubles_castle',
-  'memory-garden': 'world_memory_garden',
-  'farm-share': 'world_farm_share',
-};
 
 interface Props {
   worldId: WorldId;
@@ -62,8 +55,7 @@ export function AdventureLevelsScreen({
   const worldColors = worldTheme?.colors ?? fallbackColors;
 
   useEffect(() => {
-    const clip = WORLD_VOICE[worldId];
-    if (clip) voiceRef.current.play(clip);
+    voiceRef.current.play(WORLD_VOICE_IDS[worldId]);
   }, [worldId]);
 
   if (!world) return null;
@@ -78,9 +70,17 @@ export function AdventureLevelsScreen({
           <Pressable onPress={onBack} style={styles.backBtn}>
             <Text style={styles.backText}>←</Text>
           </Pressable>
-          <Text style={styles.title}>
-            <Emoji>{world.emoji}</Emoji> {t(world.nameKey)}
-          </Text>
+          <View style={styles.titleRow}>
+            <WorldIcon
+              worldId={world.id}
+              width={46}
+              height={34}
+              fallbackEmoji={world.emoji}
+            />
+            <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit>
+              {t(world.nameKey)}
+            </Text>
+          </View>
           <Pressable onPress={onClose} style={styles.closeBtn}>
             <Text style={styles.closeText}>✕</Text>
           </Pressable>
@@ -110,8 +110,15 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     gap: 12,
   },
-  title: {
+  titleRow: {
     flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  title: {
+    flexShrink: 1,
     fontSize: 22,
     fontWeight: '800',
     color: '#FFFFFF',

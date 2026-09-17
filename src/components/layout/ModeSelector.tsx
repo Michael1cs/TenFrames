@@ -1,5 +1,6 @@
+import {Bouncy} from '../common/Bouncy';
 import React from 'react';
-import {View, Pressable, ScrollView, StyleSheet} from 'react-native';
+import {View, ScrollView, StyleSheet} from 'react-native';
 import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {GameMode, ThemeColors} from '../../types/game';
@@ -61,7 +62,7 @@ export function ModeSelector({
           const isExhausted = isLimited && remaining <= 0;
 
           return (
-            <Pressable
+            <Bouncy
               key={mode.id}
               onPress={() => onModeChange(mode.id)}
               style={[
@@ -97,9 +98,30 @@ export function ModeSelector({
                   {remaining}/5
                 </Text>
               )}
-            </Pressable>
+            </Bouncy>
           );
         })}
+        {/* In landscape the sidebar was the only navigation, and it had no
+            way into Adventure or back Home: on an iPad held sideways — the
+            classroom and School Edition setup — Free Play was a dead end
+            whose only exit was the iOS edge-swipe. */}
+        {onAdventurePress && (
+          <Bouncy
+            onPress={onAdventurePress}
+            accessibilityRole="button"
+            accessibilityLabel={t('adventure.title')}
+            style={[
+              styles.tabVertical,
+              {
+                backgroundColor: 'rgba(255,255,255,0.18)',
+                borderColor: 'rgba(255,255,255,0.25)',
+              },
+            ]}>
+            <View style={styles.emojiVerticalContainer}>
+              <ModeIcon mode="adventure" size={26} colors={colors} />
+            </View>
+          </Bouncy>
+        )}
       </View>
     );
   }
@@ -121,7 +143,7 @@ export function ModeSelector({
         const isExhausted = isLimited && remaining <= 0;
 
         return (
-          <Pressable
+          <Bouncy
             key={mode.id}
             onPress={() => onModeChange(mode.id)}
             style={[
@@ -164,11 +186,11 @@ export function ModeSelector({
                 <Text style={styles.remainingPlaceholder}>{' '}</Text>
               )}
             </View>
-          </Pressable>
+          </Bouncy>
         );
       })}
       {onAdventurePress && (
-        <Pressable onPress={onAdventurePress} style={tabStyle}>
+        <Bouncy onPress={onAdventurePress} style={tabStyle}>
           <View
             style={[
               styles.bottomTabInner,
@@ -192,7 +214,7 @@ export function ModeSelector({
             )}
             <Text style={styles.remainingPlaceholder}>{' '}</Text>
           </View>
-        </Pressable>
+        </Bouncy>
       )}
     </>
   );

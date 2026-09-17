@@ -99,7 +99,7 @@ export function TenFrameCell({
       damping: 8,
       stiffness: 150,
     });
-  }, [state, isFilled]);
+  }, [state, isFilled, marbleScale]);
 
   const handlePress = () => {
     if (disabled) return;
@@ -182,8 +182,13 @@ export function TenFrameCell({
             styles.ring,
             {
               borderRadius: 10 - RING_INSET,
-              borderColor: cellColors.border,
-              borderWidth: Math.max(1.5, cellSize * 0.035),
+              // White, and thick enough to see at a phone cell: the ring used
+              // to reuse the cell's own border colour at ~2pt, which made
+              // the promised "second channel" invisible — and on Candy the
+              // two operand colours are the same to a red-green colour-blind
+              // child, so this ring was all they had.
+              borderColor: 'rgba(255,255,255,0.92)',
+              borderWidth: Math.max(2.5, cellSize * 0.06),
             },
           ]}
         />

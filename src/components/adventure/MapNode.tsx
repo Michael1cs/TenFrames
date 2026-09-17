@@ -9,7 +9,6 @@ import Animated, {
   withSpring,
   withDelay,
   useSharedValue,
-  interpolateColor,
 } from 'react-native-reanimated';
 import {AdventureLevel, AdventureLevelProgress, ThemeColors} from '../../types/game';
 import {Emoji} from '../common/Emoji';
@@ -83,9 +82,12 @@ export function MapNode({
     }
   }, [isCurrent, glow]);
 
+  // Squash under the finger, spring back on release.
+  const press = useSharedValue(1);
+
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [
-      {scale: entrance.value * pulse.value},
+      {scale: entrance.value * pulse.value * press.value},
     ],
     opacity: entrance.value,
   }));
@@ -145,6 +147,14 @@ export function MapNode({
       )}
       <AnimatedPressable
         onPress={unlocked || premiumLocked ? onPress : undefined}
+        // Forgive a finger that lands just outside the circle.
+        hitSlop={10}
+        onPressIn={() => {
+          press.value = withSpring(0.92, {damping: 15, stiffness: 400});
+        }}
+        onPressOut={() => {
+          press.value = withSpring(1, {damping: 12, stiffness: 300});
+        }}
         style={[
           styles.node,
           {

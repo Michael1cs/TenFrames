@@ -17,6 +17,16 @@ const fredoka = {fontFamily: FREDOKA_FAMILY};
  * The caller's style is applied last, so a component can still override the
  * family — Emoji does, for the colour-emoji face.
  */
-export function Text({style, ...rest}: TextProps) {
-  return <RNText {...rest} style={[fredoka, style]} />;
+// Dynamic Type is honoured up to 1.3x. Above that the ten frame, the number
+// pad and the level header break (nothing capped it, and iOS goes to 3.5x),
+// and a child's app is used far more by touch than by reading. Callers can
+// still pass their own multiplier.
+export function Text({style, maxFontSizeMultiplier = 1.3, ...rest}: TextProps) {
+  return (
+    <RNText
+      {...rest}
+      maxFontSizeMultiplier={maxFontSizeMultiplier}
+      style={[fredoka, style]}
+    />
+  );
 }

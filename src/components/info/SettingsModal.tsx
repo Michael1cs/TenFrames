@@ -67,15 +67,17 @@ export function SettingsModal({
             />
           </View>
 
-          {/* Premium row — tapping always opens the upgrade screen so the
-              purchase UI stays discoverable (handy in dev when isPremium is
-              forced true). When premium is already active, the row shows a
-              status badge but still lets the parent peek at the screen.
+          {/* Premium row. For a free user it opens the upgrade sheet; once
+              premium is active it is a plain status card — a paying parent
+              was offered the price and "Unlock now" again from here.
               Hidden entirely in the School Edition: on a managed classroom
               device there is nothing to buy and no parent to buy it, and a
               paid institutional app must not show purchase language. */}
           {!IS_SCHOOL_EDITION && (
-          <Pressable onPress={onUpgrade} style={styles.premiumCard}>
+          <Pressable
+            onPress={isPremium ? undefined : onUpgrade}
+            disabled={isPremium}
+            style={styles.premiumCard}>
             <Text style={styles.premiumEmoji}>
               <Emoji>{isPremium ? '✅' : '👑'}</Emoji>
             </Text>
@@ -91,7 +93,7 @@ export function SettingsModal({
                   : t('settings.unlockSub')}
               </Text>
             </View>
-            <Text style={styles.chevron}>›</Text>
+            {!isPremium && <Text style={styles.chevron}>›</Text>}
           </Pressable>
           )}
 

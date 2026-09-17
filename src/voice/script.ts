@@ -288,6 +288,43 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'world_doubles_castle', ro: 'Castelul dublurilor!', en: "Doubles Castle!", de: 'Doppel-Schloss!'},
   {id: 'world_memory_garden', ro: 'Grădina memoriei!', en: "Memory Garden!", de: 'Gedächtnis-Garten!'},
   {id: 'world_farm_share', ro: 'Împarte la fermă!', en: "Farm Share!", de: 'Bauernhof teilen!'},
+  {id: 'world_high_five', ro: 'Bat palma!', en: "High Five!", de: 'Gib fünf!'},
+  {id: 'world_monster_more', ro: 'Monștri flămânzi!', en: "Hungry Monsters!", de: 'Hungrige Monster!'},
+  {id: 'world_number_town', ro: 'Orașul numerelor!', en: "Number Town!", de: 'Zahlenstadt!'},
+  // A crowned level was tapped by a child who can't read the upgrade sheet.
+  {id: 'ask_parent', ro: 'Aici e nevoie de un părinte. Roagă-l să te ajute!', en: "This one needs a grown-up. Ask a parent to help!", de: 'Hier brauchst du einen Erwachsenen. Frag deine Eltern!'},
+  // Sticker names, spoken when a child taps a sticker in the album. The
+  // number stickers reuse num_N.
+  {id: 'stk_cat', ro: 'O pisică!', en: "A cat!", de: 'Eine Katze!'},
+  {id: 'stk_dog', ro: 'Un cățel!', en: "A dog!", de: 'Ein Hund!'},
+  {id: 'stk_rabbit', ro: 'Un iepure!', en: "A rabbit!", de: 'Ein Hase!'},
+  {id: 'stk_bear', ro: 'Un urs!', en: "A bear!", de: 'Ein Bär!'},
+  {id: 'stk_panda', ro: 'Un panda!', en: "A panda!", de: 'Ein Panda!'},
+  {id: 'stk_unicorn', ro: 'Un unicorn!', en: "A unicorn!", de: 'Ein Einhorn!'},
+  {id: 'stk_rocket', ro: 'O rachetă!', en: "A rocket!", de: 'Eine Rakete!'},
+  {id: 'stk_star', ro: 'O stea!', en: "A star!", de: 'Ein Stern!'},
+  {id: 'stk_moon', ro: 'Luna!', en: "The moon!", de: 'Der Mond!'},
+  {id: 'stk_planet', ro: 'O planetă!', en: "A planet!", de: 'Ein Planet!'},
+  {id: 'stk_ufo', ro: 'O farfurie zburătoare!', en: "A flying saucer!", de: 'Eine fliegende Untertasse!'},
+  {id: 'stk_alien', ro: 'Un extraterestru!', en: "An alien!", de: 'Ein Außerirdischer!'},
+  {id: 'stk_flower', ro: 'O floare!', en: "A flower!", de: 'Eine Blume!'},
+  {id: 'stk_tree', ro: 'Un copac!', en: "A tree!", de: 'Ein Baum!'},
+  {id: 'stk_rainbow', ro: 'Un curcubeu!', en: "A rainbow!", de: 'Ein Regenbogen!'},
+  {id: 'stk_sun', ro: 'Soarele!', en: "The sun!", de: 'Die Sonne!'},
+  {id: 'stk_butterfly', ro: 'Un fluture!', en: "A butterfly!", de: 'Ein Schmetterling!'},
+  {id: 'stk_mushroom', ro: 'O ciupercă!', en: "A mushroom!", de: 'Ein Pilz!'},
+  {id: 'stk_apple', ro: 'Un măr!', en: "An apple!", de: 'Ein Apfel!'},
+  {id: 'stk_cake', ro: 'Un tort!', en: "A cake!", de: 'Ein Kuchen!'},
+  {id: 'stk_icecream', ro: 'O înghețată!', en: "An ice cream!", de: 'Ein Eis!'},
+  {id: 'stk_pizza', ro: 'O pizza!', en: "A pizza!", de: 'Eine Pizza!'},
+  {id: 'stk_candy', ro: 'O bomboană!', en: "A candy!", de: 'Ein Bonbon!'},
+  {id: 'stk_donut', ro: 'O gogoașă!', en: "A donut!", de: 'Ein Donut!'},
+  {id: 'stk_soccer', ro: 'O minge de fotbal!', en: "A football!", de: 'Ein Fußball!'},
+  {id: 'stk_trophy', ro: 'Un trofeu!', en: "A trophy!", de: 'Ein Pokal!'},
+  {id: 'stk_medal', ro: 'O medalie!', en: "A medal!", de: 'Eine Medaille!'},
+  {id: 'stk_crown', ro: 'O coroană!', en: "A crown!", de: 'Eine Krone!'},
+  {id: 'stk_diamond', ro: 'Un diamant!', en: "A diamond!", de: 'Ein Diamant!'},
+  {id: 'stk_hundred', ro: 'O sută!', en: "One hundred!", de: 'Hundert!'},
   {id: 'share_intro', ro: 'Împarte mâncarea la fel pentru fiecare!', en: "Share the food fairly with everyone!", de: 'Teile das Essen gerecht für alle!'},
   {id: 'share_again', ro: 'Fă-o corect, fiecare la fel!', en: "Make it fair, the same for each!", de: 'Mach es gerecht, gleich viele für jeden!'},
   {id: 'share_unfair', ro: 'Unul are mai mult. Încearcă să fie egal.', en: "One has more. Try to make it fair.", de: 'Einer hat mehr. Versuch es gerecht zu machen.'},
@@ -295,15 +332,29 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   // ── Level transition cues (between adventure levels) ──
   {id: 'lvl_next', ro: 'Hai la următorul nivel!', en: "Let's go to the next level!", de: 'Auf zum nächsten Level!'},
   {id: 'lvl_world_done', ro: 'Ai terminat insula! Bravo!', en: "You finished the island! Amazing!", de: 'Du hast die Insel geschafft! Fantastisch!'},
+  // Every world, not just the island: lvl_world_done says "island" and was
+  // played in the meadow, the mountain, the castle, the garden and the farm.
+  {id: 'lvl_world_done_any', ro: 'Ai terminat lumea asta! Bravo!', en: "You finished this world! Amazing!", de: 'Du hast diese Welt geschafft! Fantastisch!'},
 
   // ── Adventure level challenge intros ──
   {id: 'instr_top_row', ro: 'Umple rândul de sus!', en: "Fill the top row!", de: 'Fülle die obere Reihe!'},
   {id: 'instr_bottom_row', ro: 'Umple rândul de jos!', en: "Fill the bottom row!", de: 'Fülle die untere Reihe!'},
   {id: 'instr_both_rows', ro: 'La fel pe ambele rânduri!', en: "Same on both rows!", de: 'Gleich viele in beiden Reihen!'},
+  // "Same on both rows" never said HOW MANY, but only exactly half the
+  // target in each row is accepted, so a child who filled both rows was
+  // marked wrong. These say the number out loud.
+  {id: 'both_rows_1', ro: 'Pune una sus și una jos!', en: "Put one on top and one on the bottom!", de: 'Lege einen oben und einen unten!'},
+  {id: 'both_rows_2', ro: 'Pune două sus și două jos!', en: "Put two on top and two on the bottom!", de: 'Lege zwei oben und zwei unten!'},
+  {id: 'both_rows_3', ro: 'Pune trei sus și trei jos!', en: "Put three on top and three on the bottom!", de: 'Lege drei oben und drei unten!'},
+  {id: 'both_rows_4', ro: 'Pune patru sus și patru jos!', en: "Put four on top and four on the bottom!", de: 'Lege vier oben und vier unten!'},
+  {id: 'both_rows_5', ro: 'Pune cinci sus și cinci jos!', en: "Put five on top and five on the bottom!", de: 'Lege fünf oben und fünf unten!'},
   {id: 'instr_make_ten', ro: 'Fă zece!', en: "Make ten!", de: 'Mach zehn!'},
   // Number Town (answer mode): fires with the 👇 pad hint once the child has
   // built the answer on the frame but hasn't named it yet.
   {id: 'instr_tap_number', ro: 'Acum apasă pe număr!', en: "Now tap the number!", de: 'Tippe jetzt auf die Zahl!'},
+  // Missing-addend problems: the child must name what they ADDED, not the
+  // total the frame now shows, so the pad nudge cannot be "tap the number".
+  {id: 'ask_added_tap', ro: 'Câte ai pus tu? Apasă pe numărul acela!', en: "How many did you add? Tap that number!", de: 'Wie viele hast du dazugelegt? Tippe auf diese Zahl!'},
 
   // ── Hungry Monsters (compare mode) ──
   // Asks rotate so the instruction never reads as a stuck record: the first
@@ -314,6 +365,11 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'cmp_ask_3', ro: 'Apasă pe cadrul cu mai multe.', en: "Tap the frame that has more.", de: 'Tippe auf das Feld mit mehr Punkten.'},
   {id: 'cmp_ask_4', ro: 'Numără pe fiecare și alege-l pe cel mai plin.', en: "Count each one, then pick the fuller frame.", de: 'Zähle beide und wähle das vollere Feld.'},
   {id: 'cmp_ask_same', ro: 'Iar dacă au la fel de multe, apasă pe La fel!', en: "And if they have the same, tap Same!", de: 'Und wenn es gleich viele sind, tippe auf Gleich!'},
+  // Levels where two frames can hold the same amount: the question must
+  // allow that answer, and must do so on EVERY problem of those levels —
+  // asking "or the same?" only when they are equal would give it away.
+  {id: 'cmp_ask_eq_1', ro: 'Care are mai multe? Sau sunt la fel?', en: "Which one has more? Or are they the same?", de: 'Wo sind mehr? Oder sind es gleich viele?'},
+  {id: 'cmp_ask_eq_2', ro: 'Numără pe fiecare. Mai multe sau la fel?', en: "Count each one. More, or the same?", de: 'Zähle beide. Mehr oder gleich viele?'},
   // Confirmations — six variants so praise stays alive across a level.
   {id: 'cmp_yes_1', ro: 'Da! Acela are mai multe!', en: "Yes! That one has more!", de: 'Ja! Da sind mehr!'},
   {id: 'cmp_yes_2', ro: 'Așa e! Acela e mai mare!', en: "Right! That's the bigger one!", de: 'Genau! Das ist das größere!'},

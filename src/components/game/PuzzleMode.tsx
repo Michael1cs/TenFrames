@@ -8,6 +8,9 @@ import {Emoji} from '../common/Emoji';
 import {CellState, ThemeColors} from '../../types/game';
 
 interface PuzzleModeProps {
+  // False while something covers the frame (the setup modal on first run):
+  // the ghost-hand demo would play unseen and mark itself as shown.
+  demoEnabled?: boolean;
   cells: CellState[];
   onCellClick: (index: number) => void;
   onSubmit: () => void;
@@ -21,6 +24,7 @@ interface PuzzleModeProps {
 }
 
 export function PuzzleMode({
+  demoEnabled,
   cells,
   onCellClick,
   onSubmit,
@@ -51,6 +55,7 @@ export function PuzzleMode({
         colors={colors}
         emoji={emoji}
         tokenImage={tokenImage}
+        demo={demoEnabled === false ? undefined : 'puzzle'}
       />
 
       <NumberDisplay number={filledCount} colors={colors} emoji={emoji} />

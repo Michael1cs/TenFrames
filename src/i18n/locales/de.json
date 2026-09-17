@@ -222,17 +222,14 @@
   },
   "premium": {
     "dailyLimitTitle": "Tolle Arbeit heute!",
-    "dailyLimitMessage": "Du hast heute super gespielt! Komm morgen wieder oder schalte alles frei!",
+    "dailyLimitMessage": "Du hast heute super gespielt! Komm morgen wieder.",
     "unlockAll": "Alles freischalten",
     "comeBackTomorrow": "Bis morgen!",
     "upgradeTitle": "Mathe mit Lächeln Premium",
     "upgradeSubtitle": "Lerne ohne Grenzen!",
     "featureAllWorlds": "Alle 11 Abenteuer-Welten, jedes Level",
     "featureUnlimitedModes": "Kein Tageslimit für irgendein Spiel",
-    "featureAllThemes": "Alle 10 visuellen Themen",
-    "featureStickerBook": "Komplettes Album (36 Sticker)",
     "featureParentDashboard": "Lernfortschritt deines Kindes verfolgen",
-    "featureAchievements": "Alle 14 Erfolge",
     "oneTimePurchase": "Einmaliger Kauf",
     "buyNow": "Jetzt freischalten",
     "maybeLater": "Vielleicht später",
@@ -418,7 +415,8 @@
     "fillTopRow": "Fülle nur die obere Reihe!",
     "fillBottomRow": "Fülle nur die untere Reihe!",
     "fillBothEqual": "Gleich viele in beiden Reihen!",
-    "pickTheNumber": "Tippe die Zahl!"
+    "pickTheNumber": "Tippe die Zahl!",
+    "newBest": "Neue Bestleistung!"
   },
   "memory": {
     "watch": "Schau gut zu!",
@@ -437,7 +435,7 @@
     "voice": "Sprachausgabe",
     "voiceSub": "Gesprochene Zahlen, Lob und Anweisungen",
     "unlockTitle": "Premium freischalten",
-    "unlockSub": "Alle Welten, Themen und das ganze Album",
+    "unlockSub": "Alle Welten und Level, kein Tageslimit",
     "premiumActive": "Premium aktiv",
     "premiumActiveSub": "Danke für deine Unterstützung!",
     "about": "Über Ten Frames",

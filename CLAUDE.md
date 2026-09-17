@@ -1,69 +1,69 @@
-# Ten Frames - React Native Android App
+# Ten Frames
 
-## Project Overview
-Educational math app for children (ages 4-7, preschool through grade 1) using the American **Ten Frames** method.
-A 2x5 grid where children place objects to visualize numbers 0-10.
+Math app for children aged 4-7 (never write "4-6" anywhere), built on the
+ten-frame method: a 2x5 grid the child fills with counters to see numbers
+0-10. Most of the audience cannot read yet, so instructions are spoken and
+navigation is by picture.
 
-## Tech Stack
-- **React Native CLI** (not Expo) — Android only
-- **TypeScript**
-- `react-native-reanimated` v4 + `react-native-worklets` — animations
-- `react-native-linear-gradient` v3 (beta) — theme backgrounds
-- `@react-native-async-storage/async-storage` v3 — persistence (uses local Maven repo for KMP artifact)
-- `react-i18next` — trilingual (Romanian, English, German). Device locale picks
-  the language; anything that is not `ro` or `de` gets English, and `fallbackLng`
-  is `en` (see `src/i18n/index.ts`)
+## What ships
 
-## Game Modes
-1. **Counting** — free toggle, tap cells to fill/empty
-2. **Addition** — pre-fills num1 as color1 (locked), child adds num2 as color2
-3. **Subtraction** — pre-fills num1 as color1, child taps to remove
-4. **Puzzle** — pre-fills N as color1 (locked), child fills remaining with color2 to reach 10
+- **iOS**, two editions from one codebase: consumer `com.tenframes.app`
+  (free tier + one in-app unlock) and **School** `com.tenframes.school`
+  (everything unlocked, no store code at all; flag `IS_SCHOOL_EDITION`,
+  entry `index.school.js`, Xcode scheme "TenFrames School" builds with
+  `-configuration Release-School`).
+- **Android**, one app with the in-app unlock (built on the Windows laptop;
+  see the current `ANDROID_*.md` for release steps).
+- Languages RO / EN / DE. Device locale picks; anything else gets EN.
 
-## Key Architecture Decisions
-- **2-color cell system**: `CellState = 'empty' | 'filled' | 'color1' | 'color2'` — educationally correct, shows operands in different colors
-- **useRef pattern** in `useGameState.ts` to prevent stale closures in callbacks
-- **useLayout hook** for responsive design (phone portrait + tablet landscape)
-- **Landscape mode**: sidebar (header+stats+modes) left, game area right
-- **Portrait mode**: vertical stack with ScrollView
+## Stack
 
-## Themes
-8 visual themes, each with unique color1/color2 pairs, gradient backgrounds, and floating emoji animations:
-- **Space** 🚀 — indigo/purple gradients
-- **Forest** 🌲 — green/emerald gradients
-- **Ocean** 🐳 — blue/cyan gradients
-- **Farm** 🐄 — yellow/orange gradients
-- **Dino** 🦕 — teal/green gradients (dinosaur theme)
-- **Candy** 🍬 — pink/magenta gradients (sweets theme)
-- **Unicorn** 🦄 — purple/pink pastel gradients
-- **Pixel** 👾 — dark/neon retro gaming theme
+React Native 0.84 CLI (no Expo), TypeScript, reanimated v4 + worklets,
+react-native-gesture-handler, react-native-iap 15 (NitroIap), AsyncStorage
+v3, react-i18next, react-native-sound, react-native-haptic-feedback. iOS
+builds need Xcode 27 (UIScene life cycle in `AppDelegate.swift`; Podfile
+lifts pods to iOS 15.1).
 
-## Reward System
-Motivational reward system designed for children (no penalties, effort-based praise):
-- **Stars**: 3 stars for first-try correct, 1 star otherwise
-- **Sticker Book**: 36 stickers across 6 categories (Numbers, Animals, Space, Nature, Food, Sports), unlocked at star thresholds
-- **Achievements**: 14 achievements (star milestones, daily streaks, mode completion, perfect runs, sticker collection)
-- **Daily Streak**: tracks consecutive days of practice
-- **Milestones**: celebration animations at 10, 25, 50, 100 stars
-- Data persisted via AsyncStorage (`@tenframes_rewards` key)
+## Where things live
 
-## Build Notes
-- Gradle 8.13 (not 9.0 — incompatible with current plugins)
-- JDK 17+ required (JetBrains Runtime 21 bundled with Android Studio works)
-- Open `d:\Tenframes\android` in Android Studio to build
-- Metro bundler: `npx react-native start` from project root
-
-## Project Structure
 ```
-src/
-├── components/
-│   ├── game/         # TenFrame, TenFrameCell, CountingMode, AdditionMode, SubtractionMode, PuzzleMode, NumberDisplay
-│   ├── layout/       # GameShell, ModeSelector, LanguageSwitcher, BackgroundEmojis
-│   ├── feedback/     # CorrectAnimation, WrongAnimation, StarsDisplay, MilestoneAnimation, NewStickerPopup, AchievementPopup
-│   ├── rewards/      # StickerBook, AchievementsScreen
-│   └── onboarding/   # PlayerSetup
-├── hooks/            # useGameState, useTheme, useLayout, usePersistence, useRewards
-├── i18n/locales/     # ro.json, en.json
-├── types/            # game.ts
-└── utils/            # mathProblems.ts, scoring.ts, rewardData.ts
+src/components/layout/GameShell.tsx     Free Play + navigation + all modals
+src/components/adventure/               worlds grid, world map, level screen
+src/components/game/                    the modes (Counting, Addition, Subtraction,
+                                        Puzzle, NumberAnswer, Compare, Memory, FarmShare, Workshop)
+src/components/common/                  AppText (Fredoka), Emoji, Bouncy, Mascot
+src/config/adventureWorlds.ts           11 worlds / 98 levels, premium rule, next-playable rule
+src/voice/script.ts                     every spoken line (id -> ro/en/de text)
+src/voice/*Narration.ts                 which line plays when (pure, tested)
+src/hooks/useVoice.ts                   the FIFO voice queue
+src/hooks/usePremium.ts, useIAP.ts      free tier, daily limit, store
+assets/audio/voice_<lang>_<id>.mp3      clips (also copied to android/.../res/raw)
+assets/icons, assets/mascot             Mihai's clay art (512px); originals in assets/icons-source
 ```
+
+## Rules that keep biting
+
+- **The voice must never tell a child to do something the level marks
+  wrong.** Every narration rule lives in `src/voice/*Narration.ts` with a
+  test against the script and the shipped clips. Don't build voice ids
+  inline in a screen.
+- **Voice clips are bundled at build time.** After generating with
+  `ELEVENLABS_API_KEY=... node scripts/gen-voice.mjs --ids=a,b`: copy to
+  `android/app/src/main/res/raw/`, run `npx react-native-asset`, rebuild.
+  Voice IDs/models per language are locked in the script — never mix.
+  `__tests__/voiceCoverage.test.ts` fails on a missing clip.
+- **One premium rule**: `isLevelPremiumLocked` / `nextPlayableLevel` in
+  `adventureWorlds.ts`. Every way into a level goes through it. The price
+  screen, settings and the parent dashboard sit behind `ParentalGate`.
+- **Never save before boot has read storage** (the premium save is guarded
+  by `bootLoaded`; a cold start once wiped paid unlocks).
+- **Layout**: never mount/unmount elements inside a centred column —
+  overlays and fixed slots only. Grids with computed widths use
+  `Math.floor`.
+- **Less talking.** One line per moment; nothing spoken over a child who is
+  acting; the stall nudge (4s hand, 10s replay) is the only repetition.
+- **No emoji as UI icons** where clay art exists; the mascot is the
+  celebration (no generic confetti).
+- Test with `npx tsc --noEmit && npx jest` (174 tests). Simulator: build
+  Release for `iPhone 18 Pro Max` (iOS 27); `xcrun simctl` install/launch.
+  DeviceHub replaced Simulator.app in Xcode 27.

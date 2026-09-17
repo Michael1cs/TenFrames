@@ -1,10 +1,15 @@
 import React, {useState, useCallback, useRef, useEffect} from 'react';
-import {View, Pressable, StyleSheet, ImageBackground} from 'react-native';
+import {
+  View,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  ImageBackground,
+} from 'react-native';
 import {Text} from '../common/AppText';
 import Animated, {BounceIn, FadeIn} from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
 import {
-  AdventureLevel,
   AnswerProblem,
   CompareProblem,
   ThemeColors,
@@ -24,7 +29,6 @@ import {
   generateShareProblem,
   ShareProblem,
   checkAnswer,
-  checkPuzzleAnswer,
 } from '../../utils/mathProblems';
 import {TenFrame} from '../game/TenFrame';
 import {NumberDisplay} from '../game/NumberDisplay';
@@ -37,14 +41,20 @@ import {LevelCompleteScreen} from './LevelCompleteScreen';
 import {LevelPlayState} from '../../hooks/useAdventure';
 import {getAllThemes} from '../../hooks/useTheme';
 import {ADVENTURE_WORLDS} from '../../config/adventureWorlds';
-import {Emoji} from '../common/Emoji';
 import {
   puzzleInstructionIds,
   puzzlePraisePool,
   puzzleRetryIds,
 } from '../../voice/puzzleNarration';
+import {
+  answerInstructionIds,
+  compareAskIds,
+  countingInstructionIds,
+  padNudgeId,
+} from '../../voice/adventureNarration';
 import {WrongFlash} from '../feedback/WrongFlash';
 import {TapHint} from '../feedback/TapHint';
+import {Mascot} from '../common/Mascot';
 import {PadHint} from '../feedback/PadHint';
 import {useReduceMotion} from '../../hooks/useReduceMotion';
 import {buildAssistPlan, cellsToChange} from '../../utils/hintLadder';
@@ -125,6 +135,7 @@ interface AdventureLevelScreenProps {
   stars: number | null; // null = still playing, number = completed
   isNewBest: boolean;
   hasNextLevel: boolean;
+  worldComplete?: boolean;
   onRecordResult: (wasFirstTry: boolean) => void;
   onComplete: () => {stars: number; isNewBest: boolean};
   onNextLevel: () => void;
@@ -147,6 +158,7 @@ export function AdventureLevelScreen({
   stars,
   isNewBest,
   hasNextLevel,
+  worldComplete,
   onRecordResult,
   onComplete,
   onNextLevel,
@@ -182,7 +194,23 @@ export function AdventureLevelScreen({
   // walkthrough builds the answer cell by cell.
   const [hintCells, setHintCells] = useState<number[]>([]);
   const [assisting, setAssisting] = useState(false);
+  // The success moment must last even when the voice is off: useVoice calls
+  // the completion callback at once then, and the level jumped straight to
+  // the next problem — the child never saw that they were right. With the
+  // voice on, the praise itself is longer than the beat, so nothing changes.
+  const afterBeat = useCallback((fn: () => void, ms = 1100) => {
+    const at = Date.now();
+    return () => {
+      const wait = Math.max(0, ms - (Date.now() - at));
+      const t = setTimeout(fn, wait);
+      assistTimersRef.current.push(t);
+    };
+  }, []);
+
   const assistTimersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  // Identifies the current walkthrough. A voice callback that arrives after
+  // the child has moved on (next problem, level closed) must do nothing.
+  const assistRunRef = useRef(0);
   const hintFlashRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const reduceMotion = useReduceMotion();
   const [completedStars, setCompletedStars] = useState<number | null>(stars);
@@ -221,12 +249,19 @@ export function AdventureLevelScreen({
       const probs: ShareProblem[] = [];
       const seen = new Set<string>();
       let tries = 0;
+      let lastKey: string | null = null;
       while (probs.length < problemCount && tries < 50) {
         const p = generateShareProblem(level.modeLevel);
         const key = `${p.total}-${p.buckets}`;
-        if (!seen.has(key) || tries > 30) {
+        // After 30 tries duplicates are allowed, but never the problem just
+        // pushed: on a two-value pool the generator alternates a,b,a,b, so
+        // try 31 always equalled the last one and the level ran a,b,b,a,b —
+        // and the repeated problem got no instruction, since its voice key
+        // had not changed.
+        if (!seen.has(key) || (tries > 30 && key !== lastKey)) {
           seen.add(key);
           probs.push(p);
+          lastKey = key;
         }
         tries++;
       }
@@ -235,12 +270,14 @@ export function AdventureLevelScreen({
       const challenges: CountingChallenge[] = [];
       const seen = new Set<string>();
       let tries = 0;
+      let lastKey: string | null = null;
       while (challenges.length < problemCount && tries < 50) {
         const c = generateCountingChallenge(level.modeLevel);
         const key = `${c.instruction}-${c.targetNumber}`;
-        if (!seen.has(key) || tries > 30) {
+        if (!seen.has(key) || (tries > 30 && key !== lastKey)) {
           seen.add(key);
           challenges.push(c);
+          lastKey = key;
         }
         tries++;
       }
@@ -249,6 +286,7 @@ export function AdventureLevelScreen({
       const problems: Problem[] = [];
       const seen = new Set<string>();
       let tries = 0;
+      let lastKey: string | null = null;
       while (problems.length < problemCount && tries < 50) {
         const rawTarget = level.puzzleTarget ?? 10;
         const target = rawTarget === 'mixed'
@@ -270,9 +308,10 @@ export function AdventureLevelScreen({
         const key = level.gameMode === 'answer'
           ? `${(p as AnswerProblem).slot}-${p.num1}-${p.num2}`
           : `${p.num1}-${p.num2}`;
-        if (!seen.has(key) || tries > 30) {
+        if (!seen.has(key) || (tries > 30 && key !== lastKey)) {
           seen.add(key);
           problems.push(p);
+          lastKey = key;
         }
         tries++;
       }
@@ -291,6 +330,8 @@ export function AdventureLevelScreen({
     setPadReveal(false);
     setHintCells([]);
     setAssisting(false);
+    // Any walkthrough still running belongs to a problem that is over.
+    assistRunRef.current++;
     for (const t of assistTimersRef.current) clearTimeout(t);
     assistTimersRef.current = [];
     if (hintFlashRef.current) {
@@ -388,6 +429,8 @@ export function AdventureLevelScreen({
     () => () => {
       if (instructionTimerRef.current) clearTimeout(instructionTimerRef.current);
       if (advanceFallbackRef.current) clearTimeout(advanceFallbackRef.current);
+      // Any walkthrough still running belongs to a level that is closing.
+      assistRunRef.current++;
       for (const t of assistTimersRef.current) clearTimeout(t);
       if (hintFlashRef.current) clearTimeout(hintFlashRef.current);
     },
@@ -461,7 +504,7 @@ export function AdventureLevelScreen({
         setIsCorrect(null);
       }
     },
-    [hasSubmitted, isCorrect, level.gameMode, assisting],
+    [hasSubmitted, isCorrect, level.gameMode, assisting, dismissHint],
   );
 
   const handleSubmit = useCallback(() => {
@@ -567,7 +610,7 @@ export function AdventureLevelScreen({
           VOICE_GROUPS.correct,
         );
         const praiseId = pool[Math.floor(Math.random() * pool.length)];
-        voiceRef.current.play(praiseId, advance);
+        voiceRef.current.play(praiseId, afterBeat(advance));
       } else {
         const themeId = ADVENTURE_WORLDS.find(w => w.id === level.worldId)?.theme;
         const noun = LEVEL_NOUN[level.id];
@@ -604,11 +647,11 @@ export function AdventureLevelScreen({
           : null;
 
         if (resultId && praiseId) {
-          voiceRef.current.playSequence([resultId, praiseId], 350, advance);
+          voiceRef.current.playSequence([resultId, praiseId], 350, afterBeat(advance));
         } else if (resultId) {
-          voiceRef.current.play(resultId, advance);
+          voiceRef.current.play(resultId, afterBeat(advance));
         } else if (praiseId) {
-          voiceRef.current.play(praiseId, advance);
+          voiceRef.current.play(praiseId, afterBeat(advance));
         } else {
           advance();
         }
@@ -651,10 +694,19 @@ export function AdventureLevelScreen({
       };
 
       if (attemptNumber === 1) {
+        // Put the board back to the problem's starting operand first. The
+        // restatement below says "five… add three more", which was spoken
+        // over the child's own wrong attempt: following it made the mistake
+        // bigger. Free Play already resets before a retry.
+        if (level.gameMode === 'addition' || level.gameMode === 'subtraction') {
+          setCells(buildAssistPlan(ladderCtx).base);
+          setHintCells([]);
+        }
         // Same request, different sentence — a repeat reads as a stuck record.
         voiceRef.current.playRandom(VOICE_GROUPS.tryAgain);
         if (level.gameMode === 'counting') {
-          voiceRef.current.play('instr_counting');
+          // Just the instruction again. The generic "tap the boxes and count"
+          // line in front of it made a first miss ~7s of speech.
           lastInstructionVoiceRef.current?.();
         } else if (level.gameMode === 'puzzle' && currentProblem) {
           for (const id of puzzleRetryIds(currentProblem.answer)) {
@@ -717,36 +769,50 @@ export function AdventureLevelScreen({
         const {base, steps} = buildAssistPlan(ladderCtx);
 
         setCells(base);
-        steps.forEach((st, i) => {
+        // Paced by the VOICE, not by a fixed 600ms interval. The clips are a
+        // queue, so on a fixed schedule the spoken count fell further behind
+        // the counters with every step — worst in German, where the numbers
+        // are longest — and the next problem's voice cut the count off before
+        // it reached the answer. Each step now places its counter, says its
+        // number, and only then schedules the next one.
+        const run = ++assistRunRef.current;
+        const finish = () => {
+          setHasSubmitted(true);
+          setIsCorrect(true);
+          voiceRef.current.playRandom(VOICE_GROUPS.correct);
           assistTimersRef.current.push(
             setTimeout(() => {
-              setCells(prev => {
-                const n = [...prev];
-                n[st.index] = st.state;
-                return n;
-              });
-              voiceRef.current.play(`num_${i + 1}`);
-            }, 500 + i * 600),
+              if (assistRunRef.current !== run) return;
+              setAssisting(false);
+              // wasFirstTry false → one star. Helped is still finished.
+              onRecordResult(false);
+            }, 2200),
           );
-        });
-        const doneAt = 500 + steps.length * 600 + 300;
-        assistTimersRef.current.push(
-          setTimeout(() => {
-            setHasSubmitted(true);
-            setIsCorrect(true);
-            voiceRef.current.playRandom(VOICE_GROUPS.correct);
-          }, doneAt),
-        );
-        assistTimersRef.current.push(
-          setTimeout(() => {
-            setAssisting(false);
-            // wasFirstTry false → one star. Helped is still finished.
-            onRecordResult(false);
-          }, doneAt + 2200),
-        );
+        };
+        const step = (i: number) => {
+          if (assistRunRef.current !== run) return;
+          if (i >= steps.length) {
+            finish();
+            return;
+          }
+          const st = steps[i];
+          setCells(prev => {
+            const n = [...prev];
+            n[st.index] = st.state;
+            return n;
+          });
+          voiceRef.current.play(`num_${i + 1}`, () => {
+            if (assistRunRef.current !== run) return;
+            // A short beat between counters, and the floor that keeps the
+            // rhythm human when the voice is switched off (the queue calls
+            // back immediately then).
+            assistTimersRef.current.push(setTimeout(() => step(i + 1), 320));
+          });
+        };
+        assistTimersRef.current.push(setTimeout(() => step(0), 500));
       }
     }
-  }, [cells, currentProblem, countingChallenge, level, attempts, onRecordResult, reduceMotion]);
+  }, [cells, currentProblem, countingChallenge, level, attempts, onRecordResult, reduceMotion, afterBeat]);
 
   // Answer-mode pad nudge: when the frame holds exactly the target quantity
   // and the child pauses, point at the pad — building the board is not the
@@ -769,7 +835,9 @@ export function AdventureLevelScreen({
     if (filled !== ap.answer) return;
     const t = setTimeout(() => {
       setShowPadHint(true);
-      voiceRef.current.play('instr_tap_number');
+      // Missing-addend problems are answered with the part that was added;
+      // "Now tap the number" sent the child to the total on the frame.
+      voiceRef.current.play(padNudgeId(ap.slot));
     }, 1100);
     return () => clearTimeout(t);
   }, [cells, currentProblem, level.gameMode, hasSubmitted, finished, assisting]);
@@ -817,7 +885,7 @@ export function AdventureLevelScreen({
               ]
             : null;
         const ids = praiseId ? [`num_${n}`, praiseId] : [`num_${n}`];
-        voiceRef.current.playSequence(ids, 350, advance);
+        voiceRef.current.playSequence(ids, 350, afterBeat(advance));
         return;
       }
 
@@ -872,6 +940,7 @@ export function AdventureLevelScreen({
       attempts,
       onRecordResult,
       dismissHint,
+      afterBeat,
     ],
   );
 
@@ -883,6 +952,11 @@ export function AdventureLevelScreen({
       if (finished || !compareProblem || (hasSubmitted && isCorrect)) return;
       dismissHint();
 
+      // A wrong tap schedules a 1.2s reset of the submitted state; a correct
+      // tap inside that window used to be wiped by it — the green highlight
+      // vanished and "Almost!" followed "Yes!". Cancel it first.
+      for (const t of assistTimersRef.current) clearTimeout(t);
+      assistTimersRef.current = [];
       if (side === compareProblem.correct) {
         setHasSubmitted(true);
         setIsCorrect(true);
@@ -939,7 +1013,7 @@ export function AdventureLevelScreen({
       const result = onComplete();
       setCompletedStars(result.stars);
     }
-  }, [finished, completedStars, onComplete]);
+  }, [finished, completedStars, onComplete, afterBeat]);
 
   // Judge where the child STOPS, not where the app catches them. Every cell
   // change re-arms one timer; when the child leaves the board alone for
@@ -1005,24 +1079,8 @@ export function AdventureLevelScreen({
     if (level.gameMode === 'counting' && countingChallenge) {
       const {instruction, targetNumber} = countingChallenge;
       key = `c-${instruction}-${targetNumber}`;
-      // Alternate the short line with the explanatory one, and lead the
-      // plain "fill N" case with a rotating ask so the number arrives
-      // inside a sentence instead of on its own.
-      const longForm = problemIndex % 2 === 1;
-      if (instruction === 'fill_top_row') {
-        const id = longForm ? 'cnt_top_long' : 'instr_top_row';
-        action = () => voiceRef.current.play(id);
-      } else if (instruction === 'fill_bottom_row') {
-        const id = longForm ? 'cnt_bottom_long' : 'instr_bottom_row';
-        action = () => voiceRef.current.play(id);
-      } else if (instruction === 'fill_both_equal') {
-        const id = longForm ? 'cnt_both_long' : 'instr_both_rows';
-        action = () => voiceRef.current.play(id);
-      } else {
-        const ask = `cnt_ask_${1 + (problemIndex % 3)}`;
-        action = () =>
-          voiceRef.current.playSequence([ask, `num_${targetNumber}`], 300);
-      }
+      const ids = countingInstructionIds(countingChallenge, problemIndex);
+      action = () => voiceRef.current.playSequence(ids, 300);
     } else if (level.gameMode === 'puzzle' && currentProblem) {
       key = `p-${currentProblem.answer}-${currentProblem.num1}`;
       // The target ("Make 7!"), then how to get there — worded for the
@@ -1033,13 +1091,7 @@ export function AdventureLevelScreen({
       key = `cmp-${problemIndex}-${compareProblem.left}-${compareProblem.right}`;
       // First problem explains, later ones nudge — and on the levels where
       // equal pairs appear, the opener also teaches the "Same" button.
-      const asks = VOICE_GROUPS.compareAsk;
-      const ids =
-        problemIndex === 0
-          ? level.modeLevel >= 3
-            ? [asks[1], 'cmp_ask_same']
-            : [asks[1]]
-          : [asks[1 + ((problemIndex - 1) % 3)]];
+      const ids = compareAskIds(level.modeLevel, problemIndex);
       action = () => voiceRef.current.playSequence(ids, 400);
     } else if (level.gameMode === 'share' && shareProblem) {
       key = `sh-${problemIndex}-${shareProblem.total}-${shareProblem.buckets}`;
@@ -1052,28 +1104,14 @@ export function AdventureLevelScreen({
       const ap = currentProblem as AnswerProblem;
       key = `a-${ap.slot}-${ap.num1}-${ap.num2}`;
       const noun = LEVEL_NOUN[level.id];
-      if (ap.slot === 'sum') {
-        // "You have 3 stars. Add 2 more!" — same sentence as addition; the
-        // difference is only in how the child answers.
-        action = noun
-          ? () =>
-              voiceRef.current.playSequence(
-                [`have_${noun}_${ap.num1}`, `add_more_${noun}_${ap.num2}`],
-                350,
-              )
-          : () => voiceRef.current.play('instr_addition');
-      } else {
-        // "You have 3 stars. Make 8!" — the make_N drill clips carry the
-        // missing-addend framing for free.
-        const makeId = ap.answer === 10 ? 'instr_make_ten' : `make_${ap.answer}`;
-        action = noun
-          ? () =>
-              voiceRef.current.playSequence(
-                [`have_${noun}_${ap.num1}`, makeId],
-                350,
-              )
-          : () => voiceRef.current.play(makeId);
-      }
+      const ids = answerInstructionIds(
+        ap.slot,
+        ap.num1,
+        ap.num2,
+        ap.answer,
+        noun,
+      );
+      action = () => voiceRef.current.playSequence(ids, 350);
     } else if (currentProblem && themeId) {
       const mode = level.gameMode;
       key = `${mode}-${currentProblem.num1}-${currentProblem.num2}`;
@@ -1082,18 +1120,13 @@ export function AdventureLevelScreen({
       // Other levels: voice the level emoji's noun ("3 octopuses", "2 stars")
       // so the narrator matches the cells the child sees.
       const noun = LEVEL_NOUN[level.id];
-      // Every other problem closes with the task restated as a question
-      // ("How many are there now in total?"), so five problems in a row
-      // stop sounding like one sentence on repeat.
-      const altTail =
-        problemIndex % 2 === 1
-          ? mode === 'addition'
-            ? `add_alt_${1 + (problemIndex % 2)}`
-            : `sub_alt_${1 + (problemIndex % 2)}`
-          : null;
+      // The task used to be restated as a question on every other problem
+      // ("How many are there now in total?"). It arrived while the child was
+      // still placing counters, and the owner heard the app as talking too
+      // much. The instruction alone is enough; the 10s stall nudge repeats it
+      // for a child who hasn't started.
       if (isDoubles && currentProblem.num1 >= 1 && currentProblem.num1 <= 5) {
         const ids = [`doubles_${currentProblem.num1}`];
-        if (altTail) ids.push(altTail);
         action = () => voiceRef.current.playSequence(ids, 350);
       } else if (noun) {
         const verb = mode === 'addition' ? 'add_more' : 'take';
@@ -1101,7 +1134,6 @@ export function AdventureLevelScreen({
           `have_${noun}_${currentProblem.num1}`,
           `${verb}_${noun}_${currentProblem.num2}`,
         ];
-        if (altTail) ids.push(altTail);
         action = () => voiceRef.current.playSequence(ids, 350);
       } else {
         const act = mode === 'addition' ? 'add' : 'sub';
@@ -1111,7 +1143,6 @@ export function AdventureLevelScreen({
           `pre_have_${themeId}_${currentProblem.num1}`,
           `instr_${act}_${themeId}_${currentProblem.num2}`,
         ];
-        if (altTail) ids.push(altTail);
         action = () => voiceRef.current.playSequence(ids, 350);
       }
     }
@@ -1173,6 +1204,57 @@ export function AdventureLevelScreen({
   const themeColors = worldTheme?.colors ?? colors;
 
   // Visual instruction: big emoji/number + small text
+  type EquationPart = {text: string; color: string};
+  // Once the answer is right, the '?' is filled in and each number wears the
+  // colour of its counters — the same completed equation Free Play shows.
+  // The screen used to keep "3 + 4 = ?" up through the whole celebration.
+  const solvedParts = (): EquationPart[] | null => {
+    if (!hasSubmitted || isCorrect !== true || !currentProblem) return null;
+    const c1 = themeColors.cellColor1;
+    const c2 = themeColors.cellColor2;
+    const answer = '#4ADE80';
+    const plain = '#FFFFFF';
+    const p = currentProblem;
+    if (level.gameMode === 'addition') {
+      return [
+        {text: String(p.num1), color: c1},
+        {text: ' + ', color: plain},
+        {text: String(p.num2), color: c2},
+        {text: ' = ', color: plain},
+        {text: String(p.answer), color: answer},
+      ];
+    }
+    if (level.gameMode === 'subtraction') {
+      return [
+        {text: String(p.num1), color: c1},
+        {text: ' − ', color: plain},
+        {text: String(p.num2), color: plain},
+        {text: ' = ', color: plain},
+        {text: String(p.answer), color: answer},
+      ];
+    }
+    if (level.gameMode === 'puzzle') {
+      return [
+        {text: String(p.num1), color: c1},
+        {text: ' + ', color: plain},
+        {text: String(p.num2), color: answer},
+        {text: ' = ', color: plain},
+        {text: String(p.answer), color: plain},
+      ];
+    }
+    if (level.gameMode === 'answer') {
+      const ap = p as AnswerProblem;
+      return [
+        {text: String(ap.num1), color: c1},
+        {text: ' + ', color: plain},
+        {text: String(ap.num2), color: ap.slot === 'addend' ? answer : c2},
+        {text: ' = ', color: plain},
+        {text: String(ap.answer), color: ap.slot === 'sum' ? answer : plain},
+      ];
+    }
+    return null;
+  };
+
   const getInstruction = (): {visual: string; text: string} => {
     if (level.gameMode === 'counting' && countingChallenge) {
       const {instruction, targetNumber} = countingChallenge;
@@ -1244,7 +1326,17 @@ export function AdventureLevelScreen({
         total={problemCount}
         colors={themeColors}
       />
-      <View style={styles.overlay}>
+      {/* Scrollable, because the level does not fit every window: on short
+          ones (a small phone in a system font size, an iPad in Split View,
+          an Android phone with a tall navigation bar) the ✕ and the header
+          were pushed off the top while the number pad and the submit row
+          fell off the bottom, with no way to reach either. It still centres
+          when there is room. */}
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.overlay}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled">
         {/* Back button + Progress header */}
         <View style={styles.header}>
           <Pressable onPress={onBackToMap} style={styles.backBtn}>
@@ -1269,12 +1361,14 @@ export function AdventureLevelScreen({
                     styles.dot,
                     isActive && styles.dotActive,
                     {
+                      // Done / current / still to come. Finished pips used
+                      // to be green or RED by first-try result, so a problem
+                      // the child got through with help sat there as a
+                      // failure for the rest of the level — in a colour pair
+                      // a colour-blind child cannot tell apart. Quality is
+                      // rewarded by the stars at the end, not here.
                       backgroundColor:
-                        i < problemIndex
-                          ? levelState.results[i]
-                            ? '#22C55E'
-                            : '#EF4444'
-                          : isActive
+                        i < problemIndex || isActive
                           ? '#FFFFFF'
                           : 'rgba(255,255,255,0.3)',
                     },
@@ -1320,14 +1414,20 @@ export function AdventureLevelScreen({
                 foodEmoji={pair.food}
                 animalEmoji={pair.animal}
                 colors={themeColors}
+                tokenImage={worldTheme?.tokenImage}
                 // Training-wheels: highlight overflowing baskets in red on
                 // the first two levels; later levels rely on voice alone.
-                showOverflowHint={level.modeLevel <= 2}
+                // Every level gets one voice-only try per problem; after an
+                // unfair split the cue shows. Six of eight levels used to be
+                // voice-only throughout, which excludes a child who cannot
+                // hear it.
+                showOverflowHint={level.modeLevel <= 2 || attempts > 0}
                 onMatch={() => onRecordResult(attempts === 0)}
                 onUnfair={() => {
                   setAttempts(prev => prev + 1);
                   voiceRef.current.play('share_unfair');
                 }}
+                onInteract={dismissHint}
               />
             );
           })()
@@ -1381,7 +1481,20 @@ export function AdventureLevelScreen({
               const instr = getInstruction();
               return (
                 <View style={styles.instructionBox}>
-                  <Text style={styles.instructionVisual}>{instr.visual}</Text>
+                  {(() => {
+                    const parts = solvedParts();
+                    return parts ? (
+                      <Text style={styles.instructionVisual}>
+                        {parts.map((part, i) => (
+                          <Text key={i} style={{color: part.color}}>
+                            {part.text}
+                          </Text>
+                        ))}
+                      </Text>
+                    ) : (
+                      <Text style={styles.instructionVisual}>{instr.visual}</Text>
+                    );
+                  })()}
                   {instr.text ? (
                     <Text style={styles.instructionText}>{instr.text}</Text>
                   ) : null}
@@ -1402,6 +1515,14 @@ export function AdventureLevelScreen({
                 emoji={worldTheme?.colors?.emojiColor1 ?? '🔵'}
                 overrideEmoji={level.emoji}
                 hintedCells={hintCells}
+                demo={
+                  level.gameMode === 'counting' ||
+                  level.gameMode === 'addition' ||
+                  level.gameMode === 'subtraction' ||
+                  level.gameMode === 'puzzle'
+                    ? level.gameMode
+                    : undefined
+                }
               />
               <TapHint visible={showTapHint && !hasSubmitted && !assisting} />
             </Animated.View>
@@ -1438,7 +1559,7 @@ export function AdventureLevelScreen({
                   <Animated.View
                     entering={BounceIn.duration(400)}
                     style={styles.feedbackBox}>
-                    <Text style={styles.feedbackEmoji}><Emoji>🎉</Emoji></Text>
+                    <Mascot pose="jump" height={64} />
                     <Text style={styles.feedbackCorrect}>{t('feedback.correct')}</Text>
                   </Animated.View>
                 )}
@@ -1446,11 +1567,11 @@ export function AdventureLevelScreen({
                   <Animated.View
                     entering={FadeIn.duration(300)}
                     style={styles.feedbackBox}>
-                    <Text style={styles.feedbackEmoji}><Emoji>🤔</Emoji></Text>
+                    <Mascot pose="think" height={64} />
                     <Text style={styles.feedbackWrong}>{t('feedback.tryAgain')}</Text>
                   </Animated.View>
                 )}
-                {/* Manual ✓ button removed — auto-submit handles it for 4-6 ages. */}
+                {/* Manual ✓ button removed — auto-submit handles it for 4-7 ages. */}
               </View>
             )}
           </>
@@ -1463,12 +1584,13 @@ export function AdventureLevelScreen({
             isNewBest={isNewBest}
             colors={themeColors}
             hasNextLevel={hasNextLevel}
+          worldComplete={worldComplete}
             onNextLevel={onNextLevel}
             onReplay={onReplay}
             onBackToMap={onBackToMap}
           />
         )}
-      </View>
+      </ScrollView>
     </ImageBackground>
     </View>
   );
@@ -1484,12 +1606,16 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
   },
-  overlay: {
+  scroll: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.25)',
+  },
+  overlay: {
+    flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 20,
+    paddingBottom: 16,
   },
   header: {
     alignItems: 'center',
@@ -1594,9 +1720,6 @@ const styles = StyleSheet.create({
   feedbackBox: {
     alignItems: 'center',
     gap: 4,
-  },
-  feedbackEmoji: {
-    fontSize: 40,
   },
   feedbackCorrect: {
     fontSize: 16,

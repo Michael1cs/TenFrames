@@ -222,17 +222,14 @@
   },
   "premium": {
     "dailyLimitTitle": "Great job today!",
-    "dailyLimitMessage": "You played awesome today! Come back tomorrow, or unlock everything!",
+    "dailyLimitMessage": "You played awesome today! Come back tomorrow.",
     "unlockAll": "Unlock everything",
     "comeBackTomorrow": "See you tomorrow!",
     "upgradeTitle": "Math with Smiles Premium",
     "upgradeSubtitle": "Learn without limits!",
     "featureAllWorlds": "All 11 Adventure worlds, every level",
     "featureUnlimitedModes": "No daily limit on any game mode",
-    "featureAllThemes": "All 10 visual themes",
-    "featureStickerBook": "Complete sticker book (36 stickers)",
     "featureParentDashboard": "Track your child's progress",
-    "featureAchievements": "All 14 achievements",
     "oneTimePurchase": "One-time purchase",
     "buyNow": "Unlock now",
     "maybeLater": "Maybe later",
@@ -418,7 +415,8 @@
     "fillTopRow": "Fill only the top row!",
     "fillBottomRow": "Fill only the bottom row!",
     "fillBothEqual": "Same on both rows!",
-    "pickTheNumber": "Tap the number!"
+    "pickTheNumber": "Tap the number!",
+    "newBest": "New best!"
   },
   "memory": {
     "watch": "Watch carefully!",
@@ -437,7 +435,7 @@
     "voice": "Voice narration",
     "voiceSub": "Spoken numbers, praise, and instructions",
     "unlockTitle": "Unlock Premium",
-    "unlockSub": "All worlds, themes, and the full sticker book",
+    "unlockSub": "All worlds and levels, no daily limit",
     "premiumActive": "Premium active",
     "premiumActiveSub": "Thanks for supporting Ten Frames!",
     "about": "About Ten Frames",

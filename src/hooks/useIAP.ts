@@ -122,6 +122,14 @@ function useConsumerIAPConnection(onPurchaseSuccess: () => void): IAPState {
       if (err.code === ErrorCode.UserCancelled) {
         return;
       }
+      // "Ask to Buy": the child's request went to the family organiser and is
+      // waiting for their approval. Nothing failed, so it must not say
+      // "Purchase failed. Please try again" — a parent who tried again would
+      // send a second request. Same sentinel as the pending purchase above.
+      if (err.code === ErrorCode.DeferredPayment) {
+        setError('purchase_pending');
+        return;
+      }
       setError(err.message || 'Purchase failed');
     },
     // Non-purchase errors (fetchProducts, connection). Silent on purpose: the
@@ -190,6 +198,28 @@ function useConsumerIAPConnection(onPurchaseSuccess: () => void): IAPState {
       setRestoring(false);
     }
   }, [connected, onPurchaseSuccess]);
+
+  // Silently re-check entitlement once the store connects. A purchase can
+  // exist that this device does not know about — the family restored a
+  // backup, reinstalled, or "Ask to Buy" was approved after the sheet was
+  // closed — and a parent should never have to find the Restore button
+  // behind a maths gate to get back what they paid for. Nothing is shown on
+  // failure: an unreachable store must not put an error in front of a child.
+  const [entitlementChecked, setEntitlementChecked] = useState(false);
+  useEffect(() => {
+    if (!connected || entitlementChecked) return;
+    setEntitlementChecked(true);
+    (async () => {
+      try {
+        const purchases = await iapGetAvailablePurchases();
+        if (purchases.some((p: Purchase) => isPremium(p) && !isPending(p))) {
+          onPurchaseSuccess();
+        }
+      } catch {
+        // Offline or store unavailable: keep whatever is stored locally.
+      }
+    })();
+  }, [connected, entitlementChecked, onPurchaseSuccess]);
 
   const clearError = useCallback(() => {
     setError(null);

@@ -8,6 +8,7 @@ import {
   ADVENTURE_WORLDS,
   getDefaultAdventureProgress,
   getWorldStars,
+  nextPlayableLevel,
 } from '../config/adventureWorlds';
 import {usePersistence} from './usePersistence';
 
@@ -202,18 +203,13 @@ export function useAdventure() {
     setActiveLevel(null);
   }, []);
 
+  // isPremium is required: a free child's "next level" is the next one they
+  // can actually open, never a crowned one.
   const getNextPlayableLevel = useCallback(
-    (worldId: WorldId): AdventureLevel | null => {
+    (worldId: WorldId, isPremium: boolean): AdventureLevel | null => {
       const world = ADVENTURE_WORLDS.find(w => w.id === worldId);
       if (!world) return null;
-      const worldProgress = progressRef.current.worlds[worldId];
-      if (!worldProgress?.unlocked) return null;
-
-      for (const level of world.levels) {
-        const lp = worldProgress.levels[level.id];
-        if (lp?.unlocked && !lp?.completed) return level;
-      }
-      return null;
+      return nextPlayableLevel(world, progressRef.current, isPremium);
     },
     [],
   );

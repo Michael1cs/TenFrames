@@ -1,8 +1,15 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {View, Pressable, StyleSheet, ImageBackground, useWindowDimensions} from 'react-native';
+import {
+  View,
+  Pressable,
+  Image,
+  StyleSheet,
+  ImageBackground,
+  useWindowDimensions,
+} from 'react-native';
 import {Text} from '../common/AppText';
 import {FREDOKA_FAMILY} from '../../utils/fonts';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useIsFocused} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
   BounceIn,
@@ -15,7 +22,11 @@ import Animated, {
 import {useTranslation} from 'react-i18next';
 import {Emoji} from '../common/Emoji';
 import {useVoice} from '../../hooks/useVoice';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {LanguageSwitcher} from '../layout/LanguageSwitcher';
+import {Bouncy} from '../common/Bouncy';
+import {WorldIcon} from '../adventure/WorldIcon';
+import {Mascot} from '../common/Mascot';
 import {Language} from '../../types/game';
 
 interface ModeChoiceProps {
@@ -39,7 +50,19 @@ interface ModeChoiceProps {
 // swapping languages — the parent expects to hear the new voice play.
 let narrationPlayedForLang: string | null = null;
 
-function FloatingEmoji({emoji, style}: {emoji: string; style: any}) {
+// The mode-bar icons, reused so the two doors on the home screen show the
+// same pictures the child will tap inside.
+const ADVENTURE_ICON = require('../../../assets/icons/mode_adventure.png');
+const COUNTING_ICON = require('../../../assets/icons/mode_counting.png');
+const FREEPLAY_PREVIEW = [
+  require('../../../assets/icons/mode_addition.png'),
+  require('../../../assets/icons/mode_subtraction.png'),
+  require('../../../assets/icons/mode_workshop.png'),
+];
+
+// A soft spark of light that drifts up and down — the decoration the
+// floating star emoji used to be, drawn as a plain glowing dot.
+function FloatingSpark({size, style}: {size: number; style: any}) {
   const y = useSharedValue(0);
   useEffect(() => {
     y.value = withRepeat(
@@ -55,9 +78,23 @@ function FloatingEmoji({emoji, style}: {emoji: string; style: any}) {
     transform: [{translateY: y.value}],
   }));
   return (
-    <Animated.Text style={[style, animStyle]}>
-      <Emoji>{emoji}</Emoji>
-    </Animated.Text>
+    <Animated.View
+      pointerEvents="none"
+      style={[
+        style,
+        {
+          width: size,
+          height: size,
+          borderRadius: size / 2,
+          backgroundColor: '#FFFFFF',
+          shadowColor: '#FFFFFF',
+          shadowOpacity: 0.9,
+          shadowRadius: size / 2,
+          shadowOffset: {width: 0, height: 0},
+        },
+        animStyle,
+      ]}
+    />
   );
 }
 
@@ -147,6 +184,15 @@ export function ModeChoice({
 
   const {width, height} = useWindowDimensions();
   const isLandscape = width > height;
+  // Home sits under every other screen for the whole session. Its sparks
+  // are the one thing here that animates forever, so they leave when the
+  // screen is covered.
+  const focused = useIsFocused();
+  // The bar used to float at a fixed 50pt: no safe-area inset, and on a
+  // 667pt phone the centred column started at the same height, so the flags
+  // pill sat on the logo frame. The column now keeps clear of the bar.
+  const insets = useSafeAreaInsets();
+  const barTop = insets.top + 8;
   // Everything on this screen was sized for a phone: a 360pt card column, a
   // 22pt wordmark and 28pt brand cells. On a 13" iPad that column occupies a
   // third of a 1032pt-wide screen and the whole composition collapses into a
@@ -182,7 +228,7 @@ export function ModeChoice({
             reads cleanly against the cosmic art. On first-run pickers (no
             homeBar) the screen renders without any chrome. */}
         {homeBar ? (
-          <View style={styles.topBar} pointerEvents="box-none">
+          <View style={[styles.topBar, {top: barTop}]} pointerEvents="box-none">
             <Pressable
               onPress={homeBar.onDashboard}
               style={styles.topPillSingle}>
@@ -201,19 +247,23 @@ export function ModeChoice({
             </View>
           </View>
         ) : (
-          <View style={styles.langPicker} pointerEvents="box-none">
+          <View style={[styles.langPicker, {top: barTop}]} pointerEvents="box-none">
             <LanguageSwitcher
               language={language}
               onLanguageChange={onLanguageChange}
             />
           </View>
         )}
-        <View style={styles.overlay}>
+        <View style={[styles.overlay, {paddingTop: barTop + 52}]}>
           {/* Decorative floating emojis */}
-          <FloatingEmoji emoji="⭐" style={styles.bgEmoji1} />
-          <FloatingEmoji emoji="🌟" style={styles.bgEmoji2} />
-          <FloatingEmoji emoji="✨" style={styles.bgEmoji3} />
-          <FloatingEmoji emoji="💫" style={styles.bgEmoji4} />
+          {focused && (
+            <>
+              <FloatingSpark size={14} style={styles.bgEmoji1} />
+              <FloatingSpark size={10} style={styles.bgEmoji2} />
+              <FloatingSpark size={12} style={styles.bgEmoji3} />
+              <FloatingSpark size={9} style={styles.bgEmoji4} />
+            </>
+          )}
 
           {/* Brand mark — a mini ten-frame that mirrors the in-game cells:
               filled cells carry the space theme's rocket emoji, empties show
@@ -235,13 +285,16 @@ export function ModeChoice({
                       filled ? styles.miniCellFilled : styles.miniCellEmpty,
                     ]}>
                     {filled ? (
-                      <Text
+                      <View
                         style={[
-                          styles.miniCellEmoji,
-                          isTablet && styles.miniCellEmojiTablet,
-                        ]}>
-                        <Emoji>🚀</Emoji>
-                      </Text>
+                          styles.miniCellDot,
+                          {
+                            width: miniCell * 0.55,
+                            height: miniCell * 0.55,
+                            borderRadius: miniCell * 0.275,
+                          },
+                        ]}
+                      />
                     ) : (
                       <Text
                         style={[
@@ -269,7 +322,7 @@ export function ModeChoice({
         <View style={[styles.cardsColumn, isTablet && styles.cardsColumnTablet]}>
           {/* Adventure Card */}
           <Animated.View entering={BounceIn.delay(400)} style={advStyle}>
-            <Pressable
+            <Bouncy
               onPress={() => {
                 voiceRef.current.stop();
                 onAdventure();
@@ -278,10 +331,6 @@ export function ModeChoice({
                 styles.adventureCard,
                 activeCard === 'adventure' && styles.cardHighlighted,
               ]}>
-              {/* Floating decorations */}
-              <FloatingEmoji emoji="⭐" style={styles.floatTL} />
-              <FloatingEmoji emoji="🌟" style={styles.floatTR} />
-              <FloatingEmoji emoji="✨" style={styles.floatBR} />
 
               <View style={styles.cardContent}>
                 <View
@@ -289,9 +338,11 @@ export function ModeChoice({
                     styles.adventureIcon,
                     isTablet && styles.modeIconTablet,
                   ]}>
-                  <Text style={[styles.bigEmoji, isTablet && styles.bigEmojiTablet]}>
-                    <Emoji>🗺️</Emoji>
-                  </Text>
+                  <Image
+                    source={ADVENTURE_ICON}
+                    style={isTablet ? styles.cardIconTablet : styles.cardIcon}
+                    resizeMode="contain"
+                  />
                 </View>
                 <View style={styles.cardText}>
                   <Text style={[styles.cardTitle, isTablet && styles.cardTitleTablet]}>
@@ -300,19 +351,36 @@ export function ModeChoice({
                 </View>
               </View>
 
+              {/* A peek at four of the worlds inside. */}
               <View style={styles.previewRow}>
-                <Text style={styles.previewEmoji}><Emoji>🍄</Emoji></Text>
-                <Text style={styles.previewEmoji}><Emoji>🐟</Emoji></Text>
-                <Text style={styles.previewEmoji}><Emoji>🚀</Emoji></Text>
-                <Text style={styles.previewEmoji}><Emoji>🏖️</Emoji></Text>
-                <Text style={styles.previewEmoji}><Emoji>🏰</Emoji></Text>
+                {(
+                  [
+                    'counting-meadow',
+                    'hungry-monsters',
+                    'addition-island',
+                    'doubles-castle',
+                  ] as const
+                ).map(id => (
+                  <WorldIcon
+                    key={id}
+                    worldId={id === 'hungry-monsters' ? 'monster-more' : id}
+                    width={isTablet ? 76 : 58}
+                    height={isTablet ? 48 : 36}
+                    fallbackEmoji=""
+                  />
+                ))}
               </View>
-            </Pressable>
+            </Bouncy>
+            {/* The mascot says hello from the corner of the first door. It
+                sits outside the card, which clips its own content. */}
+            <View style={styles.mascotHello} pointerEvents="none">
+              <Mascot pose="hello" height={isTablet ? 116 : 80} />
+            </View>
           </Animated.View>
 
           {/* Free Play Card */}
           <Animated.View entering={BounceIn.delay(550)} style={fpStyle}>
-            <Pressable
+            <Bouncy
               onPress={() => {
                 voiceRef.current.stop();
                 onFreeplay();
@@ -327,9 +395,11 @@ export function ModeChoice({
                     styles.freeplayIcon,
                     isTablet && styles.modeIconTablet,
                   ]}>
-                  <Text style={[styles.bigEmoji, isTablet && styles.bigEmojiTablet]}>
-                    <Emoji>🎮</Emoji>
-                  </Text>
+                  <Image
+                    source={COUNTING_ICON}
+                    style={isTablet ? styles.cardIconTablet : styles.cardIcon}
+                    resizeMode="contain"
+                  />
                 </View>
                 <View style={styles.cardText}>
                   <Text style={[styles.cardTitle, isTablet && styles.cardTitleTablet]}>
@@ -339,11 +409,16 @@ export function ModeChoice({
               </View>
 
               <View style={styles.previewRow}>
-                <Text style={styles.previewEmoji}><Emoji>🔢</Emoji></Text>
-                <Text style={styles.previewEmoji}><Emoji>➕</Emoji></Text>
-                <Text style={styles.previewEmoji}><Emoji>➖</Emoji></Text>
+                {FREEPLAY_PREVIEW.map((src, i) => (
+                  <Image
+                    key={i}
+                    source={src}
+                    style={isTablet ? styles.previewIconTablet : styles.previewIcon}
+                    resizeMode="contain"
+                  />
+                ))}
               </View>
-            </Pressable>
+            </Bouncy>
           </Animated.View>
         </View>
         </View>
@@ -359,13 +434,11 @@ const styles = StyleSheet.create({
   },
   langPicker: {
     position: 'absolute',
-    top: 50,
     right: 16,
     zIndex: 10,
   },
   topBar: {
     position: 'absolute',
-    top: 50,
     left: 12,
     right: 12,
     zIndex: 10,
@@ -472,10 +545,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.92)',
     borderColor: 'rgba(255,255,255,0.6)',
   },
-  miniCellEmoji: {
-    fontSize: 16,
+  miniCellDot: {
+    backgroundColor: '#FFF4DC',
   },
-  miniCellEmojiTablet: {fontSize: 24},
   miniCellPlusTablet: {fontSize: 19},
   miniCellPlus: {
     color: '#A5B4FC',
@@ -535,6 +607,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.12,
     shadowRadius: 8,
   },
+  // Over the card's empty top-right corner, rising a little above its edge
+  // but clear of the question above the cards.
+  mascotHello: {
+    position: 'absolute',
+    right: 12,
+    top: -26,
+  },
   cardHighlighted: {
     borderWidth: 3,
     borderColor: '#F59E0B',
@@ -568,10 +647,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  bigEmoji: {
-    fontSize: 48,
-  },
-  bigEmojiTablet: {fontSize: 64},
+  cardIcon: {width: 62, height: 62},
+  cardIconTablet: {width: 88, height: 88},
+  previewIcon: {width: 34, height: 34},
+  previewIconTablet: {width: 46, height: 46},
   modeIconTablet: {
     width: 116,
     height: 116,
@@ -592,34 +671,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 4,
   },
-  previewEmoji: {
-    fontSize: 28,
-  },
   previewDots: {
     color: '#9CA3AF',
     fontSize: 14,
     letterSpacing: 2,
-  },
-  // Floating decorations
-  floatTL: {
-    position: 'absolute',
-    top: 8,
-    left: 8,
-    fontSize: 18,
-    opacity: 0.6,
-  },
-  floatTR: {
-    position: 'absolute',
-    top: 12,
-    right: 12,
-    fontSize: 16,
-    opacity: 0.5,
-  },
-  floatBR: {
-    position: 'absolute',
-    bottom: 10,
-    right: 14,
-    fontSize: 14,
-    opacity: 0.4,
   },
 });

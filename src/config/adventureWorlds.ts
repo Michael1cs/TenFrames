@@ -3,11 +3,12 @@ import {
   AdventureLevel,
   AdventureLevelProgress,
   AdventureProgress,
+  WorldId,
 } from '../types/game';
 
 // v1.6.2 Adventure: 9 lumi cu progresie completa = 78 niveluri totale.
 // (High Five! adaugata ca lumea 2 — structura de cinci precede aritmetica.)
-// Pentru 4-6 ani, mai multe niveluri = retention mai bun + justifica
+// Pentru 4-7 ani, mai multe niveluri = retention mai bun + justifica
 // pretul premium fata de o aplicatie cu doar 30 niveluri.
 //
 // Structura per lume:
@@ -256,7 +257,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
       {id: 'mg-4', worldId: 'memory-garden', order: 4, nameKey: 'adventure.levels.mg4', emoji: '🐰', isBonus: false, gameMode: 'memory', modeLevel: 4, problemCount: 5, unlockCondition: unlockPrev('mg-3'), theme: 'farm'},
       {id: 'mg-5', worldId: 'memory-garden', order: 5, nameKey: 'adventure.levels.mg5', emoji: '🍬', isBonus: false, gameMode: 'memory', modeLevel: 5, problemCount: 5, unlockCondition: unlockPrev('mg-4'), theme: 'candy'},
       {id: 'mg-bonus-a', worldId: 'memory-garden', order: 6, nameKey: 'adventure.levels.mgBonusA', emoji: '🦄', isBonus: true, gameMode: 'memory', modeLevel: 6, problemCount: 5, unlockCondition: unlockStars('memory-garden', 12), theme: 'unicorn'},
-      {id: 'mg-bonus-b', worldId: 'memory-garden', order: 7, nameKey: 'adventure.levels.mgBonusB', emoji: '👾', isBonus: true, gameMode: 'memory', modeLevel: 7, problemCount: 5, unlockCondition: unlockStars('memory-garden', 18), theme: 'pixel'},
+      {id: 'mg-bonus-b', worldId: 'memory-garden', order: 7, nameKey: 'adventure.levels.mgBonusB', emoji: '👾', isBonus: true, gameMode: 'memory', modeLevel: 7, problemCount: 5, unlockCondition: unlockStars('memory-garden', 14), theme: 'pixel'},
     ],
   },
 
@@ -264,7 +265,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
   // Fair-share / equal grouping: N pieces of food + K baskets with animals;
   // child taps a basket to drop one food in, and the screen advances when
   // all baskets hold the same count. Pedagogy: division as equal sharing,
-  // the most intuitive entry point for 4-6 year olds.
+  // the most intuitive entry point for 4-7 year olds.
   {
     id: 'farm-share',
     nameKey: 'adventure.worlds.farmShare',
@@ -357,3 +358,79 @@ export function getWorldMaxStars(worldId: string): number {
   if (!world) return 0;
   return world.levels.length * 3;
 }
+
+/**
+ * The next level this child can actually open in a world: unlocked by
+ * progression, not finished, and not behind the crown for a free player.
+ *
+ * "Next" used to ignore the crown, so the level-complete screen offered a
+ * Next button and the voice said "Let's go to the next level!" to a free
+ * child whose next level was paid — and following either one threw them out
+ * of the world into the price sheet. The map's pulsing marker had the same
+ * drift. All three read this now.
+ */
+export function nextPlayableLevel(
+  world: AdventureWorld,
+  progress: AdventureProgress,
+  isPremium: boolean,
+): AdventureLevel | null {
+  const levels = progress.worlds[world.id]?.levels;
+  if (!progress.worlds[world.id]?.unlocked || !levels) return null;
+  for (const level of world.levels) {
+    const lp = levels[level.id];
+    if (!lp?.unlocked || lp.completed) continue;
+    if (isLevelPremiumLocked(world, level, lp, isPremium)) continue;
+    return level;
+  }
+  return null;
+}
+
+// How many of a world's levels the child has finished, bonus included.
+export function countCompletedLevels(
+  world: AdventureWorld,
+  progress: AdventureProgress,
+): number {
+  const levels = progress.worlds[world.id]?.levels ?? {};
+  return world.levels.reduce(
+    (n, level) => n + (levels[level.id]?.completed ? 1 : 0),
+    0,
+  );
+}
+
+/**
+ * The world card that pulses on the Adventure grid — the one a child who
+ * can't read eleven names should tap next.
+ *
+ * "Playable" means the world has a level the child can open right now:
+ * reached by progression, not finished, and not behind the crown for a
+ * free player (the same rule the map's crowns use, so the pulse never
+ * points at a paywall). Among playable worlds the furthest one the child
+ * has started wins — that's where they are — and a fresh install falls
+ * back to the first playable world. Null when nothing is playable.
+ */
+export function pickRecommendedWorld(
+  progress: AdventureProgress,
+  isPremium: boolean,
+): WorldId | null {
+  const playable = (w: AdventureWorld) => !!nextPlayableLevel(w, progress, isPremium);
+  const furthestStarted = [...ADVENTURE_WORLDS]
+    .reverse()
+    .find(w => countCompletedLevels(w, progress) > 0 && playable(w));
+  return (furthestStarted ?? ADVENTURE_WORLDS.find(playable))?.id ?? null;
+}
+
+// The line spoken when a child opens a world's map. A Record, not a
+// Partial: a new world doesn't compile until it has its greeting.
+export const WORLD_VOICE_IDS: Record<WorldId, string> = {
+  'counting-meadow': 'world_counting_meadow',
+  'high-five': 'world_high_five',
+  'monster-more': 'world_monster_more',
+  'addition-island': 'world_addition_island',
+  'subtraction-mountain': 'world_subtraction_mountain',
+  'make-ten-beach': 'world_make_ten_beach',
+  'mixed-targets': 'world_mixed_targets',
+  'doubles-castle': 'world_doubles_castle',
+  'number-town': 'world_number_town',
+  'memory-garden': 'world_memory_garden',
+  'farm-share': 'world_farm_share',
+};
