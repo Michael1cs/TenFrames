@@ -30,7 +30,6 @@ import {
 import {getAllThemes} from '../../hooks/useTheme';
 import {useVoice} from '../../hooks/useVoice';
 import {WorldIcon} from './WorldIcon';
-import {WorldProgressFrame} from './WorldProgressFrame';
 
 // Grid geometry, shared between the container padding and the per-card
 // width so the columns always add up to the available width exactly.
@@ -176,7 +175,6 @@ export function AdventureWorldsScreen({
                 isTablet={isTablet}
                 accent={wTheme?.colors?.accent ?? '#8B5CF6'}
                 unlocked={!!progress.worlds[w.id]?.unlocked}
-                completed={countCompleted(w, progress)}
                 recommended={w.id === recommended}
                 onPress={() => onSelectWorld(w.id)}
               />
@@ -194,21 +192,20 @@ interface WorldCardProps {
   isTablet: boolean;
   accent: string;
   unlocked: boolean;
-  completed: number;
   recommended: boolean;
   onPress: () => void;
 }
 
 // A world card is built for a child who doesn't read: the illustration
-// shows the math, the mini ten frame shows how far they've got, and the
-// recommended card breathes. The name stays, smaller, for the adult.
+// shows the math and the recommended card breathes. Nothing else competes
+// with the picture — progress lives on the map inside and in the parent
+// dashboard. The name stays, smaller, for the adult.
 function WorldCard({
   world,
   width,
   isTablet,
   accent,
   unlocked,
-  completed,
   recommended,
   onPress,
 }: WorldCardProps) {
@@ -233,8 +230,10 @@ function WorldCard({
     transform: [{scale: pulse.value}],
   }));
 
+  // The art is cropped to its content and wider than tall; give it most of
+  // the card so the frame inside is big enough to read the counters.
   const artWidth = width - 20;
-  const artHeight = Math.round(width * 0.48);
+  const artHeight = Math.round(width * 0.62);
 
   return (
     <Animated.View style={[{width}, pulseStyle]}>
@@ -264,12 +263,6 @@ function WorldCard({
           minimumFontScale={0.7}>
           {t(world.nameKey)}
         </Text>
-        <WorldProgressFrame
-          completed={completed}
-          total={world.levels.length}
-          cellSize={isTablet ? 13 : 10}
-          accent={accent}
-        />
       </Pressable>
     </Animated.View>
   );
@@ -358,7 +351,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
-    gap: 6,
+    gap: 5,
   },
   worldCardRecommended: {
     backgroundColor: 'rgba(255,255,255,0.22)',
@@ -369,14 +362,14 @@ const styles = StyleSheet.create({
   },
   worldCardName: {
     color: '#FFFFFF',
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '700',
     textAlign: 'center',
     textShadowColor: 'rgba(0,0,0,0.5)',
     textShadowOffset: {width: 0, height: 1},
     textShadowRadius: 2,
   },
-  worldCardNameTablet: {fontSize: 19},
+  worldCardNameTablet: {fontSize: 18},
   padlock: {
     ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
