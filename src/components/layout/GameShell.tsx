@@ -872,12 +872,11 @@ function useShellState(
       queueVoice(`instr_${action}_${game.theme}_${n2}`);
     };
     instruction();
-    // Roughly every other problem also restates the task as a question, so
-    // a long Free Play session doesn't replay one sentence forever.
-    if (Math.random() < 0.5) {
-      const alt = game.gameMode === 'addition' ? 'add_alt' : 'sub_alt';
-      queueVoice(`${alt}_${1 + Math.floor(Math.random() * 2)}`);
-    }
+    // No second question here. "How many are there now in total?" used to
+    // follow the instruction on half the problems — it reached the child
+    // while they were still placing counters, and it is the single thing the
+    // owner named when he said the app talks too much. A child who stalls
+    // still gets the instruction again from the nudge below.
     armStallNudge(instruction);
   }, [
     game.currentProblem,

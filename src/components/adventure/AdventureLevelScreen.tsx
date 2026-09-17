@@ -43,6 +43,12 @@ import {
   puzzlePraisePool,
   puzzleRetryIds,
 } from '../../voice/puzzleNarration';
+import {
+  answerInstructionIds,
+  compareAskIds,
+  countingInstructionIds,
+  padNudgeId,
+} from '../../voice/adventureNarration';
 import {WrongFlash} from '../feedback/WrongFlash';
 import {TapHint} from '../feedback/TapHint';
 import {PadHint} from '../feedback/PadHint';
@@ -651,6 +657,14 @@ export function AdventureLevelScreen({
       };
 
       if (attemptNumber === 1) {
+        // Put the board back to the problem's starting operand first. The
+        // restatement below says "five… add three more", which was spoken
+        // over the child's own wrong attempt: following it made the mistake
+        // bigger. Free Play already resets before a retry.
+        if (level.gameMode === 'addition' || level.gameMode === 'subtraction') {
+          setCells(buildAssistPlan(ladderCtx).base);
+          setHintCells([]);
+        }
         // Same request, different sentence — a repeat reads as a stuck record.
         voiceRef.current.playRandom(VOICE_GROUPS.tryAgain);
         if (level.gameMode === 'counting') {
@@ -769,7 +783,9 @@ export function AdventureLevelScreen({
     if (filled !== ap.answer) return;
     const t = setTimeout(() => {
       setShowPadHint(true);
-      voiceRef.current.play('instr_tap_number');
+      // Missing-addend problems are answered with the part that was added;
+      // "Now tap the number" sent the child to the total on the frame.
+      voiceRef.current.play(padNudgeId(ap.slot));
     }, 1100);
     return () => clearTimeout(t);
   }, [cells, currentProblem, level.gameMode, hasSubmitted, finished, assisting]);
@@ -1005,24 +1021,8 @@ export function AdventureLevelScreen({
     if (level.gameMode === 'counting' && countingChallenge) {
       const {instruction, targetNumber} = countingChallenge;
       key = `c-${instruction}-${targetNumber}`;
-      // Alternate the short line with the explanatory one, and lead the
-      // plain "fill N" case with a rotating ask so the number arrives
-      // inside a sentence instead of on its own.
-      const longForm = problemIndex % 2 === 1;
-      if (instruction === 'fill_top_row') {
-        const id = longForm ? 'cnt_top_long' : 'instr_top_row';
-        action = () => voiceRef.current.play(id);
-      } else if (instruction === 'fill_bottom_row') {
-        const id = longForm ? 'cnt_bottom_long' : 'instr_bottom_row';
-        action = () => voiceRef.current.play(id);
-      } else if (instruction === 'fill_both_equal') {
-        const id = longForm ? 'cnt_both_long' : 'instr_both_rows';
-        action = () => voiceRef.current.play(id);
-      } else {
-        const ask = `cnt_ask_${1 + (problemIndex % 3)}`;
-        action = () =>
-          voiceRef.current.playSequence([ask, `num_${targetNumber}`], 300);
-      }
+      const ids = countingInstructionIds(countingChallenge, problemIndex);
+      action = () => voiceRef.current.playSequence(ids, 300);
     } else if (level.gameMode === 'puzzle' && currentProblem) {
       key = `p-${currentProblem.answer}-${currentProblem.num1}`;
       // The target ("Make 7!"), then how to get there — worded for the
@@ -1033,13 +1033,7 @@ export function AdventureLevelScreen({
       key = `cmp-${problemIndex}-${compareProblem.left}-${compareProblem.right}`;
       // First problem explains, later ones nudge — and on the levels where
       // equal pairs appear, the opener also teaches the "Same" button.
-      const asks = VOICE_GROUPS.compareAsk;
-      const ids =
-        problemIndex === 0
-          ? level.modeLevel >= 3
-            ? [asks[1], 'cmp_ask_same']
-            : [asks[1]]
-          : [asks[1 + ((problemIndex - 1) % 3)]];
+      const ids = compareAskIds(level.modeLevel, problemIndex);
       action = () => voiceRef.current.playSequence(ids, 400);
     } else if (level.gameMode === 'share' && shareProblem) {
       key = `sh-${problemIndex}-${shareProblem.total}-${shareProblem.buckets}`;
@@ -1052,28 +1046,14 @@ export function AdventureLevelScreen({
       const ap = currentProblem as AnswerProblem;
       key = `a-${ap.slot}-${ap.num1}-${ap.num2}`;
       const noun = LEVEL_NOUN[level.id];
-      if (ap.slot === 'sum') {
-        // "You have 3 stars. Add 2 more!" — same sentence as addition; the
-        // difference is only in how the child answers.
-        action = noun
-          ? () =>
-              voiceRef.current.playSequence(
-                [`have_${noun}_${ap.num1}`, `add_more_${noun}_${ap.num2}`],
-                350,
-              )
-          : () => voiceRef.current.play('instr_addition');
-      } else {
-        // "You have 3 stars. Make 8!" — the make_N drill clips carry the
-        // missing-addend framing for free.
-        const makeId = ap.answer === 10 ? 'instr_make_ten' : `make_${ap.answer}`;
-        action = noun
-          ? () =>
-              voiceRef.current.playSequence(
-                [`have_${noun}_${ap.num1}`, makeId],
-                350,
-              )
-          : () => voiceRef.current.play(makeId);
-      }
+      const ids = answerInstructionIds(
+        ap.slot,
+        ap.num1,
+        ap.num2,
+        ap.answer,
+        noun,
+      );
+      action = () => voiceRef.current.playSequence(ids, 350);
     } else if (currentProblem && themeId) {
       const mode = level.gameMode;
       key = `${mode}-${currentProblem.num1}-${currentProblem.num2}`;
@@ -1082,18 +1062,13 @@ export function AdventureLevelScreen({
       // Other levels: voice the level emoji's noun ("3 octopuses", "2 stars")
       // so the narrator matches the cells the child sees.
       const noun = LEVEL_NOUN[level.id];
-      // Every other problem closes with the task restated as a question
-      // ("How many are there now in total?"), so five problems in a row
-      // stop sounding like one sentence on repeat.
-      const altTail =
-        problemIndex % 2 === 1
-          ? mode === 'addition'
-            ? `add_alt_${1 + (problemIndex % 2)}`
-            : `sub_alt_${1 + (problemIndex % 2)}`
-          : null;
+      // The task used to be restated as a question on every other problem
+      // ("How many are there now in total?"). It arrived while the child was
+      // still placing counters, and the owner heard the app as talking too
+      // much. The instruction alone is enough; the 10s stall nudge repeats it
+      // for a child who hasn't started.
       if (isDoubles && currentProblem.num1 >= 1 && currentProblem.num1 <= 5) {
         const ids = [`doubles_${currentProblem.num1}`];
-        if (altTail) ids.push(altTail);
         action = () => voiceRef.current.playSequence(ids, 350);
       } else if (noun) {
         const verb = mode === 'addition' ? 'add_more' : 'take';
@@ -1101,7 +1076,6 @@ export function AdventureLevelScreen({
           `have_${noun}_${currentProblem.num1}`,
           `${verb}_${noun}_${currentProblem.num2}`,
         ];
-        if (altTail) ids.push(altTail);
         action = () => voiceRef.current.playSequence(ids, 350);
       } else {
         const act = mode === 'addition' ? 'add' : 'sub';
@@ -1111,7 +1085,6 @@ export function AdventureLevelScreen({
           `pre_have_${themeId}_${currentProblem.num1}`,
           `instr_${act}_${themeId}_${currentProblem.num2}`,
         ];
-        if (altTail) ids.push(altTail);
         action = () => voiceRef.current.playSequence(ids, 350);
       }
     }

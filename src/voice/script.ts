@@ -337,10 +337,21 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'instr_top_row', ro: 'Umple rândul de sus!', en: "Fill the top row!", de: 'Fülle die obere Reihe!'},
   {id: 'instr_bottom_row', ro: 'Umple rândul de jos!', en: "Fill the bottom row!", de: 'Fülle die untere Reihe!'},
   {id: 'instr_both_rows', ro: 'La fel pe ambele rânduri!', en: "Same on both rows!", de: 'Gleich viele in beiden Reihen!'},
+  // "Same on both rows" never said HOW MANY, but only exactly half the
+  // target in each row is accepted, so a child who filled both rows was
+  // marked wrong. These say the number out loud.
+  {id: 'both_rows_1', ro: 'Pune una sus și una jos!', en: "Put one on top and one on the bottom!", de: 'Lege einen oben und einen unten!'},
+  {id: 'both_rows_2', ro: 'Pune două sus și două jos!', en: "Put two on top and two on the bottom!", de: 'Lege zwei oben und zwei unten!'},
+  {id: 'both_rows_3', ro: 'Pune trei sus și trei jos!', en: "Put three on top and three on the bottom!", de: 'Lege drei oben und drei unten!'},
+  {id: 'both_rows_4', ro: 'Pune patru sus și patru jos!', en: "Put four on top and four on the bottom!", de: 'Lege vier oben und vier unten!'},
+  {id: 'both_rows_5', ro: 'Pune cinci sus și cinci jos!', en: "Put five on top and five on the bottom!", de: 'Lege fünf oben und fünf unten!'},
   {id: 'instr_make_ten', ro: 'Fă zece!', en: "Make ten!", de: 'Mach zehn!'},
   // Number Town (answer mode): fires with the 👇 pad hint once the child has
   // built the answer on the frame but hasn't named it yet.
   {id: 'instr_tap_number', ro: 'Acum apasă pe număr!', en: "Now tap the number!", de: 'Tippe jetzt auf die Zahl!'},
+  // Missing-addend problems: the child must name what they ADDED, not the
+  // total the frame now shows, so the pad nudge cannot be "tap the number".
+  {id: 'ask_added_tap', ro: 'Câte ai pus tu? Apasă pe numărul acela!', en: "How many did you add? Tap that number!", de: 'Wie viele hast du dazugelegt? Tippe auf diese Zahl!'},
 
   // ── Hungry Monsters (compare mode) ──
   // Asks rotate so the instruction never reads as a stuck record: the first
@@ -351,6 +362,11 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'cmp_ask_3', ro: 'Apasă pe cadrul cu mai multe.', en: "Tap the frame that has more.", de: 'Tippe auf das Feld mit mehr Punkten.'},
   {id: 'cmp_ask_4', ro: 'Numără pe fiecare și alege-l pe cel mai plin.', en: "Count each one, then pick the fuller frame.", de: 'Zähle beide und wähle das vollere Feld.'},
   {id: 'cmp_ask_same', ro: 'Iar dacă au la fel de multe, apasă pe La fel!', en: "And if they have the same, tap Same!", de: 'Und wenn es gleich viele sind, tippe auf Gleich!'},
+  // Levels where two frames can hold the same amount: the question must
+  // allow that answer, and must do so on EVERY problem of those levels —
+  // asking "or the same?" only when they are equal would give it away.
+  {id: 'cmp_ask_eq_1', ro: 'Care are mai multe? Sau sunt la fel?', en: "Which one has more? Or are they the same?", de: 'Wo sind mehr? Oder sind es gleich viele?'},
+  {id: 'cmp_ask_eq_2', ro: 'Numără pe fiecare. Mai multe sau la fel?', en: "Count each one. More, or the same?", de: 'Zähle beide. Mehr oder gleich viele?'},
   // Confirmations — six variants so praise stays alive across a level.
   {id: 'cmp_yes_1', ro: 'Da! Acela are mai multe!', en: "Yes! That one has more!", de: 'Ja! Da sind mehr!'},
   {id: 'cmp_yes_2', ro: 'Așa e! Acela e mai mare!', en: "Right! That's the bigger one!", de: 'Genau! Das ist das größere!'},
