@@ -1388,7 +1388,17 @@ function GameShellInner() {
       <UpgradeScreen
         visible={showUpgrade}
         colors={colors}
-        onClose={() => setShowUpgrade(false)}
+        onClose={() => {
+          setShowUpgrade(false);
+          // Closing the price sheet leaves the child wherever they were — and
+          // if that is a mode whose daily exercises are used up, the app
+          // silently keeps handing out problems it will not count. Land them
+          // in Counting, which is free forever, exactly as the daily wall's
+          // own dismiss does.
+          if (!premium.canPlayMode(game.gameMode)) {
+            game.setGameMode('counting');
+          }
+        }}
         onPurchase={handleUpgrade}
         onRestore={iap.restorePurchases}
         product={iap.product}

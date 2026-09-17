@@ -1,0 +1,4 @@
+<resources>
+    <!-- 600dp and wider: tablets keep both orientations. -->
+    <bool name="lock_portrait">false</bool>
+</resources>

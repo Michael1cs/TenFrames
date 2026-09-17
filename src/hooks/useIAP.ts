@@ -199,6 +199,28 @@ function useConsumerIAPConnection(onPurchaseSuccess: () => void): IAPState {
     }
   }, [connected, onPurchaseSuccess]);
 
+  // Silently re-check entitlement once the store connects. A purchase can
+  // exist that this device does not know about — the family restored a
+  // backup, reinstalled, or "Ask to Buy" was approved after the sheet was
+  // closed — and a parent should never have to find the Restore button
+  // behind a maths gate to get back what they paid for. Nothing is shown on
+  // failure: an unreachable store must not put an error in front of a child.
+  const [entitlementChecked, setEntitlementChecked] = useState(false);
+  useEffect(() => {
+    if (!connected || entitlementChecked) return;
+    setEntitlementChecked(true);
+    (async () => {
+      try {
+        const purchases = await iapGetAvailablePurchases();
+        if (purchases.some((p: Purchase) => isPremium(p) && !isPending(p))) {
+          onPurchaseSuccess();
+        }
+      } catch {
+        // Offline or store unavailable: keep whatever is stored locally.
+      }
+    })();
+  }, [connected, entitlementChecked, onPurchaseSuccess]);
+
   const clearError = useCallback(() => {
     setError(null);
   }, []);

@@ -1860,7 +1860,6 @@
 		76AB5C42A0EF4ABEAB067E1D /* voice_en_have_shell_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D10B113411D842F08A33C1E4 /* voice_en_have_shell_9.mp3 */; };
 		76BFBA9425935AEE5330DB54 /* voice_de_add_more_ufo_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A97FA77AC5260EB3F6FD6604 /* voice_de_add_more_ufo_4.mp3 */; };
 		76DBA99C362142D58C7F8540 /* voice_en_post_great_moon_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E6029E9A5472444D8922C719 /* voice_en_post_great_moon_1.mp3 */; };
-		76DBB565B53E462E94053B24 /* Fredoka_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C21EC9B12AB74040B91349E4 /* Fredoka_bold.ttf */; };
 		76E0F794169543B08B9D96FB /* voice_ro_add_more_planet_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3D5DD46353D242AB83282888 /* voice_ro_add_more_planet_5.mp3 */; };
 		76F421F0CBD795E20058562D /* voice_de_take_planet_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8BBD6132A94640E286A52049 /* voice_de_take_planet_1.mp3 */; };
 		770A9FC81EA04A288A6ADB97 /* voice_en_instr_sub_ocean_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 64A21F889D3F4F798140EEB2 /* voice_en_instr_sub_ocean_5.mp3 */; };
@@ -2515,7 +2514,6 @@
 		A1B51186F2250E2A344C40E6 /* voice_de_post_great_dolphin_8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F361597CA5DB6F2DE2BA3306 /* voice_de_post_great_dolphin_8.mp3 */; };
 		A1BB11F76D564F14BE94232D /* voice_ro_world_counting.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B4EC80BD169F4323B62A2811 /* voice_ro_world_counting.mp3 */; };
 		A1BDA2BA17A54FDBB80C9375 /* voice_ro_post_great_sunflower_9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 64581C56A1C147DCA6CDE707 /* voice_ro_post_great_sunflower_9.mp3 */; };
-		A1C1C196EF234B76AD101F5C /* Fredoka.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DD0BB466E9B04FD08303D9EE /* Fredoka.ttf */; };
 		A1C95C82C5054A01A8EB93A0 /* voice_ro_take_crab_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F1AC5E0A4A7D4C3D92D0EA18 /* voice_ro_take_crab_5.mp3 */; };
 		A1D82164B801487A9A8B5EE2 /* voice_en_post_great_star_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B007E1DB45EE4BFD81501330 /* voice_en_post_great_star_2.mp3 */; };
 		A1DC9788CBC44F44B9C9B5AF /* voice_ro_take_crab_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 992FD84C9EE74F0A936887BF /* voice_ro_take_crab_3.mp3 */; };
@@ -4069,6 +4067,8 @@
 		EAB9556D96714FF9A917C378 /* voice_ro_lvl_world_done_any.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C29E8033338C4BD8825F5DC5 /* voice_ro_lvl_world_done_any.mp3 */; };
 		F836D2A40B5C4CB8AD235B5A /* voice_de_lvl_world_done_any.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B61DF6DB732F4934BC87065A /* voice_de_lvl_world_done_any.mp3 */; };
 		073567F6F7414B40B72410C0 /* voice_en_lvl_world_done_any.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3B8A28B1D6134A79A7C62359 /* voice_en_lvl_world_done_any.mp3 */; };
+		D371D734216845E0B4FD647E /* Fredoka.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09CC34535D1E4118A6595B7D /* Fredoka.ttf */; };
+		E4DA12D1C8284FFEBF73E4EA /* Fredoka_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B34C846C64347C89C775287 /* Fredoka_bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -7094,7 +7094,6 @@
 		C1EEBA1BA04541BBB059643E /* voice_ro_fb_correct_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_fb_correct_6.mp3; path = ../assets/audio/voice_ro_fb_correct_6.mp3; sourceTree = "<group>"; };
 		C20BF8C0C6C64F2EA8E37158 /* voice_ro_post_great_trophy_2.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_post_great_trophy_2.mp3; path = ../assets/audio/voice_ro_post_great_trophy_2.mp3; sourceTree = "<group>"; };
 		C211E1AAB65C4A3DBD935BA1 /* voice_ro_reward_streak.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_reward_streak.mp3; path = ../assets/audio/voice_ro_reward_streak.mp3; sourceTree = "<group>"; };
-		C21EC9B12AB74040B91349E4 /* Fredoka_bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = Fredoka_bold.ttf; path = ../assets/fonts/Fredoka_bold.ttf; sourceTree = "<group>"; };
 		C231EC7704DF42DCBBB84911 /* voice_ro_take_ufo_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_take_ufo_9.mp3; path = ../assets/audio/voice_ro_take_ufo_9.mp3; sourceTree = "<group>"; };
 		C25256F3510F234DEB7683DB /* voice_de_post_great_lobster_2.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_post_great_lobster_2.mp3; path = ../assets/audio/voice_de_post_great_lobster_2.mp3; sourceTree = "<group>"; };
 		C280D013A1CF8CCBB151F7A8 /* voice_de_have_trophy_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_have_trophy_4.mp3; path = ../assets/audio/voice_de_have_trophy_4.mp3; sourceTree = "<group>"; };
@@ -7490,7 +7489,6 @@
 		DCD03571B8C04FA88A05BDFF /* voice_ro_add_more_octopus_6.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_add_more_octopus_6.mp3; path = ../assets/audio/voice_ro_add_more_octopus_6.mp3; sourceTree = "<group>"; };
 		DCE5726B9EFE412EBAE4C2B2 /* voice_ro_instr_sub_unicorn_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_instr_sub_unicorn_9.mp3; path = ../assets/audio/voice_ro_instr_sub_unicorn_9.mp3; sourceTree = "<group>"; };
 		DCFB96875FE64C6ABF306064 /* voice_en_instr_sub_slime_9.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_instr_sub_slime_9.mp3; path = ../assets/audio/voice_en_instr_sub_slime_9.mp3; sourceTree = "<group>"; };
-		DD0BB466E9B04FD08303D9EE /* Fredoka.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = Fredoka.ttf; path = ../assets/fonts/Fredoka.ttf; sourceTree = "<group>"; };
 		DD23EE58450946D983917786 /* voice_ro_have_star_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_have_star_4.mp3; path = ../assets/audio/voice_ro_have_star_4.mp3; sourceTree = "<group>"; };
 		DD63D97C25BC455294908EEC /* voice_en_mem_now_1.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_mem_now_1.mp3; path = ../assets/audio/voice_en_mem_now_1.mp3; sourceTree = "<group>"; };
 		DD72075FB5805C81806F0A01 /* voice_de_pre_have_farm_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_de_pre_have_farm_4.mp3; path = ../assets/audio/voice_de_pre_have_farm_4.mp3; sourceTree = "<group>"; };
@@ -8140,6 +8138,8 @@
 		C29E8033338C4BD8825F5DC5 /* voice_ro_lvl_world_done_any.mp3 */ = {isa = PBXFileReference; name = "voice_ro_lvl_world_done_any.mp3"; path = "../assets/audio/voice_ro_lvl_world_done_any.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		B61DF6DB732F4934BC87065A /* voice_de_lvl_world_done_any.mp3 */ = {isa = PBXFileReference; name = "voice_de_lvl_world_done_any.mp3"; path = "../assets/audio/voice_de_lvl_world_done_any.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		3B8A28B1D6134A79A7C62359 /* voice_en_lvl_world_done_any.mp3 */ = {isa = PBXFileReference; name = "voice_en_lvl_world_done_any.mp3"; path = "../assets/audio/voice_en_lvl_world_done_any.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		09CC34535D1E4118A6595B7D /* Fredoka.ttf */ = {isa = PBXFileReference; name = "Fredoka.ttf"; path = "../assets/fonts/Fredoka.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0B34C846C64347C89C775287 /* Fredoka_bold.ttf */ = {isa = PBXFileReference; name = "Fredoka_bold.ttf"; path = "../assets/fonts/Fredoka_bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -8223,7 +8223,6 @@
 		C8F9BB11B5984AE684E76E70 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				DD0BB466E9B04FD08303D9EE /* Fredoka.ttf */,
 				E6BE77B41EB14D4CB33737E3 /* voice_en_fb_again_2.mp3 */,
 				33CE0C0869D34B8B9B1B9EA1 /* voice_en_world_counting.mp3 */,
 				BD3A79D11BBA452280619DC1 /* voice_en_num_3.mp3 */,
@@ -11932,7 +11931,6 @@
 				35BED2673525477B90BA48C9 /* voice_ro_take_planet_5.mp3 */,
 				F247CD3CFD1644D59BFCEF1A /* voice_ro_take_octopus_3.mp3 */,
 				182F06CA05094FD884C53DDC /* voice_ro_post_great_star_3.mp3 */,
-				C21EC9B12AB74040B91349E4 /* Fredoka_bold.ttf */,
 				07176AC670D44EF490041E8A /* voice_en_pre_have_pixel_6.mp3 */,
 				C0D59528C469475981852A0C /* voice_de_instr_sub_pixel_4.mp3 */,
 				E7A7CEF2C05E4E62B5651835 /* voice_en_instr_add_pixel_6.mp3 */,
@@ -12275,6 +12273,8 @@
 				C29E8033338C4BD8825F5DC5 /* voice_ro_lvl_world_done_any.mp3 */,
 				B61DF6DB732F4934BC87065A /* voice_de_lvl_world_done_any.mp3 */,
 				3B8A28B1D6134A79A7C62359 /* voice_en_lvl_world_done_any.mp3 */,
+				09CC34535D1E4118A6595B7D /* Fredoka.ttf */,
+				0B34C846C64347C89C775287 /* Fredoka_bold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -12347,7 +12347,6 @@
 				A1B2C3D404000000000000AA /* star.wav in Resources */,
 				A1B2C3D405000000000000AA /* levelup.wav in Resources */,
 				AEF37B174452DB08300AD3E2 /* PrivacyInfo.xcprivacy in Resources */,
-				A1C1C196EF234B76AD101F5C /* Fredoka.ttf in Resources */,
 				6332349B57AB43D493A54F70 /* voice_en_fb_again_2.mp3 in Resources */,
 				4122562DA5F3465583F8AE31 /* voice_en_world_counting.mp3 in Resources */,
 				DAFFBB2B66A941A5B2AEA013 /* voice_en_num_3.mp3 in Resources */,
@@ -16056,7 +16055,6 @@
 				7F41C01D94064E3AB23F0D5B /* voice_ro_take_planet_5.mp3 in Resources */,
 				C4390A4200D84ED397FF3C61 /* voice_ro_take_octopus_3.mp3 in Resources */,
 				59AC140D4AD346F0A7342C76 /* voice_ro_post_great_star_3.mp3 in Resources */,
-				76DBB565B53E462E94053B24 /* Fredoka_bold.ttf in Resources */,
 				4C2CCAEA985E41409E9FBD22 /* voice_en_pre_have_pixel_6.mp3 in Resources */,
 				D1A6EAD7493F4525A91422B5 /* voice_de_instr_sub_pixel_4.mp3 in Resources */,
 				F836623D6A24425A873D2A0A /* voice_en_instr_add_pixel_6.mp3 in Resources */,
@@ -16399,6 +16397,8 @@
 				EAB9556D96714FF9A917C378 /* voice_ro_lvl_world_done_any.mp3 in Resources */,
 				F836D2A40B5C4CB8AD235B5A /* voice_de_lvl_world_done_any.mp3 in Resources */,
 				073567F6F7414B40B72410C0 /* voice_en_lvl_world_done_any.mp3 in Resources */,
+				D371D734216845E0B4FD647E /* Fredoka.ttf in Resources */,
+				E4DA12D1C8284FFEBF73E4EA /* Fredoka_bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
