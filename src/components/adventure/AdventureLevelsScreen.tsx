@@ -12,7 +12,7 @@ import {ADVENTURE_WORLDS} from '../../config/adventureWorlds';
 import {AdventureMapPath} from './AdventureMapPath';
 import {getAllThemes} from '../../hooks/useTheme';
 import {useVoice} from '../../hooks/useVoice';
-import {Emoji} from '../common/Emoji';
+import {WorldIcon} from './WorldIcon';
 
 // Partial on purpose. Every world here has a recorded name clip; a world added
 // without one simply isn't announced, because the call site below guards with
@@ -78,9 +78,17 @@ export function AdventureLevelsScreen({
           <Pressable onPress={onBack} style={styles.backBtn}>
             <Text style={styles.backText}>←</Text>
           </Pressable>
-          <Text style={styles.title}>
-            <Emoji>{world.emoji}</Emoji> {t(world.nameKey)}
-          </Text>
+          <View style={styles.titleRow}>
+            <WorldIcon
+              worldId={world.id}
+              width={46}
+              height={34}
+              fallbackEmoji={world.emoji}
+            />
+            <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit>
+              {t(world.nameKey)}
+            </Text>
+          </View>
           <Pressable onPress={onClose} style={styles.closeBtn}>
             <Text style={styles.closeText}>✕</Text>
           </Pressable>
@@ -110,8 +118,15 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     gap: 12,
   },
-  title: {
+  titleRow: {
     flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  title: {
+    flexShrink: 1,
     fontSize: 22,
     fontWeight: '800',
     color: '#FFFFFF',

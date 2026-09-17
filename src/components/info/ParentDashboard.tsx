@@ -3,6 +3,7 @@ import {View, StyleSheet, Pressable, ScrollView, Modal} from 'react-native';
 import {Text} from '../common/AppText';
 import {useTranslation} from 'react-i18next';
 import {Emoji} from '../common/Emoji';
+import {WorldIcon} from '../adventure/WorldIcon';
 import {
   AdventureProgress,
   RewardData,
@@ -229,9 +230,12 @@ export function ParentDashboard({
               </Text>
               {worldRows.map(w => (
                 <View key={w.id} style={styles.worldRow}>
-                  <Text style={styles.worldEmoji}>
-                    <Emoji>{w.emoji}</Emoji>
-                  </Text>
+                  <WorldIcon
+                    worldId={w.id}
+                    width={40}
+                    height={30}
+                    fallbackEmoji={w.emoji}
+                  />
                   <Text style={[styles.worldName, {color: colors.text}]}>
                     {t(w.nameKey)}
                   </Text>

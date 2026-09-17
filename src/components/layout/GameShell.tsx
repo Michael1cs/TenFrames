@@ -145,6 +145,7 @@ function AdventureWorldsRoute() {
   return (
     <AdventureWorldsScreen
       progress={ctx.adventure.progress}
+      isPremium={ctx.premium.isPremium}
       onSelectWorld={worldId => {
         ctx.adventure.setSelectedWorld(worldId);
         navigation.navigate('AdventureLevels', {worldId});
