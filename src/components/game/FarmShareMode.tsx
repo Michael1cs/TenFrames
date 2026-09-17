@@ -87,7 +87,7 @@ function PoolPiece({
   id: number;
   source?: ImageSourcePropType;
   emoji: string;
-  onDropAt: (x: number, y: number, id: number) => boolean;
+  onDropAt: (x: number, y: number, id: number) => Promise<boolean>;
   onDragStateChange?: (dragging: boolean) => void;
 }) {
   const tx = useSharedValue(0);
@@ -102,14 +102,21 @@ function PoolPiece({
   const finishDrag = useCallback(
     (x: number, y: number) => {
       onDragStateChange?.(false);
-      if (!onDropAt(x, y, id)) settle();
+      onDropAt(x, y, id).then(taken => {
+        if (!taken) settle();
+      });
     },
     [onDropAt, settle, id, onDragStateChange],
   );
   const startDrag = useCallback(() => onDragStateChange?.(true), [onDragStateChange]);
 
   const pan = Gesture.Pan()
-    .minDistance(3)
+    // Inside a scrolling screen a vertical drag would be claimed by the
+    // scroll view before this pan could start. A short press first —
+    // natural for a small hand — activates the pan, and an active pan
+    // keeps the finger.
+    .activateAfterLongPress(120)
+    .shouldCancelWhenOutside(false)
     .onStart(() => {
       lifted.value = withTiming(1, {duration: 120});
       runOnJS(startDrag)();
@@ -154,7 +161,7 @@ function Basket({
   columns,
   pieceSize,
   onTap,
-  onMeasure,
+  register,
 }: {
   animalEmoji: string;
   source?: ImageSourcePropType;
@@ -166,9 +173,19 @@ function Basket({
   columns: number;
   pieceSize: number;
   onTap: () => void;
-  onMeasure: (r: DropRect) => void;
+  // Registers a way to measure this tray, used at drop time.
+  register: (measure: () => Promise<DropRect | undefined>) => void;
 }) {
   const ref = useRef<View>(null);
+  useEffect(() => {
+    register(
+      () =>
+        new Promise(resolve => {
+          if (!ref.current) return resolve(undefined);
+          ref.current.measureInWindow((x, y, w, h) => resolve({x, y, w, h}));
+        }),
+    );
+  });
   const pop = useSharedValue(0);
   useEffect(() => {
     pop.value = 0;
@@ -205,9 +222,6 @@ function Basket({
       <GestureDetector gesture={tap}>
         <Animated.View
           ref={ref}
-          onLayout={() =>
-            ref.current?.measureInWindow((x, y, w, h) => onMeasure({x, y, w, h}))
-          }
           style={[
             styles.tray,
             {width, height, gap, padding: pad, borderColor: edge},
@@ -237,7 +251,10 @@ export function FarmShareMode({
 }: FarmShareModeProps) {
   const [state, setState] = useState<ShareState | null>(null);
   const matchedRef = useRef(false);
-  const rectsRef = useRef<DropRect[]>([]);
+  // One measurer per tray; the trays are measured at the moment of a drop,
+  // so a layout that settled after mount (the level fades in) can't leave
+  // stale coordinates behind.
+  const measurersRef = useRef<Array<() => Promise<DropRect | undefined>>>([]);
   const onMatchRef = useRef(onMatch);
   const onUnfairRef = useRef(onUnfair);
   onMatchRef.current = onMatch;
@@ -246,7 +263,7 @@ export function FarmShareMode({
   useEffect(() => {
     if (!problem) return;
     setState(startShare(problem.total, problem.buckets));
-    rectsRef.current = [];
+    measurersRef.current = [];
     matchedRef.current = false;
   }, [problem]);
 
@@ -274,8 +291,9 @@ export function FarmShareMode({
   // A drop lands with the animal whose tray is under the finger, with a
   // forgiving margin: a four-year-old lets go near the basket, not on it.
   const dropAt = useCallback(
-    (x: number, y: number, id: number) => {
-      const hit = dropTargetAt(rectsRef.current, x, y);
+    async (x: number, y: number, id: number) => {
+      const rects = await Promise.all(measurersRef.current.map(m => m()));
+      const hit = dropTargetAt(rects, x, y);
       if (hit < 0) return false;
       giveTo(hit, id);
       return true;
@@ -338,8 +356,8 @@ export function FarmShareMode({
                 ? setState(prev => (prev ? takeBack(prev, i) : prev))
                 : giveTo(i)
             }
-            onMeasure={r => {
-              rectsRef.current[i] = r;
+            register={measure => {
+              measurersRef.current[i] = measure;
             }}
           />
         ))}
