@@ -408,9 +408,9 @@ export function AdventureLevelScreen({
     () => () => {
       if (instructionTimerRef.current) clearTimeout(instructionTimerRef.current);
       if (advanceFallbackRef.current) clearTimeout(advanceFallbackRef.current);
-      // Any walkthrough still running belongs to a problem that is over.
-    assistRunRef.current++;
-    for (const t of assistTimersRef.current) clearTimeout(t);
+      // Any walkthrough still running belongs to a level that is closing.
+      assistRunRef.current++;
+      for (const t of assistTimersRef.current) clearTimeout(t);
       if (hintFlashRef.current) clearTimeout(hintFlashRef.current);
     },
     [],
