@@ -726,7 +726,6 @@ function useShellState(
       setInitialRoute(target);
       const rewards = await loadRewardData();
       rewardSystem.loadRewards(rewards);
-      rewardSystem.updateDailyStreak();
       const premiumData = await loadPremiumData();
       premium.loadPremiumData(premiumData);
       setBootLoaded(true);

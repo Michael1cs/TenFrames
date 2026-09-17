@@ -1203,6 +1203,57 @@ export function AdventureLevelScreen({
   const themeColors = worldTheme?.colors ?? colors;
 
   // Visual instruction: big emoji/number + small text
+  type EquationPart = {text: string; color: string};
+  // Once the answer is right, the '?' is filled in and each number wears the
+  // colour of its counters — the same completed equation Free Play shows.
+  // The screen used to keep "3 + 4 = ?" up through the whole celebration.
+  const solvedParts = (): EquationPart[] | null => {
+    if (!hasSubmitted || isCorrect !== true || !currentProblem) return null;
+    const c1 = themeColors.cellColor1;
+    const c2 = themeColors.cellColor2;
+    const answer = '#4ADE80';
+    const plain = '#FFFFFF';
+    const p = currentProblem;
+    if (level.gameMode === 'addition') {
+      return [
+        {text: String(p.num1), color: c1},
+        {text: ' + ', color: plain},
+        {text: String(p.num2), color: c2},
+        {text: ' = ', color: plain},
+        {text: String(p.answer), color: answer},
+      ];
+    }
+    if (level.gameMode === 'subtraction') {
+      return [
+        {text: String(p.num1), color: c1},
+        {text: ' − ', color: plain},
+        {text: String(p.num2), color: plain},
+        {text: ' = ', color: plain},
+        {text: String(p.answer), color: answer},
+      ];
+    }
+    if (level.gameMode === 'puzzle') {
+      return [
+        {text: String(p.num1), color: c1},
+        {text: ' + ', color: plain},
+        {text: String(p.num2), color: answer},
+        {text: ' = ', color: plain},
+        {text: String(p.answer), color: plain},
+      ];
+    }
+    if (level.gameMode === 'answer') {
+      const ap = p as AnswerProblem;
+      return [
+        {text: String(ap.num1), color: c1},
+        {text: ' + ', color: plain},
+        {text: String(ap.num2), color: ap.slot === 'addend' ? answer : c2},
+        {text: ' = ', color: plain},
+        {text: String(ap.answer), color: ap.slot === 'sum' ? answer : plain},
+      ];
+    }
+    return null;
+  };
+
   const getInstruction = (): {visual: string; text: string} => {
     if (level.gameMode === 'counting' && countingChallenge) {
       const {instruction, targetNumber} = countingChallenge;
@@ -1429,7 +1480,20 @@ export function AdventureLevelScreen({
               const instr = getInstruction();
               return (
                 <View style={styles.instructionBox}>
-                  <Text style={styles.instructionVisual}>{instr.visual}</Text>
+                  {(() => {
+                    const parts = solvedParts();
+                    return parts ? (
+                      <Text style={styles.instructionVisual}>
+                        {parts.map((part, i) => (
+                          <Text key={i} style={{color: part.color}}>
+                            {part.text}
+                          </Text>
+                        ))}
+                      </Text>
+                    ) : (
+                      <Text style={styles.instructionVisual}>{instr.visual}</Text>
+                    );
+                  })()}
                   {instr.text ? (
                     <Text style={styles.instructionText}>{instr.text}</Text>
                   ) : null}
