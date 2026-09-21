@@ -1,4 +1,5 @@
 import {Bouncy} from '../common/Bouncy';
+import {LIMITED_MODES} from '../../config/limits';
 import React from 'react';
 import {View, ScrollView, StyleSheet} from 'react-native';
 import {Text} from '../common/AppText';
@@ -21,10 +22,20 @@ interface ModeSelectorProps {
   compact?: boolean;
 }
 
+// Which tabs wear the "n/5 left today" badge. Read from the same list the
+// limit is enforced from — the bar used to hard-code "everything but
+// counting", a second copy of the rule that had already drifted between the
+// portrait bar and the landscape one.
+function isModeMetered(mode: GameMode): boolean {
+  return (LIMITED_MODES as readonly string[]).includes(mode);
+}
+
 const allModes: {id: GameMode; key: string}[] = [
   {id: 'counting', key: 'modes.counting'},
   {id: 'addition', key: 'modes.addition'},
   {id: 'subtraction', key: 'modes.subtraction'},
+  {id: 'readAdd', key: 'modes.readAdd'},
+  {id: 'readSub', key: 'modes.readSub'},
   {id: 'answer', key: 'modes.answer'},
   {id: 'puzzle', key: 'modes.puzzle'},
   {id: 'compare', key: 'modes.compare'},
@@ -54,8 +65,7 @@ export function ModeSelector({
       <View style={styles.containerVertical}>
         {modes.map(mode => {
           const isActive = activeMode === mode.id;
-          const isLimited =
-            !isPremium && mode.id !== 'counting' && mode.id !== 'workshop';
+          const isLimited = !isPremium && isModeMetered(mode.id);
           const remaining = getRemainingExercises
             ? getRemainingExercises(mode.id)
             : Infinity;
@@ -126,17 +136,19 @@ export function ModeSelector({
     );
   }
 
-  // Portrait bottom tab bar. With the full 7-mode roster plus Adventure the
-  // tabs no longer fit a phone width, so past six entries the bar scrolls
-  // horizontally with fixed-width tabs instead of squeezing flex ones.
+  // Portrait bottom tab bar. Seven icon-only tabs still fit a phone if they
+  // give up a little width and icon size; past that the bar scrolls with
+  // fixed-width tabs. Scrolling is the last resort — a tab past the fold is
+  // a tab a pre-reader never finds.
   const totalTabs = modes.length + (onAdventurePress ? 1 : 0);
-  const scrollable = totalTabs > 6;
+  const scrollable = totalTabs > 7;
+  const dense = !scrollable && totalTabs === 7;
   const tabStyle = scrollable ? styles.bottomTabFixed : styles.bottomTab;
   const bar = (
     <>
       {modes.map(mode => {
         const isActive = activeMode === mode.id;
-        const isLimited = !isPremium && mode.id !== 'counting';
+        const isLimited = !isPremium && isModeMetered(mode.id);
         const remaining = getRemainingExercises
           ? getRemainingExercises(mode.id)
           : Infinity;
@@ -159,7 +171,11 @@ export function ModeSelector({
                 },
               ]}>
               <View style={compact ? styles.bottomIconCompact : styles.bottomEmojiContainer}>
-                <ModeIcon mode={mode.id} size={compact ? 36 : 28} colors={colors} />
+                <ModeIcon
+                  mode={mode.id}
+                  size={compact ? (dense ? 31 : 36) : 28}
+                  colors={colors}
+                />
               </View>
               {!compact && (
                 <Text

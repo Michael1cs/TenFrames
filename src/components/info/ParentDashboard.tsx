@@ -28,6 +28,8 @@ const MODE_ROW = [
   {mode: 'counting', emoji: '🔢', key: 'modes.counting'},
   {mode: 'addition', emoji: '➕', key: 'modes.addition'},
   {mode: 'subtraction', emoji: '➖', key: 'modes.subtraction'},
+  {mode: 'readAdd', emoji: '➕', key: 'modes.readAdd'},
+  {mode: 'readSub', emoji: '➖', key: 'modes.readSub'},
   {mode: 'puzzle', emoji: '🧩', key: 'modes.puzzle'},
   {mode: 'memory', emoji: '🧠', key: 'modes.memory'},
   {mode: 'share', emoji: '🐰', key: 'modes.share'},

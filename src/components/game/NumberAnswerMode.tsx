@@ -24,6 +24,9 @@ interface NumberAnswerModeProps {
   tokenImage?: ImageSourcePropType;
   level: number;
   ageProfile?: AgeProfile;
+  // Locked-frame games: the frame arrives holding the whole problem and
+  // cannot be touched, so the pad is the only way in.
+  locked?: boolean;
 }
 
 // "Name the number": the frame is a working space (num1 pre-placed, the
@@ -43,6 +46,7 @@ export function NumberAnswerMode({
   tokenImage,
   level,
   ageProfile,
+  locked = false,
 }: NumberAnswerModeProps) {
   const {t} = useTranslation();
   const compact = ageProfile?.compact ?? false;
@@ -53,14 +57,33 @@ export function NumberAnswerMode({
   useEffect(() => {
     setShowPadHint(false);
     if (!problem || hasSubmitted) return;
-    const filled = cells.filter(c => c !== 'empty').length;
-    if (filled !== problem.answer) return;
+    // A locked frame is complete from the first moment, so the nudge is only
+    // a matter of the child pausing; a built one waits for the quantity.
+    if (!locked) {
+      const filled = cells.filter(c => c !== 'empty').length;
+      if (filled !== problem.answer) return;
+    }
     const timer = setTimeout(() => setShowPadHint(true), 1100);
     return () => clearTimeout(timer);
-  }, [cells, problem, hasSubmitted]);
+  }, [cells, problem, hasSubmitted, locked]);
+
+  // Subtraction reads as "these left": the counters that went away stay in
+  // place, faded, so the child can see the group it started with.
+  const fadedCells =
+    locked && problem?.op === 'sub'
+      ? Array.from({length: problem.num2}, (_, i) => problem.num1 - 1 - i)
+      : undefined;
 
   const equation = problem
-    ? problem.slot === 'sum'
+    ? locked && problem.op === 'sub'
+      ? [
+          {text: String(problem.num1), color: colors.cellColor1},
+          {text: ' − ', color: '#FFFFFF'},
+          {text: String(problem.num2), color: '#FFFFFF'},
+          {text: ' = ', color: '#FFFFFF'},
+          {text: '?', color: '#FBBF24'},
+        ]
+      : problem.slot === 'sum'
       ? [
           {text: String(problem.num1), color: colors.cellColor1},
           {text: ' + ', color: '#FFFFFF'},
@@ -108,6 +131,8 @@ export function NumberAnswerMode({
         colors={colors}
         emoji={emoji}
         tokenImage={tokenImage}
+        fadedCells={fadedCells}
+        disabled={locked}
       />
 
       <PadHint visible={showPadHint} />
@@ -122,11 +147,15 @@ export function NumberAnswerMode({
       />
 
 
-      <Pressable
-        onPress={onReset}
-        style={[styles.resetButton, {backgroundColor: colors.primaryButton}]}>
-        <Text style={styles.resetButtonText}><Emoji>🔄</Emoji></Text>
-      </Pressable>
+      {/* Nothing to reset on a locked frame — the board is not the
+          child's to arrange. */}
+      {!locked && (
+        <Pressable
+          onPress={onReset}
+          style={[styles.resetButton, {backgroundColor: colors.primaryButton}]}>
+          <Text style={styles.resetButtonText}><Emoji>🔄</Emoji></Text>
+        </Pressable>
+      )}
     </View>
   );
 }

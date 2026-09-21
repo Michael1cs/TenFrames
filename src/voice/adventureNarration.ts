@@ -47,6 +47,15 @@ export function compareAskIds(modeLevel: number, problemIndex: number): string[]
   return [asks[problemIndex === 0 ? 1 : 1 + ((problemIndex - 1) % 3)]];
 }
 
+// The one line a locked frame is allowed to say, wherever it appears — the
+// two Free Play games and the two Number Town levels share it. The frame
+// already holds the whole problem, so the line asks about what is there and
+// never "add three more", which the child cannot do on a board that does not
+// respond. The pad nudge follows after a pause.
+export function lockedFrameInstructionId(op: 'add' | 'sub'): string {
+  return op === 'sub' ? 'sub_alt_1' : 'add_alt_1';
+}
+
 // Answer mode. The "sum" slot is answered with the total; the "addend" slot
 // with the part the child added, so its instruction has to end on that
 // question and its pad nudge cannot say "tap the number".
@@ -67,11 +76,8 @@ export function answerInstructionIds({
   op?: 'add' | 'sub';
   locked?: boolean;
 }): string[] {
-  // A locked frame already holds the whole problem, so the line must ask
-  // about what is there — never "add three more", which the child cannot do.
-  // One line; the pad nudge follows after a pause.
   if (locked) {
-    return [op === 'sub' ? 'sub_alt_1' : 'add_alt_1'];
+    return [lockedFrameInstructionId(op)];
   }
   if (slot === 'sum') {
     return noun ? [`have_${noun}_${num1}`, `add_more_${noun}_${num2}`] : ['instr_addition'];

@@ -28,6 +28,9 @@ interface ModeIconProps {
 //   addition    → a plus built from two rounded bars (the equation's green)
 //   subtraction → one rounded bar (the equation's red)
 //   answer      → the number-pad bubble holding three dots ("count, then name")
+//   readAdd     → the same bubble with a plus inside: addition, but the
+//   readSub       answer lives in the bubble, not on the frame (minus for
+//                 readSub) — the frame there cannot be touched at all
 //   puzzle      → the frame with one missing, dashed cell ("complete it")
 //   compare     → a big dot and a small dot
 //   workshop    → a mini grid of differently-colored cells (free creation)
@@ -145,6 +148,50 @@ export function ModeIcon({mode, size, colors}: ModeIconProps) {
               />
             ))}
           </View>
+        </View>
+      </View>
+    );
+  }
+
+  // The locked-frame games: the answer bubble carries the operation, which
+  // ties them to the addition/subtraction tiles they are the hard version of.
+  if (mode === 'readAdd' || mode === 'readSub') {
+    const barLong = s * 0.38;
+    const barThick = s * 0.12;
+    const color = mode === 'readAdd' ? '#4ADE80' : '#F87171';
+    return (
+      <View style={[styles.box, {width: s, height: s}]}>
+        <View
+          style={[
+            styles.box,
+            {
+              width: s * 0.8,
+              height: s * 0.8,
+              borderRadius: s * 0.4,
+              borderWidth: 2.5,
+              borderColor: '#FBBF24',
+              backgroundColor: 'rgba(255,255,255,0.92)',
+            },
+          ]}>
+          <View
+            style={{
+              width: barLong,
+              height: barThick,
+              borderRadius: barThick / 2,
+              backgroundColor: color,
+            }}
+          />
+          {mode === 'readAdd' && (
+            <View
+              style={{
+                position: 'absolute',
+                width: barThick,
+                height: barLong,
+                borderRadius: barThick / 2,
+                backgroundColor: color,
+              }}
+            />
+          )}
         </View>
       </View>
     );

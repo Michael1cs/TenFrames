@@ -7,6 +7,8 @@
     "counting": "Counting",
     "addition": "Addition",
     "subtraction": "Subtraction",
+    "readAdd": "How Many?",
+    "readSub": "How Many Left?",
     "puzzle": "Puzzle",
     "share": "Share",
     "memory": "Memory",

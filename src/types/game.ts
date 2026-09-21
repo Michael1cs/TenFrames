@@ -1,4 +1,7 @@
-export type GameMode = 'counting' | 'addition' | 'subtraction' | 'puzzle' | 'memory' | 'workshop' | 'share' | 'answer' | 'compare';
+// 'readAdd' / 'readSub' are the locked-frame games: the frame arrives with
+// the problem already made and cannot be touched, so the only way to answer
+// is to read it and name the number.
+export type GameMode = 'counting' | 'addition' | 'subtraction' | 'puzzle' | 'memory' | 'workshop' | 'share' | 'answer' | 'compare' | 'readAdd' | 'readSub';
 // 'filled' = user placed (counting mode or single-color)
 // 'color1' = first addend / pre-filled for subtraction/puzzle
 // 'color2' = second addend / user-added in addition/puzzle
@@ -70,6 +73,8 @@ export interface PlayerData {
   // launch started a child back at level 1 whatever they had reached.
   additionLevel?: number;
   subtractionLevel?: number;
+  readAddLevel?: number;
+  readSubLevel?: number;
 }
 
 // === Reward System Types ===

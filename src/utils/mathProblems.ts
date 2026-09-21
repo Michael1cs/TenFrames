@@ -272,28 +272,11 @@ function answerFactWithSum(lo: number, hi: number): Problem {
 }
 
 function generateAnswerProblemOnce(level: number): AnswerProblem {
-  // Locked-frame bands. The frame arrives with the problem already made and
-  // the child reads it instead of building it: 9 is addition (both parts
-  // visible in their own colours), 10 is subtraction (what left is faded).
-  // Both are answered on the pad, so the slot is always the total.
-  if (level === 9) {
-    const p = answerFactWithSum(3, 10);
-    return {...p, slot: 'sum', expected: p.answer, op: 'add'};
-  }
-  if (level >= 10) {
-    // 4..10 to start, at least one counter left behind: an empty frame
-    // would leave nothing to read.
-    const total = 4 + Math.floor(Math.random() * 7);
-    const taken = 1 + Math.floor(Math.random() * (total - 1));
-    return {
-      num1: total,
-      num2: taken,
-      answer: total - taken,
-      slot: 'sum',
-      expected: total - taken,
-      op: 'sub',
-    };
-  }
+  // Locked-frame bands: the frame arrives with the problem already made and
+  // the child reads it instead of building it. 9 is addition, 10 is
+  // subtraction, both at the widest rung of the locked ladder below.
+  if (level === 9) return generateReadProblemOnce('add', READ_LEVEL_CAP);
+  if (level >= 10) return generateReadProblemOnce('sub', READ_LEVEL_CAP);
   const slot: AnswerProblem['slot'] =
     level <= 4
       ? 'sum'
@@ -315,6 +298,53 @@ function generateAnswerProblemOnce(level: number): AnswerProblem {
       ? answerFactWithSum(3, 10)
       : answerFactWithSum(2, 10);
   return {...p, slot, expected: slot === 'sum' ? p.answer : p.num2};
+}
+
+export const READ_LEVEL_CAP = 4;
+
+/**
+ * Locked-frame games ("read the frame"): the problem arrives already made,
+ * the frame cannot be touched, and the child names the answer on the pad.
+ * Harder than building it, because nothing can be counted into place first.
+ *
+ * Addition bands  — sums 2-5, 3-7, 4-9, then 3-10.
+ * Subtraction bands — groups of 3-5, 4-7, 5-9, then 4-10; at least one
+ * counter always stays behind, or there would be nothing left to read.
+ */
+export function generateReadProblem(
+  op: 'add' | 'sub',
+  level: number,
+): AnswerProblem {
+  return withoutImmediateRepeat(
+    `read-${op}`,
+    () => generateReadProblemOnce(op, level),
+    p => `${p.num1}|${p.num2}`,
+  );
+}
+
+function generateReadProblemOnce(
+  op: 'add' | 'sub',
+  level: number,
+): AnswerProblem {
+  const band = Math.max(1, Math.min(level, READ_LEVEL_CAP));
+  if (op === 'add') {
+    const [lo, hi] =
+      band === 1 ? [2, 5] : band === 2 ? [3, 7] : band === 3 ? [4, 9] : [3, 10];
+    const p = answerFactWithSum(lo, hi);
+    return {...p, slot: 'sum', expected: p.answer, op: 'add'};
+  }
+  const [lo, hi] =
+    band === 1 ? [3, 5] : band === 2 ? [4, 7] : band === 3 ? [5, 9] : [4, 10];
+  const total = lo + Math.floor(Math.random() * (hi - lo + 1));
+  const taken = 1 + Math.floor(Math.random() * (total - 1));
+  return {
+    num1: total,
+    num2: taken,
+    answer: total - taken,
+    slot: 'sum',
+    expected: total - taken,
+    op: 'sub',
+  };
 }
 
 /**

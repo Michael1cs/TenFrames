@@ -59,6 +59,7 @@ import {ADVENTURE_WORLDS, isLevelPremiumLocked} from '../../config/adventureWorl
 import {useAdventure} from '../../hooks/useAdventure';
 import {AdventureWorldsScreen} from '../adventure/AdventureWorldsScreen';
 import {TapHint} from '../feedback/TapHint';
+import {lockedFrameInstructionId} from '../../voice/adventureNarration';
 import {useStallNudge} from '../../hooks/useStallNudge';
 import {AdventureLevelsScreen} from '../adventure/AdventureLevelsScreen';
 import {AdventureLevelScreen} from '../adventure/AdventureLevelScreen';
@@ -240,7 +241,7 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
   // The answer sheet slides over the bottom of the play area — completed
   // equation on correct, gentle "try again" on wrong. It is an overlay, so
   // the frame above never reflows.
-  const FEEDBACK_MODES: GameMode[] = ['addition', 'subtraction', 'puzzle', 'answer', 'compare'];
+  const FEEDBACK_MODES: GameMode[] = ['addition', 'subtraction', 'puzzle', 'answer', 'compare', 'readAdd', 'readSub'];
   const showAnswerFeedback =
     game.isCorrect !== null && FEEDBACK_MODES.includes(game.gameMode);
   const eqDark = '#1E1B4B';
@@ -256,6 +257,19 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
         {text: String(p.num1), color: colors.cellColor1},
         {text: game.gameMode === 'addition' ? ' + ' : ' − ', color: eqDark},
         {text: String(p.num2), color: colors.cellColor2},
+        {text: ' = ', color: eqDark},
+        {text: String(p.answer), color: eqGreen},
+      ];
+    }
+    if (
+      (game.gameMode === 'readAdd' || game.gameMode === 'readSub') &&
+      game.answerProblem
+    ) {
+      const p = game.answerProblem;
+      return [
+        {text: String(p.num1), color: colors.cellColor1},
+        {text: p.op === 'sub' ? ' − ' : ' + ', color: eqDark},
+        {text: String(p.num2), color: p.op === 'sub' ? eqDark : colors.cellColor2},
         {text: ' = ', color: eqDark},
         {text: String(p.answer), color: eqGreen},
       ];
@@ -372,6 +386,31 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
             tokenImage={themeConfig.tokenImage}
             level={game.answerLevel}
             ageProfile={ageProfile}
+          />
+        );
+      case 'readAdd':
+      case 'readSub':
+        return (
+          <NumberAnswerMode
+            cells={game.cells}
+            onCellClick={handleCellClick}
+            onNumberPick={game.handleNumberPick}
+            onReset={game.resetGame}
+            problem={game.answerProblem}
+            isCorrect={game.isCorrect}
+            hasSubmitted={game.hasSubmitted}
+            feedback={game.feedback}
+            wrongPick={game.wrongPick}
+            colors={colors}
+            emoji={themeConfig.emoji}
+            tokenImage={themeConfig.tokenImage}
+            level={
+              game.gameMode === 'readAdd'
+                ? game.readAddLevel
+                : game.readSubLevel
+            }
+            ageProfile={ageProfile}
+            locked
           />
         );
       case 'compare':
@@ -692,7 +731,12 @@ function useShellState(
       // Theme and age group restore unconditionally: loadPlayerData spreads
       // defaults over whatever is stored, so they are always present and valid.
       game.setTheme(data.theme);
-      game.restoreLevels(data.additionLevel, data.subtractionLevel);
+      game.restoreLevels(
+        data.additionLevel,
+        data.subtractionLevel,
+        data.readAddLevel,
+        data.readSubLevel,
+      );
       if (data.name) game.setPlayerName(data.name);
 
       // A language the family picked outlives setup: a Romanian family on an
@@ -747,16 +791,18 @@ function useShellState(
 
   useEffect(() => {
     if (game.score > 0) {
-      // One save for all four: separate saves would overwrite each other.
+      // One save for all of them: separate saves would overwrite each other.
       savePlayerData({
         highScore: game.score,
         level: game.level,
         additionLevel: game.additionLevel,
         subtractionLevel: game.subtractionLevel,
+        readAddLevel: game.readAddLevel,
+        readSubLevel: game.readSubLevel,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [game.score, game.level, game.additionLevel, game.subtractionLevel]);
+  }, [game.score, game.level, game.additionLevel, game.subtractionLevel, game.readAddLevel, game.readSubLevel]);
 
   useEffect(() => {
     // NOT before boot has read storage. Until then `premium` still holds its
@@ -816,7 +862,12 @@ function useShellState(
         // post_great_<theme>_N clips cover 1-5; bigger answers fall through
         // to the generic praise below.
         queueVoice(`post_great_${game.theme}_${game.currentProblem.answer}`);
-      } else if (game.gameMode === 'answer' && game.answerProblem) {
+      } else if (
+        (game.gameMode === 'answer' ||
+          game.gameMode === 'readAdd' ||
+          game.gameMode === 'readSub') &&
+        game.answerProblem
+      ) {
         // Say the number the child just named, then praise.
         queueVoice(`num_${game.answerProblem.expected}`);
         const ids = VOICE_GROUPS.correct;
@@ -945,12 +996,44 @@ function useShellState(
     showDailyLimit,
   ]);
 
+  // The locked games say one honest line per problem — "How many are there
+  // now in total?" / "How many are left?" — and nothing else. There is no
+  // instruction to give: the frame is already made, and the only move left
+  // is naming the number.
+  useEffect(() => {
+    if (game.gameMode !== 'readAdd' && game.gameMode !== 'readSub') return;
+    if (!game.answerProblem) return;
+    if (showDailyLimit || limitPendingRef.current) return;
+    if (!freePlayFocusedRef.current) return;
+    const p = game.answerProblem;
+    const key = `${game.gameMode}-${p.num1}-${p.num2}`;
+    if (key === lastProblemKey.current) return;
+    const isFirst = lastProblemKey.current === null;
+    lastProblemKey.current = key;
+    if (!isFirst) clearPendingVoiceQueue();
+    const instruction = () =>
+      queueVoice(lockedFrameInstructionId(p.op === 'sub' ? 'sub' : 'add'));
+    instruction();
+    armStallNudge(instruction);
+  }, [
+    game.answerProblem,
+    game.gameMode,
+    queueVoice,
+    armStallNudge,
+    showDailyLimit,
+  ]);
+
   // The answer landing, or a switch to another mode, ends the nudge.
   useEffect(() => {
     if (game.hasSubmitted) cancelStallNudge();
   }, [game.hasSubmitted, cancelStallNudge]);
   useEffect(() => {
-    if (game.gameMode !== 'addition' && game.gameMode !== 'subtraction') {
+    if (
+      game.gameMode !== 'addition' &&
+      game.gameMode !== 'subtraction' &&
+      game.gameMode !== 'readAdd' &&
+      game.gameMode !== 'readSub'
+    ) {
       cancelStallNudge();
     }
   }, [game.gameMode, cancelStallNudge]);
@@ -989,12 +1072,16 @@ function useShellState(
   const prevSubLevel = useRef(game.subtractionLevel);
   const prevAnswerLevel = useRef(game.answerLevel);
   const prevCompareLevel = useRef(game.compareLevel);
+  const prevReadAddLevel = useRef(game.readAddLevel);
+  const prevReadSubLevel = useRef(game.readSubLevel);
   useEffect(() => {
     if (
       game.additionLevel > prevAddLevel.current ||
       game.subtractionLevel > prevSubLevel.current ||
       game.answerLevel > prevAnswerLevel.current ||
-      game.compareLevel > prevCompareLevel.current
+      game.compareLevel > prevCompareLevel.current ||
+      game.readAddLevel > prevReadAddLevel.current ||
+      game.readSubLevel > prevReadSubLevel.current
     ) {
       playSound('levelup');
     }
@@ -1002,7 +1089,9 @@ function useShellState(
     prevSubLevel.current = game.subtractionLevel;
     prevAnswerLevel.current = game.answerLevel;
     prevCompareLevel.current = game.compareLevel;
-  }, [game.additionLevel, game.subtractionLevel, game.answerLevel, game.compareLevel, playSound]);
+    prevReadAddLevel.current = game.readAddLevel;
+    prevReadSubLevel.current = game.readSubLevel;
+  }, [game.additionLevel, game.subtractionLevel, game.answerLevel, game.compareLevel, game.readAddLevel, game.readSubLevel, playSound]);
 
   const handleLanguageChange = useCallback(
     (lang: Language) => {
@@ -1188,7 +1277,13 @@ function useShellState(
     voice,
     playSound,
     freePlayFocusedRef,
-    showTapHint,
+    // The hand points at the frame, so it stays down on the locked games:
+    // there the frame is only to be read, and the arrow at the pad (drawn by
+    // the game itself) is the nudge that makes sense.
+    showTapHint:
+      showTapHint &&
+      game.gameMode !== 'readAdd' &&
+      game.gameMode !== 'readSub',
     showStickerBook, setShowStickerBook,
     showAchievements, setShowAchievements,
     lastStarsAwarded,
