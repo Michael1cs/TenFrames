@@ -1,5 +1,6 @@
 import {
   ADVENTURE_WORLDS,
+  backfillUnlocks,
   getDefaultAdventureProgress,
   isLevelPremiumLocked,
   nextPlayableLevel,
@@ -230,16 +231,119 @@ describe('what a child can play next', () => {
   });
 });
 
+describe('locked-frame levels', () => {
+  const locked = ALL_LEVELS.filter(l => l.lockedFrame);
+
+  it('are the last two rungs of Number Town', () => {
+    expect(locked.map(l => l.id)).toEqual(['nt-7', 'nt-8']);
+  });
+
+  it('read a problem instead of building one', () => {
+    // The child answers on the pad; the frame is only there to be read, so
+    // these must stay in answer mode — any other mode expects taps on cells
+    // the screen disables.
+    for (const level of locked) {
+      expect(level.gameMode).toBe('answer');
+      expect(level.isBonus).toBe(false);
+    }
+    expect(locked.map(l => l.modeLevel)).toEqual([9, 10]);
+  });
+
+  it('sits behind the unlock, like the rest of the world', () => {
+    const town = ADVENTURE_WORLDS.find(w => w.id === 'number-town')!;
+    const untouched: AdventureLevelProgress = {
+      unlocked: true,
+      completed: false,
+      stars: 0,
+      bestFirstTry: 0,
+      attempts: 0,
+    };
+    for (const level of locked) {
+      expect(isLevelPremiumLocked(town, level, untouched, false)).toBe(true);
+      expect(isLevelPremiumLocked(town, level, untouched, true)).toBe(false);
+    }
+  });
+});
+
+describe('every level name is translated', () => {
+  const locales = {
+    en: require('../src/i18n/locales/en.json'),
+    ro: require('../src/i18n/locales/ro.json'),
+    de: require('../src/i18n/locales/de.json'),
+  } as Record<string, Record<string, unknown>>;
+
+  it.each(Object.keys(locales))('has a name for every level in %s', lang => {
+    for (const level of ALL_LEVELS) {
+      const value = level.nameKey
+        .split('.')
+        .reduce<unknown>((node, key) => (node as Record<string, unknown>)?.[key], locales[lang]);
+      expect(typeof value).toBe('string');
+      expect(value).not.toBe('');
+    }
+  });
+});
+
+describe('levels added by an update still open', () => {
+  const clearedTown = (): AdventureProgress => {
+    const p = getDefaultAdventureProgress();
+    const town = p.worlds['number-town'];
+    town.unlocked = true;
+    // What a save written before this update looks like: the six levels the
+    // world had then, all finished with full marks.
+    for (const id of ['nt-1', 'nt-2', 'nt-3', 'nt-4', 'nt-5', 'nt-6']) {
+      town.levels[id] = {
+        unlocked: true,
+        completed: true,
+        stars: 3,
+        bestFirstTry: 5,
+        attempts: 1,
+      };
+    }
+    return p;
+  };
+
+  it('opens the level after the last one the child finished', () => {
+    const p = backfillUnlocks(clearedTown());
+    expect(p.worlds['number-town'].levels['nt-7'].unlocked).toBe(true);
+    // nt-8 waits its turn: nt-7 has not been played yet.
+    expect(p.worlds['number-town'].levels['nt-8'].unlocked).toBe(false);
+  });
+
+  it('opens star bonuses the child has already earned', () => {
+    const p = backfillUnlocks(clearedTown()); // 18 stars
+    expect(p.worlds['number-town'].levels['nt-bonus-a'].unlocked).toBe(true);
+    expect(p.worlds['number-town'].levels['nt-bonus-b'].unlocked).toBe(false);
+  });
+
+  it('never closes a level that was already open', () => {
+    const p = getDefaultAdventureProgress();
+    p.worlds['number-town'].levels['nt-8'].unlocked = true;
+    backfillUnlocks(p);
+    expect(p.worlds['number-town'].levels['nt-8'].unlocked).toBe(true);
+  });
+
+  it('leaves a fresh save untouched beyond its first levels', () => {
+    const p = backfillUnlocks(getDefaultAdventureProgress());
+    for (const world of ADVENTURE_WORLDS) {
+      for (const level of world.levels) {
+        expect(p.worlds[world.id].levels[level.id].unlocked).toBe(
+          level.unlockCondition.type === 'first',
+        );
+      }
+    }
+  });
+});
+
 describe('bonus levels stay reachable', () => {
   it('never asks for more than 80% of the stars available before it', () => {
     // Memory Garden's last bonus used to require every star of the world:
     // perfection on all six levels before it, or the level never opened.
     for (const w of ADVENTURE_WORLDS) {
       w.levels.forEach((level, i) => {
-        const cond = level.unlockCondition as {type: string; stars?: number};
+        const cond = level.unlockCondition;
         if (cond.type !== 'stars') return;
         const available = 3 * i; // levels before this one, three stars each
-        expect(cond.stars ?? 0).toBeLessThanOrEqual(Math.ceil(available * 0.8));
+        expect(cond.count).toBeLessThanOrEqual(Math.ceil(available * 0.8));
       });
     }
   });

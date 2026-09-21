@@ -272,6 +272,28 @@ function answerFactWithSum(lo: number, hi: number): Problem {
 }
 
 function generateAnswerProblemOnce(level: number): AnswerProblem {
+  // Locked-frame bands. The frame arrives with the problem already made and
+  // the child reads it instead of building it: 9 is addition (both parts
+  // visible in their own colours), 10 is subtraction (what left is faded).
+  // Both are answered on the pad, so the slot is always the total.
+  if (level === 9) {
+    const p = answerFactWithSum(3, 10);
+    return {...p, slot: 'sum', expected: p.answer, op: 'add'};
+  }
+  if (level >= 10) {
+    // 4..10 to start, at least one counter left behind: an empty frame
+    // would leave nothing to read.
+    const total = 4 + Math.floor(Math.random() * 7);
+    const taken = 1 + Math.floor(Math.random() * (total - 1));
+    return {
+      num1: total,
+      num2: taken,
+      answer: total - taken,
+      slot: 'sum',
+      expected: total - taken,
+      op: 'sub',
+    };
+  }
   const slot: AnswerProblem['slot'] =
     level <= 4
       ? 'sum'

@@ -6,6 +6,7 @@ import {
 } from '../types/game';
 import {
   ADVENTURE_WORLDS,
+  backfillUnlocks,
   getDefaultAdventureProgress,
   getWorldStars,
   nextPlayableLevel,
@@ -50,6 +51,9 @@ export function useAdventure() {
         }
       }
       merged.currentWorld = data.currentWorld ?? defaults.currentWorld;
+      // Levels this save predates (an update that grew a world) have no
+      // unlock flag of their own — derive them from what the child has done.
+      backfillUnlocks(merged);
 
       // In debug mode, force unlock all worlds and levels on every load
       if (__DEV__) {

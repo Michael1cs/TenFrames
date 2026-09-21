@@ -125,6 +125,8 @@ const LEVEL_NOUN: Record<string, string> = {
   'nt-4': 'comet',
   'nt-5': 'galaxy',
   'nt-6': 'ufo',
+  'nt-7': 'star',
+  'nt-8': 'rocket',
   'nt-bonus-a': 'star',
   'nt-bonus-b': 'trophy',
 };
@@ -189,6 +191,8 @@ export function AdventureLevelScreen({
   // Shown once the child has built the answer on the frame but hasn't named
   // it yet — the board is done, the missing step is the pad.
   const [showPadHint, setShowPadHint] = useState(false);
+  // Counters a locked-frame subtraction shows as already taken away.
+  const [fadedCells, setFadedCells] = useState<number[]>([]);
   // Hint ladder state. hintCells pulse (they need changing); everything else
   // dims while a hint is up. assisting locks input while the third-attempt
   // walkthrough builds the answer cell by cell.
@@ -396,9 +400,24 @@ export function AdventureLevelScreen({
           : generateProblem(level.gameMode, level.modeLevel));
       setCurrentProblem(problem);
       setCountingChallenge(null);
-      // Pre-fill for addition/subtraction (answer mode works like addition:
-      // num1 pre-placed, the frame is the child's working space)
-      if (level.gameMode === 'addition' || level.gameMode === 'answer') {
+      if (level.lockedFrame) {
+        // The frame is the question, not the workspace: it arrives with the
+        // problem already made, and the child reads it. Addition shows both
+        // parts in their own colours; subtraction shows everything that was
+        // there, with what left faded (see fadedCells below).
+        const ap = problem as AnswerProblem;
+        const shown = Array(10).fill('empty') as CellState[];
+        for (let i = 0; i < ap.num1; i++) shown[i] = 'color1';
+        if (ap.op === 'sub') {
+          setFadedCells(
+            Array.from({length: ap.num2}, (_, i) => ap.num1 - 1 - i),
+          );
+        } else {
+          setFadedCells([]);
+          for (let i = ap.num1; i < ap.num1 + ap.num2; i++) shown[i] = 'color2';
+        }
+        setCells(shown);
+      } else if (level.gameMode === 'addition' || level.gameMode === 'answer') {
         const prefilled = Array(10).fill('empty') as CellState[];
         for (let i = 0; i < problem.num1; i++) {
           prefilled[i] = 'color1';
@@ -437,7 +456,9 @@ export function AdventureLevelScreen({
     [],
   );
   useEffect(() => {
-    if (level.gameMode === 'memory' || finished) {
+    // No hand on a locked frame: it points at the board, and there the board
+    // cannot be touched. The pad hint is the nudge those levels get.
+    if (level.gameMode === 'memory' || level.lockedFrame || finished) {
       setShowTapHint(false);
       return;
     }
@@ -449,7 +470,7 @@ export function AdventureLevelScreen({
       if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
       if (reminderTimerRef.current) clearTimeout(reminderTimerRef.current);
     };
-  }, [problemIndex, level.gameMode, finished]);
+  }, [problemIndex, level.gameMode, level.lockedFrame, finished]);
 
   const dismissHint = useCallback(() => {
     if (hintTimerRef.current) {
@@ -832,7 +853,9 @@ export function AdventureLevelScreen({
     if (!ap) return;
     const filled = cells.filter(c => c !== 'empty').length;
     setShowPadHint(false);
-    if (filled !== ap.answer) return;
+    // A locked frame is complete from the start; a built one waits until the
+    // child has made the quantity.
+    if (!level.lockedFrame && filled !== ap.answer) return;
     const t = setTimeout(() => {
       setShowPadHint(true);
       // Missing-addend problems are answered with the part that was added;
@@ -840,7 +863,15 @@ export function AdventureLevelScreen({
       voiceRef.current.play(padNudgeId(ap.slot));
     }, 1100);
     return () => clearTimeout(t);
-  }, [cells, currentProblem, level.gameMode, hasSubmitted, finished, assisting]);
+  }, [
+    cells,
+    currentProblem,
+    level.gameMode,
+    level.lockedFrame,
+    hasSubmitted,
+    finished,
+    assisting,
+  ]);
 
   // Answer mode: a pad tap IS the submission. Correct advances with the
   // spoken number; wrong walks a pad-shaped hint ladder — say it again, show
@@ -901,6 +932,7 @@ export function AdventureLevelScreen({
       } else if (attemptNumber === 2) {
         // Show it: complete the frame so the child can count the answer.
         voiceRef.current.playRandom(VOICE_GROUPS.tryAgain);
+        if (level.lockedFrame) return; // already shows the whole problem
         setCells(() => {
           const filled = Array(10).fill('empty') as CellState[];
           for (let i = 0; i < ap.num1; i++) filled[i] = 'color1';
@@ -941,6 +973,7 @@ export function AdventureLevelScreen({
       onRecordResult,
       dismissHint,
       afterBeat,
+      level.lockedFrame,
     ],
   );
 
@@ -1104,13 +1137,15 @@ export function AdventureLevelScreen({
       const ap = currentProblem as AnswerProblem;
       key = `a-${ap.slot}-${ap.num1}-${ap.num2}`;
       const noun = LEVEL_NOUN[level.id];
-      const ids = answerInstructionIds(
-        ap.slot,
-        ap.num1,
-        ap.num2,
-        ap.answer,
+      const ids = answerInstructionIds({
+        slot: ap.slot,
+        num1: ap.num1,
+        num2: ap.num2,
+        answer: ap.answer,
         noun,
-      );
+        op: ap.op,
+        locked: !!level.lockedFrame,
+      });
       action = () => voiceRef.current.playSequence(ids, 350);
     } else if (currentProblem && themeId) {
       const mode = level.gameMode;
@@ -1244,6 +1279,15 @@ export function AdventureLevelScreen({
     }
     if (level.gameMode === 'answer') {
       const ap = p as AnswerProblem;
+      if (ap.op === 'sub') {
+        return [
+          {text: String(ap.num1), color: c1},
+          {text: ' − ', color: plain},
+          {text: String(ap.num2), color: plain},
+          {text: ' = ', color: plain},
+          {text: String(ap.answer), color: answer},
+        ];
+      }
       return [
         {text: String(ap.num1), color: c1},
         {text: ' + ', color: plain},
@@ -1277,7 +1321,9 @@ export function AdventureLevelScreen({
       const ap = currentProblem as AnswerProblem;
       return {
         visual:
-          ap.slot === 'sum'
+          ap.op === 'sub'
+            ? `${ap.num1} − ${ap.num2} = ?`
+            : ap.slot === 'sum'
             ? `${ap.num1} + ${ap.num2} = ?`
             : `${ap.num1} + ? = ${ap.answer}`,
         text: t('adventure.pickTheNumber'),
@@ -1510,11 +1556,12 @@ export function AdventureLevelScreen({
               <TenFrame
                 cells={cells}
                 onCellClick={handleCellPress}
-                disabled={assisting}
                 colors={themeColors}
                 emoji={worldTheme?.colors?.emojiColor1 ?? '🔵'}
                 overrideEmoji={level.emoji}
                 hintedCells={hintCells}
+                fadedCells={level.lockedFrame ? fadedCells : undefined}
+                disabled={assisting || !!level.lockedFrame}
                 demo={
                   level.gameMode === 'counting' ||
                   level.gameMode === 'addition' ||

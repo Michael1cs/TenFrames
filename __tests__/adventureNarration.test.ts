@@ -102,14 +102,14 @@ describe('compare questions', () => {
 
 describe('answer mode', () => {
   it('asks for the part that was added, not the total, on missing-addend problems', () => {
-    const ids = answerInstructionIds('addend', 3, 5, 8, 'star');
+    const ids = answerInstructionIds({slot: 'addend', num1: 3, num2: 5, answer: 8, noun: 'star'});
     expect(ids[ids.length - 1]).toBe('pzl_part_ask_2');
     expect(padNudgeId('addend')).toBe('ask_added_tap');
     speakable(ids.concat([padNudgeId('addend')]));
   });
 
   it('asks for the total on sum problems', () => {
-    const ids = answerInstructionIds('sum', 3, 2, 5, 'star');
+    const ids = answerInstructionIds({slot: 'sum', num1: 3, num2: 2, answer: 5, noun: 'star'});
     expect(ids).toEqual(['have_star_3', 'add_more_star_2']);
     speakable(ids);
     expect(padNudgeId('sum')).toBe('instr_tap_number');
@@ -119,7 +119,25 @@ describe('answer mode', () => {
     const answerLevels = ADVENTURE_WORLDS.flatMap(w => w.levels).filter(l => l.gameMode === 'answer');
     expect(answerLevels.length).toBeGreaterThan(0);
     for (const answer of [3, 4, 5, 6, 7, 8, 9, 10]) {
-      speakable(answerInstructionIds('addend', 1, answer - 1, answer));
+      speakable(answerInstructionIds({slot: 'addend', num1: 1, num2: answer - 1, answer}));
     }
+  });
+});
+
+describe('locked-frame levels', () => {
+  it('asks about what the frame holds, never to add counters the child cannot place', () => {
+    const add = answerInstructionIds({slot: 'sum', num1: 5, num2: 3, answer: 8, noun: 'star', op: 'add', locked: true});
+    const sub = answerInstructionIds({slot: 'sum', num1: 7, num2: 3, answer: 4, noun: 'rocket', op: 'sub', locked: true});
+    expect(add).toEqual(['add_alt_1']);
+    expect(sub).toEqual(['sub_alt_1']);
+    speakable(add.concat(sub).concat([padNudgeId('sum')]));
+    // Nothing that tells the child to place or remove a counter.
+    for (const id of add.concat(sub)) {
+      expect(id).not.toMatch(/^add_more_|^take_|^have_/);
+    }
+  });
+
+  it('keeps one line, because the pad nudge follows it', () => {
+    expect(answerInstructionIds({slot: 'sum', num1: 6, num2: 2, answer: 8, noun: 'star', locked: true})).toHaveLength(1);
   });
 });

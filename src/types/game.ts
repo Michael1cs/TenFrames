@@ -20,6 +20,9 @@ export interface Problem {
 export interface AnswerProblem extends Problem {
   slot: 'sum' | 'addend';
   expected: number;
+  // Which operation the frame shows. 'sub' exists only on locked-frame
+  // levels, where the child reads a subtraction instead of building one.
+  op?: 'add' | 'sub';
 }
 
 // Compare mode: two small frames side by side; the child taps the one with
@@ -229,6 +232,10 @@ export interface AdventureLevel {
   // a number for a single-target drill (Make 6 only), or `'mixed'` to pick
   // a random target (3..9) per problem within the level.
   puzzleTarget?: number | 'mixed';
+  // The child answers on the number pad WITHOUT touching the frame: the
+  // frame shows the problem already made, and reading it is the exercise.
+  // The rung above building the answer yourself.
+  lockedFrame?: boolean;
 }
 
 export interface AdventureWorld {

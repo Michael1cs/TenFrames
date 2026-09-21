@@ -27,6 +27,9 @@ interface TenFrameProps {
   // Hint-ladder support: these cells pulse (they need changing); while any
   // hint is up, the other occupied cells dim so the eye lands on the fix.
   hintedCells?: number[];
+  // Counters that are shown as already taken away: still in place, faded.
+  // Locked-frame subtraction levels use this to picture "7, three flew off".
+  fadedCells?: number[];
   // The mode being played, for the one-time ghost-hand demonstration of
   // how to use the frame. Omit on frames the child doesn't tap to answer.
   demo?: DemoMode;
@@ -41,6 +44,7 @@ export function TenFrame({
   tokenImage,
   overrideEmoji,
   hintedCells,
+  fadedCells,
   demo,
 }: TenFrameProps) {
   const {cellSize} = useLayout();
@@ -122,7 +126,8 @@ export function TenFrame({
                 const index = row * 5 + i;
                 const hinted = hintedCells?.includes(index) ?? false;
                 const dimmed =
-                  !!hintedCells?.length && !hinted && state !== 'empty';
+                  (!!hintedCells?.length && !hinted && state !== 'empty') ||
+                  !!fadedCells?.includes(index);
                 return (
                   <TenFrameCell
                     key={index}

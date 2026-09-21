@@ -50,13 +50,29 @@ export function compareAskIds(modeLevel: number, problemIndex: number): string[]
 // Answer mode. The "sum" slot is answered with the total; the "addend" slot
 // with the part the child added, so its instruction has to end on that
 // question and its pad nudge cannot say "tap the number".
-export function answerInstructionIds(
-  slot: 'sum' | 'addend',
-  num1: number,
-  num2: number,
-  answer: number,
-  noun?: string,
-): string[] {
+export function answerInstructionIds({
+  slot,
+  num1,
+  num2,
+  answer,
+  noun,
+  op = 'add',
+  locked = false,
+}: {
+  slot: 'sum' | 'addend';
+  num1: number;
+  num2: number;
+  answer: number;
+  noun?: string;
+  op?: 'add' | 'sub';
+  locked?: boolean;
+}): string[] {
+  // A locked frame already holds the whole problem, so the line must ask
+  // about what is there — never "add three more", which the child cannot do.
+  // One line; the pad nudge follows after a pause.
+  if (locked) {
+    return [op === 'sub' ? 'sub_alt_1' : 'add_alt_1'];
+  }
   if (slot === 'sum') {
     return noun ? [`have_${noun}_${num1}`, `add_more_${noun}_${num2}`] : ['instr_addition'];
   }
