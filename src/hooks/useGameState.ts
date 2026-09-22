@@ -57,7 +57,7 @@ export function useGameState() {
   const [readSubLevel, setReadSubLevel] = useState(1);
   const [compareProblem, setCompareProblem] = useState<CompareProblem | null>(null);
   // Consecutive correct answers at current level (level up after 3)
-  const [, setLevelCorrectStreak] = useState(0);
+  const [levelCorrectStreak, setLevelCorrectStreak] = useState(0);
   // Misses in a row at the current level. The ladder used to climb only:
   // three right in a row moved a child up, and nothing ever moved them
   // back down, so one good run left them stuck above their level.
@@ -726,6 +726,15 @@ export function useGameState() {
     compareLevel,
     readAddLevel,
     readSubLevel,
+    // The ladder the child is on right now, for the on-screen rung meter.
+    ladder: ladderFor(gameMode, {
+      addition: additionLevel,
+      subtraction: subtractionLevel,
+      answer: answerLevel,
+      readAdd: readAddLevel,
+      readSub: readSubLevel,
+    }),
+    levelCorrectStreak,
     compareProblem,
 
     // Actions
@@ -745,4 +754,23 @@ export function useGameState() {
     setShowSetup,
     setIsThemeChange,
   };
+}
+
+export const LADDER_CAPS: Partial<Record<GameMode, number>> = {
+  addition: 11,
+  subtraction: 11,
+  answer: 7,
+  readAdd: READ_LEVEL_CAP,
+  readSub: READ_LEVEL_CAP,
+};
+
+// Which ladder (if any) the current mode climbs: its rung and its top.
+export function ladderFor(
+  mode: GameMode,
+  levels: Partial<Record<GameMode, number>>,
+): {level: number; cap: number} | null {
+  const cap = LADDER_CAPS[mode];
+  const level = levels[mode];
+  if (!cap || !level) return null;
+  return {level, cap};
 }

@@ -60,6 +60,7 @@ import {useAdventure} from '../../hooks/useAdventure';
 import {AdventureWorldsScreen} from '../adventure/AdventureWorldsScreen';
 import {TapHint} from '../feedback/TapHint';
 import {lockedFrameInstructionId} from '../../voice/adventureNarration';
+import {RungProgress} from '../feedback/RungProgress';
 import {useStallNudge} from '../../hooks/useStallNudge';
 import {AdventureLevelsScreen} from '../adventure/AdventureLevelsScreen';
 import {AdventureLevelScreen} from '../adventure/AdventureLevelScreen';
@@ -583,6 +584,14 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
               style={styles.gameAreaLandscape}
               contentContainerStyle={styles.gameAreaLandscapeContent}
               showsVerticalScrollIndicator={false}>
+              {game.ladder && (
+                <RungProgress
+                  streak={game.levelCorrectStreak}
+                  level={game.ladder.level}
+                  cap={game.ladder.cap}
+                  colors={colors}
+                />
+              )}
               {renderGameMode()}
             </ScrollView>
             <View style={styles.stallHint} pointerEvents="none">
@@ -605,6 +614,14 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
               style={styles.gameArea}
               contentContainerStyle={styles.gameAreaContent}
               showsVerticalScrollIndicator={false}>
+              {game.ladder && (
+                <RungProgress
+                  streak={game.levelCorrectStreak}
+                  level={game.ladder.level}
+                  cap={game.ladder.cap}
+                  colors={colors}
+                />
+              )}
               {renderGameMode()}
             </ScrollView>
             <View style={styles.stallHint} pointerEvents="none">
@@ -1084,6 +1101,8 @@ function useShellState(
       game.readSubLevel > prevReadSubLevel.current
     ) {
       playSound('levelup');
+      // The climb is now something the child sees (RungProgress) and hears.
+      queueVoice('lvl_next');
     }
     prevAddLevel.current = game.additionLevel;
     prevSubLevel.current = game.subtractionLevel;
@@ -1091,7 +1110,7 @@ function useShellState(
     prevCompareLevel.current = game.compareLevel;
     prevReadAddLevel.current = game.readAddLevel;
     prevReadSubLevel.current = game.readSubLevel;
-  }, [game.additionLevel, game.subtractionLevel, game.answerLevel, game.compareLevel, game.readAddLevel, game.readSubLevel, playSound]);
+  }, [game.additionLevel, game.subtractionLevel, game.answerLevel, game.compareLevel, game.readAddLevel, game.readSubLevel, playSound, queueVoice]);
 
   const handleLanguageChange = useCallback(
     (lang: Language) => {
