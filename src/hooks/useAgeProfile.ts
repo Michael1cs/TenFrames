@@ -21,11 +21,10 @@ export function useAgeProfile(): AgeProfile {
       compact: true,
       autoVoice: true,
       showHints: true,
-      // Free Play stays a SHORT bar: every tab visible at once, no
-      // horizontal scrolling (a scrollable tab bar reads as "that's
-      // everything" to a child, so anything past the fold may as well not
-      // exist). Six modes plus the Adventure tab is the ceiling that still
-      // fits a phone — the bar goes dense at seven, not scrollable.
+      // Free Play never scrolls sideways (a scrollable tab bar reads as
+      // "that's everything" to a child, so anything past the fold may as
+      // well not exist). Past four tabs the bar becomes a drawer of rows
+      // that pulls up, with the next row peeking out — see ModeSelector.
       //
       // readAdd / readSub are the hard pair: same sums and differences, but
       // the frame arrives made and cannot be touched, so the child reads it
