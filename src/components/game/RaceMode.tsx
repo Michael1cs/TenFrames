@@ -13,6 +13,7 @@ import {NumberPad} from './NumberPad';
 import {Mascot} from '../common/Mascot';
 import {Bouncy} from '../common/Bouncy';
 import {Emoji} from '../common/Emoji';
+import {ModeIcon} from '../layout/ModeIcon';
 import {generateReadProblem, READ_LEVEL_CAP} from '../../utils/mathProblems';
 import {AnswerProblem, CellState, ThemeColors} from '../../types/game';
 
@@ -131,7 +132,7 @@ export function RaceMode({
   );
 
   const runner = useAnimatedStyle(() => ({
-    transform: [{translateX: progress.value * Math.max(0, trackWidth - 44)}],
+    transform: [{translateX: progress.value * Math.max(0, trackWidth - 60)}],
   }));
 
   const equation = problem
@@ -188,7 +189,11 @@ export function RaceMode({
     <View style={styles.container}>
       <View style={styles.trackWrap} onLayout={(e: LayoutChangeEvent) => setTrackWidth(e.nativeEvent.layout.width)}>
         <View style={styles.track} />
-        <View style={styles.goal} />
+        {/* The finish is the same stopwatch as the tile: the mascot flies
+            towards the clock, and the run is over when it gets there. */}
+        <View style={styles.goal}>
+          <ModeIcon mode="race" size={38} colors={colors} />
+        </View>
         <Animated.View style={[styles.runner, runner]}>
           <Mascot pose="point" height={40} />
         </Animated.View>
@@ -237,13 +242,7 @@ const styles = StyleSheet.create({
   },
   goal: {
     position: 'absolute',
-    right: 0,
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: '#FBBF24',
-    borderWidth: 2,
-    borderColor: '#F59E0B',
+    right: -4,
   },
   runner: {position: 'absolute', left: 0, top: 0},
   scoreRow: {flexDirection: 'row', alignItems: 'center', gap: 8},

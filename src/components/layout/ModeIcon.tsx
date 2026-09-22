@@ -34,6 +34,7 @@ interface ModeIconProps {
 //   puzzle      → the frame with one missing, dashed cell ("complete it")
 //   compare     → a big dot and a small dot
 //   workshop    → a mini grid of differently-colored cells (free creation)
+//   race        → a stopwatch: dial, crown, one hand pointing up
 //   adventure   → three path nodes climbing, the top one gold
 export function ModeIcon({mode, size, colors}: ModeIconProps) {
   const s = size;
@@ -197,45 +198,59 @@ export function ModeIcon({mode, size, colors}: ModeIconProps) {
     );
   }
 
-  // race → a track with the runner part-way and the goal star at the end
+  // race → a stopwatch: the dial, the crown on top, one hand at "go"
   if (mode === 'race') {
-    const track = s * 0.82;
-    const thick = s * 0.16;
-    const dot = s * 0.3;
+    const dial = s * 0.74;
+    const ring = Math.max(2, s * 0.08);
+    const crownW = s * 0.22;
+    const crownH = s * 0.12;
+    const hand = dial * 0.36;
     return (
       <View style={[styles.box, {width: s, height: s}]}>
         <View
           style={{
-            width: track,
-            height: thick,
-            borderRadius: thick / 2,
-            backgroundColor: 'rgba(255,255,255,0.85)',
-          }}
-        />
-        <View
-          style={{
             position: 'absolute',
-            left: (s - track) / 2 + track * 0.15,
-            width: dot,
-            height: dot,
-            borderRadius: dot / 2,
-            backgroundColor: colors.cellColor1,
-            borderWidth: 1.5,
-            borderColor: 'rgba(255,255,255,0.9)',
-          }}
-        />
-        <View
-          style={{
-            position: 'absolute',
-            right: (s - track) / 2 - dot * 0.15,
-            width: dot,
-            height: dot,
-            borderRadius: dot / 2,
+            top: s * 0.02,
+            width: crownW,
+            height: crownH,
+            borderRadius: crownH / 2,
             backgroundColor: '#FBBF24',
-            borderWidth: 1.5,
-            borderColor: '#F59E0B',
           }}
         />
+        <View
+          style={[
+            styles.box,
+            {
+              marginTop: crownH * 0.9,
+              width: dial,
+              height: dial,
+              borderRadius: dial / 2,
+              borderWidth: ring,
+              borderColor: '#FBBF24',
+              backgroundColor: 'rgba(255,255,255,0.92)',
+            },
+          ]}>
+          <View
+            style={{
+              position: 'absolute',
+              width: ring * 0.9,
+              height: hand,
+              borderRadius: ring / 2,
+              backgroundColor: colors.cellColor1,
+              bottom: dial / 2 - ring,
+              transform: [{translateY: -hand / 2 + hand / 2}],
+            }}
+          />
+          <View
+            style={{
+              position: 'absolute',
+              width: ring * 1.4,
+              height: ring * 1.4,
+              borderRadius: ring,
+              backgroundColor: colors.cellColor1,
+            }}
+          />
+        </View>
       </View>
     );
   }
