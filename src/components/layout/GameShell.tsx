@@ -541,6 +541,18 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
     <View style={styles.sidebar}>
       {renderTitleBar()}
       {renderStatsBar()}
+      {/* The rung meter keeps its slot even on modes without a ladder, so
+          switching games never shifts the board. */}
+      <View style={styles.rungSlot}>
+        {game.ladder && (
+          <RungProgress
+            streak={game.levelCorrectStreak}
+            level={game.ladder.level}
+            cap={game.ladder.cap}
+            colors={colors}
+          />
+        )}
+      </View>
       <ModeSelector
         activeMode={game.gameMode}
         onModeChange={handleModeChange}
@@ -584,14 +596,6 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
               style={styles.gameAreaLandscape}
               contentContainerStyle={styles.gameAreaLandscapeContent}
               showsVerticalScrollIndicator={false}>
-              {game.ladder && (
-                <RungProgress
-                  streak={game.levelCorrectStreak}
-                  level={game.ladder.level}
-                  cap={game.ladder.cap}
-                  colors={colors}
-                />
-              )}
               {renderGameMode()}
             </ScrollView>
             <View style={styles.stallHint} pointerEvents="none">
@@ -609,19 +613,23 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
         <View style={styles.portraitContainer}>
           {renderTitleBar()}
           {renderStatsBar()}
+          {/* The rung meter keeps its slot even on modes without a ladder, so
+              switching games never shifts the board. */}
+          <View style={styles.rungSlot}>
+            {game.ladder && (
+              <RungProgress
+                streak={game.levelCorrectStreak}
+                level={game.ladder.level}
+                cap={game.ladder.cap}
+                colors={colors}
+              />
+            )}
+          </View>
           <View style={styles.gameAreaWrap}>
             <ScrollView
               style={styles.gameArea}
               contentContainerStyle={styles.gameAreaContent}
               showsVerticalScrollIndicator={false}>
-              {game.ladder && (
-                <RungProgress
-                  streak={game.levelCorrectStreak}
-                  level={game.ladder.level}
-                  cap={game.ladder.cap}
-                  colors={colors}
-                />
-              )}
               {renderGameMode()}
             </ScrollView>
             <View style={styles.stallHint} pointerEvents="none">
@@ -1614,6 +1622,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center', alignItems: 'center',
   },
   infoButtonText: {fontSize: 16},
+  rungSlot: {
+    height: 40,
+    justifyContent: 'center',
+    marginBottom: 6,
+  },
   statsBar: {
     flexDirection: 'row',
     alignItems: 'center',

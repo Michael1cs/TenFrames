@@ -8,17 +8,28 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {Mascot} from '../common/Mascot';
+import {Text} from '../common/AppText';
 import {ThemeColors} from '../../types/game';
 
 export const STREAK_TO_CLIMB = 3;
 
-// How many stars stand for a rung. Short ladders (four rungs) show one star
-// per rung; the eleven-rung ones are folded onto five so a pre-reader still
-// reads "more stars than before" without counting to eleven.
-export function rungStars(level: number, cap: number): number {
-  const stars = Math.min(5, cap);
-  return Math.max(1, Math.ceil((level / cap) * stars));
-}
+// One colour per rung, cycling — the bar comes back a new colour after every
+// climb, so "I went up" is visible even between problems.
+export const RUNG_COLORS = [
+  '#4ADE80', // green
+  '#38BDF8', // sky
+  '#A78BFA', // violet
+  '#F472B6', // pink
+  '#FB923C', // orange
+  '#FACC15', // yellow
+  '#2DD4BF', // teal
+  '#F87171', // red
+  '#818CF8', // indigo
+  '#A3E635', // lime
+  '#E879F9', // fuchsia
+];
+export const rungColor = (level: number) =>
+  RUNG_COLORS[(Math.max(1, level) - 1) % RUNG_COLORS.length];
 
 interface RungProgressProps {
   streak: number; // correct in a row at this rung
@@ -27,10 +38,11 @@ interface RungProgressProps {
   colors: ThemeColors;
 }
 
-// The child's climb, made visible: three bubbles that fill with each correct
-// answer in a row, and the rung itself as a row of stars. The ladder existed
-// before this — it was just never shown, so a child worked their way up and
-// saw nothing. When the rung changes the mascot jumps in for a moment.
+// The child's climb, made visible: a bar that fills with each correct answer
+// in a row and a star holding the rung. Deliberately not dots — in a game
+// about counting, a row of dots reads as a quantity (Mihai spotted it at
+// once). The ladder existed before this; it was just never shown. When the
+// rung changes the mascot jumps in for a moment.
 export function RungProgress({streak, level, cap, colors}: RungProgressProps) {
   const prevLevel = useRef(level);
   const [cheer, setCheer] = useState(false);
@@ -53,35 +65,26 @@ export function RungProgress({streak, level, cap, colors}: RungProgressProps) {
     transform: [{scale: 0.6 + 0.4 * pop.value}],
   }));
 
-  const stars = rungStars(level, cap);
-  const maxStars = Math.min(5, cap);
+  // Fill follows the streak with a spring, so a correct answer is seen as
+  // the bar growing, not as a new mark to count.
+  const fill = useSharedValue(streak / STREAK_TO_CLIMB);
+  useEffect(() => {
+    fill.value = withSpring(streak / STREAK_TO_CLIMB, {damping: 14});
+  }, [streak, fill]);
+  const tint = rungColor(level);
+  const fillStyle = useAnimatedStyle(() => ({
+    width: `${Math.round(fill.value * 100)}%`,
+  }));
+
   return (
     <View style={styles.row}>
-      <View style={styles.stars}>
-        {Array.from({length: maxStars}, (_, i) => (
-          <View
-            key={i}
-            style={[
-              styles.star,
-              i < stars
-                ? {backgroundColor: '#FBBF24', borderColor: '#F59E0B'}
-                : styles.starEmpty,
-            ]}
-          />
-        ))}
+      <View style={[styles.track, {borderColor: tint}]}>
+        <Animated.View style={[styles.fill, {backgroundColor: tint}, fillStyle]}>
+          <View style={styles.gloss} />
+        </Animated.View>
       </View>
-      <View style={styles.bubbles}>
-        {Array.from({length: STREAK_TO_CLIMB}, (_, i) => (
-          <View
-            key={i}
-            style={[
-              styles.bubble,
-              i < streak
-                ? {backgroundColor: colors.accent, borderColor: '#FFFFFF'}
-                : styles.bubbleEmpty,
-            ]}
-          />
-        ))}
+      <View style={[styles.star, {backgroundColor: tint}]}>
+        <Text style={styles.starText}>{level}</Text>
       </View>
       {cheer && (
         <Animated.View style={[styles.cheer, popStyle]} pointerEvents="none">
@@ -97,34 +100,52 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 14,
+    gap: 8,
     paddingVertical: 4,
+    width: 270,
+    alignSelf: 'center',
   },
-  stars: {flexDirection: 'row', gap: 4},
-  star: {
-    width: 14,
+  track: {
+    flex: 1,
     height: 14,
-    borderRadius: 7,
+    borderRadius: 6,
+    backgroundColor: 'rgba(255,255,255,0.18)',
     borderWidth: 1.5,
-  },
-  starEmpty: {
-    backgroundColor: 'rgba(255,255,255,0.15)',
     borderColor: 'rgba(255,255,255,0.45)',
+    overflow: 'hidden',
   },
-  bubbles: {flexDirection: 'row', gap: 6},
-  bubble: {
-    width: 18,
-    height: 18,
-    borderRadius: 9,
+  fill: {
+    height: '100%',
+    borderRadius: 7,
+    overflow: 'hidden',
+  },
+  gloss: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    height: '45%',
+    backgroundColor: 'rgba(255,255,255,0.35)',
+  },
+  // The rung: one star, the digit inside. Digits are what the child reads
+  // everywhere else in the app, so this is not text to them.
+  star: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.85)',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  bubbleEmpty: {
-    backgroundColor: 'rgba(255,255,255,0.12)',
-    borderColor: 'rgba(255,255,255,0.5)',
+  starText: {
+    color: '#1E1B4B',
+    fontSize: 16,
+    fontWeight: '800',
   },
   cheer: {
     position: 'absolute',
-    right: 8,
+    right: -50,
     top: -40,
   },
 });
