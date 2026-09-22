@@ -65,6 +65,7 @@ export function RaceMode({
   const [phase, setPhase] = useState<'ready' | 'running' | 'done'>('ready');
   const [problem, setProblem] = useState<AnswerProblem | null>(null);
   const [score, setScore] = useState(0);
+  const [misses, setMisses] = useState(0);
   const [wrongPick, setWrongPick] = useState<number | null>(null);
   const [highlight, setHighlight] = useState<number | null>(null);
   const [isNewBest, setIsNewBest] = useState(false);
@@ -96,6 +97,7 @@ export function RaceMode({
     if (!onStart()) return;
     scoreRef.current = 0;
     setScore(0);
+    setMisses(0);
     setWrongPick(null);
     setHighlight(null);
     setProblem(makeProblem(0));
@@ -120,6 +122,7 @@ export function RaceMode({
         }, 380);
       } else {
         setWrongPick(n);
+        setMisses(m => m + 1);
         playSound('wrong');
       }
     },
@@ -150,6 +153,17 @@ export function RaceMode({
       <View style={styles.container}>
         <Mascot pose={phase === 'done' && isNewBest ? 'jump' : 'hello'} height={110} />
         <StarRow count={shown} big={phase === 'done'} />
+        {phase === 'done' && (
+          // The tally in digits: how many it got, how many it missed.
+          <View style={styles.tally}>
+            <View style={[styles.tallyBadge, styles.tallyGot]}>
+              <Text style={styles.tallyText}>{score}</Text>
+            </View>
+            <View style={[styles.tallyBadge, styles.tallyMissed]}>
+              <Text style={styles.tallyText}>{misses}</Text>
+            </View>
+          </View>
+        )}
         {phase === 'done' && best > 0 && !isNewBest && (
           <View style={styles.bestRow}>
             <View style={styles.bestBadge}>
@@ -287,6 +301,19 @@ const styles = StyleSheet.create({
     maxWidth: 300,
     minHeight: 26,
   },
+  tally: {flexDirection: 'row', gap: 14, marginTop: 2},
+  tallyBadge: {
+    minWidth: 64,
+    height: 44,
+    paddingHorizontal: 16,
+    borderRadius: 22,
+    borderWidth: 2.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tallyGot: {backgroundColor: '#16A34A', borderColor: '#BBF7D0'},
+  tallyMissed: {backgroundColor: '#DC2626', borderColor: '#FECACA'},
+  tallyText: {color: '#FFFFFF', fontSize: 24, fontWeight: '800'},
   bestRow: {flexDirection: 'row', alignItems: 'center', gap: 6},
   bestBadge: {
     paddingHorizontal: 12,
