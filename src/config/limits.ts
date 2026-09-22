@@ -5,7 +5,9 @@ export const FREE_DAILY_LIMIT = 5;
 export const FREE_MODES = ['counting', 'workshop'] as const;
 
 // Modes with daily limit for free users
-export const LIMITED_MODES = ['addition', 'subtraction', 'readAdd', 'readSub'] as const;
+// The race is billed once per run, at the start (see GameShell), not per
+// problem — a run is the exercise there.
+export const LIMITED_MODES = ['addition', 'subtraction', 'readAdd', 'readSub', 'race'] as const;
 
 // Free themes (available without purchase)
 export const FREE_THEMES = ['space', 'forest'] as const;

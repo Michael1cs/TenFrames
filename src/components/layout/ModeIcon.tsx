@@ -197,6 +197,49 @@ export function ModeIcon({mode, size, colors}: ModeIconProps) {
     );
   }
 
+  // race → a track with the runner part-way and the goal star at the end
+  if (mode === 'race') {
+    const track = s * 0.82;
+    const thick = s * 0.16;
+    const dot = s * 0.3;
+    return (
+      <View style={[styles.box, {width: s, height: s}]}>
+        <View
+          style={{
+            width: track,
+            height: thick,
+            borderRadius: thick / 2,
+            backgroundColor: 'rgba(255,255,255,0.85)',
+          }}
+        />
+        <View
+          style={{
+            position: 'absolute',
+            left: (s - track) / 2 + track * 0.15,
+            width: dot,
+            height: dot,
+            borderRadius: dot / 2,
+            backgroundColor: colors.cellColor1,
+            borderWidth: 1.5,
+            borderColor: 'rgba(255,255,255,0.9)',
+          }}
+        />
+        <View
+          style={{
+            position: 'absolute',
+            right: (s - track) / 2 - dot * 0.15,
+            width: dot,
+            height: dot,
+            borderRadius: dot / 2,
+            backgroundColor: '#FBBF24',
+            borderWidth: 1.5,
+            borderColor: '#F59E0B',
+          }}
+        />
+      </View>
+    );
+  }
+
   if (mode === 'compare') {
     return (
       <View style={[styles.box, styles.row, {width: s, height: s, gap: s * 0.1}]}>

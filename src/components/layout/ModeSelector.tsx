@@ -47,6 +47,7 @@ const allModes: {id: GameMode; key: string}[] = [
   {id: 'subtraction', key: 'modes.subtraction'},
   {id: 'readAdd', key: 'modes.readAdd'},
   {id: 'readSub', key: 'modes.readSub'},
+  {id: 'race', key: 'modes.race'},
   {id: 'answer', key: 'modes.answer'},
   {id: 'puzzle', key: 'modes.puzzle'},
   {id: 'compare', key: 'modes.compare'},

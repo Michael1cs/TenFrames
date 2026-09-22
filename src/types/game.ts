@@ -1,7 +1,9 @@
 // 'readAdd' / 'readSub' are the locked-frame games: the frame arrives with
 // the problem already made and cannot be touched, so the only way to answer
 // is to read it and name the number.
-export type GameMode = 'counting' | 'addition' | 'subtraction' | 'puzzle' | 'memory' | 'workshop' | 'share' | 'answer' | 'compare' | 'readAdd' | 'readSub';
+// 'race' is the timed run: locked frames answered on the pad for one
+// minute, the child against their own record.
+export type GameMode = 'counting' | 'addition' | 'subtraction' | 'puzzle' | 'memory' | 'workshop' | 'share' | 'answer' | 'compare' | 'readAdd' | 'readSub' | 'race';
 // 'filled' = user placed (counting mode or single-color)
 // 'color1' = first addend / pre-filled for subtraction/puzzle
 // 'color2' = second addend / user-added in addition/puzzle
@@ -75,6 +77,8 @@ export interface PlayerData {
   subtractionLevel?: number;
   readAddLevel?: number;
   readSubLevel?: number;
+  // Best score in the race (correct answers in one minute).
+  raceBest?: number;
 }
 
 // === Reward System Types ===

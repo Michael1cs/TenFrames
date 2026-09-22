@@ -39,6 +39,7 @@ export function useAgeProfile(): AgeProfile {
         'subtraction',
         'readAdd',
         'readSub',
+        'race',
         'workshop',
       ] as GameMode[],
       fontScale: 1.15,

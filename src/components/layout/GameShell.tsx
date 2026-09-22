@@ -61,6 +61,7 @@ import {AdventureWorldsScreen} from '../adventure/AdventureWorldsScreen';
 import {TapHint} from '../feedback/TapHint';
 import {lockedFrameInstructionId} from '../../voice/adventureNarration';
 import {RungProgress} from '../feedback/RungProgress';
+import {RaceMode} from '../game/RaceMode';
 import {useStallNudge} from '../../hooks/useStallNudge';
 import {AdventureLevelsScreen} from '../adventure/AdventureLevelsScreen';
 import {AdventureLevelScreen} from '../adventure/AdventureLevelScreen';
@@ -414,6 +415,18 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
             locked
           />
         );
+      case 'race':
+        return (
+          <RaceMode
+            colors={colors}
+            emoji={themeConfig.emoji}
+            tokenImage={themeConfig.tokenImage}
+            best={ctx.raceBest}
+            onStart={ctx.startRace}
+            onFinish={ctx.finishRace}
+            playSound={ctx.playSound}
+          />
+        );
       case 'compare':
         return (
           <CompareMode
@@ -678,6 +691,9 @@ function useShellState(
   } = useStallNudge({canReplay: () => freePlayFocusedRef.current});
   const game = useGameState();
   const themeConfig = useTheme(game.theme);
+  // The race's record. A run is billed as one exercise when it starts; the
+  // wall, if due, is shown instead of the run.
+  const [raceBest, setRaceBest] = useState(0);
   const {colors} = themeConfig;
   const {
     loadPlayerData, savePlayerData,
@@ -762,6 +778,7 @@ function useShellState(
         data.readAddLevel,
         data.readSubLevel,
       );
+      if (typeof data.raceBest === 'number') setRaceBest(data.raceBest);
       if (data.name) game.setPlayerName(data.name);
 
       // A language the family picked outlives setup: a Romanian family on an
@@ -1154,6 +1171,26 @@ function useShellState(
     [game, playSound, cancelStallNudge],
   );
 
+  const startRace = useCallback((): boolean => {
+    if (!premium.canPlayMode('race')) {
+      setShowDailyLimit(true);
+      return false;
+    }
+    premium.recordExercise('race');
+    return true;
+  }, [premium]);
+  const finishRace = useCallback(
+    (score: number, isNewBest: boolean) => {
+      if (isNewBest) {
+        setRaceBest(score);
+        savePlayerData({raceBest: score});
+      }
+      // One run, one exercise's worth of stars — the record is the prize.
+      if (score > 0) rewardSystem.awardStars('race', true);
+    },
+    [savePlayerData, rewardSystem],
+  );
+
   const handleModeChange = useCallback(
     (mode: GameMode) => {
       if (!premium.canPlayMode(mode)) {
@@ -1303,6 +1340,9 @@ function useShellState(
     iap,
     voice,
     playSound,
+    raceBest,
+    startRace,
+    finishRace,
     freePlayFocusedRef,
     // The hand points at the frame, so it stays down on the locked games:
     // there the frame is only to be read, and the arrow at the pad (drawn by
