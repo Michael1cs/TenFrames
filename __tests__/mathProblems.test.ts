@@ -168,10 +168,10 @@ describe('locked-frame answer problems', () => {
       expect(p.op).toBe('add');
       expect(p.slot).toBe('sum');
       expect(p.num1 + p.num2).toBe(p.answer);
-      expect(p.answer).toBeGreaterThanOrEqual(3);
+      expect(p.answer).toBeGreaterThanOrEqual(6);
       expect(p.answer).toBeLessThanOrEqual(10);
-      expect(p.num1).toBeGreaterThanOrEqual(1);
-      expect(p.num2).toBeGreaterThanOrEqual(1);
+      expect(p.num1).toBeGreaterThanOrEqual(2);
+      expect(p.num2).toBeGreaterThanOrEqual(2);
       expect(p.expected).toBe(p.answer);
     }
   });
@@ -180,11 +180,11 @@ describe('locked-frame answer problems', () => {
     for (let i = 0; i < 60; i++) {
       const p = generateAnswerProblem(10);
       expect(p.op).toBe('sub');
+      expect(p.num1).toBeGreaterThanOrEqual(7);
       expect(p.num1).toBeLessThanOrEqual(10);
-      expect(p.num2).toBeGreaterThanOrEqual(1);
-      expect(p.num2).toBeLessThan(p.num1);
+      expect(p.num2).toBeGreaterThanOrEqual(2);
       expect(p.answer).toBe(p.num1 - p.num2);
-      expect(p.answer).toBeGreaterThanOrEqual(1);
+      expect(p.answer).toBeGreaterThanOrEqual(2);
       expect(p.expected).toBe(p.answer);
     }
   });
