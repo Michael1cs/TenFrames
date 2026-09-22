@@ -13,7 +13,7 @@ import {shouldLevelUp} from '../utils/scoring';
 import i18n from '../i18n';
 
 export function useGameState() {
-  const [gameMode, setGameMode] = useState<GameMode>('counting');
+  const [gameMode, setGameModeState] = useState<GameMode>('counting');
   const [cells, setCells] = useState<CellState[]>(Array(10).fill('empty'));
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
@@ -678,6 +678,20 @@ export function useGameState() {
     },
     [],
   );
+
+  // A mode switch drops the old problem in the same render the mode changes.
+  // The new problem only arrives one render later (the effect above makes
+  // it), and in between the screen used to show the previous game's problem
+  // under the new game's name — so the narration read a "How many are there
+  // now in total?" off an addition that was already gone, then the real
+  // "How many are left?" on top of it.
+  const setGameMode = useCallback((mode: GameMode) => {
+    setCurrentProblem(null);
+    setAnswerProblem(null);
+    setCompareProblem(null);
+    setShareProblem(null);
+    setGameModeState(mode);
+  }, []);
 
   return {
     restoreLevels,

@@ -365,3 +365,58 @@ describe('Free Play locked-frame games', () => {
     expect(api().additionLevel).toBe(1);
   });
 });
+
+describe('switching between the locked games', () => {
+  beforeEach(() => jest.useFakeTimers());
+  afterEach(() => jest.useRealTimers());
+
+  it('never shows the old game\'s problem under the new game\'s name', async () => {
+    // The screen narrates from (gameMode, answerProblem). A render where the
+    // mode says subtraction but the problem is still the addition one made
+    // the app say "How many are there now in total?" and then "How many are
+    // left?" on every switch.
+    const seen: string[] = [];
+    let api!: Api;
+    await ReactTestRenderer.act(() => {
+      ReactTestRenderer.create(
+        <Probe
+          onRender={a => {
+            api = a;
+            if (a.answerProblem) seen.push(`${a.gameMode}:${a.answerProblem.op}`);
+          }}
+        />,
+      );
+    });
+    for (const mode of ['readAdd', 'readSub', 'readAdd', 'readSub'] as const) {
+      await ReactTestRenderer.act(() => {
+        api.setGameMode(mode);
+      });
+    }
+    expect(seen).not.toContain('readSub:add');
+    expect(seen).not.toContain('readAdd:sub');
+    expect(api.answerProblem?.op).toBe('sub');
+  });
+
+  it('also clears a building problem when leaving addition for subtraction', async () => {
+    const seen: string[] = [];
+    let api!: Api;
+    let renders = 0;
+    await ReactTestRenderer.act(() => {
+      ReactTestRenderer.create(
+        <Probe
+          onRender={a => {
+            api = a;
+            renders++;
+            seen.push(`${a.gameMode}:${a.currentProblem ? 'p' : '-'}`);
+          }}
+        />,
+      );
+    });
+    await ReactTestRenderer.act(() => api.setGameMode('addition'));
+    const before = renders;
+    await ReactTestRenderer.act(() => api.setGameMode('subtraction'));
+    // The first render under 'subtraction' carries no problem at all.
+    expect(seen[before]).toBe('subtraction:-');
+    expect(api.currentProblem).toBeTruthy();
+  });
+});
