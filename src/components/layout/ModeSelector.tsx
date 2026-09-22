@@ -3,10 +3,14 @@ import {LIMITED_MODES} from '../../config/limits';
 import React, {useEffect, useState} from 'react';
 import {View, Pressable, StyleSheet} from 'react-native';
 import Animated, {
+  Easing,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
+  withRepeat,
+  withSequence,
   withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import {Text} from '../common/AppText';
@@ -270,7 +274,7 @@ export function ModeSelector({
 
   // The peek sits partly under the home indicator, which is fine: it is a
   // cue that there is more, not a target.
-  const collapsedHeight = HANDLE_HEIGHT + rowHeight + PEEK + insets.bottom;
+  const collapsedHeight = HANDLE_HEIGHT + rowHeight + ROW_GAP + PEEK + Math.min(insets.bottom, 12);
   const expandedHeight =
     HANDLE_HEIGHT + rows.length * rowHeight + (rows.length - 1) * ROW_GAP + barPaddingBottom;
   return (
@@ -280,7 +284,8 @@ export function ModeSelector({
       collapsedHeight={collapsedHeight}
       expandedHeight={expandedHeight}
       accent={colors.accent}
-      measured={rowHeight > 0}>
+      measured={rowHeight > 0}
+      rowHeight={rowHeight}>
       {rowViews}
     </ModeDrawer>
   );
@@ -288,7 +293,7 @@ export function ModeSelector({
 
 const TABS_PER_ROW = 4;
 const HANDLE_HEIGHT = 22;
-const PEEK = 14; // how much of the next row shows under the first one
+const PEEK = 14; // enough of the next row to read as buttons, not a stripe
 const ROW_GAP = 8;
 
 // The animated shell of the drawer: height follows `expanded`, a swipe up or
@@ -301,6 +306,7 @@ function ModeDrawer({
   expandedHeight,
   accent,
   measured,
+  rowHeight,
   children,
 }: {
   expanded: boolean;
@@ -309,6 +315,7 @@ function ModeDrawer({
   expandedHeight: number;
   accent: string;
   measured: boolean;
+  rowHeight: number;
   children: React.ReactNode;
 }) {
   const progress = useSharedValue(0);
@@ -320,6 +327,28 @@ function ModeDrawer({
       ? collapsedHeight + (expandedHeight - collapsedHeight) * progress.value
       : undefined,
   }));
+  // The chevron points up while closed and flips down once open; while
+  // closed it bobs, the one motion on the screen that says "pull me".
+  const bob = useSharedValue(0);
+  useEffect(() => {
+    bob.value = withRepeat(
+      withSequence(
+        withTiming(-4, {duration: 600, easing: Easing.inOut(Easing.quad)}),
+        withTiming(0, {duration: 600, easing: Easing.inOut(Easing.quad)}),
+      ),
+      -1,
+      false,
+    );
+  }, [bob]);
+  const chevron = useAnimatedStyle(() => ({
+    transform: [
+      {translateY: bob.value * (1 - progress.value)},
+      {rotate: `${180 * progress.value}deg`},
+    ],
+  }));
+  // The rows underneath sit in shadow while the drawer is closed, so the
+  // sliver that shows reads as "more below", not as a row that got cut.
+  const shade = useAnimatedStyle(() => ({opacity: 1 - progress.value}));
   const pan = Gesture.Pan()
     .activeOffsetY([-12, 12])
     .onEnd(e => {
@@ -331,11 +360,18 @@ function ModeDrawer({
       <Animated.View style={[styles.drawer, animated]}>
         <Pressable
           onPress={() => setExpanded(!expanded)}
-          hitSlop={{top: 6, bottom: 6, left: 40, right: 40}}
+          hitSlop={{top: 6, bottom: 6, left: 60, right: 60}}
           style={styles.handleArea}>
-          <View style={[styles.handle, {backgroundColor: accent}]} />
+          <Animated.View style={[styles.chevron, chevron]}>
+            <View style={[styles.chevronArm, styles.chevronLeft, {backgroundColor: accent}]} />
+            <View style={[styles.chevronArm, styles.chevronRight, {backgroundColor: accent}]} />
+          </Animated.View>
         </Pressable>
         <View style={styles.drawerRows}>{children}</View>
+        <Animated.View
+          pointerEvents="none"
+          style={[styles.shade, {top: HANDLE_HEIGHT + rowHeight + ROW_GAP / 2}, shade]}
+        />
       </Animated.View>
     </GestureDetector>
   );
@@ -363,11 +399,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  handle: {
-    width: 56,
-    height: 6,
+  chevron: {
+    width: 30,
+    height: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  chevronArm: {
+    position: 'absolute',
+    width: 16,
+    height: 5,
     borderRadius: 3,
-    opacity: 0.9,
+  },
+  chevronLeft: {left: 1, transform: [{rotate: '-35deg'}]},
+  chevronRight: {right: 1, transform: [{rotate: '35deg'}]},
+  shade: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.55)',
   },
   drawerRows: {
     paddingHorizontal: 8,
