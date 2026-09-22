@@ -2,8 +2,8 @@ import {raceBand, RACE_MS} from '../src/components/game/RaceMode';
 import {READ_LEVEL_CAP} from '../src/utils/mathProblems';
 
 describe('the race', () => {
-  it('lasts one minute', () => {
-    expect(RACE_MS).toBe(60000);
+  it('lasts 35 seconds', () => {
+    expect(RACE_MS).toBe(35000);
   });
   it('meets bigger numbers as the score grows, up to the ladder top', () => {
     expect(raceBand(0)).toBe(1);

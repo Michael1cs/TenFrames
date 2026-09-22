@@ -12,10 +12,11 @@ import {TenFrame} from './TenFrame';
 import {NumberPad} from './NumberPad';
 import {Mascot} from '../common/Mascot';
 import {Bouncy} from '../common/Bouncy';
+import {Emoji} from '../common/Emoji';
 import {generateReadProblem, READ_LEVEL_CAP} from '../../utils/mathProblems';
 import {AnswerProblem, CellState, ThemeColors} from '../../types/game';
 
-export const RACE_MS = 60000;
+export const RACE_MS = 35000; // Mihai: a minute is long for four-year-olds
 
 // The band climbs with the score inside one run, so a strong child meets
 // bigger numbers before the minute is out.
@@ -152,18 +153,23 @@ export function RaceMode({
     return (
       <View style={styles.container}>
         <Mascot pose={phase === 'done' && isNewBest ? 'jump' : 'hello'} height={110} />
-        <StarRow count={shown} big={phase === 'done'} />
-        {phase === 'done' && (
-          // The tally in digits: how many it got, how many it missed.
-          <View style={styles.tally}>
-            <View style={[styles.tallyBadge, styles.tallyGot]}>
-              <Text style={styles.tallyText}>{score}</Text>
-            </View>
-            <View style={[styles.tallyBadge, styles.tallyMissed]}>
-              <Text style={styles.tallyText}>{misses}</Text>
-            </View>
+        {/* The tally: thumbs up for the ones it got, thumbs down for the
+            misses (Mihai's pick over a row of dots). Before a run, the
+            record alone. */}
+        <View style={styles.tally}>
+          <View style={[styles.tallyBadge, styles.tallyGot]}>
+            <Text style={styles.tallyText}>
+              <Emoji>👍</Emoji> {shown}
+            </Text>
           </View>
-        )}
+          {phase === 'done' && (
+            <View style={[styles.tallyBadge, styles.tallyMissed]}>
+              <Text style={styles.tallyText}>
+                <Emoji>👎</Emoji> {misses}
+              </Text>
+            </View>
+          )}
+        </View>
         {phase === 'done' && best > 0 && !isNewBest && (
           <View style={styles.bestRow}>
             <View style={styles.bestBadge}>
@@ -211,30 +217,6 @@ export function RaceMode({
         disabled
       />
       <NumberPad onPick={pick} colors={colors} highlight={highlight} wrongPick={wrongPick} />
-    </View>
-  );
-}
-
-// The score as a row of stars, wrapping past ten — a quantity the child can
-// see, not a number to read.
-function StarRow({count, big}: {count: number; big: boolean}) {
-  const size = big ? 26 : 18;
-  return (
-    <View style={styles.starRow}>
-      {Array.from({length: Math.min(count, 30)}, (_, i) => (
-        <View
-          key={i}
-          style={{
-            width: size,
-            height: size,
-            borderRadius: size / 2,
-            backgroundColor: '#FBBF24',
-            borderWidth: 2,
-            borderColor: '#F59E0B',
-          }}
-        />
-      ))}
-      {count === 0 && <View style={{height: size}} />}
     </View>
   );
 }
@@ -293,27 +275,19 @@ const styles = StyleSheet.create({
     textShadowOffset: {width: 0, height: 1},
     textShadowRadius: 3,
   },
-  starRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: 5,
-    maxWidth: 300,
-    minHeight: 26,
-  },
-  tally: {flexDirection: 'row', gap: 14, marginTop: 2},
+  tally: {flexDirection: 'row', gap: 14, marginTop: 6},
   tallyBadge: {
-    minWidth: 64,
-    height: 44,
-    paddingHorizontal: 16,
-    borderRadius: 22,
+    minWidth: 88,
+    height: 52,
+    paddingHorizontal: 18,
+    borderRadius: 26,
     borderWidth: 2.5,
     alignItems: 'center',
     justifyContent: 'center',
   },
   tallyGot: {backgroundColor: '#16A34A', borderColor: '#BBF7D0'},
   tallyMissed: {backgroundColor: '#DC2626', borderColor: '#FECACA'},
-  tallyText: {color: '#FFFFFF', fontSize: 24, fontWeight: '800'},
+  tallyText: {color: '#FFFFFF', fontSize: 26, fontWeight: '800'},
   bestRow: {flexDirection: 'row', alignItems: 'center', gap: 6},
   bestBadge: {
     paddingHorizontal: 12,
