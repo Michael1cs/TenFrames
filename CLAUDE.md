@@ -64,6 +64,6 @@ assets/icons, assets/mascot             Mihai's clay art (512px); originals in a
   acting; the stall nudge (4s hand, 10s replay) is the only repetition.
 - **No emoji as UI icons** where clay art exists; the mascot is the
   celebration (no generic confetti).
-- Test with `npx tsc --noEmit && npx jest` (174 tests). Simulator: build
+- Test with `npx tsc --noEmit && npx jest` (208 tests). Simulator: build
   Release for `iPhone 18 Pro Max` (iOS 27); `xcrun simctl` install/launch.
   DeviceHub replaced Simulator.app in Xcode 27.
