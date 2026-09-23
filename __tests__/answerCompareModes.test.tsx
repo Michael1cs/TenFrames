@@ -109,6 +109,76 @@ describe('generateCompareProblem', () => {
   });
 });
 
+describe('generateReadProblem — the locked-frame games', () => {
+  const {generateReadProblem, READ_LEVEL_CAP} = require('../src/utils/mathProblems');
+
+  it('addition: both parts fit the frame and the answer is the total', () => {
+    for (let level = 1; level <= READ_LEVEL_CAP; level++) {
+      for (let i = 0; i < 120; i++) {
+        const p = generateReadProblem('add', level);
+        expect(p.op).toBe('add');
+        expect(p.slot).toBe('sum');
+        expect(p.num1).toBeGreaterThanOrEqual(1);
+        expect(p.num2).toBeGreaterThanOrEqual(1);
+        expect(p.num1 + p.num2).toBe(p.answer);
+        expect(p.answer).toBeLessThanOrEqual(10);
+        expect(p.expected).toBe(p.answer);
+      }
+    }
+  });
+
+  it('subtraction: always leaves at least one counter to read', () => {
+    for (let level = 1; level <= READ_LEVEL_CAP; level++) {
+      for (let i = 0; i < 120; i++) {
+        const p = generateReadProblem('sub', level);
+        expect(p.op).toBe('sub');
+        expect(p.num1).toBeLessThanOrEqual(10);
+        expect(p.num2).toBeGreaterThanOrEqual(1);
+        expect(p.num2).toBeLessThan(p.num1);
+        expect(p.answer).toBe(p.num1 - p.num2);
+        expect(p.answer).toBeGreaterThanOrEqual(1);
+        expect(p.expected).toBe(p.answer);
+      }
+    }
+  });
+
+  it('gets harder as the ladder climbs', () => {
+    const mean = (op: 'add' | 'sub', level: number) => {
+      let total = 0;
+      for (let i = 0; i < 400; i++) total += generateReadProblem(op, level).num1;
+      return total / 400;
+    };
+    expect(mean('add', READ_LEVEL_CAP)).toBeGreaterThan(mean('add', 1));
+    expect(mean('sub', READ_LEVEL_CAP)).toBeGreaterThan(mean('sub', 1));
+  });
+
+  it('clamps a level from outside the ladder instead of breaking', () => {
+    for (const level of [0, -3, 99]) {
+      const p = generateReadProblem('add', level);
+      expect(p.answer).toBeGreaterThanOrEqual(2);
+      expect(p.answer).toBeLessThanOrEqual(10);
+    }
+  });
+});
+
+describe('the locked frame is not a working space', () => {
+  const {lockedFrameInstructionId} = require('../src/voice/adventureNarration');
+  const VOICE_SCRIPT = require('../src/voice/script').VOICE_SCRIPT;
+
+  it('asks about what is on the frame, never for a counter to be added', () => {
+    // "Add three more" on a board that does not respond is the bug this
+    // whole pair of games could most easily have shipped with.
+    expect(lockedFrameInstructionId('add')).toBe('add_alt_1');
+    expect(lockedFrameInstructionId('sub')).toBe('sub_alt_1');
+    for (const id of ['add_alt_1', 'sub_alt_1']) {
+      const line = VOICE_SCRIPT.find((l: {id: string}) => l.id === id);
+      expect(line).toBeTruthy();
+      expect(line.ro).not.toMatch(/mai pune|adaug/i);
+      expect(line.en).not.toMatch(/add |put /i);
+    }
+  });
+});
+
 type Api = ReturnType<typeof useGameState>;
 
 function Probe({onRender}: {onRender: (api: Api) => void}) {
@@ -211,5 +281,142 @@ describe('Free Play compare mode', () => {
     });
     expect(api.hasSubmitted).toBe(false);
     expect(api.compareProblem).toBeTruthy();
+  });
+});
+
+describe('Free Play locked-frame games', () => {
+  beforeEach(() => jest.useFakeTimers());
+  afterEach(() => jest.useRealTimers());
+
+  async function setup(mode: 'readAdd' | 'readSub'): Promise<() => Api> {
+    let api!: Api;
+    await ReactTestRenderer.act(() => {
+      ReactTestRenderer.create(<Probe onRender={a => (api = a)} />);
+    });
+    await ReactTestRenderer.act(() => {
+      api.setGameMode(mode);
+    });
+    return () => api;
+  }
+
+  it('addition arrives with both parts already placed', async () => {
+    const api = await setup('readAdd');
+    const p = api().answerProblem!;
+    expect(p.op).toBe('add');
+    expect(api().cells.filter(c => c === 'color1')).toHaveLength(p.num1);
+    expect(api().cells.filter(c => c === 'color2')).toHaveLength(p.num2);
+  });
+
+  it('subtraction arrives holding the group it started with', async () => {
+    const api = await setup('readSub');
+    const p = api().answerProblem!;
+    expect(p.op).toBe('sub');
+    // The ones that left are still drawn, faded, by the screen — the state
+    // holds the whole starting group.
+    expect(api().cells.filter(c => c === 'color1')).toHaveLength(p.num1);
+    expect(api().cells.filter(c => c === 'color2')).toHaveLength(0);
+  });
+
+  it('ignores taps on the frame — the child cannot build the answer', async () => {
+    for (const mode of ['readAdd', 'readSub'] as const) {
+      const api = await setup(mode);
+      const before = [...api().cells];
+      for (const index of [0, 4, 7, 9]) {
+        await ReactTestRenderer.act(() => {
+          api().handleCellClick(index);
+        });
+      }
+      expect(api().cells).toEqual(before);
+    }
+  });
+
+  it('a correct pad tap scores, a wrong one lets the child pick again', async () => {
+    const api = await setup('readAdd');
+    const wrong = api().answerProblem!.expected === 10 ? 1 : 10;
+    await ReactTestRenderer.act(() => {
+      api().handleNumberPick(wrong);
+    });
+    expect(api().isCorrect).toBe(false);
+    expect(api().hasSubmitted).toBe(false);
+    expect(api().score).toBe(0);
+
+    await ReactTestRenderer.act(() => {
+      api().handleNumberPick(api().answerProblem!.expected);
+    });
+    expect(api().isCorrect).toBe(true);
+    expect(api().score).toBe(1);
+  });
+
+  it('climbs its own ladder after three in a row, and stops at the cap', async () => {
+    const {READ_LEVEL_CAP} = require('../src/utils/mathProblems');
+    const api = await setup('readSub');
+    expect(api().readSubLevel).toBe(1);
+    for (let i = 0; i < 3 * (READ_LEVEL_CAP + 2); i++) {
+      await ReactTestRenderer.act(() => {
+        api().handleNumberPick(api().answerProblem!.expected);
+      });
+      await ReactTestRenderer.act(() => {
+        jest.advanceTimersByTime(5000);
+      });
+    }
+    expect(api().readSubLevel).toBe(READ_LEVEL_CAP);
+    // The other games' ladders are untouched by this one.
+    expect(api().readAddLevel).toBe(1);
+    expect(api().additionLevel).toBe(1);
+  });
+});
+
+describe('switching between the locked games', () => {
+  beforeEach(() => jest.useFakeTimers());
+  afterEach(() => jest.useRealTimers());
+
+  it('never shows the old game\'s problem under the new game\'s name', async () => {
+    // The screen narrates from (gameMode, answerProblem). A render where the
+    // mode says subtraction but the problem is still the addition one made
+    // the app say "How many are there now in total?" and then "How many are
+    // left?" on every switch.
+    const seen: string[] = [];
+    let api!: Api;
+    await ReactTestRenderer.act(() => {
+      ReactTestRenderer.create(
+        <Probe
+          onRender={a => {
+            api = a;
+            if (a.answerProblem) seen.push(`${a.gameMode}:${a.answerProblem.op}`);
+          }}
+        />,
+      );
+    });
+    for (const mode of ['readAdd', 'readSub', 'readAdd', 'readSub'] as const) {
+      await ReactTestRenderer.act(() => {
+        api.setGameMode(mode);
+      });
+    }
+    expect(seen).not.toContain('readSub:add');
+    expect(seen).not.toContain('readAdd:sub');
+    expect(api.answerProblem?.op).toBe('sub');
+  });
+
+  it('also clears a building problem when leaving addition for subtraction', async () => {
+    const seen: string[] = [];
+    let api!: Api;
+    let renders = 0;
+    await ReactTestRenderer.act(() => {
+      ReactTestRenderer.create(
+        <Probe
+          onRender={a => {
+            api = a;
+            renders++;
+            seen.push(`${a.gameMode}:${a.currentProblem ? 'p' : '-'}`);
+          }}
+        />,
+      );
+    });
+    await ReactTestRenderer.act(() => api.setGameMode('addition'));
+    const before = renders;
+    await ReactTestRenderer.act(() => api.setGameMode('subtraction'));
+    // The first render under 'subtraction' carries no problem at all.
+    expect(seen[before]).toBe('subtraction:-');
+    expect(api.currentProblem).toBeTruthy();
   });
 });

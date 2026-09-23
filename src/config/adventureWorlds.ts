@@ -237,8 +237,12 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
       {id: 'nt-4', worldId: 'number-town', order: 4, nameKey: 'adventure.levels.nt4', emoji: '☄️', isBonus: false, gameMode: 'answer', modeLevel: 5, problemCount: 5, unlockCondition: unlockPrev('nt-3')},
       {id: 'nt-5', worldId: 'number-town', order: 5, nameKey: 'adventure.levels.nt5', emoji: '🌌', isBonus: false, gameMode: 'answer', modeLevel: 6, problemCount: 5, unlockCondition: unlockPrev('nt-4')},
       {id: 'nt-6', worldId: 'number-town', order: 6, nameKey: 'adventure.levels.nt6', emoji: '🛸', isBonus: false, gameMode: 'answer', modeLevel: 7, problemCount: 5, unlockCondition: unlockPrev('nt-5')},
-      {id: 'nt-bonus-a', worldId: 'number-town', order: 7, nameKey: 'adventure.levels.ntBonusA', emoji: '⭐', isBonus: true, gameMode: 'answer', modeLevel: 7, problemCount: 5, unlockCondition: unlockStars('number-town', 12)},
-      {id: 'nt-bonus-b', worldId: 'number-town', order: 8, nameKey: 'adventure.levels.ntBonusB', emoji: '🏆', isBonus: true, gameMode: 'answer', modeLevel: 8, problemCount: 5, unlockCondition: unlockStars('number-town', 16)},
+      // Locked frames: the problem is already made and the child reads it
+      // instead of building it — the rung above naming what you just built.
+      {id: 'nt-7', worldId: 'number-town', order: 7, nameKey: 'adventure.levels.nt7', emoji: '🔭', isBonus: false, gameMode: 'answer', modeLevel: 9, problemCount: 5, lockedFrame: true, unlockCondition: unlockPrev('nt-6')},
+      {id: 'nt-8', worldId: 'number-town', order: 8, nameKey: 'adventure.levels.nt8', emoji: '🌠', isBonus: false, gameMode: 'answer', modeLevel: 10, problemCount: 5, lockedFrame: true, unlockCondition: unlockPrev('nt-7')},
+      {id: 'nt-bonus-a', worldId: 'number-town', order: 9, nameKey: 'adventure.levels.ntBonusA', emoji: '⭐', isBonus: true, gameMode: 'answer', modeLevel: 7, problemCount: 5, unlockCondition: unlockStars('number-town', 15)},
+      {id: 'nt-bonus-b', worldId: 'number-town', order: 10, nameKey: 'adventure.levels.ntBonusB', emoji: '🏆', isBonus: true, gameMode: 'answer', modeLevel: 8, problemCount: 5, unlockCondition: unlockStars('number-town', 20)},
     ],
   },
 
@@ -280,7 +284,7 @@ export const ADVENTURE_WORLDS: AdventureWorld[] = [
       {id: 'fs-5', worldId: 'farm-share', order: 5, nameKey: 'adventure.levels.fs5', emoji: '🐔', isBonus: false, gameMode: 'share', modeLevel: 5, problemCount: 5, unlockCondition: unlockPrev('fs-4')},
       {id: 'fs-6', worldId: 'farm-share', order: 6, nameKey: 'adventure.levels.fs6', emoji: '🐰', isBonus: false, gameMode: 'share', modeLevel: 6, problemCount: 5, unlockCondition: unlockPrev('fs-5')},
       {id: 'fs-bonus-a', worldId: 'farm-share', order: 7, nameKey: 'adventure.levels.fsBonusA', emoji: '⭐', isBonus: true, gameMode: 'share', modeLevel: 7, problemCount: 5, unlockCondition: unlockStars('farm-share', 12)},
-      {id: 'fs-bonus-b', worldId: 'farm-share', order: 8, nameKey: 'adventure.levels.fsBonusB', emoji: '🏆', isBonus: true, gameMode: 'share', modeLevel: 8, problemCount: 5, unlockCondition: unlockStars('farm-share', 18)},
+      {id: 'fs-bonus-b', worldId: 'farm-share', order: 8, nameKey: 'adventure.levels.fsBonusB', emoji: '🏆', isBonus: true, gameMode: 'share', modeLevel: 8, problemCount: 5, unlockCondition: unlockStars('farm-share', 16)},
     ],
   },
 
@@ -342,6 +346,32 @@ export function isLevelPremiumLocked(
   if (isPremium) return false;
   if (levelProgress?.completed) return false;
   return level.isBonus || level.order > world.freeLevels;
+}
+
+// Unlock flags are written when a level is finished, so a level added by an
+// update never gets one: a child who had already cleared Number Town would
+// find the two new islands shut forever. Re-derive every flag from the
+// progress itself on load — it only ever opens levels, never closes one.
+export function backfillUnlocks(progress: AdventureProgress): AdventureProgress {
+  for (const world of ADVENTURE_WORLDS) {
+    const worldProgress = progress.worlds[world.id];
+    if (!worldProgress) continue;
+    for (const level of world.levels) {
+      const levelProgress = worldProgress.levels[level.id];
+      if (!levelProgress || levelProgress.unlocked) continue;
+      const cond = level.unlockCondition;
+      if (cond.type === 'first') {
+        levelProgress.unlocked = true;
+      } else if (cond.type === 'previous') {
+        if (worldProgress.levels[cond.levelId]?.completed) {
+          levelProgress.unlocked = true;
+        }
+      } else if (getWorldStars(cond.worldId, progress) >= cond.count) {
+        levelProgress.unlocked = true;
+      }
+    }
+  }
+  return progress;
 }
 
 export function getWorldStars(

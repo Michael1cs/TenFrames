@@ -7,13 +7,13 @@ import {
   Theme,
   Language,
 } from '../types/game';
-import {generateProblem, generatePuzzleNumber, generateShareProblem, generateAnswerProblem, generateCompareProblem, ShareProblem} from '../utils/mathProblems';
+import {generateProblem, generatePuzzleNumber, generateShareProblem, generateAnswerProblem, generateCompareProblem, generateReadProblem, READ_LEVEL_CAP, ShareProblem} from '../utils/mathProblems';
 import {AnswerProblem, CompareProblem} from '../types/game';
 import {shouldLevelUp} from '../utils/scoring';
 import i18n from '../i18n';
 
 export function useGameState() {
-  const [gameMode, setGameMode] = useState<GameMode>('counting');
+  const [gameMode, setGameModeState] = useState<GameMode>('counting');
   const [cells, setCells] = useState<CellState[]>(Array(10).fill('empty'));
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
@@ -51,9 +51,13 @@ export function useGameState() {
   const [wrongPick, setWrongPick] = useState<number | null>(null);
   // Compare mode ("which has more?")
   const [compareLevel, setCompareLevel] = useState(1);
+  // The two locked-frame games climb on their own ladders (1..READ_LEVEL_CAP)
+  // and are saved, like addition and subtraction.
+  const [readAddLevel, setReadAddLevel] = useState(1);
+  const [readSubLevel, setReadSubLevel] = useState(1);
   const [compareProblem, setCompareProblem] = useState<CompareProblem | null>(null);
   // Consecutive correct answers at current level (level up after 3)
-  const [, setLevelCorrectStreak] = useState(0);
+  const [levelCorrectStreak, setLevelCorrectStreak] = useState(0);
   // Misses in a row at the current level. The ladder used to climb only:
   // three right in a row moved a child up, and nothing ever moved them
   // back down, so one good run left them stuck above their level.
@@ -113,6 +117,10 @@ export function useGameState() {
   answerLevelRef.current = answerLevel;
   const compareLevelRef = useRef(compareLevel);
   compareLevelRef.current = compareLevel;
+  const readAddLevelRef = useRef(readAddLevel);
+  readAddLevelRef.current = readAddLevel;
+  const readSubLevelRef = useRef(readSubLevel);
+  readSubLevelRef.current = readSubLevel;
   const answerProblemRef = useRef(answerProblem);
   answerProblemRef.current = answerProblem;
   const compareProblemRef = useRef(compareProblem);
@@ -120,6 +128,35 @@ export function useGameState() {
 
   const doGenerateProblem = useCallback(() => {
     const mode = gameModeRef.current;
+
+    if (mode === 'readAdd' || mode === 'readSub') {
+      const op = mode === 'readAdd' ? 'add' : 'sub';
+      const p = generateReadProblem(
+        op,
+        op === 'add' ? readAddLevelRef.current : readSubLevelRef.current,
+      );
+      setAnswerProblem(p);
+      setWrongPick(null);
+      setCurrentProblem(null);
+      setFeedback('');
+      setIsCorrect(null);
+      setHasSubmitted(false);
+      setMascotMood('thinking');
+      // The frame is not a working space here: it arrives holding the whole
+      // problem. Addition shows both parts in their own colours; subtraction
+      // shows the group it started with, and the screen fades the ones that
+      // left. Either way the child only reads it.
+      const newCells: CellState[] = Array(10).fill('empty');
+      for (let i = 0; i < p.num1; i++) newCells[i] = 'color1';
+      if (op === 'add') {
+        for (let i = p.num1; i < p.num1 + p.num2 && i < 10; i++) {
+          newCells[i] = 'color2';
+        }
+      }
+      setCells(newCells);
+      setUserAnswer(op === 'add' ? p.num1 + p.num2 : p.num1);
+      return;
+    }
 
     if (mode === 'answer') {
       const p = generateAnswerProblem(answerLevelRef.current);
@@ -187,7 +224,9 @@ export function useGameState() {
       gameMode === 'addition' ||
       gameMode === 'subtraction' ||
       gameMode === 'answer' ||
-      gameMode === 'compare'
+      gameMode === 'compare' ||
+      gameMode === 'readAdd' ||
+      gameMode === 'readSub'
     ) {
       doGenerateProblem();
     } else if (gameMode === 'puzzle') {
@@ -478,7 +517,14 @@ export function useGameState() {
         setLevelCorrectStreak(prev => {
           const newStreak = prev + 1;
           if (newStreak >= 3) {
-            setAnswerLevel(l => Math.min(l + 1, 7));
+            const mode = gameModeRef.current;
+            if (mode === 'readAdd') {
+              setReadAddLevel(l => Math.min(l + 1, READ_LEVEL_CAP));
+            } else if (mode === 'readSub') {
+              setReadSubLevel(l => Math.min(l + 1, READ_LEVEL_CAP));
+            } else {
+              setAnswerLevel(l => Math.min(l + 1, 7));
+            }
             return 0;
           }
           return newStreak;
@@ -615,10 +661,36 @@ export function useGameState() {
   }, []);
 
   // Boot: the ladders a returning child had reached.
-  const restoreLevels = useCallback((addition?: number, subtraction?: number) => {
-    const clamp = (n: number) => Math.min(11, Math.max(1, Math.round(n)));
-    if (typeof addition === 'number') setAdditionLevel(clamp(addition));
-    if (typeof subtraction === 'number') setSubtractionLevel(clamp(subtraction));
+  const restoreLevels = useCallback(
+    (
+      addition?: number,
+      subtraction?: number,
+      readAdd?: number,
+      readSub?: number,
+    ) => {
+      const clamp = (n: number) => Math.min(11, Math.max(1, Math.round(n)));
+      const clampRead = (n: number) =>
+        Math.min(READ_LEVEL_CAP, Math.max(1, Math.round(n)));
+      if (typeof addition === 'number') setAdditionLevel(clamp(addition));
+      if (typeof subtraction === 'number') setSubtractionLevel(clamp(subtraction));
+      if (typeof readAdd === 'number') setReadAddLevel(clampRead(readAdd));
+      if (typeof readSub === 'number') setReadSubLevel(clampRead(readSub));
+    },
+    [],
+  );
+
+  // A mode switch drops the old problem in the same render the mode changes.
+  // The new problem only arrives one render later (the effect above makes
+  // it), and in between the screen used to show the previous game's problem
+  // under the new game's name — so the narration read a "How many are there
+  // now in total?" off an addition that was already gone, then the real
+  // "How many are left?" on top of it.
+  const setGameMode = useCallback((mode: GameMode) => {
+    setCurrentProblem(null);
+    setAnswerProblem(null);
+    setCompareProblem(null);
+    setShareProblem(null);
+    setGameModeState(mode);
   }, []);
 
   return {
@@ -652,6 +724,17 @@ export function useGameState() {
     answerProblem,
     wrongPick,
     compareLevel,
+    readAddLevel,
+    readSubLevel,
+    // The ladder the child is on right now, for the on-screen rung meter.
+    ladder: ladderFor(gameMode, {
+      addition: additionLevel,
+      subtraction: subtractionLevel,
+      answer: answerLevel,
+      readAdd: readAddLevel,
+      readSub: readSubLevel,
+    }),
+    levelCorrectStreak,
     compareProblem,
 
     // Actions
@@ -671,4 +754,23 @@ export function useGameState() {
     setShowSetup,
     setIsThemeChange,
   };
+}
+
+export const LADDER_CAPS: Partial<Record<GameMode, number>> = {
+  addition: 11,
+  subtraction: 11,
+  answer: 7,
+  readAdd: READ_LEVEL_CAP,
+  readSub: READ_LEVEL_CAP,
+};
+
+// Which ladder (if any) the current mode climbs: its rung and its top.
+export function ladderFor(
+  mode: GameMode,
+  levels: Partial<Record<GameMode, number>>,
+): {level: number; cap: number} | null {
+  const cap = LADDER_CAPS[mode];
+  const level = levels[mode];
+  if (!cap || !level) return null;
+  return {level, cap};
 }

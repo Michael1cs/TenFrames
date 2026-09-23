@@ -272,6 +272,12 @@ function answerFactWithSum(lo: number, hi: number): Problem {
 }
 
 function generateAnswerProblemOnce(level: number): AnswerProblem {
+  // Locked-frame bands: the frame arrives with the problem already made and
+  // the child reads it instead of building it. 9 is addition, 10 is
+  // subtraction, both at the widest rung of the locked ladder below.
+  // Number Town's islands sit one band above Free Play's ceiling.
+  if (level === 9) return generateReadProblemOnce('add', READ_BAND_HARD);
+  if (level >= 10) return generateReadProblemOnce('sub', READ_BAND_HARD);
   const slot: AnswerProblem['slot'] =
     level <= 4
       ? 'sum'
@@ -293,6 +299,63 @@ function generateAnswerProblemOnce(level: number): AnswerProblem {
       ? answerFactWithSum(3, 10)
       : answerFactWithSum(2, 10);
   return {...p, slot, expected: slot === 'sum' ? p.answer : p.num2};
+}
+
+export const READ_LEVEL_CAP = 4;
+// One band past the Free Play ladder, for the Adventure islands: big totals
+// only, and never a "+1"/"−1" — both parts at least two.
+export const READ_BAND_HARD = 5;
+
+/**
+ * Locked-frame games ("read the frame"): the problem arrives already made,
+ * the frame cannot be touched, and the child names the answer on the pad.
+ * Harder than building it, because nothing can be counted into place first.
+ *
+ * Addition bands  — sums 2-5, 3-7, 4-9, then 3-10.
+ * Subtraction bands — groups of 3-5, 4-7, 5-9, then 4-10; at least one
+ * counter always stays behind, or there would be nothing left to read.
+ */
+export function generateReadProblem(
+  op: 'add' | 'sub',
+  level: number,
+): AnswerProblem {
+  return withoutImmediateRepeat(
+    `read-${op}`,
+    () => generateReadProblemOnce(op, level),
+    p => `${p.num1}|${p.num2}`,
+  );
+}
+
+function generateReadProblemOnce(
+  op: 'add' | 'sub',
+  level: number,
+): AnswerProblem {
+  const band = Math.max(1, Math.min(level, READ_BAND_HARD));
+  if (band === READ_BAND_HARD) {
+    const total = (op === 'add' ? 6 : 7) + Math.floor(Math.random() * (op === 'add' ? 5 : 4));
+    const part = 2 + Math.floor(Math.random() * (total - 3)); // 2..total-2
+    return op === 'add'
+      ? {num1: part, num2: total - part, answer: total, slot: 'sum', expected: total, op: 'add'}
+      : {num1: total, num2: part, answer: total - part, slot: 'sum', expected: total - part, op: 'sub'};
+  }
+  if (op === 'add') {
+    const [lo, hi] =
+      band === 1 ? [2, 5] : band === 2 ? [3, 7] : band === 3 ? [4, 9] : [3, 10];
+    const p = answerFactWithSum(lo, hi);
+    return {...p, slot: 'sum', expected: p.answer, op: 'add'};
+  }
+  const [lo, hi] =
+    band === 1 ? [3, 5] : band === 2 ? [4, 7] : band === 3 ? [5, 9] : [4, 10];
+  const total = lo + Math.floor(Math.random() * (hi - lo + 1));
+  const taken = 1 + Math.floor(Math.random() * (total - 1));
+  return {
+    num1: total,
+    num2: taken,
+    answer: total - taken,
+    slot: 'sum',
+    expected: total - taken,
+    op: 'sub',
+  };
 }
 
 /**

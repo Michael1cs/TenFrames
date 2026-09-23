@@ -21,10 +21,14 @@ export function useAgeProfile(): AgeProfile {
       compact: true,
       autoVoice: true,
       showHints: true,
-      // Free Play stays a SHORT bar: four modes plus the Adventure tab, all
-      // visible at once with no horizontal scrolling (a scrollable tab bar
-      // reads as "that's everything" to a child, so anything past the fold
-      // may as well not exist).
+      // Free Play never scrolls sideways (a scrollable tab bar reads as
+      // "that's everything" to a child, so anything past the fold may as
+      // well not exist). Past four tabs the bar becomes a drawer of rows
+      // that pulls up, with the next row peeking out — see ModeSelector.
+      //
+      // readAdd / readSub are the hard pair: same sums and differences, but
+      // the frame arrives made and cannot be touched, so the child reads it
+      // instead of building it.
       //
       // Puzzle, Answer and Compare live in Adventure instead, where a guided
       // level sequence teaches them properly: Make 10! and Number Bubbles!
@@ -33,6 +37,9 @@ export function useAgeProfile(): AgeProfile {
         'counting',
         'addition',
         'subtraction',
+        'readAdd',
+        'readSub',
+        'race',
         'workshop',
       ] as GameMode[],
       fontScale: 1.15,

@@ -158,3 +158,42 @@ describe('no immediate repeats', () => {
     expect(a).toEqual(b);
   });
 });
+
+describe('locked-frame answer problems', () => {
+  const {generateAnswerProblem} = require('../src/utils/mathProblems');
+
+  it('shows an addition whose parts fit the frame (band 9)', () => {
+    for (let i = 0; i < 60; i++) {
+      const p = generateAnswerProblem(9);
+      expect(p.op).toBe('add');
+      expect(p.slot).toBe('sum');
+      expect(p.num1 + p.num2).toBe(p.answer);
+      expect(p.answer).toBeGreaterThanOrEqual(6);
+      expect(p.answer).toBeLessThanOrEqual(10);
+      expect(p.num1).toBeGreaterThanOrEqual(2);
+      expect(p.num2).toBeGreaterThanOrEqual(2);
+      expect(p.expected).toBe(p.answer);
+    }
+  });
+
+  it('shows a subtraction that always leaves something to read (band 10)', () => {
+    for (let i = 0; i < 60; i++) {
+      const p = generateAnswerProblem(10);
+      expect(p.op).toBe('sub');
+      expect(p.num1).toBeGreaterThanOrEqual(7);
+      expect(p.num1).toBeLessThanOrEqual(10);
+      expect(p.num2).toBeGreaterThanOrEqual(2);
+      expect(p.answer).toBe(p.num1 - p.num2);
+      expect(p.answer).toBeGreaterThanOrEqual(2);
+      expect(p.expected).toBe(p.answer);
+    }
+  });
+
+  it('leaves the building bands alone', () => {
+    for (const level of [1, 2, 5, 7, 8]) {
+      for (let i = 0; i < 20; i++) {
+        expect(generateAnswerProblem(level).op).toBeUndefined();
+      }
+    }
+  });
+});

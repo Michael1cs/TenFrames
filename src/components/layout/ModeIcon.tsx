@@ -28,9 +28,13 @@ interface ModeIconProps {
 //   addition    → a plus built from two rounded bars (the equation's green)
 //   subtraction → one rounded bar (the equation's red)
 //   answer      → the number-pad bubble holding three dots ("count, then name")
+//   readAdd     → the same bubble with a plus inside: addition, but the
+//   readSub       answer lives in the bubble, not on the frame (minus for
+//                 readSub) — the frame there cannot be touched at all
 //   puzzle      → the frame with one missing, dashed cell ("complete it")
 //   compare     → a big dot and a small dot
 //   workshop    → a mini grid of differently-colored cells (free creation)
+//   race        → a stopwatch: dial, crown, one hand pointing up
 //   adventure   → three path nodes climbing, the top one gold
 export function ModeIcon({mode, size, colors}: ModeIconProps) {
   const s = size;
@@ -145,6 +149,107 @@ export function ModeIcon({mode, size, colors}: ModeIconProps) {
               />
             ))}
           </View>
+        </View>
+      </View>
+    );
+  }
+
+  // The locked-frame games: the answer bubble carries the operation, which
+  // ties them to the addition/subtraction tiles they are the hard version of.
+  if (mode === 'readAdd' || mode === 'readSub') {
+    const barLong = s * 0.38;
+    const barThick = s * 0.12;
+    const color = mode === 'readAdd' ? '#4ADE80' : '#F87171';
+    return (
+      <View style={[styles.box, {width: s, height: s}]}>
+        <View
+          style={[
+            styles.box,
+            {
+              width: s * 0.8,
+              height: s * 0.8,
+              borderRadius: s * 0.4,
+              borderWidth: 2.5,
+              borderColor: '#FBBF24',
+              backgroundColor: 'rgba(255,255,255,0.92)',
+            },
+          ]}>
+          <View
+            style={{
+              width: barLong,
+              height: barThick,
+              borderRadius: barThick / 2,
+              backgroundColor: color,
+            }}
+          />
+          {mode === 'readAdd' && (
+            <View
+              style={{
+                position: 'absolute',
+                width: barThick,
+                height: barLong,
+                borderRadius: barThick / 2,
+                backgroundColor: color,
+              }}
+            />
+          )}
+        </View>
+      </View>
+    );
+  }
+
+  // race → a stopwatch: the dial, the crown on top, one hand at "go"
+  if (mode === 'race') {
+    const dial = s * 0.74;
+    const ring = Math.max(2, s * 0.08);
+    const crownW = s * 0.22;
+    const crownH = s * 0.12;
+    const hand = dial * 0.36;
+    return (
+      <View style={[styles.box, {width: s, height: s}]}>
+        <View
+          style={{
+            position: 'absolute',
+            top: s * 0.02,
+            width: crownW,
+            height: crownH,
+            borderRadius: crownH / 2,
+            backgroundColor: '#FBBF24',
+          }}
+        />
+        <View
+          style={[
+            styles.box,
+            {
+              marginTop: crownH * 0.9,
+              width: dial,
+              height: dial,
+              borderRadius: dial / 2,
+              borderWidth: ring,
+              borderColor: '#FBBF24',
+              backgroundColor: 'rgba(255,255,255,0.92)',
+            },
+          ]}>
+          <View
+            style={{
+              position: 'absolute',
+              width: ring * 0.9,
+              height: hand,
+              borderRadius: ring / 2,
+              backgroundColor: colors.cellColor1,
+              bottom: dial / 2 - ring,
+              transform: [{translateY: -hand / 2 + hand / 2}],
+            }}
+          />
+          <View
+            style={{
+              position: 'absolute',
+              width: ring * 1.4,
+              height: ring * 1.4,
+              borderRadius: ring,
+              backgroundColor: colors.cellColor1,
+            }}
+          />
         </View>
       </View>
     );

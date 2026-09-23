@@ -1,4 +1,9 @@
-export type GameMode = 'counting' | 'addition' | 'subtraction' | 'puzzle' | 'memory' | 'workshop' | 'share' | 'answer' | 'compare';
+// 'readAdd' / 'readSub' are the locked-frame games: the frame arrives with
+// the problem already made and cannot be touched, so the only way to answer
+// is to read it and name the number.
+// 'race' is the timed run: locked frames answered on the pad for one
+// minute, the child against their own record.
+export type GameMode = 'counting' | 'addition' | 'subtraction' | 'puzzle' | 'memory' | 'workshop' | 'share' | 'answer' | 'compare' | 'readAdd' | 'readSub' | 'race';
 // 'filled' = user placed (counting mode or single-color)
 // 'color1' = first addend / pre-filled for subtraction/puzzle
 // 'color2' = second addend / user-added in addition/puzzle
@@ -20,6 +25,9 @@ export interface Problem {
 export interface AnswerProblem extends Problem {
   slot: 'sum' | 'addend';
   expected: number;
+  // Which operation the frame shows. 'sub' exists only on locked-frame
+  // levels, where the child reads a subtraction instead of building one.
+  op?: 'add' | 'sub';
 }
 
 // Compare mode: two small frames side by side; the child taps the one with
@@ -67,6 +75,10 @@ export interface PlayerData {
   // launch started a child back at level 1 whatever they had reached.
   additionLevel?: number;
   subtractionLevel?: number;
+  readAddLevel?: number;
+  readSubLevel?: number;
+  // Best score in the race (correct answers in one minute).
+  raceBest?: number;
 }
 
 // === Reward System Types ===
@@ -229,6 +241,10 @@ export interface AdventureLevel {
   // a number for a single-target drill (Make 6 only), or `'mixed'` to pick
   // a random target (3..9) per problem within the level.
   puzzleTarget?: number | 'mixed';
+  // The child answers on the number pad WITHOUT touching the frame: the
+  // frame shows the problem already made, and reading it is the exercise.
+  // The rung above building the answer yourself.
+  lockedFrame?: boolean;
 }
 
 export interface AdventureWorld {
