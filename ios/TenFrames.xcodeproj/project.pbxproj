@@ -4069,6 +4069,15 @@
 		FFEFDDE55986B3AC4DBA240D /* voice_de_post_great_fish_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E6B3C1FEF41C09E34B1E4C5F /* voice_de_post_great_fish_3.mp3 */; };
 		FFFE17264B654358BFCF3658 /* voice_en_instr_sub_ocean_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FD441ACA8E0E4C22A3CB9DDF /* voice_en_instr_sub_ocean_1.mp3 */; };
 		FFFEA2E58AC327795BA59A82 /* voice_de_pre_have_space_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BBF765DA0565A71E296952AE /* voice_de_pre_have_space_4.mp3 */; };
+		637C8462321642E3919DB1E7 /* voice_en_race_done.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F5FA7FD7B9634F6AB047B84E /* voice_en_race_done.mp3 */; };
+		573BE2ADA67D4B0F86F527CC /* voice_ro_race_record.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4251DD592FB44AA6B25188FF /* voice_ro_race_record.mp3 */; };
+		C45BF74E92544BBA9097DCE4 /* voice_en_race_go.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6290F27A80D8480DA53F63C7 /* voice_en_race_go.mp3 */; };
+		3D543C5047594DCB85C65D9A /* voice_ro_race_done.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 53E36711372348599B105DE2 /* voice_ro_race_done.mp3 */; };
+		061A37C241014015942EB093 /* voice_ro_race_go.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A49BD14D564949F0AE4A4D61 /* voice_ro_race_go.mp3 */; };
+		BC9A02E27E0646AC928D3860 /* voice_de_race_record.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A289566CD0EA4A13A3F7EE80 /* voice_de_race_record.mp3 */; };
+		4B4E9D704DEF41DF9048CB56 /* voice_de_race_done.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 897F6F0319C1469ABC15343F /* voice_de_race_done.mp3 */; };
+		DC25F8233E27437DA41E55AA /* voice_de_race_go.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 74CA9FCC3EB34DA5BE67B466 /* voice_de_race_go.mp3 */; };
+		EED83E01D2F747A9A647B406 /* voice_en_race_record.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6C01CFCEEBBF4587911CAA25 /* voice_en_race_record.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -8140,6 +8149,15 @@
 		FFEA7263E1194529924AB28A /* voice_ro_take_dolphin_4.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_take_dolphin_4.mp3; path = ../assets/audio/voice_ro_take_dolphin_4.mp3; sourceTree = "<group>"; };
 		FFF8669F2F974CBEA7A0D7C0 /* voice_en_instr_addition_easy.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_en_instr_addition_easy.mp3; path = ../assets/audio/voice_en_instr_addition_easy.mp3; sourceTree = "<group>"; };
 		FFFC0A2C2D594F1987DCCE13 /* voice_ro_take_whale_7.mp3 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 519224030217; includeInIndex = 0; lastKnownFileType = unknown; name = voice_ro_take_whale_7.mp3; path = ../assets/audio/voice_ro_take_whale_7.mp3; sourceTree = "<group>"; };
+		F5FA7FD7B9634F6AB047B84E /* voice_en_race_done.mp3 */ = {isa = PBXFileReference; name = "voice_en_race_done.mp3"; path = "../assets/audio/voice_en_race_done.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4251DD592FB44AA6B25188FF /* voice_ro_race_record.mp3 */ = {isa = PBXFileReference; name = "voice_ro_race_record.mp3"; path = "../assets/audio/voice_ro_race_record.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6290F27A80D8480DA53F63C7 /* voice_en_race_go.mp3 */ = {isa = PBXFileReference; name = "voice_en_race_go.mp3"; path = "../assets/audio/voice_en_race_go.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		53E36711372348599B105DE2 /* voice_ro_race_done.mp3 */ = {isa = PBXFileReference; name = "voice_ro_race_done.mp3"; path = "../assets/audio/voice_ro_race_done.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A49BD14D564949F0AE4A4D61 /* voice_ro_race_go.mp3 */ = {isa = PBXFileReference; name = "voice_ro_race_go.mp3"; path = "../assets/audio/voice_ro_race_go.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A289566CD0EA4A13A3F7EE80 /* voice_de_race_record.mp3 */ = {isa = PBXFileReference; name = "voice_de_race_record.mp3"; path = "../assets/audio/voice_de_race_record.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		897F6F0319C1469ABC15343F /* voice_de_race_done.mp3 */ = {isa = PBXFileReference; name = "voice_de_race_done.mp3"; path = "../assets/audio/voice_de_race_done.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		74CA9FCC3EB34DA5BE67B466 /* voice_de_race_go.mp3 */ = {isa = PBXFileReference; name = "voice_de_race_go.mp3"; path = "../assets/audio/voice_de_race_go.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6C01CFCEEBBF4587911CAA25 /* voice_en_race_record.mp3 */ = {isa = PBXFileReference; name = "voice_en_race_record.mp3"; path = "../assets/audio/voice_en_race_record.mp3"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -12275,6 +12293,15 @@
 				3B8A28B1D6134A79A7C62359 /* voice_en_lvl_world_done_any.mp3 */,
 				09CC34535D1E4118A6595B7D /* Fredoka.ttf */,
 				0B34C846C64347C89C775287 /* Fredoka_bold.ttf */,
+				F5FA7FD7B9634F6AB047B84E /* voice_en_race_done.mp3 */,
+				4251DD592FB44AA6B25188FF /* voice_ro_race_record.mp3 */,
+				6290F27A80D8480DA53F63C7 /* voice_en_race_go.mp3 */,
+				53E36711372348599B105DE2 /* voice_ro_race_done.mp3 */,
+				A49BD14D564949F0AE4A4D61 /* voice_ro_race_go.mp3 */,
+				A289566CD0EA4A13A3F7EE80 /* voice_de_race_record.mp3 */,
+				897F6F0319C1469ABC15343F /* voice_de_race_done.mp3 */,
+				74CA9FCC3EB34DA5BE67B466 /* voice_de_race_go.mp3 */,
+				6C01CFCEEBBF4587911CAA25 /* voice_en_race_record.mp3 */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -16399,6 +16426,15 @@
 				073567F6F7414B40B72410C0 /* voice_en_lvl_world_done_any.mp3 in Resources */,
 				D371D734216845E0B4FD647E /* Fredoka.ttf in Resources */,
 				E4DA12D1C8284FFEBF73E4EA /* Fredoka_bold.ttf in Resources */,
+				637C8462321642E3919DB1E7 /* voice_en_race_done.mp3 in Resources */,
+				573BE2ADA67D4B0F86F527CC /* voice_ro_race_record.mp3 in Resources */,
+				C45BF74E92544BBA9097DCE4 /* voice_en_race_go.mp3 in Resources */,
+				3D543C5047594DCB85C65D9A /* voice_ro_race_done.mp3 in Resources */,
+				061A37C241014015942EB093 /* voice_ro_race_go.mp3 in Resources */,
+				BC9A02E27E0646AC928D3860 /* voice_de_race_record.mp3 in Resources */,
+				4B4E9D704DEF41DF9048CB56 /* voice_de_race_done.mp3 in Resources */,
+				DC25F8233E27437DA41E55AA /* voice_de_race_go.mp3 in Resources */,
+				EED83E01D2F747A9A647B406 /* voice_en_race_record.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -16498,7 +16534,7 @@
 				APP_DISPLAY_NAME = "Ten Frames";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = WLYF4PNB2M;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TenFrames/Info.plist;
@@ -16531,7 +16567,7 @@
 				APP_DISPLAY_NAME = "Ten Frames";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = WLYF4PNB2M;
 				INFOPLIST_FILE = TenFrames/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -16718,7 +16754,7 @@
 				APP_DISPLAY_NAME = "Ten Frames";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconSchool;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = WLYF4PNB2M;
 				ENTRY_FILE = index.school.js;
 				INFOPLIST_FILE = TenFrames/Info.plist;

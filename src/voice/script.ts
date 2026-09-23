@@ -329,6 +329,11 @@ export const VOICE_SCRIPT: VoiceEntry[] = [
   {id: 'share_again', ro: 'Fă-o corect, fiecare la fel!', en: "Make it fair, the same for each!", de: 'Mach es gerecht, gleich viele für jeden!'},
   {id: 'share_unfair', ro: 'Unul are mai mult. Încearcă să fie egal.', en: "One has more. Try to make it fair.", de: 'Einer hat mehr. Versuch es gerecht zu machen.'},
 
+  // ── The Race (Free Play, timed) ──
+  {id: 'race_go', ro: 'Pornim!', en: "Go!", de: "Los geht's!"},
+  {id: 'race_done', ro: 'Gata, timpul s-a terminat!', en: "Time's up!", de: 'Die Zeit ist um!'},
+  {id: 'race_record', ro: 'Record nou! Bravo!', en: "New record! Well done!", de: 'Neuer Rekord! Super!'},
+
   // ── Level transition cues (between adventure levels) ──
   {id: 'lvl_next', ro: 'Hai la următorul nivel!', en: "Let's go to the next level!", de: 'Auf zum nächsten Level!'},
   {id: 'lvl_world_done', ro: 'Ai terminat insula! Bravo!', en: "You finished the island! Amazing!", de: 'Du hast die Insel geschafft! Fantastisch!'},

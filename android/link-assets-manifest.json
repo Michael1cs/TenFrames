@@ -4478,6 +4478,18 @@
       "sha1": "a1990f92c08261c14fe846bf7b47616503ca607c"
     },
     {
+      "path": "assets/audio/voice_de_race_done.mp3",
+      "sha1": "2e0e6d719e38521b7d26a3284101c2d91f4f7aec"
+    },
+    {
+      "path": "assets/audio/voice_de_race_go.mp3",
+      "sha1": "f10ba48ee4c987fd8654ed261fce0ee1c0b97236"
+    },
+    {
+      "path": "assets/audio/voice_de_race_record.mp3",
+      "sha1": "8e7805281d80cbf757b88f9c19d6b02ba64dcb10"
+    },
+    {
       "path": "assets/audio/voice_de_reward_achievement.mp3",
       "sha1": "4acc5535f00a7f2249189a4a678f3a8d0494c5ba"
     },
@@ -9878,6 +9890,18 @@
       "sha1": "1f937772f9cd7b82b522318d649f0e9339edb036"
     },
     {
+      "path": "assets/audio/voice_en_race_done.mp3",
+      "sha1": "317b28f379454e5dc289d18e415f40d6dfa81aab"
+    },
+    {
+      "path": "assets/audio/voice_en_race_go.mp3",
+      "sha1": "cca11893a9eb7cedbdf34612695f68dc82d2178b"
+    },
+    {
+      "path": "assets/audio/voice_en_race_record.mp3",
+      "sha1": "ec66e04a2e1d9fdd3f39b152f0572b25125f1b97"
+    },
+    {
       "path": "assets/audio/voice_en_reward_achievement.mp3",
       "sha1": "91ef81d3ea587d275eb8dfefbb955c1c112485b9"
     },
@@ -15276,6 +15300,18 @@
     {
       "path": "assets/audio/voice_ro_pzl_part_ask_3.mp3",
       "sha1": "a4566b500f7d1161312407531e3eee355c51be5a"
+    },
+    {
+      "path": "assets/audio/voice_ro_race_done.mp3",
+      "sha1": "ac034163f5b25bb06a01d249351ccd9ec6d35341"
+    },
+    {
+      "path": "assets/audio/voice_ro_race_go.mp3",
+      "sha1": "0cc19c8968c97af4b314f0b6af81a438913811e5"
+    },
+    {
+      "path": "assets/audio/voice_ro_race_record.mp3",
+      "sha1": "52bad15c1790a560f2cdc12f67c9dabcb65b0bb0"
     },
     {
       "path": "assets/audio/voice_ro_reward_achievement.mp3",

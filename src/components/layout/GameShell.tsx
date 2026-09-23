@@ -425,6 +425,7 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
             onStart={ctx.startRace}
             onFinish={ctx.finishRace}
             playSound={ctx.playSound}
+            speak={ctx.voice.play}
           />
         );
       case 'compare':

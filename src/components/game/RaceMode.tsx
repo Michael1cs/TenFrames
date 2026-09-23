@@ -49,6 +49,8 @@ interface RaceModeProps {
   onStart: () => boolean;
   onFinish: (score: number, isNewBest: boolean) => void;
   playSound: (name: 'correct' | 'wrong' | 'levelup' | 'star') => void;
+  // Three lines: go, time's up, new record. Silent until the clips ship.
+  speak: (id: 'race_go' | 'race_done' | 'race_record') => void;
 }
 
 // One minute, as many locked frames as the child can read and name. No
@@ -63,6 +65,7 @@ export function RaceMode({
   onStart,
   onFinish,
   playSound,
+  speak,
 }: RaceModeProps) {
   const [phase, setPhase] = useState<'ready' | 'running' | 'done'>('ready');
   const [problem, setProblem] = useState<AnswerProblem | null>(null);
@@ -92,8 +95,9 @@ export function RaceMode({
     setIsNewBest(newBest);
     setPhase('done');
     playSound(newBest && final > 0 ? 'levelup' : 'star');
+    speak(newBest && final > 0 ? 'race_record' : 'race_done');
     onFinish(final, newBest);
-  }, [best, onFinish, playSound]);
+  }, [best, onFinish, playSound, speak]);
 
   const start = useCallback(() => {
     if (!onStart()) return;
@@ -104,10 +108,11 @@ export function RaceMode({
     setHighlight(null);
     setProblem(makeProblem(0));
     setPhase('running');
+    speak('race_go');
     progress.value = 0;
     progress.value = withTiming(1, {duration: RACE_MS, easing: Easing.linear});
     endTimer.current = setTimeout(finish, RACE_MS);
-  }, [onStart, finish, progress]);
+  }, [onStart, finish, progress, speak]);
 
   const pick = useCallback(
     (n: number) => {
