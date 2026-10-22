@@ -102,7 +102,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 8,
     paddingVertical: 4,
-    width: 270,
+    width: '100%',
+    maxWidth: 270,
     alignSelf: 'center',
   },
   track: {

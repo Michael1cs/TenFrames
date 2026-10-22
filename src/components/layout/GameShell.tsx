@@ -560,6 +560,7 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
       <View style={styles.rungSlot}>
         {game.ladder && (
           <RungProgress
+            key={game.gameMode}
             streak={game.levelCorrectStreak}
             level={game.ladder.level}
             cap={game.ladder.cap}
@@ -632,6 +633,7 @@ function FreePlayContent({ctx}: {ctx: ShellCtxValue}) {
           <View style={styles.rungSlot}>
             {game.ladder && (
               <RungProgress
+                key={game.gameMode}
                 streak={game.levelCorrectStreak}
                 level={game.ladder.level}
                 cap={game.ladder.cap}
@@ -1177,11 +1179,13 @@ function useShellState(
       setShowDailyLimit(true);
       return false;
     }
-    premium.recordExercise('race');
     return true;
   }, [premium]);
   const finishRace = useCallback(
     (score: number, isNewBest: boolean) => {
+      // Billed here, not at the start: on iPad a rotation remounts the
+      // screen mid-run, and a run that never finished used to cost a run.
+      premium.recordExercise('race');
       if (isNewBest) {
         setRaceBest(score);
         savePlayerData({raceBest: score});
@@ -1189,7 +1193,7 @@ function useShellState(
       // One run, one exercise's worth of stars — the record is the prize.
       if (score > 0) rewardSystem.awardStars('race', true);
     },
-    [savePlayerData, rewardSystem],
+    [savePlayerData, rewardSystem, premium],
   );
 
   const handleModeChange = useCallback(

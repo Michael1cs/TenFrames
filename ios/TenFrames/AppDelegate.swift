@@ -63,6 +63,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       return
     }
 
+    // On iPadOS the scene can disconnect (window closed, Stage Manager) while
+    // the process lives on, and reconnect later. React Native was started
+    // once already then; starting it again on the same host creates a second
+    // surface over the first. Re-attach the window we already have instead.
+    if let existing = appDelegate.window {
+      existing.windowScene = windowScene
+      self.window = existing
+      existing.makeKeyAndVisible()
+      return
+    }
+
     let window = UIWindow(windowScene: windowScene)
     self.window = window
     appDelegate.window = window

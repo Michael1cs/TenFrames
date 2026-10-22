@@ -1,9 +1,10 @@
 import {Bouncy} from '../common/Bouncy';
 import {LIMITED_MODES} from '../../config/limits';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {View, Pressable, StyleSheet} from 'react-native';
 import Animated, {
   Easing,
+  cancelAnimation,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
@@ -332,6 +333,13 @@ function ModeDrawer({
   // closed it bobs, the one motion on the screen that says "pull me".
   const bob = useSharedValue(0);
   useEffect(() => {
+    // The bob only runs while the drawer is closed; open, it would be a
+    // never-ending animation writing to the tree every frame for nothing.
+    if (expanded) {
+      cancelAnimation(bob);
+      bob.value = withTiming(0, {duration: 150});
+      return;
+    }
     bob.value = withRepeat(
       withSequence(
         withTiming(-4, {duration: 600, easing: Easing.inOut(Easing.quad)}),
@@ -340,7 +348,8 @@ function ModeDrawer({
       -1,
       false,
     );
-  }, [bob]);
+    return () => cancelAnimation(bob);
+  }, [bob, expanded]);
   const chevron = useAnimatedStyle(() => ({
     transform: [
       {translateY: bob.value * (1 - progress.value)},
@@ -350,12 +359,18 @@ function ModeDrawer({
   // The rows underneath sit in shadow while the drawer is closed, so the
   // sliver that shows reads as "more below", not as a row that got cut.
   const shade = useAnimatedStyle(() => ({opacity: 1 - progress.value}));
-  const pan = Gesture.Pan()
-    .activeOffsetY([-12, 12])
-    .onEnd(e => {
-      if (e.translationY < -20) runOnJS(setExpanded)(true);
-      else if (e.translationY > 20) runOnJS(setExpanded)(false);
-    });
+  // Built once: a new Gesture.Pan() on every render re-registered the
+  // handler natively on each GameShell re-render.
+  const pan = useMemo(
+    () =>
+      Gesture.Pan()
+        .activeOffsetY([-12, 12])
+        .onEnd(e => {
+          if (e.translationY < -20) runOnJS(setExpanded)(true);
+          else if (e.translationY > 20) runOnJS(setExpanded)(false);
+        }),
+    [setExpanded],
+  );
   return (
     <GestureDetector gesture={pan}>
       <Animated.View style={[styles.drawer, animated]}>

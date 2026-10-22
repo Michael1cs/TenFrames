@@ -115,3 +115,64 @@ index 749ea14..06db5c7 100644
          try {
            callback?.invoke(true)
          } catch (e: Exception) {
+diff --git a/node_modules/react-native-sound/ios/RNSound.mm b/node_modules/react-native-sound/ios/RNSound.mm
+index 94b2335..a86caf4 100644
+--- a/node_modules/react-native-sound/ios/RNSound.mm
++++ b/node_modules/react-native-sound/ios/RNSound.mm
+@@ -218,26 +218,37 @@ - (NSString *)categoryForName:(NSString *)categoryName {
+ RCT_EXPORT_METHOD(play:(double)key callback:(RCTResponseSenderBlock)callback) {
+     [[AVAudioSession sharedInstance] setActive:YES error:nil];
+ 
+-    [[NSNotificationCenter defaultCenter]
+-     addObserver:self
+-        selector:@selector(audioSessionChangeObserver:)
+-            name:AVAudioSessionRouteChangeNotification
+-          object:[AVAudioSession sharedInstance]];
+-    
+-    [[NSNotificationCenter defaultCenter]
+-     addObserver:self
+-        selector:@selector(audioSessionChangeObserver:)
+-            name:AVAudioSessionInterruptionNotification
+-          object:[AVAudioSession sharedInstance]];
+-    
+-    self._key = key;
+-    AVAudioPlayer *player = [self playerForKey:key];
++    // Observers are registered once. They used to be added on every play(),
++    // so each call piled two more onto the notification center.
++    static dispatch_once_t observersOnce;
++    dispatch_once(&observersOnce, ^{
++        [[NSNotificationCenter defaultCenter]
++         addObserver:self
++            selector:@selector(audioSessionChangeObserver:)
++                name:AVAudioSessionRouteChangeNotification
++              object:[AVAudioSession sharedInstance]];
++
++        [[NSNotificationCenter defaultCenter]
++         addObserver:self
++            selector:@selector(audioSessionChangeObserver:)
++                name:AVAudioSessionInterruptionNotification
++              object:[AVAudioSession sharedInstance]];
++    });
++
++    // play() runs on the module's background queue while
++    // audioPlayerDidFinishPlaying mutates the same pools on the main thread
++    // (under @synchronized). Mutating an NSMutableDictionary from two threads
++    // at once crashes natively; take the same lock here.
++    @synchronized(self) {
++        self._key = key;
++        AVAudioPlayer *player = [self playerForKey:key];
+ 
+-    if (player) {
+-        NSNumber *myNumber = @(key);
+-        [[self callbackPool] setObject:[callback copy] forKey:myNumber];
+-        [player play];
+-        [self setOnPlay:YES forPlayerKey:key];
++        if (player) {
++            NSNumber *myNumber = @(key);
++            [[self callbackPool] setObject:[callback copy] forKey:myNumber];
++            [player play];
++            [self setOnPlay:YES forPlayerKey:key];
++        }
+     }
+ }
+ 
